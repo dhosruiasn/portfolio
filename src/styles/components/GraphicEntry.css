@@ -1,0 +1,46 @@
+.graphic-entry {
+  padding: 0 48px 80px;
+}
+
+.graphic-entry__image {
+  position: relative;
+  display: block;
+  width: 100%;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background: var(--card-bg);
+  min-height: 400px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.graphic-entry__image:hover {
+  transform: scale(1.02);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+.graphic-entry__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.graphic-entry__cta {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(6px);
+  border-radius: var(--radius-pill);
+  padding: 12px 32px;
+  font-family: var(--font-subheading);
+  font-size: 13px;
+  letter-spacing: 2px;
+}
+
+@media (max-width: 768px) {
+  .graphic-entry {
+    padding: 0 20px 60px;
+  }
+}

@@ -1,0 +1,71 @@
+.section-transition {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.section-transition__inner {
+  text-align: center;
+  transform-origin: center center;
+  width: 100%;
+}
+
+.section-transition__number {
+  display: block;
+  font-size: 8px;
+  letter-spacing: 4px;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.section-transition__title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 60px;
+  color: var(--text-on-brown);
+  white-space: nowrap;
+  transform-origin: center center;
+}
+
+.section-transition__subtitle {
+  font-size: 10px;
+  color: #887766;
+  margin-top: 16px;
+  letter-spacing: 1px;
+}
+
+/* 01 DIGITAL WORKS：scale 進場 */
+.section-transition--scale .section-transition__title {
+  font-size: clamp(40px, 6vw, 84px);
+}
+
+/* 02 GRAPHIC WORKS：Studio Namma 只留標題，巨型字 + 垂直拉伸撐滿高度 */
+.section-transition--stretch .section-transition__number,
+.section-transition--stretch .section-transition__subtitle {
+  display: none;
+}
+
+/* 字釘在底部，以底部為支點往上長高 */
+.section-transition--stretch {
+  align-items: flex-end;
+  padding-bottom: 6vh;
+}
+
+.section-transition--stretch .section-transition__title {
+  font-weight: 800;
+  font-size: clamp(40px, 11vw, 190px);
+  line-height: 0.82;
+  letter-spacing: -0.01em;
+  transform-origin: bottom center;
+}
+
+@media (max-width: 768px) {
+  .section-transition--scale .section-transition__title {
+    font-size: 32px;
+  }
+  .section-transition--stretch .section-transition__title {
+    font-size: 13vw;
+  }
+}

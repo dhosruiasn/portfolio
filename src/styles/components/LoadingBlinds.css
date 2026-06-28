@@ -1,0 +1,48 @@
+.loading-blinds {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+}
+
+/* 12 片葉片：堆疊蓋滿，葉片間留一點縫隙。整個容器往上收（scaleY，origin top） */
+.loading-blinds__slats {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  transform-origin: top center;
+  will-change: transform;
+}
+
+.loading-blinds__slat {
+  width: 100%;
+  height: calc((100vh - 33px) / 12);
+  background: var(--bg-light);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.07);
+}
+
+/* 右側拉繩：一塊矩形，由上方延伸進來 */
+.loading-blinds__cord {
+  position: absolute;
+  top: -50vh; /* 往上延伸夠長，下拉時頂部不會露出斷掉 */
+  right: 64px;
+  width: 11px;
+  height: 112vh;
+  background: #60cfff;
+  border-radius: 3px;
+  z-index: 1;
+  will-change: transform;
+}
+
+/* 底部長方形配重塊 */
+.loading-blinds__weight {
+  position: absolute;
+  bottom: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 36px;
+  border-radius: 4px;
+  background: #016499;
+}
