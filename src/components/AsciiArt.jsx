@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { assetPath } from '../utils/assetPath.js';
 
 const CHARS = '$%#@?*+;:,.'.split('');
 const SCRAMBLE = '$%#@?*+;:,./\\|=<>[]{}'.split('');
@@ -26,7 +27,7 @@ export default function AsciiArt({ src = '/images/hero-character.png' }) {
     let rafId;
     const img = new Image();
     // 同源圖不需要 crossOrigin；設了反而在一般快取 reload 時會 CORS 失敗 → 掉到 fallback
-    img.src = src;
+    img.src = assetPath(src);
 
     const makeParticle = (x, y, char) => ({
       homeX: x,

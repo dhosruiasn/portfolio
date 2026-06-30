@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLanguage } from '../context/LanguageContext.jsx';
+import { assetPath } from '../utils/assetPath.js';
 import '../styles/components/Gallery.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -45,7 +46,7 @@ export default function Gallery() {
               className="gallery__item"
               style={i === 0 ? { gridRow: 'span 2' } : undefined}
             >
-              <img src={src} alt={`graphic-${i}`} />
+              <img src={assetPath(src)} alt={`graphic-${i}`} />
             </div>
           ))}
         </div>

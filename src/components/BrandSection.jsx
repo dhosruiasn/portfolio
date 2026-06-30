@@ -2,13 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { TextScramble } from '../utils/TextScramble.js';
+import { assetPath } from '../utils/assetPath.js';
 import GraphicOverlay from './GraphicOverlay.jsx';
 import BrandEditPanel from './BrandEditPanel.jsx';
 import '../styles/components/BrandSection.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const BASE = '/images/graphic/brand-section';
+const BASE = 'images/graphic/brand-section';
 const STARS = [1, 2, 3, 4, 5, 6, 7, 8];
 const params = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
 const SHOW_GRID = !!params && params.has('grid');
@@ -100,7 +101,7 @@ export default function BrandSection() {
           }
         }, 1.2)
         .to('.bs-desc', { opacity: 1, duration: 0.4 }, 1.5);
-    }, rootRef);
+    }, rootRef.current);
     return () => ctx.revert();
   }, []);
 
@@ -135,7 +136,7 @@ export default function BrandSection() {
         yoyo: true,
         ease: 'sine.inOut',
       });
-    }, rootRef);
+    }, rootRef.current);
     return () => ctx.revert();
   }, [lit]);
 
@@ -171,7 +172,7 @@ export default function BrandSection() {
             0
           );
       }
-    }, rootRef);
+    }, rootRef.current);
     return () => ctx.revert();
   }, [doorOpen]);
 
@@ -228,20 +229,20 @@ export default function BrandSection() {
     <section className="brand-section" ref={rootRef} id="brand" style={sectionVars}>
       <div className="brand-section__sticky">
         <div className="brand-section__stage">
-          <img className="bs-layer bs-bg" src={`${BASE}/BG.png`} alt="" />
-          <img className="bs-layer bs-house" src={`${BASE}/house-body.png`} alt="" />
-          <img className="bs-layer bs-chimney" src={`${BASE}/chimney.png`} alt="" />
-          <img className="bs-layer bs-door-inside" src={`${BASE}/door-inside.png`} alt="" />
+          <img className="bs-layer bs-bg" src={assetPath(`${BASE}/BG.png`)} alt="" />
+          <img className="bs-layer bs-house" src={assetPath(`${BASE}/house-body.png`)} alt="" />
+          <img className="bs-layer bs-chimney" src={assetPath(`${BASE}/chimney.png`)} alt="" />
+          <img className="bs-layer bs-door-inside" src={assetPath(`${BASE}/door-inside.png`)} alt="" />
           <div className="bs-door-solid" aria-hidden="true" />
           <img
             className="bs-layer bs-door-closed"
-            src={`${BASE}/door-closed.png`}
+            src={assetPath(`${BASE}/door-closed.png`)}
             alt="敲敲門進入 GOOGOOlii"
             onClick={handleEnterClick}
           />
-          <img className="bs-layer bs-awning" src={`${BASE}/awning.png`} alt="" />
-          <img className="bs-layer bs-signage" src={`${BASE}/signage-googoolii.png`} alt="GOOGOOlii" />
-          <img className="bs-layer bs-sign-character" src={`${BASE}/sign-character.png`} alt="" />
+          <img className="bs-layer bs-awning" src={assetPath(`${BASE}/awning.png`)} alt="" />
+          <img className="bs-layer bs-signage" src={assetPath(`${BASE}/signage-googoolii.png`)} alt="GOOGOOlii" />
+          <img className="bs-layer bs-sign-character" src={assetPath(`${BASE}/sign-character.png`)} alt="" />
           {/* 只亮螢幕框：halo 同時當「點螢幕點燈」熱區 + tint 把白點成淺黃 */}
           <div className="bs-screen-glow bs-screen-halo" onClick={() => setLit(true)} title="點亮招牌" />
           <div className="bs-screen-glow bs-screen-tint" />
@@ -251,13 +252,13 @@ export default function BrandSection() {
               key={n}
               style={{ transform: `translate(${tune.stars[n].x}%, ${tune.stars[n].y}%)` }}
             >
-              <img src={`${BASE}/star-${n}.png`} alt="" />
+              <img src={assetPath(`${BASE}/star-${n}.png`)} alt="" />
             </div>
           ))}
           <div className="bs-layer bs-bubble-position">
             <img
               className="bs-layer bs-bubble"
-              src={`${BASE}/bubble-knock.png`}
+              src={assetPath(`${BASE}/bubble-knock.png`)}
               alt="Knock knock"
               onClick={handleEnterClick}
             />

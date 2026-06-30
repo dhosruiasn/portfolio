@@ -1,4 +1,5 @@
 import { useLanguage } from '../context/LanguageContext.jsx';
+import { assetPath } from '../utils/assetPath.js';
 import '../styles/components/ProjectCard.css';
 
 export default function ProjectCard({ project, onOpen }) {
@@ -9,7 +10,7 @@ export default function ProjectCard({ project, onOpen }) {
 
   return (
     <div
-      className="project-card"
+      className={`project-card project-card--${project.id}`}
       style={{
         '--project-card-default-height': cardHeight,
         '--project-card-offset': cardOffset,
@@ -28,9 +29,15 @@ export default function ProjectCard({ project, onOpen }) {
           <div className="project-card__face project-card__front">
             {project.media &&
               (isVideo ? (
-                <video src={project.media} muted loop autoPlay playsInline aria-label={project.name} />
+                <video src={assetPath(project.media)} muted loop autoPlay playsInline aria-label={project.name} />
               ) : (
-                <img src={project.media} alt={project.name} />
+                <img
+                  src={assetPath(project.media)}
+                  alt={project.name}
+                  onError={(event) => {
+                    event.currentTarget.hidden = true;
+                  }}
+                />
               ))}
             <span className="project-card__pill">{t.viewProject}</span>
           </div>

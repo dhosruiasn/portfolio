@@ -32,7 +32,7 @@ export default function LoadingBlinds({ onDone }) {
         { scaleY: 0, transformOrigin: 'top center', duration: 0.95, ease: 'power2.inOut' },
         0.6
       );
-    }, rootRef);
+    }, rootRef.current);
     return () => ctx.revert();
   }, [onDone]);
 

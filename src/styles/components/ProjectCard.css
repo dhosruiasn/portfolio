@@ -73,6 +73,14 @@
   display: block;
 }
 
+.project-card--pickmin .project-card__front video {
+  object-fit: contain;
+  object-position: center;
+  transform: translate(var(--pickmin-card-video-x, 0), var(--pickmin-card-video-y, 0)) scale(var(--pickmin-card-video-scale, 1.3));
+  transform-origin: center;
+  background: #d9d9d9;
+}
+
 .project-card__pill {
   position: absolute;
   right: 16px;

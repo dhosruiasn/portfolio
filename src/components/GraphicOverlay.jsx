@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { DndContext, useDraggable } from '@dnd-kit/core';
 import gsap from 'gsap';
+import { assetPath } from '../utils/assetPath.js';
 import '../styles/components/GraphicOverlay.css';
 
 const ITEMS = [
@@ -31,7 +32,7 @@ function DraggableItem({ item, onSelect }) {
       {...listeners}
       {...attributes}
     >
-      <img src={item.image} alt={item.label} />
+      <img src={assetPath(item.image)} alt={item.label} />
     </button>
   );
 }
@@ -55,7 +56,7 @@ export default function GraphicOverlay({ onClose }) {
 
   return (
     <div className="graphic-overlay" ref={overlayRef}>
-      <img className="graphic-overlay__bg" src="/images/graphic/overlay-bg.jpg" alt="" />
+      <img className="graphic-overlay__bg" src={assetPath('/images/graphic/overlay-bg.jpg')} alt="" />
       <button className="graphic-overlay__close" onClick={onClose}>
         ✕
       </button>
@@ -66,7 +67,7 @@ export default function GraphicOverlay({ onClose }) {
       </DndContext>
       {selected && (
         <div className="graphic-overlay__card" onClick={() => setSelected(null)}>
-          <img src={selected.image} alt={selected.label} />
+          <img src={assetPath(selected.image)} alt={selected.label} />
           <p>{selected.label}</p>
         </div>
       )}

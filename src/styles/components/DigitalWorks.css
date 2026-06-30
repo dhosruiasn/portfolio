@@ -186,6 +186,10 @@
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
 }
 
+.digital-tune--pickmin-card {
+  right: 326px;
+}
+
 .digital-tune strong {
   display: block;
   margin-bottom: 8px;
@@ -238,5 +242,9 @@
     right: 10px;
     width: min(300px, calc(100vw - 20px));
     max-height: calc(100vh - var(--nav-height) - 24px);
+  }
+
+  .digital-tune--pickmin-card {
+    top: calc(var(--nav-height) + 218px);
   }
 }

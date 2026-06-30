@@ -2,13 +2,14 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { projects } from '../data/projects.js';
+import { assetPath } from '../utils/assetPath.js';
 import ProjectCard from './ProjectCard.jsx';
 import ProjectDetailPage from './ProjectDetailPage.jsx';
 import '../styles/components/DigitalWorks.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const DIGITAL_ASSET_BASE = '/images/graphic/digital work';
+const DIGITAL_ASSET_BASE = 'images/graphic/digital work';
 const ARROW_ORIGINS = {
   left: { x: 15.14, y: 84.22 },
   right: { x: 84.83, y: 84.22 },
@@ -24,6 +25,12 @@ const DEFAULT_DIGITAL_TUNE = {
   mobileTitleGap: 4.7,
   lightOpacity: 1,
   arrowOpacity: 1,
+};
+
+const DEFAULT_PICKMIN_CARD_TUNE = {
+  videoScale: 2.66,
+  videoX: 0,
+  videoY: 2,
 };
 
 function TuneRow({ label, value, min, max, step = 0.1, unit = '%', onChange }) {
@@ -55,9 +62,23 @@ function DigitalTunePanel({ tune, setTune }) {
   );
 }
 
+function PickminCardTunePanel({ tune, setTune }) {
+  const set = (key) => (value) => setTune((current) => ({ ...current, [key]: value }));
+  return (
+    <div className="digital-tune digital-tune--pickmin-card">
+      <strong>Pickmin 卡片影片</strong>
+      <TuneRow label="比例" value={tune.videoScale} min={0.9} max={3.2} step={0.01} unit="x" onChange={set('videoScale')} />
+      <TuneRow label="X" value={tune.videoX} min={-180} max={180} step={1} unit="px" onChange={set('videoX')} />
+      <TuneRow label="Y" value={tune.videoY} min={-240} max={240} step={1} unit="px" onChange={set('videoY')} />
+      <textarea readOnly value={JSON.stringify(tune)} />
+    </div>
+  );
+}
+
 export default function DigitalWorks() {
   const [active, setActive] = useState(null);
   const [tune, setTune] = useState(DEFAULT_DIGITAL_TUNE);
+  const [pickminCardTune, setPickminCardTune] = useState(DEFAULT_PICKMIN_CARD_TUNE);
   const handleClose = useCallback(() => setActive(null), []);
   const rootRef = useRef(null);
   const sceneRef = useRef(null);
@@ -70,6 +91,18 @@ export default function DigitalWorks() {
   const gridRef = useRef(null);
 
   useEffect(() => {
+    if (
+      !lightRef.current ||
+      !titleRef.current ||
+      !leftArrowRef.current ||
+      !rightArrowRef.current ||
+      !cordRef.current ||
+      !rootRef.current ||
+      !gridRef.current
+    ) {
+      return undefined;
+    }
+
     const ctx = gsap.context(() => {
       gsap.set([lightRef.current, titleRef.current, leftArrowRef.current, rightArrowRef.current], {
         opacity: 0,
@@ -100,7 +133,7 @@ export default function DigitalWorks() {
       });
 
       return () => trigger.kill();
-    }, rootRef);
+    }, rootRef.current);
 
     return () => ctx.revert();
   }, []);
@@ -159,7 +192,7 @@ export default function DigitalWorks() {
           scrub: true,
         },
       });
-    }, gridRef);
+    }, gridRef.current);
     return () => ctx.revert();
   }, []);
 
@@ -177,12 +210,15 @@ export default function DigitalWorks() {
         '--digital-mobile-title-gap': `${tune.mobileTitleGap}vw`,
         '--digital-light-opacity': tune.lightOpacity,
         '--digital-arrow-opacity': tune.arrowOpacity,
+        '--pickmin-card-video-scale': pickminCardTune.videoScale,
+        '--pickmin-card-video-x': `${pickminCardTune.videoX}px`,
+        '--pickmin-card-video-y': `${pickminCardTune.videoY}px`,
       }}
     >
       <div className="digital-works__intro">
         <div className="digital-works__scene" ref={sceneRef} onMouseMove={handleSceneMove}>
           <div className="digital-works__art">
-            <img className="digital-works__light" ref={lightRef} src={`${DIGITAL_ASSET_BASE}/light.png`} alt="" />
+            <img className="digital-works__light" ref={lightRef} src={assetPath(`${DIGITAL_ASSET_BASE}/light.png`)} alt="" />
             <div className="digital-works__headline" ref={titleRef} aria-label="Digital works">
               <span>DIGITAL</span>
               <span>WORKS</span>
@@ -190,20 +226,20 @@ export default function DigitalWorks() {
             <img
               className="digital-works__arrow digital-works__arrow--left"
               ref={leftArrowRef}
-              src={`${DIGITAL_ASSET_BASE}/左箭頭.png`}
+              src={assetPath(`${DIGITAL_ASSET_BASE}/左箭頭.png`)}
               alt=""
             />
             <img
               className="digital-works__arrow digital-works__arrow--right"
               ref={rightArrowRef}
-              src={`${DIGITAL_ASSET_BASE}/右箭頭.png`}
+              src={assetPath(`${DIGITAL_ASSET_BASE}/右箭頭.png`)}
               alt=""
             />
-            <img className="digital-works__lamp" src={`${DIGITAL_ASSET_BASE}/燈罩.png`} alt="" />
+            <img className="digital-works__lamp" src={assetPath(`${DIGITAL_ASSET_BASE}/燈罩.png`)} alt="" />
             <img
               className="digital-works__cord"
               ref={cordRef}
-              src={`${DIGITAL_ASSET_BASE}/燈線.png`}
+              src={assetPath(`${DIGITAL_ASSET_BASE}/燈線.png`)}
               alt="拉燈線"
               onClick={replaySwitch}
             />
@@ -211,6 +247,7 @@ export default function DigitalWorks() {
           {SHOW_DIGITAL_EDIT && <DigitalTunePanel tune={tune} setTune={setTune} />}
         </div>
       </div>
+      {SHOW_DIGITAL_EDIT && <PickminCardTunePanel tune={pickminCardTune} setTune={setPickminCardTune} />}
 
       <div className="digital-works__projects">
         <div className="container digital-works__grid" ref={gridRef}>

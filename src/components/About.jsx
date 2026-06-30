@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLanguage } from '../context/LanguageContext.jsx';
+import { assetPath } from '../utils/assetPath.js';
 import '../styles/components/About.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -65,14 +66,14 @@ export default function About() {
           <h4 className="about__heading">{t.about.toolsTitle}</h4>
           <p className="about__tools">{t.about.tools}</p>
 
-          <a className="about__download" href="/cv.pdf" download>
+          <a className="about__download" href={assetPath('/cv.pdf')} download>
             {t.about.download}
           </a>
 
           <p className="about__fullname">{t.about.fullName}</p>
         </div>
         <div className="about__illustration">
-          <img src="/images/about/bg.jpg" alt="About illustration" />
+          <img src={assetPath('/images/about/bg.jpg')} alt="About illustration" />
         </div>
       </div>
     </section>
