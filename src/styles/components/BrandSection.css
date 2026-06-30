@@ -212,6 +212,93 @@
   top: 2px;
 }
 
+.brand-posters {
+  position: relative;
+  height: 220vh;
+  background: #d9d9d9;
+  overflow: visible;
+}
+
+.brand-posters__sticky {
+  position: relative;
+  height: calc(100vh - var(--nav-height, 64px));
+  background: #d9d9d9;
+  overflow: visible;
+}
+
+.brand-posters__rail {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: clamp(12px, 1.1vw, 18px);
+  background: #d9d9d9;
+  z-index: 0;
+}
+
+.brand-posters__stage {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  aspect-ratio: 1920 / 1097;
+  min-height: 100%;
+  background: #d9d9d9;
+  overflow: visible;
+  isolation: isolate;
+}
+
+.brand-poster__item {
+  position: absolute;
+  top: var(--poster-top);
+  left: var(--poster-left);
+  width: var(--poster-width);
+  height: var(--poster-height);
+  margin: 0;
+  transform-origin: 50% 0%;
+  will-change: transform, opacity;
+  z-index: 2;
+}
+
+.brand-poster__surface {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 62%;
+  transition: transform 0.28s ease, filter 0.28s ease;
+  will-change: transform, filter;
+}
+
+.brand-poster__surface img {
+  position: absolute;
+  top: var(--poster-image-top);
+  left: var(--poster-image-left);
+  width: var(--poster-image-width);
+  max-width: none;
+  height: auto;
+  user-select: none;
+  pointer-events: none;
+}
+
+.brand-poster__surface figcaption {
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  bottom: 4.5%;
+  color: var(--poster-title-color);
+  font-family: 'Dotrice', var(--font-heading), sans-serif;
+  font-size: clamp(34px, 4.4vw, 76px);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: 0;
+  text-align: center;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.brand-poster__item:hover .brand-poster__surface {
+  transform: translateY(-10px) scale(1.018);
+  filter: drop-shadow(0 22px 24px rgba(20, 20, 20, 0.12));
+}
+
 @media (max-width: 768px) {
   .brand-section {
     padding: 0;
@@ -263,5 +350,44 @@
   .bs-screen-glow {
     translate: var(--mobile-sign-x, 0) var(--mobile-sign-y, 0);
     scale: var(--mobile-sign-scale, 1);
+  }
+
+  .brand-posters {
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .brand-posters__sticky {
+    width: 940px;
+    min-width: 940px;
+    overflow: visible;
+  }
+
+  .brand-posters::-webkit-scrollbar {
+    display: none;
+  }
+
+  .brand-posters__rail {
+    width: max(100%, 940px);
+  }
+
+  .brand-posters__stage {
+    width: 940px;
+    min-height: 100%;
+    aspect-ratio: 1920 / 1097;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1180px) {
+  .brand-posters__stage {
+    min-height: 560px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-poster__surface {
+    transition: none;
   }
 }

@@ -10,7 +10,49 @@ import '../styles/components/BrandSection.css';
 gsap.registerPlugin(ScrollTrigger);
 
 const BASE = 'images/graphic/brand-section';
+const POSTER_BASE = 'images/graphic/poster';
 const STARS = [1, 2, 3, 4, 5, 6, 7, 8];
+const POSTERS = [
+  {
+    id: 'mirror',
+    src: `${POSTER_BASE}/poster_1.png`,
+    alt: 'Mirror poster',
+    title: 'Mirror',
+    color: '#948d82',
+    left: 80,
+    top: 0,
+    width: 568,
+    height: 990,
+    settleRotate: -1.2,
+    swayRotate: 1.1,
+  },
+  {
+    id: 'story',
+    src: `${POSTER_BASE}/poster_2.png`,
+    alt: 'Story poster',
+    title: 'Story',
+    color: '#7a3513',
+    left: 676,
+    top: 0,
+    width: 568,
+    height: 990,
+    settleRotate: 0.8,
+    swayRotate: -0.9,
+  },
+  {
+    id: 'meow-tee',
+    src: `${POSTER_BASE}/poster_3.png`,
+    alt: 'MEOW TEE poster',
+    title: 'MEOW TEE',
+    color: '#4aa4ff',
+    left: 1272,
+    top: 0,
+    width: 568,
+    height: 990,
+    settleRotate: -0.6,
+    swayRotate: 0.8,
+  },
+];
 const params = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
 const SHOW_GRID = !!params && params.has('grid');
 const SHOW_EDIT = !!params && params.has('edit');
@@ -61,6 +103,7 @@ const DEFAULT_TUNE = {
 
 export default function BrandSection() {
   const rootRef = useRef(null);
+  const posterRef = useRef(null);
   const brandRef = useRef(null);
   const [tune, setTune] = useState(DEFAULT_TUNE);
   const [lit, setLit] = useState(false); // 燈是否亮（招牌＋螢幕）
@@ -70,43 +113,54 @@ export default function BrandSection() {
 
   // 入場：元件就定位，但招牌＋螢幕「先不亮」
   useEffect(() => {
+    if (!rootRef.current) return undefined;
     const ctx = gsap.context(() => {
-      gsap.set('.bs-bg', { opacity: 1 });
-      gsap.set('.bs-house, .bs-chimney, .bs-door-inside, .bs-door-closed', { opacity: 0 });
-      gsap.set('.bs-door-solid', { opacity: 0, rotationY: 0, transformOrigin: 'left center' });
-      gsap.set('.bs-awning', { opacity: 0, y: '-4%' });
-      gsap.set('.bs-sign-character', { opacity: 0, x: '-5%' });
-      gsap.set('.bs-screen-glow', { opacity: 0 }); // 螢幕先暗
-      gsap.set('.bs-signage', { opacity: 0.3, filter: 'brightness(0.45)' }); // 招牌先暗
-      gsap.set('.bs-star', { opacity: 0 });
-      gsap.set('.bs-brand', { opacity: 0 });
-      gsap.set('.bs-desc', { opacity: 0 });
-      gsap.set('.bs-bubble', { opacity: 0, scale: 0, transformOrigin: 'center center' });
+      const q = (selector) => Array.from(rootRef.current?.querySelectorAll(selector) || []);
+      const setIf = (selector, vars) => {
+        const targets = q(selector);
+        if (targets.length) gsap.set(targets, vars);
+        return targets;
+      };
+      const houseParts = setIf('.bs-house, .bs-chimney, .bs-door-inside, .bs-door-closed', { opacity: 0 });
+      const awning = setIf('.bs-awning', { opacity: 0, y: '-4%' });
+      const signCharacter = setIf('.bs-sign-character', { opacity: 0, x: '-5%' });
+      const signage = setIf('.bs-signage', { opacity: 0.3, filter: 'brightness(0.45)' });
+      const stars = setIf('.bs-star', { opacity: 0 });
+      const desc = setIf('.bs-desc', { opacity: 0 });
+      setIf('.bs-bg', { opacity: 1 });
+      setIf('.bs-door-solid', { opacity: 0, rotationY: 0, transformOrigin: 'left center' });
+      setIf('.bs-screen-glow', { opacity: 0 }); // 螢幕先暗
+      setIf('.bs-brand__title', { opacity: 0 });
+      setIf('.bs-bubble', { opacity: 0, scale: 0, transformOrigin: 'center center' });
 
       const tl = gsap.timeline({
         scrollTrigger: { trigger: rootRef.current, start: 'top 78%', once: true },
       });
 
-      tl.to('.bs-house, .bs-chimney, .bs-door-inside, .bs-door-closed', { opacity: 1, duration: 0.4 }, 0)
-        .to('.bs-awning', { opacity: 1, y: '0%', duration: 0.3 }, 0.2)
-        .to('.bs-sign-character', { opacity: 1, x: '0%', duration: 0.3 }, 0.3)
+      if (houseParts.length) tl.to(houseParts, { opacity: 1, duration: 0.4 }, 0);
+      if (awning.length) tl.to(awning, { opacity: 1, y: '0%', duration: 0.3 }, 0.2);
+      if (signCharacter.length) tl.to(signCharacter, { opacity: 1, x: '0%', duration: 0.3 }, 0.3);
+      if (signage.length) {
+        tl
         // 招牌只是「出現」，仍維持暗（不亮）
-        .to('.bs-signage', { opacity: 1, duration: 0.4 }, 0.4)
-        .to('.bs-star', { opacity: 1, duration: 0.3, stagger: 0.12 }, 0.5)
-        .add(() => {
-          gsap.set('.bs-brand', { opacity: 1 });
-          if (brandRef.current) {
-            const fx = new TextScramble(brandRef.current);
-            fx.setText('MY BRAND');
-          }
-        }, 1.2)
-        .to('.bs-desc', { opacity: 1, duration: 0.4 }, 1.5);
+          .to(signage, { opacity: 1, duration: 0.4 }, 0.4);
+      }
+      if (stars.length) tl.to(stars, { opacity: 1, duration: 0.3, stagger: 0.12 }, 0.5);
+      tl.add(() => {
+        if (brandRef.current) {
+          gsap.set(brandRef.current, { opacity: 1 });
+          const fx = new TextScramble(brandRef.current);
+          fx.setText('MY BRAND');
+        }
+      }, 1.2);
+      if (desc.length) tl.to(desc, { opacity: 1, duration: 0.4 }, 1.5);
     }, rootRef.current);
     return () => ctx.revert();
   }, []);
 
   // 切版「定住後」再滑一下 → 觸發點燈（pin 之後）
   useEffect(() => {
+    if (!rootRef.current) return undefined;
     const st = ScrollTrigger.create({
       trigger: rootRef.current,
       start: 'top -85%',
@@ -118,38 +172,56 @@ export default function BrandSection() {
 
   // 點燈：招牌亮 + 螢幕亮 + 泡泡出現 + 門做「可開門」示意動畫
   useEffect(() => {
-    if (!lit) return;
+    if (!lit || !rootRef.current) return undefined;
     const ctx = gsap.context(() => {
-      gsap.to('.bs-signage', {
-        opacity: 1,
-        filter: 'brightness(1.2) drop-shadow(0 0 10px rgba(255,165,0,0.6))',
-        duration: 0.6,
-      });
-      gsap.to('.bs-screen-glow', { opacity: 1, duration: 0.5 });
-      gsap.to('.bs-bubble', { opacity: 1, scale: 1, ease: 'back.out(1.7)', duration: 0.4, delay: 0.3 });
+      const q = (selector) => Array.from(rootRef.current?.querySelectorAll(selector) || []);
+      const signage = q('.bs-signage');
+      const screenGlow = q('.bs-screen-glow');
+      const bubble = q('.bs-bubble');
+      const doorClosed = q('.bs-door-closed');
+
+      if (signage.length) {
+        gsap.to(signage, {
+          opacity: 1,
+          filter: 'brightness(1.2) drop-shadow(0 0 10px rgba(255,165,0,0.6))',
+          duration: 0.6,
+        });
+      }
+      if (screenGlow.length) gsap.to(screenGlow, { opacity: 1, duration: 0.5 });
+      if (bubble.length) gsap.to(bubble, { opacity: 1, scale: 1, ease: 'back.out(1.7)', duration: 0.4, delay: 0.3 });
       // 門「半開又合上」反覆示意，提示可點擊進入
-      gsap.to('.bs-door-closed', {
-        rotationY: -14,
-        transformOrigin: DOOR_HINGE,
-        duration: 0.8,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-      });
+      if (doorClosed.length) {
+        gsap.to(doorClosed, {
+          rotationY: -14,
+          transformOrigin: DOOR_HINGE,
+          duration: 0.8,
+          repeat: -1,
+          yoyo: true,
+          ease: 'sine.inOut',
+        });
+      }
     }, rootRef.current);
     return () => ctx.revert();
   }, [lit]);
 
   // 門互動：door-closed 往內推開，露出後面早已存在的 door-inside
   useEffect(() => {
+    if (!rootRef.current) return undefined;
     const ctx = gsap.context(() => {
       if (doorOpen) {
+        const q = (selector) => Array.from(rootRef.current?.querySelectorAll(selector) || []);
+        const bubble = q('.bs-bubble');
+        const doorClosed = q('.bs-door-closed');
+        const doorSolid = q('.bs-door-solid');
         const tl = gsap.timeline({
           onComplete: () => setOverlayOpen(true),
         });
-        tl.to('.bs-bubble', { opacity: 0, scale: 0.8, duration: 0.2, overwrite: 'auto' }, 0)
-          .to(
-            '.bs-door-closed',
+        if (bubble.length) {
+          tl.to(bubble, { opacity: 0, scale: 0.8, duration: 0.2, overwrite: 'auto' }, 0);
+        }
+        if (doorClosed.length) {
+          tl.to(
+            doorClosed,
             {
               opacity: 0,
               duration: 0.12,
@@ -157,9 +229,11 @@ export default function BrandSection() {
               overwrite: 'auto',
             },
             0
-          )
-          .fromTo(
-            '.bs-door-solid',
+          );
+        }
+        if (doorSolid.length) {
+          tl.fromTo(
+            doorSolid,
             { opacity: 1, rotationY: 0 },
             {
               rotationY: -96,
@@ -171,10 +245,83 @@ export default function BrandSection() {
             },
             0
           );
+        }
       }
     }, rootRef.current);
     return () => ctx.revert();
   }, [doorOpen]);
+
+  useEffect(() => {
+    if (!posterRef.current) return undefined;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const sticky = posterRef.current.querySelector('.brand-posters__sticky');
+    const navHeight =
+      Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 64;
+    const pinTrigger =
+      sticky && window.matchMedia('(min-width: 769px)').matches
+        ? ScrollTrigger.create({
+            trigger: posterRef.current,
+            start: `top top+=${navHeight}`,
+            end: 'bottom bottom',
+            pin: sticky,
+            pinSpacing: false,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          })
+        : null;
+
+    const ctx = gsap.context(() => {
+      const items = Array.from(posterRef.current?.querySelectorAll('.brand-poster__item') || []);
+      if (!items.length) return;
+
+      if (reduceMotion) {
+        gsap.set(items, { autoAlpha: 1, y: 0, rotation: 0 });
+        return;
+      }
+
+      gsap.set(items, {
+        autoAlpha: 0,
+        y: -140,
+        rotation: (index) => [-5, 4, -3][index] || 0,
+        transformOrigin: '50% 0%',
+      });
+
+      const intro = gsap.timeline({
+        scrollTrigger: {
+          trigger: posterRef.current,
+          start: 'top 72%',
+          once: true,
+        },
+      });
+
+      intro.to(items, {
+        autoAlpha: 1,
+        y: 0,
+        rotation: (index) => POSTERS[index]?.settleRotate || 0,
+        duration: 0.95,
+        stagger: 0.14,
+        ease: 'elastic.out(1, 0.52)',
+      });
+
+      intro.add(() => {
+        items.forEach((item, index) => {
+          gsap.to(item, {
+            rotation: POSTERS[index]?.swayRotate || 0.8,
+            duration: 2.8 + index * 0.25,
+            repeat: -1,
+            yoyo: true,
+            ease: 'sine.inOut',
+            transformOrigin: '50% 0%',
+          });
+        });
+      });
+    }, posterRef.current);
+
+    return () => {
+      pinTrigger?.kill();
+      ctx.revert();
+    };
+  }, []);
 
   // 點門 / 點泡泡：若還沒亮燈先點燈，再開門
   const handleEnterClick = () => {
@@ -226,9 +373,10 @@ export default function BrandSection() {
   };
 
   return (
-    <section className="brand-section" ref={rootRef} id="brand" style={sectionVars}>
-      <div className="brand-section__sticky">
-        <div className="brand-section__stage">
+    <>
+      <section className="brand-section" ref={rootRef} id="brand" style={sectionVars}>
+        <div className="brand-section__sticky">
+          <div className="brand-section__stage">
           <img className="bs-layer bs-bg" src={assetPath(`${BASE}/BG.png`)} alt="" />
           <img className="bs-layer bs-house" src={assetPath(`${BASE}/house-body.png`)} alt="" />
           <img className="bs-layer bs-chimney" src={assetPath(`${BASE}/chimney.png`)} alt="" />
@@ -279,24 +427,54 @@ export default function BrandSection() {
               ))}
             </div>
           )}
-        </div>
+          </div>
 
-        {/* MY BRAND 文字：錨定視窗左上（不被商店裁切影響） */}
-        <div className="bs-brand">
-          <h2 className="bs-brand__title" ref={brandRef}>
-            MY BRAND
-          </h2>
-          <p className="bs-desc">
-            自有插畫 IP 角色、服飾與周邊商品
-            <br />
-            敲敲門，進來逛逛！
-          </p>
-        </div>
+          {/* MY BRAND 文字：錨定視窗左上（不被商店裁切影響） */}
+          <div className="bs-brand">
+            <h2 className="bs-brand__title" ref={brandRef}>
+              MY BRAND
+            </h2>
+            <p className="bs-desc">
+              自有插畫 IP 角色、服飾與周邊商品
+              <br />
+              敲敲門，進來逛逛！
+            </p>
+          </div>
 
-        {SHOW_EDIT && <BrandEditPanel tune={tune} setTune={setTune} />}
-      </div>
+          {SHOW_EDIT && <BrandEditPanel tune={tune} setTune={setTune} />}
+        </div>
+      </section>
+
+      <section className="brand-posters" ref={posterRef} aria-label="Poster showcase">
+        <div className="brand-posters__sticky">
+          <div className="brand-posters__rail" aria-hidden="true" />
+          <div className="brand-posters__stage">
+            {POSTERS.map((poster) => (
+              <figure
+                className={`brand-poster__item brand-poster__item--${poster.id}`}
+                key={poster.id}
+                style={{
+                  '--poster-left': `${(poster.left / 1920) * 100}%`,
+                  '--poster-top': `${(poster.top / 1097) * 100}%`,
+                  '--poster-width': `${(poster.width / 1920) * 100}%`,
+                  '--poster-height': `${(poster.height / 1097) * 100}%`,
+                  '--poster-image-width': `${(1920 / poster.width) * 100}%`,
+                  '--poster-image-left': `${-(poster.left / poster.width) * 100}%`,
+                  '--poster-image-top': `${-(poster.top / poster.height) * 100}%`,
+                  '--poster-title-color': poster.color,
+                }}
+              >
+                <div className="brand-poster__surface">
+                  <img src={assetPath(poster.src)} alt={poster.alt} />
+                  <figcaption>{poster.title}</figcaption>
+                </div>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {overlayOpen && <GraphicOverlay onClose={handleOverlayClose} />}
-    </section>
+    </>
   );
 }
