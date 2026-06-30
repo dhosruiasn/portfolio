@@ -2,6 +2,20 @@ import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { useLanguage } from '../context/LanguageContext.jsx';
 import { assetPath } from '../utils/assetPath.js';
+import {
+  CoreComponentShowcase,
+  DesignPrinciplesSection,
+  DesignSystemIntroSection,
+  InteractionFlowSection,
+  LocalizationComparison,
+  MotionShowcase,
+  OutcomeReflection,
+  ProductComponentsSection,
+  ProductComplexitySection,
+  ProjectCTA,
+  SystemToProductSection,
+  VisualFoundationsSection,
+} from './projects/pickmin/PickminDesignSystemSections.jsx';
 import '../styles/components/ProjectDetailPage.css';
 
 const params = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
@@ -86,15 +100,28 @@ const NO_BREAK_TERMS = [
   'JavaScript',
   'HTML/CSS',
   'GOOGOOlii',
+  'GOOGOOLii',
   '品牌網站',
   '品牌電商',
   '品牌體驗',
   '互動電商',
+  '互動結帳',
   '互動原型',
   '核心互動',
+  '核心流程',
   '結帳小劇場',
   '結帳過場',
+  '結帳掃碼',
   '結帳畫面',
+  '收件資料',
+  '商品購物頁',
+  '商品選購',
+  '復古玩具店',
+  '小劇場式購物流程',
+  'Brand System',
+  'Interactive Checkout Concept',
+  'Interactive Commerce',
+  'Core Shopping & Checkout Flow',
   'checkout scene',
   'checkout screen',
   'checkout ritual',
@@ -311,7 +338,202 @@ function ExternalArrowIcon() {
   );
 }
 
+function GoogooliiSection({ eyebrow, title, className = '', children }) {
+  return (
+    <section className={`googoolii-section${className ? ` ${className}` : ''}`}>
+      <div className="googoolii-section__heading">
+        <h2>{renderInfoText(title)}</h2>
+      </div>
+      {children}
+    </section>
+  );
+}
+
+function GoogooliiCaseStudyPage({ project, content, caseStudy, title, tune, setTune, pageRef, onClose }) {
+  return (
+    <div
+      className={`detail-page detail-page--case detail-page--${project.id} detail-page--googoolii-custom`}
+      ref={pageRef}
+      style={{
+        '--detail-title-y': `${tune.titleY}px`,
+        '--detail-title-size': `${tune.titleSize}vw`,
+        '--detail-title-line': tune.titleLine,
+        '--detail-title-max': `${tune.titleMax}px`,
+      }}
+    >
+      <button className="detail-page__close" onClick={onClose} aria-label="close">
+        ✕
+      </button>
+      {SHOW_DETAIL_EDIT && <DetailTunePanel tune={tune} setTune={setTune} />}
+
+      <article className="case-study googoolii-case">
+        <header className="googoolii-hero">
+          <div className="googoolii-hero__copy">
+            <img className="googoolii-hero__logo" src={assetPath(caseStudy.logoImage)} alt="GOOGOOLii logo" />
+            <div className="detail-page__name-mask">
+              <h1 className="detail-page__name">{title}</h1>
+            </div>
+            <p className="googoolii-hero__subtitle">{renderInfoText(caseStudy.subtitle)}</p>
+            <p className="googoolii-hero__summary">{renderInfoText(caseStudy.summary)}</p>
+            <div className="googoolii-role-list" aria-label="My role">
+              {caseStudy.roleItems.map((item) => (
+                <span key={item}>{renderInfoText(item)}</span>
+              ))}
+            </div>
+            <button className="case-hero__visit googoolii-hero__cta googoolii-hero__cta--disabled" type="button" disabled aria-disabled="true">
+              {caseStudy.prototypeLabel}
+            </button>
+          </div>
+          <div className="googoolii-hero__stage">
+            {caseStudy.heroVideo ? (
+              <video
+                className="googoolii-hero__screen"
+                src={assetPath(caseStudy.heroVideo)}
+                poster={assetPath(caseStudy.heroImage)}
+                muted
+                loop
+                autoPlay
+                playsInline
+                preload="metadata"
+                aria-label={caseStudy.heroAlt}
+              />
+            ) : (
+              <img className="googoolii-hero__screen" src={assetPath(caseStudy.heroImage)} alt={caseStudy.heroAlt} />
+            )}
+          </div>
+
+          <div className="case-meta-grid googoolii-meta-grid">
+            {caseStudy.meta.map((item) => (
+              <div className="case-meta" key={item.label}>
+                <span>{item.label}</span>
+                <strong>{renderInfoText(item.value)}</strong>
+              </div>
+            ))}
+          </div>
+        </header>
+
+        <GoogooliiSection eyebrow="02" title="Project Concept" className="googoolii-section--concept">
+          <div className="googoolii-concept-grid">
+            <article className="googoolii-panel googoolii-panel--ink">
+              <span>Problem</span>
+              <p>{renderInfoText(caseStudy.concept.problem)}</p>
+            </article>
+            <article className="googoolii-panel googoolii-panel--yellow">
+              <span>Concept</span>
+              <p>{renderInfoText(caseStudy.concept.concept)}</p>
+            </article>
+            <div className="googoolii-focus-list">
+              {caseStudy.concept.focus.map((item) => (
+                <span key={item}>{renderInfoText(item)}</span>
+              ))}
+            </div>
+          </div>
+        </GoogooliiSection>
+
+        <GoogooliiSection eyebrow="03" title="Visual Direction" className="googoolii-section--visual">
+          <div className="googoolii-visual-list">
+            {caseStudy.visualDirection.map((item, index) => (
+              <article className="googoolii-visual-card" key={item.concept}>
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <h3>{renderInfoText(item.concept)}</h3>
+                <p>{renderInfoText(item.translation)}</p>
+              </article>
+            ))}
+          </div>
+        </GoogooliiSection>
+
+        <GoogooliiSection eyebrow="04" title="System Snapshot" className="googoolii-section--system-snapshot">
+          <div className="googoolii-system">
+            <div className="googoolii-color-grid">
+              {caseStudy.systemSnapshot.colors.map((item) => (
+                <article className="googoolii-token" key={item.name}>
+                  <span className="googoolii-token__swatch" style={{ '--token-color': item.hex }} />
+                  <div>
+                    <h3>{item.name}</h3>
+                    <code>{item.hex}</code>
+                    <p>{renderInfoText(item.use)}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+            <div className="googoolii-type-grid">
+              {caseStudy.systemSnapshot.typography.map((item) => (
+                <article className="googoolii-type-row" key={item.name}>
+                  <span>{item.name}</span>
+                  <strong>{item.value}</strong>
+                  <p>{renderInfoText(item.use)}</p>
+                </article>
+              ))}
+            </div>
+            <div className="googoolii-system-strip">
+              {caseStudy.systemSnapshot.treatment.map((item) => (
+                <span key={item}>{renderInfoText(item)}</span>
+              ))}
+            </div>
+            <div className="googoolii-component-grid">
+              {caseStudy.systemSnapshot.components.map((item) => (
+                <span key={item}>{renderInfoText(item)}</span>
+              ))}
+            </div>
+          </div>
+        </GoogooliiSection>
+
+        <GoogooliiSection eyebrow="05" title="Core Shopping & Checkout Flow" className="googoolii-section--flow">
+          <div className="googoolii-flow-list">
+            {caseStudy.coreFlow.map((item) => (
+              <article className="googoolii-flow-card" key={item.title}>
+                <div className="googoolii-flow-card__media">
+                  <img src={assetPath(item.image)} alt={`${item.title} screenshot`} />
+                </div>
+                <div className="googoolii-flow-card__copy">
+                  <span>{item.number}</span>
+                  <h3>{renderInfoText(item.title)}</h3>
+                  <p>{renderInfoText(item.body)}</p>
+                  <div>
+                    {item.tags.map((tag) => (
+                      <span key={tag}>{renderInfoText(tag)}</span>
+                    ))}
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </GoogooliiSection>
+
+        <GoogooliiSection eyebrow="06" title="Interaction Details" className="googoolii-section--interaction">
+          <div className="googoolii-interaction-grid">
+            {caseStudy.interactionDetails.map((item) => (
+              <article className="googoolii-panel" key={item.title}>
+                <h3>{renderInfoText(item.title)}</h3>
+                <p>{renderInfoText(item.body)}</p>
+              </article>
+            ))}
+          </div>
+        </GoogooliiSection>
+
+        <GoogooliiSection eyebrow="07" title="Next Iteration & Takeaway" className="googoolii-section--takeaway">
+          <div className="googoolii-takeaway">
+            <article className="googoolii-panel googoolii-panel--blue">
+              <p>{renderInfoText(caseStudy.nextIteration.body)}</p>
+              <ul className="case-list">
+                {caseStudy.nextIteration.items.map((item) => (
+                  <li key={item}>{renderInfoText(item)}</li>
+                ))}
+              </ul>
+            </article>
+            <article className="googoolii-panel googoolii-panel--yellow">
+              <span>Takeaway</span>
+              <p>{renderInfoText(caseStudy.nextIteration.takeaway)}</p>
+            </article>
+          </div>
+        </GoogooliiSection>
+      </article>
+    </div>
+  );
+}
+
 function CaseStudyPage({ project, content, caseStudy, title, visitLabel, tune, setTune, imageTune, setImageTune, flowTune, setFlowTune, flowCopy, setFlowCopy, pageRef, onClose }) {
+  const isPickmin = project.id === 'pickmin';
   const sectionTitles = {
     problem: 'PROBLEM',
     goals: 'GOAL & USERS',
@@ -412,6 +634,12 @@ function CaseStudyPage({ project, content, caseStudy, title, visitLabel, tune, s
           <TextPanel title={caseStudy.overview.title} body={caseStudy.overview.body} />
         </CaseSection>
 
+        {isPickmin && (
+          <CaseSection title={caseStudy.complexity.title} className="case-section--complexity">
+            <ProductComplexitySection content={caseStudy.complexity} />
+          </CaseSection>
+        )}
+
         <CaseSection title={sectionTitles.problem} className="case-section--problem">
           <div className="case-card-grid case-card-grid--four">
             {caseStudy.problems.map((item, index) => (
@@ -423,37 +651,41 @@ function CaseStudyPage({ project, content, caseStudy, title, visitLabel, tune, s
           </div>
         </CaseSection>
 
-        <CaseSection title={sectionTitles.goals} className="case-section--users">
-          <div className="case-split">
-            <div className="case-panel">
-              <h3>{renderInfoText(panelTitles.goals)}</h3>
-              <ul className="case-list">
-                {caseStudy.goals.map((item) => (
-                  <li key={item}>{renderInfoText(item)}</li>
+        {!isPickmin && (
+          <CaseSection title={sectionTitles.goals} className="case-section--users">
+            <div className="case-split">
+              <div className="case-panel">
+                <h3>{renderInfoText(panelTitles.goals)}</h3>
+                <ul className="case-list">
+                  {caseStudy.goals.map((item) => (
+                    <li key={item}>{renderInfoText(item)}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="case-card-grid">
+                {caseStudy.users.map((item, index) => (
+                  <article className={`case-panel ${USER_TONES[index]}`} key={item.title}>
+                    <h3>{renderInfoText(item.title)}</h3>
+                    <p>{renderInfoText(item.body)}</p>
+                  </article>
                 ))}
-              </ul>
+              </div>
             </div>
-            <div className="case-card-grid">
-              {caseStudy.users.map((item, index) => (
-                <article className={`case-panel ${USER_TONES[index]}`} key={item.title}>
-                  <h3>{renderInfoText(item.title)}</h3>
-                  <p>{renderInfoText(item.body)}</p>
-                </article>
+          </CaseSection>
+        )}
+
+        {!isPickmin && (
+          <CaseSection title={sectionTitles.flow} className="case-section--flow-section">
+            <TextPanel body={flowCopy || caseStudy.flow.note} className="case-flow-note" />
+            <div className="case-flow">
+              {caseStudy.flow.steps.map((step, index) => (
+                <div className={`case-flow__item ${FLOW_TONES[index]}`} key={step}>
+                  <strong>{renderInfoText(step)}</strong>
+                </div>
               ))}
             </div>
-          </div>
-        </CaseSection>
-
-        <CaseSection title={sectionTitles.flow} className="case-section--flow-section">
-          <TextPanel body={flowCopy || caseStudy.flow.note} className="case-flow-note" />
-          <div className="case-flow">
-            {caseStudy.flow.steps.map((step, index) => (
-              <div className={`case-flow__item ${FLOW_TONES[index]}`} key={step}>
-                <strong>{renderInfoText(step)}</strong>
-              </div>
-            ))}
-          </div>
-        </CaseSection>
+          </CaseSection>
+        )}
 
         <CaseSection title={sectionTitles.architecture} className="case-section--architecture">
           <div className="case-architecture">
@@ -480,65 +712,109 @@ function CaseStudyPage({ project, content, caseStudy, title, visitLabel, tune, s
           </div>
         </CaseSection>
 
-        <CaseSection title={sectionTitles.decisions} className="case-section--decisions">
-          <div className="case-decision-list">
-            {caseStudy.decisions.map((item) => (
-              <article className="case-decision" key={item.title}>
-                <div className="case-decision__copy">
-                  <h3>{renderInfoText(item.title)}</h3>
-                  <p>{renderInfoText(item.body)}</p>
-                </div>
-                <PhotoSlot src={item.image} alt={item.slot} label={item.slot} compact className={item.imageFocus} />
-              </article>
-            ))}
-          </div>
-        </CaseSection>
-
-        <CaseSection title={sectionTitles.designSystem} className="case-section--system">
-          <div className="case-design-system">
-            {[
-              ['Visual Principles', caseStudy.designSystem.principles],
-              ['Color System', caseStudy.designSystem.colors],
-              ['Typography', caseStudy.designSystem.typography],
-              ['Interaction States', caseStudy.designSystem.states],
-            ].map(([panelTitle, panelBody], index) => (
-              <article className={`case-panel ${DESIGN_SYSTEM_TONES[index]}`} key={panelTitle}>
-                <h3>{renderInfoText(panelTitle)}</h3>
-                {panelBody.slice(0, 2).map((item) => (
-                  <p key={item}>{renderInfoText(item)}</p>
-                ))}
-              </article>
-            ))}
-            <div className="case-component-strip">
-              {caseStudy.designSystem.components.slice(0, 8).map((item) => (
-                <span key={item}>{renderInfoText(item)}</span>
+        {!isPickmin && (
+          <CaseSection title={sectionTitles.decisions} className="case-section--decisions">
+            <div className="case-decision-list">
+              {caseStudy.decisions.map((item) => (
+                <article className="case-decision" key={item.title}>
+                  <div className="case-decision__copy">
+                    <h3>{renderInfoText(item.title)}</h3>
+                    <p>{renderInfoText(item.body)}</p>
+                  </div>
+                  <PhotoSlot src={item.image} alt={item.slot} label={item.slot} compact className={item.imageFocus} />
+                </article>
               ))}
             </div>
-          </div>
-        </CaseSection>
+          </CaseSection>
+        )}
 
-        <CaseSection title={sectionTitles.trust} className="case-section--trust">
-          <div className="case-split">
-            <div className="case-panel">
-              <h3>{renderInfoText(panelTitles.implementation)}</h3>
-              <p>{renderInfoText(caseStudy.implementation.body)}</p>
-              <ul className="case-list">
-                {caseStudy.implementation.items.map((item) => (
-                  <li key={item}>{renderInfoText(item)}</li>
+        {isPickmin ? (
+          <>
+            <CaseSection title={caseStudy.whyDesignSystem.title} className="case-section--why-system">
+              <DesignSystemIntroSection content={caseStudy.whyDesignSystem} />
+            </CaseSection>
+
+            <CaseSection title="DESIGN PRINCIPLES" className="case-section--principles">
+              <DesignPrinciplesSection items={caseStudy.designPrinciples} />
+            </CaseSection>
+
+            <CaseSection title={caseStudy.foundations.title} className="case-section--foundations">
+              <VisualFoundationsSection content={caseStudy.foundations} />
+            </CaseSection>
+
+            <CaseSection title={caseStudy.coreComponents.title} className="case-section--core-components">
+              <CoreComponentShowcase content={caseStudy.coreComponents} />
+            </CaseSection>
+
+            <CaseSection title={caseStudy.productComponents.title} className="case-section--product-components">
+              <ProductComponentsSection content={caseStudy.productComponents} />
+            </CaseSection>
+
+            <CaseSection title={caseStudy.collectionFlow.title} className="case-section--interaction-patterns">
+              <InteractionFlowSection content={caseStudy.collectionFlow} />
+            </CaseSection>
+
+            <CaseSection title={caseStudy.motionSystem.title} className="case-section--motion">
+              <MotionShowcase content={caseStudy.motionSystem} />
+            </CaseSection>
+
+            <CaseSection title={caseStudy.localization.title} className="case-section--localization">
+              <LocalizationComparison content={caseStudy.localization} />
+            </CaseSection>
+
+            <CaseSection title={caseStudy.systemToProduct.title} className="case-section--system-product">
+              <SystemToProductSection content={caseStudy.systemToProduct} />
+            </CaseSection>
+          </>
+        ) : (
+          <CaseSection title={sectionTitles.designSystem} className="case-section--system">
+            <div className="case-design-system">
+              {[
+                ['Visual Principles', caseStudy.designSystem.principles],
+                ['Color System', caseStudy.designSystem.colors],
+                ['Typography', caseStudy.designSystem.typography],
+                ['Interaction States', caseStudy.designSystem.states],
+              ].map(([panelTitle, panelBody], index) => (
+                <article className={`case-panel ${DESIGN_SYSTEM_TONES[index]}`} key={panelTitle}>
+                  <h3>{renderInfoText(panelTitle)}</h3>
+                  {panelBody.slice(0, 2).map((item) => (
+                    <p key={item}>{renderInfoText(item)}</p>
+                  ))}
+                </article>
+              ))}
+              <div className="case-component-strip">
+                {caseStudy.designSystem.components.slice(0, 8).map((item) => (
+                  <span key={item}>{renderInfoText(item)}</span>
                 ))}
-              </ul>
+              </div>
             </div>
-            <div className="case-panel">
-              <h3>{renderInfoText(panelTitles.security)}</h3>
-              <p>{renderInfoText(caseStudy.security.body)}</p>
-              <ul className="case-list">
-                {caseStudy.security.items.map((item) => (
-                  <li key={item}>{renderInfoText(item)}</li>
-                ))}
-              </ul>
+          </CaseSection>
+        )}
+
+        {!isPickmin && (
+          <CaseSection title={sectionTitles.trust} className="case-section--trust">
+            <div className="case-split">
+              <div className="case-panel">
+                <h3>{renderInfoText(panelTitles.implementation)}</h3>
+                <p>{renderInfoText(caseStudy.implementation.body)}</p>
+                <ul className="case-list">
+                  {caseStudy.implementation.items.map((item) => (
+                    <li key={item}>{renderInfoText(item)}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="case-panel">
+                <h3>{renderInfoText(panelTitles.security)}</h3>
+                <p>{renderInfoText(caseStudy.security.body)}</p>
+                <ul className="case-list">
+                  {caseStudy.security.items.map((item) => (
+                    <li key={item}>{renderInfoText(item)}</li>
+                  ))}
+                </ul>
+              </div>
             </div>
-          </div>
-        </CaseSection>
+          </CaseSection>
+        )}
 
         <CaseSection title={sectionTitles.outcome} className="case-section--outcome">
           <div className="case-split">
@@ -552,8 +828,14 @@ function CaseStudyPage({ project, content, caseStudy, title, visitLabel, tune, s
               ))}
             </div>
           </div>
+          {isPickmin && <OutcomeReflection content={caseStudy.outcome} />}
         </CaseSection>
 
+        {isPickmin && (
+          <CaseSection title="CTA" className="case-section--cta">
+            <ProjectCTA content={caseStudy.cta} liveHref={project.link} />
+          </CaseSection>
+        )}
       </article>
     </div>
   );
@@ -579,7 +861,7 @@ export default function ProjectDetailPage({ project, onClose }) {
   }, [project?.id, lang]);
 
   useEffect(() => {
-    if (!project) return;
+    if (!project || !pageRef.current) return;
 
     // lock the underlying page scroll while keeping its position
     const prevOverflow = document.body.style.overflow;
@@ -588,12 +870,18 @@ export default function ProjectDetailPage({ project, onClose }) {
     let fallingChipObserver;
 
     const ctx = gsap.context(() => {
-      gsap.from(pageRef.current, { opacity: 0, duration: 0.4, ease: 'power2.out' });
-      gsap.fromTo(
-        '.detail-page__name',
-        { yPercent: 110 },
-        { yPercent: 0, duration: 0.72, delay: 0.05, ease: 'power3.out' }
-      );
+      const page = pageRef.current;
+      const nameEl = page?.querySelector('.detail-page__name');
+      if (!page) return;
+
+      gsap.from(page, { opacity: 0, duration: 0.4, ease: 'power2.out' });
+      if (nameEl) {
+        gsap.fromTo(
+          nameEl,
+          { yPercent: 110 },
+          { yPercent: 0, duration: 0.72, delay: 0.05, ease: 'power3.out' }
+        );
+      }
       const standardLeftItems = gsap.utils.toArray('.detail-page__left > *');
       if (standardLeftItems.length) {
         gsap.from(standardLeftItems, {
@@ -631,10 +919,10 @@ export default function ProjectDetailPage({ project, onClose }) {
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const fallingChipClouds = caseStudy ? Array.from(caseStudy.querySelectorAll('.case-chip-cloud--falling')) : [];
       if (caseStudy && !reduceMotion) {
-        const revealGroups = Array.from(caseStudy.querySelectorAll('.case-card-grid, .case-flow, .case-decision-list, .case-design-system, .case-component-strip, .case-chip-cloud--stacked'));
+        const revealGroups = Array.from(caseStudy.querySelectorAll('.case-card-grid, .case-flow, .case-decision-list, .case-design-system, .case-component-strip, .case-chip-cloud--stacked, .pickmin-complexity__grid, .pickmin-ds-intro__map, .pickmin-principles, .pickmin-foundations__colors, .pickmin-core-components, .pickmin-product-components, .pickmin-interaction-flow__grid, .pickmin-motion__grid, .pickmin-localization__grid, .pickmin-system-product__screens, .pickmin-reflection__next, .googoolii-concept-grid, .googoolii-visual-list, .googoolii-color-grid, .googoolii-type-grid, .googoolii-flow-list, .googoolii-interaction-grid'));
         revealGroups.forEach((group) => {
           const children = Array.from(group.children);
-          gsap.set(children, { y: 32, opacity: 0 });
+          if (children.length) gsap.set(children, { y: 32, opacity: 0 });
         });
 
         caseObserver = new IntersectionObserver(
@@ -642,14 +930,16 @@ export default function ProjectDetailPage({ project, onClose }) {
             entries.forEach((entry) => {
               if (!entry.isIntersecting) return;
               const children = Array.from(entry.target.children);
-              gsap.to(children, {
-                y: 0,
-                opacity: 1,
-                duration: 0.56,
-                stagger: 0.08,
-                ease: 'power3.out',
-                overwrite: true,
-              });
+              if (children.length) {
+                gsap.to(children, {
+                  y: 0,
+                  opacity: 1,
+                  duration: 0.56,
+                  stagger: 0.08,
+                  ease: 'power3.out',
+                  overwrite: true,
+                });
+              }
               caseObserver.unobserve(entry.target);
             });
           },
@@ -707,6 +997,21 @@ export default function ProjectDetailPage({ project, onClose }) {
   const title = detailTitle || (project.id === 'ui-tweaker' ? `${project.name} - skill` : project.name);
 
   if (caseStudy) {
+    if (caseStudy.variant === 'googoolii-concept') {
+      return (
+        <GoogooliiCaseStudyPage
+          project={project}
+          content={content}
+          caseStudy={caseStudy}
+          title={title}
+          tune={tune}
+          setTune={setTune}
+          pageRef={pageRef}
+          onClose={onClose}
+        />
+      );
+    }
+
     return (
       <CaseStudyPage
         project={project}

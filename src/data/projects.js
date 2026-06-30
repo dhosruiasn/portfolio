@@ -1,3 +1,5 @@
+import { pickminCaseStudy } from './pickminCaseStudy.js';
+
 export const projects = [
   {
     id: 'pickmin',
@@ -22,144 +24,7 @@ export const projects = [
       deliverables: '10 pages, 4-language i18n, admin dashboard, 26k+ lines',
       link: 'live site URL',
     },
-    caseStudy: {
-      zh: {
-        heroImage: '/images/projects/pickmin/Hero%20mockup.png',
-        subtitle: '為 Pikmin Bloom 玩家打造的多語明信片收藏、追蹤與管理 Web App。',
-        summary:
-          'Pickmin Postcards 是一個從零設計與開發的收藏型產品，協助玩家搜尋、記錄、上傳與管理 Pikmin Bloom 明信片。專案涵蓋產品策略、資訊架構、UI 設計、多語系介面、使用者資料流程、圖片上傳、管理後台與正式部署。',
-        meta: [
-          { label: 'ROLE', value: '產品設計 / UI 設計 / 前端開發' },
-          { label: 'SCOPE', value: 'UX、UI、Design System、i18n、Admin、PWA、Deployment' },
-          { label: 'STACK', value: 'React、Vite、Supabase、Cloudflare R2、Vercel' },
-        ],
-        metrics: [
-          { value: '10+', label: '核心頁面與管理介面' },
-          { value: '4', label: '語言 i18n 架構' },
-          { value: 'PWA', label: '行動裝置收藏體驗' },
-          { value: 'R2', label: '圖片上傳與雲端儲存' },
-        ],
-        overview: {
-          title: '從玩家收藏痛點出發的產品設計',
-          body: [
-            'Pikmin Bloom 的明信片收藏具有高度的地點性與稀有性，但玩家實際管理收藏時，常需要依靠截圖、記憶、社群貼文或手動整理。這讓搜尋、比對、記錄擁有狀態與補充資料變得繁瑣。',
-            '我將這個需求轉化為一個可正式使用的 Web App，讓玩家能以更結構化的方式瀏覽公開明信片資料、記錄個人收藏，並透過上傳與管理流程持續補完整體資料庫。',
-          ],
-        },
-        problems: [
-          {
-            title: '資料分散',
-            body: '玩家常把明信片保存在截圖、相簿或聊天紀錄中，缺少集中管理方式。',
-          },
-          {
-            title: '搜尋困難',
-            body: '明信片與地點、名稱、類別相關，但原本缺少適合收藏情境的搜尋與篩選方式。',
-          },
-          {
-            title: '擁有狀態不清楚',
-            body: '玩家需要知道自己是否已擁有某張明信片，而不是只瀏覽公開資料。',
-          },
-          {
-            title: '資料維護成本高',
-            body: '若開放使用者上傳，就需要審核、回報、資料修正與權限管理。',
-          },
-        ],
-        goals: [
-          '讓玩家快速找到特定明信片。',
-          '讓公開資料與個人收藏狀態可以共存。',
-          '讓使用者能補充圖片與資料，但保留審核機制。',
-          '讓整個產品支援多語系、行動裝置與正式部署。',
-        ],
-        users: [
-          {
-            title: '收藏玩家',
-            body: '想搜尋明信片、確認自己是否擁有，並建立個人收藏紀錄。',
-          },
-          {
-            title: '資料貢獻者',
-            body: '想上傳缺少的圖片或補充資料，讓公開圖鑑更完整。',
-          },
-          {
-            title: '管理者',
-            body: '需要審核圖片、處理回報、維護資料品質與管理系統狀態。',
-          },
-        ],
-        flow: {
-          note:
-            '我將產品流程拆成「公開瀏覽」與「個人收藏」兩層。未登入使用者可以先探索資料；登入後才進入個人收藏、上傳與資料同步流程。這樣可以降低初次使用門檻，同時保留個人化與資料安全。',
-          steps: ['進入網站', '搜尋 / 瀏覽', '查看詳情', '登入', '標記擁有', '上傳圖片', '管理者審核', '公開資料更新'],
-        },
-        architecture: {
-          note:
-            'Pickmin 的資訊架構核心是把「公開資料」與「個人資料」分開處理。公開資料提供搜尋與瀏覽，個人資料則保存使用者的收藏狀態。這讓同一張明信片可以同時承載社群資料與個人紀錄，不會互相覆蓋。',
-          items: ['公開明信片資料庫', '明信片詳情', '搜尋與篩選', '個人收藏狀態', '圖片上傳', '回報與審核', '管理後台', '多語系內容'],
-        },
-        decisions: [
-          {
-            title: '公開瀏覽先於登入',
-            body: '我沒有把登入放在使用流程的第一步，而是讓使用者先瀏覽明信片資料。這能降低進入門檻，讓玩家先確認產品是否有用，再決定是否登入保存個人收藏。',
-            slot: '首頁 / 公開瀏覽截圖',
-            image: '/images/projects/pickmin/home-public-browse.png',
-          },
-          {
-            title: '收藏狀態要直接出現在明信片脈絡中',
-            body: '收藏狀態不是獨立頁面的資料，而應該出現在搜尋結果、明信片詳情與個人紀錄中。這樣玩家在瀏覽時能立即判斷「我是否已擁有」，減少反覆切換頁面的成本。',
-            slot: '搜尋結果 + 擁有狀態截圖',
-            image: '/images/projects/pickmin/search-owned-status.png',
-            imageFocus: 'case-photo-slot--focus-search',
-          },
-          {
-            title: '上傳流程需要管理審核，而不是直接公開',
-            body: '因為圖片與地點資料會影響公開資料品質，我設計了審核流程與管理後台，讓使用者可以貢獻資料，但系統仍能維持可信度。',
-            slot: '上傳 / 審核後台截圖',
-            image: '/images/projects/pickmin/upload-admin-review.png',
-            imageFocus: 'case-photo-slot--focus-dashboard',
-          },
-          {
-            title: '多語系不是翻譯文字而已',
-            body: 'Pickmin 支援多語系，因此 UI 需要處理不同語言長度、按鈕寬度、標籤狀態與資料顯示。設計時必須避免只在單一語言下看起來正常。',
-            slot: '多語系畫面對照',
-            image: '/images/projects/pickmin/multilingual-comparison.png',
-          },
-        ],
-        designSystem: {
-          principles: ['親切但不幼稚', '資訊清楚優先於裝飾', '適合長時間查找與管理', '保留遊戲社群感，但避免直接複製遊戲視覺'],
-          colors: ['Primary / 主行動色', 'Surface / 卡片與彈窗背景', 'Text / 主要與次要文字', 'Status / 已擁有、未擁有、待審核、已通過、已拒絕', 'Admin / 後台操作與警示狀態'],
-          typography: ['頁面標題與區塊標題', '明信片資料與說明文字', '狀態、篩選、欄位名稱', '中英日等語言長度差異處理'],
-          components: [
-            'Postcard card',
-            'Search bar',
-            'Filter chips',
-            'Ownership status badge',
-            'Upload panel',
-            'Image preview',
-            'Detail modal / detail page',
-            'Empty state',
-            'Loading state',
-            'Admin table',
-            'Review status controls',
-            'Language switcher',
-            'Toast / feedback message',
-          ],
-          states: ['Default', 'Hover', 'Active', 'Selected', 'Disabled', 'Loading', 'Empty', 'Error', 'Success', 'Pending review'],
-        },
-        implementation: {
-          body:
-            '這個專案不只停留在設計稿，而是完整實作成可部署的 Web App。我使用 React 與 Vite 建立前端架構，透過 Supabase 處理登入、資料庫與使用者資料，並使用 Cloudflare R2 管理圖片儲存。',
-          items: ['React + Vite app shell', 'Supabase Auth / Database', 'Cloudflare R2 image storage', 'PWA / multilingual UI', 'Vercel deployment and runtime config'],
-        },
-        security: {
-          body:
-            '因為 Pickmin 涉及登入、使用者收藏、圖片上傳與公開資料維護，我在產品設計中加入權限與審核思考。公開資料、個人資料與管理者操作被拆成不同流程，避免使用者上傳直接影響正式資料，也降低資料被誤改或濫用的風險。',
-          items: ['使用者登入與個人收藏資料分離', '圖片上傳需經過審核', '管理後台限制權限', 'public / private data flow 分離', '部署 headers 與允許來源控管'],
-        },
-        outcome: {
-          body:
-            'Pickmin 最終從一個收藏痛點，發展成一個具備前台、個人化資料、管理後台與部署安全考量的完整產品。這個專案讓我不只處理 UI 畫面，也完整經歷了產品定義、資料架構、互動流程、工程限制與正式上線後的維護問題。',
-          items: ['完成可上線 Web App', '支援 4 語言', '建立公開資料 + 個人收藏流程', '建立圖片上傳與審核機制', '建立管理後台', '完成 PWA 與 Vercel 部署'],
-        },
-      },
-    },
+    caseStudy: pickminCaseStudy,
   },
   {
     id: 'ui-tweaker',
@@ -187,181 +52,305 @@ export const projects = [
   },
   {
     id: 'googoolii',
-    name: 'GOOGOOlii Brand Website',
-    detailTitle: 'BRAND WEBSITE',
-    category: { zh: '品牌電商', en: 'Brand E-commerce' },
+    name: 'GOOGOOLii Checkout Concept',
+    detailTitle: 'GOOGOOLii',
+    category: { zh: '品牌系統 × 互動原型', en: 'Brand System × Interactive Prototype' },
     height: 320,
     marginTop: 0,
-    media: '/images/projects/googoolii-cover.jpg',
+    media: '/videos/projects/googoolii-cover.mp4',
+    mediaType: 'video',
+    poster: '/images/projects/googoolii/product-shopping.jpg',
     link: '',
     status: { zh: '進行中', en: 'In Progress' },
     zh: {
-      about: '為自有插畫 IP 品牌 GOOGOOlii 咕咕力打造的品牌網站。整體以「進來逛，不像在逛電商」為核心，將角色世界觀、商品瀏覽與購物流程整合成一段可互動的逛街體驗，而不是傳統商品列表。',
-      role: '品牌擁有者 + 視覺系統 + 架構規劃 + 開發',
-      tech: 'Next.js, React Three Fiber, GSAP, dnd-kit, Firebase, ECPay',
-      deliverables: '包含品牌視覺系統、首頁互動場景、拖曳入籃購物、3D 結帳輸送帶、A24 風格標題卡過場、Web Audio 即時合成音效、會員與金流串接規劃。',
+      about: '以插畫 IP 與復古玩具店為核心，重新設計從商品選購到填寫收件資料的結帳體驗，讓購物流程像一段具有角色感與小劇場感的互動過程。',
+      role: 'Brand Direction / Visual System / UI Design / Interaction Design / Motion Prototype / Front-end Experiment',
+      tech: 'Next.js, React Three Fiber, GSAP, dnd-kit, Tailwind CSS, Web Audio',
+      deliverables: 'Brand system snapshot、商品購物頁、結帳過場、結帳掃碼、收件資料表單與互動原型。',
       status: '進行中',
     },
     en: {
-      about: 'A brand website for my illustration IP, GOOGOOlii. The core idea is to make shopping feel like entering a playful character world instead of browsing a standard e-commerce catalog.',
-      role: 'Brand owner + visual system + architecture + development',
-      tech: 'Next.js, React Three Fiber, GSAP, dnd-kit, Firebase, ECPay',
-      deliverables: 'Brand visual system, interactive landing scene, drag-to-basket shopping, 3D checkout conveyor, A24-style title card transitions, Web Audio synthesis, membership and payment flow planning.',
+      about: 'An interactive commerce and checkout concept for GOOGOOLii, centered on an illustration IP and a retro toy-store world.',
+      role: 'Brand Direction / Visual System / UI Design / Interaction Design / Motion Prototype / Front-end Experiment',
+      tech: 'Next.js, React Three Fiber, GSAP, dnd-kit, Tailwind CSS, Web Audio',
+      deliverables: 'Brand system snapshot, product shopping page, checkout transition, scan flow, shipping form, and motion prototype.',
       status: 'In Progress',
     },
     caseStudy: {
       zh: {
-        heroImage: '/images/graphic/brand-section/house完整參考.png',
-        heroAlt: 'GOOGOOlii brand house entrance mockup',
-        sectionTitles: {
-          problem: 'DESIGN CHALLENGE',
-          goals: 'GOAL & AUDIENCE',
-          flow: 'EXPERIENCE FLOW',
-          architecture: 'EXPERIENCE SYSTEM',
-          decisions: 'KEY INTERACTION MOMENTS',
-          designSystem: 'GOOGOOLII VISUAL SYSTEM',
-          trust: 'BUILD STRATEGY',
-          outcome: 'EXPANDABLE WORLD',
-        },
-        panelTitles: {
-          goals: '設計目標',
-          implementation: '互動原型作為體驗核心',
-          security: '商務流程與信任設計',
-          outcome: '可擴充的品牌世界',
-        },
-        subtitle: '以結帳小劇場為核心，打造不像電商的插畫 IP 品牌網站。',
-        summary:
-          'GOOGOOlii 是我的自有插畫 IP 品牌網站概念。我把商品瀏覽、購物籃與結帳流程設計成一段角色世界裡的逛街體驗，並以兩種隨機出現的 checkout scene 作為核心互動，讓付款不只是功能步驟，而是品牌世界觀的一部分。',
+        variant: 'googoolii-concept',
+        subtitle: 'Brand System & Interactive Checkout Concept',
+        summary: '以插畫 IP 與復古玩具店為核心，重新設計從商品選購到填寫收件資料的結帳體驗，讓購物流程像一段具有角色感與小劇場感的互動過程。',
+        heroImage: '/images/projects/googoolii/product-shopping.jpg',
+        heroVideo: '/videos/projects/googoolii-hero.mp4',
+        heroAlt: 'GOOGOOLii 商品購物頁，去背商品漂浮在深藍海報式商店場景中',
+        logoImage: '/images/projects/googoolii/logo-full.png',
+        prototypeHref: '',
+        prototypeLabel: '原型整修中',
+        roleItems: ['Brand Direction', 'Visual System', 'UI Design', 'Interaction Design', 'Motion Prototype', 'Front-end Experiment'],
         meta: [
-          { label: 'ROLE', value: '品牌擁有者 / 視覺系統 / 互動設計 / 前端原型' },
-          { label: 'EXPERIENCE CORE', value: '結帳過場、收銀台畫面、隨機小劇場系統' },
-          { label: 'PROJECT TYPE', value: 'Brand commerce concept + interactive prototype' },
+          { label: 'PROJECT TYPE', value: 'Brand System & Interactive Checkout Concept' },
+          { label: 'CORE FLOW', value: '商品購物頁 → 結帳過場 → 結帳掃碼 → 收件資料' },
+          { label: 'STATUS', value: '個人概念專案，持續迭代中' },
         ],
-        metrics: [
-          { value: '2', label: '隨機結帳過場場景' },
-          { value: '1', label: '核心 checkout ritual' },
-          { value: '5', label: 'Meow Map 品牌地點' },
-          { value: 'A24', label: '荒謬幽默互動語氣' },
+        concept: {
+          problem: '一般電商結帳流程通常過度功能化，商品瀏覽與付款步驟缺乏品牌個性，容易讓插畫 IP 退化成普通商品列表。',
+          concept: '將購物與結帳重新設計成一段復古玩具店的小劇場，讓商品從購物頁進入結帳裝置，再經過掃碼與填寫資料，形成連續且具有品牌記憶的體驗。',
+          focus: ['商品選購', '流程轉場', '掃碼回饋', '收件資料填寫', '品牌視覺一致性'],
+        },
+        visualDirection: [
+          {
+            concept: '復古玩具店',
+            translation: '商品不被放進一般卡框，而是像從海報和貨架被撕下來，透過去背漂浮、黃字價格、橘色促銷標籤和粗黑描邊建立玩具店的擁擠感。',
+          },
+          {
+            concept: 'A24 式幽默',
+            translation: '高對比 CTA、像素機台文字和故意有點荒謬的掃碼狀態，讓功能提示保持清楚，但語氣不像標準購物車系統。',
+          },
+          {
+            concept: '2.5D 分層場景',
+            translation: '使用高飽和藍色、半色調網點、Hard Shadow、前景商品與背景機器的比例差，讓購物頁和結帳機都像可操作的紙偶舞台。',
+          },
+          {
+            concept: '怪可愛角色與商品整合',
+            translation: '角色、商品與 UI 共用粗框、硬陰影、貼紙式邊界與不規則角度，讓商品瀏覽、掃碼與表單不會變成不同風格的頁面。',
+          },
+          {
+            concept: '小劇場式購物流程',
+            translation: '流程從商品選購、結帳過場、掃碼到填寫收件資料連成一段行為，而不是把購物頁、付款頁和表單拆成彼此無關的功能畫面。',
+          },
         ],
-        overview: {
-          title: '把電商流程改寫成品牌世界觀',
-          body: [
-            '一般電商通常把購物流程拆成商品列表、購物車、結帳表單。但對插畫 IP 品牌來說，最有價值的不是效率本身，而是使用者是否記得這個世界、角色與購買時的情緒。',
-            '因此我把 GOOGOOlii 的網站方向定義為「進來逛，不像在逛電商」。作品集頁聚焦在品牌體驗如何被拆成入口、地圖、商品、購物籃與結帳小劇場，形成一套可延伸的互動電商語言。',
+        systemSnapshot: {
+          colors: [
+            { name: 'Goo Blue', hex: '#2B7FFF', use: '主品牌底色、互動主按鈕、Prototype hero' },
+            { name: 'Poster Blue', hex: '#143DC4', use: '商品購物頁海報底、商品去背融合' },
+            { name: 'Deep Blue', hex: '#1B5FD0', use: '半色調網點、深度與陰影層' },
+            { name: 'Goo Yellow', hex: '#FFE234', use: '大型標題、價格、貼紙亮面與 active state' },
+            { name: 'Goo Orange', hex: '#FF6B1A', use: '促銷、警示、塑膠籃感與錯誤回饋' },
+            { name: 'Goo Pink', hex: '#FF9EC8', use: '角色配件、柔軟反差與輔助色' },
+            { name: 'Cream', hex: '#FFF7E8', use: '收件表單、淺色資訊區與紙張感背景' },
+            { name: 'Ink', hex: '#111111', use: '粗描邊、投影、主文字與邊界' },
           ],
-        },
-        problems: [
-          {
-            title: '電商過於制式',
-            body: '傳統商品 grid 與 checkout 表單很有效率，但很難承載插畫 IP 的角色個性與荒謬感。',
-          },
-          {
-            title: '品牌記憶點不足',
-            body: '如果使用者只是在看商品與付款，GOOGOOlii 的世界觀會被壓縮成一般周邊商店。',
-          },
-          {
-            title: '流程需要有劇場感',
-            body: '從入口、地圖、商品到結帳，每一步都需要像進入同一間怪玩具店，而不是切換到另一個制式頁面。',
-          },
-          {
-            title: '功能必須可落地',
-            body: '即使互動很戲劇化，購物籃、最低出貨門檻、付款與物流仍需要清楚、安全、可完成。',
-          },
-        ],
-        goals: [
-          '把最有記憶點的 checkout ritual 做成整體體驗核心。',
-          '用 experience system 說明品牌網站如何從入口、地圖、商品到結帳一路展開。',
-          '保留購物任務的清楚度，同時增加品牌角色與荒謬幽默。',
-          '建立可擴充的互動系統，未來能加入地圖、遊戲、投票與一番賞。',
-        ],
-        users: [
-          {
-            title: '品牌粉絲',
-            body: '想認識角色、逛周邊，也期待網站本身有像玩具店一樣的探索感。',
-          },
-          {
-            title: '購買者',
-            body: '需要順利把商品加入購物籃、確認金額、填寫資料並完成付款。',
-          },
-          {
-            title: '作品集觀眾',
-            body: '需要快速看懂品牌概念、互動語氣、流程設計，以及這個網站如何支撐一個可持續擴充的 IP 世界。',
-          },
-        ],
-        flow: {
-          note:
-            '使用者從品牌入口進入 Meow Map，探索不同區域與商品，最後在進入結帳時觸發隨機過場場景，並收斂到同一個 checkout screen。這讓結帳既是功能終點，也是一個品牌事件。',
-          steps: ['進入品牌世界', '探索 Meow Map', '瀏覽商品', '商品入籃', '觸發結帳', '隨機場景 A / B', '收銀台畫面', '填寫付款資料'],
-        },
-        architecture: {
-          note:
-            'GOOGOOlii 的品牌網站被拆成一組可重複擴充的互動模組：入口建立世界觀，Meow Map 承接導覽，商品區負責探索與購買，checkout ritual 則把付款轉成品牌記憶點。',
-          items: [
-            'Brand entrance',
-            'Character selection',
-            'Meow Map navigation',
-            'Floating product shop',
-            'Drag-to-basket cart',
-            'Randomized checkout scenes',
-            'Checkout form',
-            'Payment and shipping planning',
-            'Game / vote / raffle expansion',
+          typography: [
+            { name: 'Display', value: 'Anton / font-display', use: '商品頁海報大標、價格、強烈品牌字' },
+            { name: 'Heading', value: 'Anton + round contrast', use: '章節標題、流程節點與結帳機標題' },
+            { name: 'Body', value: 'jf open-huninn / font-round', use: '中文說明、角色提示、表單輔助文字' },
+            { name: 'Pixel / Machine Label', value: 'Silkscreen / font-pixel', use: 'SCAN、DRAG、CHECKOUT、機台狀態' },
+            { name: 'Button / Form Label', value: 'Silkscreen + round', use: '膠囊 CTA、取貨方式、表單欄位標籤' },
           ],
-        },
-        decisions: [
-          {
-            title: '把結帳包裝成隨機小劇場',
-            body: '我設計了兩種會隨機出現的結帳過場，讓每次進入付款流程都像觸發一個短事件。這能增加重複體驗的期待感，也讓付款從功能流程變成品牌記憶點。',
-            slot: 'Scene 01 / Scene 02 video slot',
-          },
-          {
-            title: '用地圖取代傳統導覽',
-            body: 'Meow Map 將商店、衣服區、遊戲、投票與一番賞變成可探索地點。導覽不再只是 menu，而是讓使用者先進入 GOOGOOlii 的世界，再決定要去哪裡逛。',
-            slot: 'Meow Map concept slot',
-          },
-          {
-            title: '商品不是排隊陳列，而是散落在場景裡',
-            body: '商品瀏覽會以漂浮、傾斜、可拖曳的方式呈現，讓使用者像在玩具店翻找物件，而不是掃過一排商品卡片。',
-            slot: 'Floating product prototype slot',
-          },
-          {
-            title: '讓商務流程保持品牌語氣',
-            body: '購物籃、最低出貨門檻、付款與物流仍然需要清楚可信，但外層互動可以保留 GOOGOOlii 的荒謬幽默，讓功能流程也像品牌內容的一部分。',
-            slot: 'Commerce flow system slot',
-          },
-        ],
-        designSystem: {
-          principles: ['進來逛，不像在逛電商', '角色世界觀優先於制式貨架', '功能要清楚，但互動可以怪一點', '每個流程都要留下品牌記憶點'],
-          colors: ['#2B7FFF 品牌藍', '#FF6B1A 橘色購物籃與行動色', '#FFE234 黃色高光與玩具感', '#FF9EC8 粉色角色語氣'],
-          typography: ['粗黑英文標題', '圓體中文說明', '黑底白字標題卡', '粗黑邊標籤與 UI 元件'],
+          treatment: [
+            '去背商品漂浮',
+            '粗黑描邊',
+            'Hard Shadow',
+            'Sticker-like Treatment',
+            '商品與角色分層',
+            '前景商品大於背景機器',
+            '輸送帶上逐件掃描',
+            '半色調網點與不規則卡片',
+          ],
           components: [
-            'A24 title card',
-            'Meow Map spot',
-            'Character picker',
-            'Floating product object',
-            'Orange plastic basket',
-            'Checkout conveyor',
-            'Barcode scanner',
-            'Retro cashier screen',
-            'Weird character line',
-            'Coming soon repair sign',
+            'Primary CTA',
+            'Secondary CTA',
+            'Product Card',
+            'Price',
+            'Tag',
+            'Cart Indicator',
+            'Checkout Button',
+            'Scan Status',
+            'Form Input',
+            'Error / Success Feedback',
           ],
-          states: ['Default', 'Hover wobble', 'Dragging', 'Dropped in basket', 'Scanning', 'Scan failed', 'Scene randomized', 'Payment ready'],
         },
-        implementation: {
-          body:
-            '互動原型以 checkout ritual 作為體驗核心，適合用短影片展示從購物籃進入結帳、場景切換、收銀台視覺與付款畫面的連續體驗。這段原型定義了整站的節奏、幽默感與互動密度。',
-          items: ['兩種隨機 checkout transition', '結帳畫面 prototype', 'A24 風格過場語氣', '購物籃到收銀台的流程概念', 'Web Audio 與互動音效規劃'],
+        coreFlow: [
+          {
+            number: '01',
+            title: '商品購物頁',
+            image: '/images/projects/googoolii/product-shopping.jpg',
+            body: '以深藍海報底承載去背商品、角色感價格與高對比 CTA，讓商品瀏覽先建立品牌世界，而不是進入一般商品 grid。',
+            tags: ['Poster Blue', 'Floating Product', 'Price Tag'],
+          },
+          {
+            number: '02',
+            title: '結帳過場',
+            image: '/images/projects/googoolii/checkout-transition.png',
+            body: '把使用者從購物頁帶入結帳裝置，透過輸送帶、機房材質與切鏡節奏，讓付款前的等待變成一段短小劇場。',
+            tags: ['Conveyor', 'Transition', 'Motion Prototype'],
+          },
+          {
+            number: '03',
+            title: '結帳掃碼',
+            image: '/images/projects/googoolii/product-scanning.png',
+            body: '商品逐件經過掃描區，掃碼狀態與機台視覺提供明確回饋，讓結帳流程保留操作感與品牌幽默。',
+            tags: ['Scan Status', 'Machine Label', 'Feedback'],
+          },
+          {
+            number: '04',
+            title: '填寫收件資料',
+            image: '/images/projects/googoolii/delivery-information.png',
+            body: '表單回到清楚可填寫的資訊節奏，但仍保留米白紙張、粗框欄位、膠囊按鈕與橘色錯誤/重點回饋。',
+            tags: ['Form Input', 'Shipping Method', 'Checkout Button'],
+          },
+        ],
+        interactionDetails: [
+          {
+            title: '商品選購保持玩具感',
+            body: '商品以去背、漂浮、傾斜與硬陰影呈現，搭配黃字價格和橘色標籤，讓可購買物件像玩具店裡被拿起來看的道具。',
+          },
+          {
+            title: '流程轉場承接品牌情緒',
+            body: '結帳不是直接跳到表單，而是先經過輸送帶與機台場景，讓使用者理解自己正在把商品送進收銀裝置。',
+          },
+          {
+            title: '掃碼回饋降低等待感',
+            body: '掃描狀態用像素字、機台標籤、逐件商品位置與短節奏動態提示進度，不依賴完整付款系統來製造完成感。',
+          },
+          {
+            title: '表單收斂到可操作任務',
+            body: '收件資料頁降低視覺噪音，保留品牌色與粗框元件，同時讓姓名、手機、Email、取貨方式與地址維持清楚層級。',
+          },
+        ],
+        nextIteration: {
+          body: '目前作品集展示範圍刻意聚焦在四個完成度最高的核心畫面。下一階段會優先補強流程可用性與狀態完整度，而不是用未完成頁面湊成完整平台。',
+          items: ['補齊核心流程的錯誤、空狀態與 reduced motion 規則', '整理 Prototype CTA 對外展示版本', '把實際付款、會員與物流串接拆成獨立後續階段', '建立可重複套用到商品與社群素材的品牌元件規格'],
+          takeaway: '這個專案的價值不在於宣稱已完成完整電商，而是把品牌視覺、商品瀏覽與結帳互動整合成一段有記憶點的 commerce concept。',
         },
-        security: {
-          body:
-            '正式上線前，登入、付款、物流與圖片資產都不能只停留在前端效果。金流、最低出貨門檻、使用者資料與商品資料需要前後端共同驗證，第三方服務也要避免在作品集中公開敏感設定。',
-          items: ['Firebase Auth / Firestore 權限規則', 'ECPay 付款流程與 webhook 驗證', '最低出貨門檻前後端檢查', 'Cloudinary 圖片與資產管理', '環境變數與 secret 不公開'],
+      },
+      en: {
+        variant: 'googoolii-concept',
+        subtitle: 'Brand System & Interactive Checkout Concept',
+        summary: 'An interactive commerce and checkout concept built around an illustration IP and a retro toy-store world, redesigning the journey from browsing products to filling in shipping details so the whole flow feels like a playful, character-driven little stage.',
+        heroImage: '/images/projects/googoolii/product-shopping.jpg',
+        heroVideo: '/videos/projects/googoolii-hero.mp4',
+        heroAlt: 'GOOGOOLii product shopping page — cut-out products floating in a deep-blue, poster-style store scene',
+        logoImage: '/images/projects/googoolii/logo-full.png',
+        prototypeHref: '',
+        prototypeLabel: 'Prototype under maintenance',
+        roleItems: ['Brand Direction', 'Visual System', 'UI Design', 'Interaction Design', 'Motion Prototype', 'Front-end Experiment'],
+        meta: [
+          { label: 'PROJECT TYPE', value: 'Brand System & Interactive Checkout Concept' },
+          { label: 'CORE FLOW', value: 'Shopping page → Checkout transition → Scan → Shipping details' },
+          { label: 'STATUS', value: 'Personal concept project, still iterating' },
+        ],
+        concept: {
+          problem: 'Typical e-commerce checkout flows are over-functional; browsing and payment steps lack brand personality, which easily flattens an illustration IP into a generic product list.',
+          concept: 'Redesign shopping and checkout as a retro toy-store mini-drama: products move from the shopping page into a checkout machine, then through scanning and form-filling, forming one continuous, memorable branded experience.',
+          focus: ['Product selection', 'Flow transitions', 'Scan feedback', 'Shipping form', 'Brand visual consistency'],
         },
-        outcome: {
-          body:
-            'GOOGOOlii 的網站架構可以從 checkout ritual 往外擴展成完整品牌世界：角色選擇負責身份感，Meow Map 負責探索，商品區負責購買，一番賞、投票與遊戲則讓粉絲有持續回來的理由。',
-          items: ['結帳小劇場影片展示', 'Meow Map 主導覽', '商品拖曳入籃互動', '角色選擇入口', '真實商品與付款流程'],
+        visualDirection: [
+          {
+            concept: 'Retro toy store',
+            translation: 'Products are not dropped into ordinary card frames — they look torn off posters and shelves, with cut-out floating, yellow price text, orange promo tags and thick black outlines building a crowded toy-store feel.',
+          },
+          {
+            concept: 'A24-style humor',
+            translation: 'High-contrast CTAs, pixel-machine text and deliberately slightly absurd scan states keep functional cues clear while the tone stays away from a standard shopping-cart system.',
+          },
+          {
+            concept: '2.5D layered scene',
+            translation: 'High-saturation blue, halftone dots, hard shadows and a scale gap between foreground products and background machines make the shopping page and checkout machine feel like an operable paper-puppet stage.',
+          },
+          {
+            concept: 'Weird-cute characters merged with products',
+            translation: 'Characters, products and UI share thick frames, hard shadows, sticker-like edges and irregular angles, so browsing, scanning and forms never split into pages of different styles.',
+          },
+          {
+            concept: 'Mini-drama shopping flow',
+            translation: 'The flow connects product selection, checkout transition, scanning and shipping details into one continuous act, instead of breaking the shopping page, payment page and form into unrelated functional screens.',
+          },
+        ],
+        systemSnapshot: {
+          colors: [
+            { name: 'Goo Blue', hex: '#2B7FFF', use: 'Primary brand surface, primary interactive button, Prototype hero' },
+            { name: 'Poster Blue', hex: '#143DC4', use: 'Shopping-page poster background, product cut-out blending' },
+            { name: 'Deep Blue', hex: '#1B5FD0', use: 'Halftone dots, depth and shadow layers' },
+            { name: 'Goo Yellow', hex: '#FFE234', use: 'Large headings, prices, sticker highlights and active states' },
+            { name: 'Goo Orange', hex: '#FF6B1A', use: 'Promotions, alerts, plastic-basket feel and error feedback' },
+            { name: 'Goo Pink', hex: '#FF9EC8', use: 'Character accessories, soft contrast and support color' },
+            { name: 'Cream', hex: '#FFF7E8', use: 'Shipping form, light info areas and paper-feel backgrounds' },
+            { name: 'Ink', hex: '#111111', use: 'Thick outlines, drop shadows, primary text and borders' },
+          ],
+          typography: [
+            { name: 'Display', value: 'Anton / font-display', use: 'Shopping-page poster headlines, prices, bold brand type' },
+            { name: 'Heading', value: 'Anton + round contrast', use: 'Section titles, flow nodes and checkout-machine titles' },
+            { name: 'Body', value: 'jf open-huninn / font-round', use: 'Chinese copy, character prompts, form helper text' },
+            { name: 'Pixel / Machine Label', value: 'Silkscreen / font-pixel', use: 'SCAN, DRAG, CHECKOUT, machine states' },
+            { name: 'Button / Form Label', value: 'Silkscreen + round', use: 'Capsule CTAs, pickup method, form field labels' },
+          ],
+          treatment: [
+            'Floating cut-out products',
+            'Thick black outline',
+            'Hard shadow',
+            'Sticker-like treatment',
+            'Product / character layering',
+            'Foreground product larger than background machine',
+            'Item-by-item conveyor scanning',
+            'Halftone dots and irregular cards',
+          ],
+          components: [
+            'Primary CTA',
+            'Secondary CTA',
+            'Product Card',
+            'Price',
+            'Tag',
+            'Cart Indicator',
+            'Checkout Button',
+            'Scan Status',
+            'Form Input',
+            'Error / Success Feedback',
+          ],
+        },
+        coreFlow: [
+          {
+            number: '01',
+            title: 'Product shopping page',
+            image: '/images/projects/googoolii/product-shopping.jpg',
+            body: 'A deep-blue poster background carries cut-out products, character-driven prices and high-contrast CTAs, so browsing builds the brand world first instead of dropping into a generic product grid.',
+            tags: ['Poster Blue', 'Floating Product', 'Price Tag'],
+          },
+          {
+            number: '02',
+            title: 'Checkout transition',
+            image: '/images/projects/googoolii/checkout-transition.png',
+            body: 'Carries the user from the shopping page into the checkout machine; conveyor belts, machine-room textures and a cut-scene rhythm turn the pre-payment wait into a short little drama.',
+            tags: ['Conveyor', 'Transition', 'Motion Prototype'],
+          },
+          {
+            number: '03',
+            title: 'Checkout scanning',
+            image: '/images/projects/googoolii/product-scanning.png',
+            body: 'Products pass the scan area one by one; scan states and machine visuals give clear feedback, keeping the checkout flow operable and on-brand.',
+            tags: ['Scan Status', 'Machine Label', 'Feedback'],
+          },
+          {
+            number: '04',
+            title: 'Shipping details',
+            image: '/images/projects/googoolii/delivery-information.png',
+            body: 'The form returns to a clear, fillable rhythm, while keeping cream paper, thick-framed fields, capsule buttons and orange error / highlight feedback.',
+            tags: ['Form Input', 'Shipping Method', 'Checkout Button'],
+          },
+        ],
+        interactionDetails: [
+          {
+            title: 'Product selection stays toy-like',
+            body: 'Products appear cut-out, floating, tilted and hard-shadowed, paired with yellow price text and orange tags, so purchasable items feel like props picked up in a toy store.',
+          },
+          {
+            title: 'Transitions carry the brand mood',
+            body: 'Checkout does not jump straight to a form; it passes through conveyor and machine scenes first, so users understand they are sending products into the checkout device.',
+          },
+          {
+            title: 'Scan feedback reduces the wait',
+            body: 'Scan states use pixel type, machine labels, item-by-item positions and short rhythmic motion to signal progress, without relying on a full payment system to create a sense of completion.',
+          },
+          {
+            title: 'Form converges into an operable task',
+            body: 'The shipping page lowers visual noise and keeps the brand colors and thick-framed components, while keeping name, phone, email, pickup method and address in a clear hierarchy.',
+          },
+        ],
+        nextIteration: {
+          body: 'The portfolio scope deliberately focuses on the four most complete core screens. The next stage prioritizes flow usability and state completeness, rather than padding out a "complete platform" with unfinished pages.',
+          items: ['Fill in error, empty and reduced-motion rules for the core flow', 'Prepare a public-facing version of the Prototype CTA', 'Split real payment, membership and logistics integration into separate later phases', 'Define reusable brand component specs for product and social assets'],
+          takeaway: 'The value of this project is not claiming a finished e-commerce platform, but integrating brand visuals, product browsing and checkout interaction into one commerce concept with a memorable hook.',
         },
       },
     },

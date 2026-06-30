@@ -29,7 +29,16 @@ export default function ProjectCard({ project, onOpen }) {
           <div className="project-card__face project-card__front">
             {project.media &&
               (isVideo ? (
-                <video src={assetPath(project.media)} muted loop autoPlay playsInline aria-label={project.name} />
+                <video
+                  src={assetPath(project.media)}
+                  poster={project.poster ? assetPath(project.poster) : undefined}
+                  muted
+                  loop
+                  autoPlay
+                  playsInline
+                  preload="metadata"
+                  aria-label={project.name}
+                />
               ) : (
                 <img
                   src={assetPath(project.media)}

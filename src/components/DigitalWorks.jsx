@@ -180,8 +180,11 @@ export default function DigitalWorks() {
 
   // 滑動時逐張翻開（橘色背面 → 作品正面），scrub + stagger = 一步翻一張
   useEffect(() => {
+    if (!gridRef.current) return undefined;
     const ctx = gsap.context(() => {
-      gsap.to('.project-card__flip', {
+      const cards = gridRef.current?.querySelectorAll('.project-card__flip');
+      if (!cards?.length) return;
+      gsap.to(cards, {
         rotateY: 180,
         ease: 'none',
         stagger: 0.6,
