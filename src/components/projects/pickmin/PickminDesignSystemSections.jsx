@@ -270,7 +270,6 @@ export function ProjectCTA({ content, liveHref }) {
         <span>{content.designSystem}</span>
         <em>{content.comingSoon}</em>
       </button>
-      <p>{content.manualReview}</p>
     </div>
   );
 }

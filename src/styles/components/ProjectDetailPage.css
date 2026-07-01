@@ -2092,6 +2092,32 @@ body:has(.detail-page),
   color: #141414;
 }
 
+/* End-of-page CTA (matches the portfolio's bottom-CTA placement) */
+.detail-page--googoolii-custom .googoolii-cta {
+  display: flex;
+  justify-content: center;
+  padding: 24px 0 48px;
+}
+.detail-page--googoolii-custom .googoolii-cta__button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 56px;
+  padding: 0 34px;
+  border: 0;
+  border-radius: 999px;
+  background: #141414;
+  color: #ffffff;
+  font-weight: 900;
+  font-size: clamp(15px, 1.2vw, 18px);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.detail-page--googoolii-custom .googoolii-cta__button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
+}
+
 
 /* Token hex code → neutral gray (was orange) */
 .detail-page--googoolii-custom .googoolii-token code {

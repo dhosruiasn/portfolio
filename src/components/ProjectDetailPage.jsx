@@ -447,10 +447,6 @@ function GoogooliiCaseStudyPage({ project, content, caseStudy, title, tune, setT
                 <span key={item}>{renderInfoText(item)}</span>
               ))}
             </div>
-            <button className="case-hero__visit googoolii-hero__cta" type="button" onClick={() => setShowSystem(true)}>
-              {caseStudy.systemCtaLabel || 'View design system'}
-              <ExternalArrowIcon />
-            </button>
           </div>
           <div className="googoolii-hero__stage">
             {caseStudy.heroVideo ? (
@@ -595,6 +591,13 @@ function GoogooliiCaseStudyPage({ project, content, caseStudy, title, tune, setT
             </article>
           </div>
         </GoogooliiSection>
+
+        <div className="googoolii-cta">
+          <button className="googoolii-cta__button" type="button" onClick={() => setShowSystem(true)}>
+            {caseStudy.systemCtaLabel || 'View design system'}
+            <ExternalArrowIcon />
+          </button>
+        </div>
       </article>
       )}
     </div>
