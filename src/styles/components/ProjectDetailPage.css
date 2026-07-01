@@ -1488,10 +1488,10 @@ body:has(.detail-page),
 }
 
 .googoolii-hero__eyebrow,
-.googoolii-section__heading span,
+.googoolii-section__heading > span,
 .googoolii-panel > span,
 .googoolii-token code,
-.googoolii-type-row span,
+.googoolii-type-row > span,
 .googoolii-flow-card__copy > span,
 .googoolii-flow-card__copy div > span,
 .googoolii-visual-card > span {
@@ -1644,7 +1644,7 @@ body:has(.detail-page),
   margin-bottom: 22px;
 }
 
-.googoolii-section__heading span {
+.googoolii-section__heading > span {
   width: fit-content;
   padding: 8px 12px;
   background: var(--case-orange);
@@ -1976,7 +1976,7 @@ body:has(.detail-page),
 
 /* Eyebrows: quiet brand-blue labels (no sticker badge) */
 .detail-page--googoolii-custom .googoolii-hero__eyebrow,
-.detail-page--googoolii-custom .googoolii-section__heading span,
+.detail-page--googoolii-custom .googoolii-section__heading > span,
 .detail-page--googoolii-custom .googoolii-flow-card__copy > span {
   background: transparent;
   color: var(--case-blue);
@@ -1992,6 +1992,21 @@ body:has(.detail-page),
   font-weight: 800;
   line-height: 1.15;
   color: #141414;
+}
+
+/* Keep every heading / label inside its frame (zh + en) */
+.detail-page--googoolii-custom h2,
+.detail-page--googoolii-custom h3,
+.detail-page--googoolii-custom .detail-page__name,
+.detail-page--googoolii-custom .googoolii-hero__subtitle,
+.detail-page--googoolii-custom .googoolii-hero__cta,
+.detail-page--googoolii-custom .case-meta strong,
+.detail-page--googoolii-custom .googoolii-visual-card,
+.detail-page--googoolii-custom .googoolii-panel,
+.detail-page--googoolii-custom .googoolii-token {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  min-width: 0;
 }
 
 /* Chips / pills: quiet neutral */
@@ -2022,6 +2037,59 @@ body:has(.detail-page),
   color: #8e8e93;
   cursor: not-allowed;
   pointer-events: none;
+}
+
+/* Design system inner page */
+.detail-page--googoolii-custom .googoolii-system-page {
+  display: grid;
+  gap: 40px;
+  padding: 24px 0 80px;
+}
+.detail-page--googoolii-custom .googoolii-system-page__back {
+  justify-self: start;
+  padding: 10px 18px;
+  border: 1px solid #e4e4e4;
+  border-radius: 999px;
+  background: #fff;
+  color: #141414;
+  font-weight: 800;
+  cursor: pointer;
+}
+.detail-page--googoolii-custom .googoolii-system-page__head {
+  display: grid;
+  gap: 10px;
+}
+.detail-page--googoolii-custom .googoolii-system-page__head span {
+  color: var(--case-blue);
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+.detail-page--googoolii-custom .googoolii-system-page__head h2 {
+  margin: 0;
+  font-family: var(--font-body-en), var(--font-body-zh);
+  font-size: clamp(28px, 3.2vw, 52px);
+  font-weight: 800;
+  line-height: 1.12;
+  color: #141414;
+}
+.detail-page--googoolii-custom .googoolii-system-page__head p {
+  margin: 0;
+  max-width: 680px;
+  font-size: clamp(15px, 1.2vw, 19px);
+  line-height: 1.6;
+  color: #444444;
+}
+.detail-page--googoolii-custom .googoolii-system-page__block {
+  display: grid;
+  gap: 16px;
+}
+.detail-page--googoolii-custom .googoolii-system-page__block > h3 {
+  margin: 0;
+  font-family: var(--font-body-en), var(--font-body-zh);
+  font-size: clamp(18px, 1.6vw, 24px);
+  font-weight: 800;
+  color: #141414;
 }
 
 

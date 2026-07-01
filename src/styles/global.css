@@ -30,7 +30,7 @@
   --font-heading: 'Ojuju', sans-serif;
   --font-subheading: 'Savate', sans-serif;
   --font-body-en: 'Mulish', sans-serif;
-  --font-body-zh: 'Taipei Sans TC Beta', 'Taipei Sans TC', 'PingFang TC', 'Noto Sans TC', sans-serif;
+  --font-body-zh: 'PingFang TC', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
 
   /* 圓角 */
   --radius-card: 12px;

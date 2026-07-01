@@ -9,6 +9,7 @@ import DigitalWorks from './components/DigitalWorks.jsx';
 import GraphicSleeve from './components/GraphicSleeve.jsx';
 import BrandSection from './components/BrandSection.jsx';
 import About from './components/About.jsx';
+import ResumeWireframe from './components/ResumeWireframe.jsx';
 import Footer from './components/Footer.jsx';
 
 export default function App() {
@@ -43,6 +44,7 @@ export default function App() {
       <BrandSection />
 
       <About />
+      <ResumeWireframe />
       <Footer />
     </div>
   );

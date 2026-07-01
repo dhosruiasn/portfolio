@@ -349,7 +349,71 @@ function GoogooliiSection({ eyebrow, title, className = '', children }) {
   );
 }
 
+function GoogooliiSystemPage({ caseStudy, onBack }) {
+  const s = caseStudy.systemSnapshot;
+  return (
+    <div className="googoolii-system-page">
+      <button className="googoolii-system-page__back" type="button" onClick={onBack}>
+        ← {caseStudy.systemBackLabel || 'Back to case study'}
+      </button>
+      <header className="googoolii-system-page__head">
+        <span>Design System</span>
+        <h2>{renderInfoText(caseStudy.systemPageTitle || 'GOOGOOLii Design System')}</h2>
+        {caseStudy.systemPageIntro && <p>{renderInfoText(caseStudy.systemPageIntro)}</p>}
+      </header>
+
+      <section className="googoolii-system-page__block">
+        <h3>Color</h3>
+        <div className="googoolii-color-grid">
+          {s.colors.map((c) => (
+            <article className="googoolii-token" key={c.name}>
+              <span className="googoolii-token__swatch" style={{ '--token-color': c.hex }} />
+              <div>
+                <h3>{c.name}</h3>
+                <code>{c.hex}</code>
+                <p>{renderInfoText(c.use)}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="googoolii-system-page__block">
+        <h3>Typography</h3>
+        <div className="googoolii-type-grid">
+          {s.typography.map((t) => (
+            <article className="googoolii-type-row" key={t.name}>
+              <span>{t.name}</span>
+              <strong>{t.value}</strong>
+              <p>{renderInfoText(t.use)}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="googoolii-system-page__block">
+        <h3>Treatment</h3>
+        <div className="googoolii-system-strip">
+          {s.treatment.map((t) => (
+            <span key={t}>{renderInfoText(t)}</span>
+          ))}
+        </div>
+      </section>
+
+      <section className="googoolii-system-page__block">
+        <h3>Components</h3>
+        <div className="googoolii-component-grid">
+          {s.components.map((c) => (
+            <span key={c}>{renderInfoText(c)}</span>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
+
 function GoogooliiCaseStudyPage({ project, content, caseStudy, title, tune, setTune, pageRef, onClose }) {
+  const [showSystem, setShowSystem] = useState(false);
   return (
     <div
       className={`detail-page detail-page--case detail-page--${project.id} detail-page--googoolii-custom`}
@@ -366,6 +430,9 @@ function GoogooliiCaseStudyPage({ project, content, caseStudy, title, tune, setT
       </button>
       {SHOW_DETAIL_EDIT && <DetailTunePanel tune={tune} setTune={setTune} />}
 
+      {showSystem ? (
+        <GoogooliiSystemPage caseStudy={caseStudy} onBack={() => setShowSystem(false)} />
+      ) : (
       <article className="case-study googoolii-case">
         <header className="googoolii-hero">
           <div className="googoolii-hero__copy">
@@ -380,8 +447,9 @@ function GoogooliiCaseStudyPage({ project, content, caseStudy, title, tune, setT
                 <span key={item}>{renderInfoText(item)}</span>
               ))}
             </div>
-            <button className="case-hero__visit googoolii-hero__cta googoolii-hero__cta--disabled" type="button" disabled aria-disabled="true">
-              {caseStudy.prototypeLabel}
+            <button className="case-hero__visit googoolii-hero__cta" type="button" onClick={() => setShowSystem(true)}>
+              {caseStudy.systemCtaLabel || 'View design system'}
+              <ExternalArrowIcon />
             </button>
           </div>
           <div className="googoolii-hero__stage">
@@ -528,6 +596,7 @@ function GoogooliiCaseStudyPage({ project, content, caseStudy, title, tune, setT
           </div>
         </GoogooliiSection>
       </article>
+      )}
     </div>
   );
 }
