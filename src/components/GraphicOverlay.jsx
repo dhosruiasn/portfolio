@@ -42,8 +42,10 @@ export default function GraphicOverlay({ onClose }) {
   const [selected, setSelected] = useState(null);
 
   useEffect(() => {
+    if (!overlayRef.current) return undefined;
     const items = overlayRef.current.querySelectorAll('.graphic-overlay__item');
-    gsap.from(items, {
+    if (!items.length) return undefined;
+    const tween = gsap.from(items, {
       x: () => gsap.utils.random(-400, 400),
       y: () => gsap.utils.random(-400, 400),
       opacity: 0,
@@ -52,6 +54,7 @@ export default function GraphicOverlay({ onClose }) {
       ease: 'power3.out',
       stagger: 0.08,
     });
+    return () => tween.revert();
   }, []);
 
   return (

@@ -21,7 +21,9 @@ export default function Gallery() {
   const gridRef = useRef(null);
 
   useEffect(() => {
+    if (!gridRef.current) return undefined;
     const items = gridRef.current.querySelectorAll('.gallery__item');
+    if (!items.length) return undefined;
     const tween = gsap.from(items, {
       opacity: 0,
       y: 20,

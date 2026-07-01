@@ -11,6 +11,7 @@ export default function SectionTransition({ number, title, subtitle, variant = '
   const headingRef = useRef(null);
 
   useEffect(() => {
+    if (!sectionRef.current || !innerRef.current || !headingRef.current) return undefined;
     const ctx = gsap.context(() => {
       if (variant === 'scale') {
         gsap.fromTo(

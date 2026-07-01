@@ -17,7 +17,9 @@ export default function GraphicSleeve() {
   useEffect(() => {
     const canvas = canvasRef.current;
     const wrap = wrapRef.current;
+    if (!canvas || !wrap) return undefined;
     const ctx = canvas.getContext('2d');
+    if (!ctx) return undefined;
     let cancelled = false;
 
     const draw = async () => {
@@ -73,6 +75,7 @@ export default function GraphicSleeve() {
 
   // 定住：卡片抽出 = 孔洞露白到第二排，到那才停（之後整塊往上捲走、接續 BrandSection）
   useEffect(() => {
+    if (!sectionRef.current || !cardRef.current) return undefined;
     const ctx = gsap.context(() => {
       gsap.fromTo(
         cardRef.current,

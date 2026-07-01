@@ -91,7 +91,7 @@ export const projects = [
         meta: [
           { label: 'PROJECT TYPE', value: 'Brand System & Interactive Checkout Concept' },
           { label: 'CORE FLOW', value: '商品購物頁 → 結帳過場 → 結帳掃碼 → 收件資料' },
-          { label: 'STATUS', value: '個人概念專案，持續迭代中' },
+          { label: 'STATUS', value: '個人品牌 × 互動概念專案' },
         ],
         concept: {
           problem: '一般電商結帳流程通常過度功能化，商品瀏覽與付款步驟缺乏品牌個性，容易讓插畫 IP 退化成普通商品列表。',
@@ -210,9 +210,9 @@ export const projects = [
           },
         ],
         nextIteration: {
-          body: '目前作品集展示範圍刻意聚焦在四個完成度最高的核心畫面。下一階段會優先補強流程可用性與狀態完整度，而不是用未完成頁面湊成完整平台。',
-          items: ['補齊核心流程的錯誤、空狀態與 reduced motion 規則', '整理 Prototype CTA 對外展示版本', '把實際付款、會員與物流串接拆成獨立後續階段', '建立可重複套用到商品與社群素材的品牌元件規格'],
-          takeaway: '這個專案的價值不在於宣稱已完成完整電商，而是把品牌視覺、商品瀏覽與結帳互動整合成一段有記憶點的 commerce concept。',
+          body: '作品集聚焦在四個核心畫面，完整呈現品牌世界與結帳體驗的設計語言；後續會延伸更多流程狀態與可重複套用的品牌元件。',
+          items: ['延伸錯誤、空狀態與 reduced motion 規則', '釋出對外可體驗的 Prototype', '將付款、會員與物流串接規劃為後續階段', '建立可重複套用到商品與社群素材的品牌元件規格'],
+          takeaway: '這個專案把品牌視覺、商品瀏覽與結帳互動整合成一段有記憶點的 commerce concept，展現從品牌、介面到互動的完整設計掌控。',
         },
       },
       en: {
@@ -229,7 +229,7 @@ export const projects = [
         meta: [
           { label: 'PROJECT TYPE', value: 'Brand System & Interactive Checkout Concept' },
           { label: 'CORE FLOW', value: 'Shopping page → Checkout transition → Scan → Shipping details' },
-          { label: 'STATUS', value: 'Personal concept project, still iterating' },
+          { label: 'STATUS', value: 'Personal brand × interaction concept project' },
         ],
         concept: {
           problem: 'Typical e-commerce checkout flows are over-functional; browsing and payment steps lack brand personality, which easily flattens an illustration IP into a generic product list.',
@@ -348,9 +348,9 @@ export const projects = [
           },
         ],
         nextIteration: {
-          body: 'The portfolio scope deliberately focuses on the four most complete core screens. The next stage prioritizes flow usability and state completeness, rather than padding out a "complete platform" with unfinished pages.',
-          items: ['Fill in error, empty and reduced-motion rules for the core flow', 'Prepare a public-facing version of the Prototype CTA', 'Split real payment, membership and logistics integration into separate later phases', 'Define reusable brand component specs for product and social assets'],
-          takeaway: 'The value of this project is not claiming a finished e-commerce platform, but integrating brand visuals, product browsing and checkout interaction into one commerce concept with a memorable hook.',
+          body: 'The case study focuses on four core screens that fully express the brand world and checkout design language; next steps extend more flow states and reusable brand components.',
+          items: ['Extend error, empty and reduced-motion states', 'Release a public, playable prototype', 'Plan payment, membership and logistics as later phases', 'Define reusable brand component specs for product and social assets'],
+          takeaway: 'This project integrates brand visuals, product browsing, and checkout interaction into one commerce concept with a memorable hook — showing end-to-end design command from brand to interface to motion.',
         },
       },
     },

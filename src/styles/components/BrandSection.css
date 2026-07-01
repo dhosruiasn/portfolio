@@ -1,5 +1,6 @@
 .brand-section {
   position: relative;
+  z-index: 2;
   height: 320vh; /* 讓商店亮燈後仍停住一段，避免使用者直接滑走 */
   background: #e5e5e5; /* 地平線下＝地面色（商店下方、收尾區） */
   padding: 0;
@@ -214,6 +215,7 @@
 
 .brand-posters {
   position: relative;
+  z-index: 1;
   height: 220vh;
   background: #d9d9d9;
   overflow: visible;
@@ -249,7 +251,7 @@
 
 .brand-poster__item {
   position: absolute;
-  top: var(--poster-top);
+  top: calc(var(--poster-top) - clamp(24px, 4vh, 48px));
   left: var(--poster-left);
   width: var(--poster-width);
   height: var(--poster-height);

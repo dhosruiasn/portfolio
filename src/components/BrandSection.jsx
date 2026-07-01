@@ -281,7 +281,7 @@ export default function BrandSection() {
 
       gsap.set(items, {
         autoAlpha: 0,
-        y: -140,
+        y: -56,
         rotation: (index) => [-5, 4, -3][index] || 0,
         transformOrigin: '50% 0%',
       });

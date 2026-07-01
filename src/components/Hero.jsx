@@ -136,7 +136,7 @@ const Hero = forwardRef(function Hero({ started = true }, ref) {
 
   // 名字 parallax 上移 + 縮小
   useEffect(() => {
-    if (!ref?.current) return;
+    if (!ref?.current || !nameWrapRef.current) return undefined;
     const tween = gsap.to(nameWrapRef.current, {
       yPercent: -40,
       scale: 0.7,

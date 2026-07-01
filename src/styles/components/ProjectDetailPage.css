@@ -1576,8 +1576,10 @@ body:has(.detail-page),
 .googoolii-hero__stage {
   position: relative;
   min-height: 620px;
-  background: transparent;
-  overflow: visible;
+  background: #fff;
+  overflow: hidden;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 }
 
 .googoolii-hero__screen {
@@ -1586,10 +1588,9 @@ body:has(.detail-page),
   width: 100%;
   height: 100%;
   border: 0;
-  border-radius: 18px;
   background: #fff;
   object-fit: cover;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  transform: scale(1.06);
 }
 
 .googoolii-hero__product,

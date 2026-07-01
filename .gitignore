@@ -5,3 +5,6 @@ dist
 .claude/
 house.ai
 *.psd
+
+# Source media (large originals, not deployed)
+media-source/

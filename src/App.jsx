@@ -12,7 +12,7 @@ import About from './components/About.jsx';
 import Footer from './components/Footer.jsx';
 
 export default function App() {
-  const { lang } = useLanguage();
+  const { htmlLang } = useLanguage();
   const heroRef = useRef(null);
   const [introDone, setIntroDone] = useState(false);
 
@@ -30,7 +30,7 @@ export default function App() {
   }, []);
 
   return (
-    <div lang={lang}>
+    <div lang={htmlLang}>
       <LoadingBlinds onDone={() => setIntroDone(true)} />
       <Marquee heroRef={heroRef} />
       <Hero ref={heroRef} started={introDone} />

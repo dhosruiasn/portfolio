@@ -12,6 +12,8 @@ export default function About() {
   const cardRef = useRef(null);
 
   useEffect(() => {
+    if (!cardRef.current) return undefined;
+    const capabilities = cardRef.current.querySelectorAll('.about__capability');
     const tween = gsap.from(cardRef.current, {
       y: 60,
       opacity: 0,
@@ -22,18 +24,20 @@ export default function About() {
         start: 'top 80%',
       },
     });
-    const capTween = gsap.from('.about__capability', {
-      opacity: 0,
-      duration: 0.4,
-      stagger: 0.1,
-      scrollTrigger: {
-        trigger: cardRef.current,
-        start: 'top 70%',
-      },
-    });
+    const capTween = capabilities.length
+      ? gsap.from(capabilities, {
+          opacity: 0,
+          duration: 0.4,
+          stagger: 0.1,
+          scrollTrigger: {
+            trigger: cardRef.current,
+            start: 'top 70%',
+          },
+        })
+      : null;
     return () => {
       tween.revert();
-      capTween.revert();
+      capTween?.revert();
     };
   }, []);
 

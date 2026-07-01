@@ -11,6 +11,7 @@ export default function LoadingBlinds({ onDone }) {
   const [gone, setGone] = useState(false);
 
   useEffect(() => {
+    if (!rootRef.current || !cordRef.current || !slatsRef.current) return undefined;
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         onComplete: () => {
