@@ -51,6 +51,14 @@
   transform-origin: left bottom;
 }
 
+.hero__name-text {
+  color: #1A1A1A;
+}
+
+.hero__name-char {
+  display: inline-block;
+}
+
 .hero__reg {
   color: var(--accent);
   font-size: 0.32em;

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLanguage } from '../context/LanguageContext.jsx';
 import '../styles/components/BrandNameTransition.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -48,6 +49,8 @@ function numericPx(value) {
 }
 
 export default function BrandNameTransition() {
+  const { lang } = useLanguage();
+
   useEffect(() => {
     const navBrand = document.querySelector('.nav__brand');
     const resumeTitle = document.querySelector('.resume-wireframe__title');
@@ -156,6 +159,11 @@ export default function BrandNameTransition() {
 
     setNavState();
     requestAnimationFrame(() => ScrollTrigger.refresh());
+    // Web fonts (incl. CJK heading font) can reflow the page after the first
+    // refresh, leaving the trigger boundaries stale — recompute once they land.
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(() => ScrollTrigger.refresh());
+    }
 
     const handlePreferenceChange = () => {
       if (tween) tween.kill();
@@ -175,6 +183,14 @@ export default function BrandNameTransition() {
       gsap.set([navBrand, resumeTitle], { clearProps: 'opacity,visibility' });
     };
   }, []);
+
+  // Switching language reflows every section above the résumé, so the trigger's
+  // cached start/end go stale. Recompute after the new layout paints; ScrollTrigger's
+  // onRefresh then re-asserts the correct nav/resume state for the current scroll.
+  useEffect(() => {
+    const id = requestAnimationFrame(() => ScrollTrigger.refresh());
+    return () => cancelAnimationFrame(id);
+  }, [lang]);
 
   return null;
 }

@@ -16,6 +16,7 @@ import {
   SystemToProductSection,
   VisualFoundationsSection,
 } from './projects/pickmin/PickminDesignSystemSections.jsx';
+import ShopeeVisual from './projects/shopeeArchive/ShopeeArchiveVisuals.jsx';
 import '../styles/components/ProjectDetailPage.css';
 
 const params = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
@@ -56,9 +57,9 @@ const DEFAULT_FLOW_TUNE = {
 const DETAIL_TUNE_BY_PROJECT = {
   'shopee-archive': {
     titleY: -9,
-    titleSize: 6.2,
+    titleSize: 5.2,
     titleLine: 1.01,
-    titleMax: 139,
+    titleMax: 108,
   },
 };
 
@@ -592,12 +593,6 @@ function GoogooliiCaseStudyPage({ project, content, caseStudy, title, tune, setT
           </div>
         </GoogooliiSection>
 
-        <div className="googoolii-cta">
-          <button className="googoolii-cta__button" type="button" onClick={() => setShowSystem(true)}>
-            {caseStudy.systemCtaLabel || 'View design system'}
-            <ExternalArrowIcon />
-          </button>
-        </div>
       </article>
       )}
     </div>
@@ -633,7 +628,7 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
         }),
     ...caseStudy.panelTitles,
   };
-  const hasFallingArchitectureChips = project.id === 'googoolii' || project.id === 'pickmin';
+  const hasFallingArchitectureChips = project.id === 'googoolii' || project.id === 'pickmin' || project.id === 'shopee-archive';
 
   return (
     <div
@@ -689,7 +684,13 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
                 </a>
               )}
             </div>
-            <PhotoSlot src={caseStudy.heroImage} alt={caseStudy.heroAlt || `${project.name} hero mockup`} label="HERO MOCKUP / 手機或桌機主視覺" />
+            {caseStudy.heroVisual ? (
+              <div className="case-hero__visual">
+                <ShopeeVisual id={caseStudy.heroVisual} />
+              </div>
+            ) : (
+              <PhotoSlot src={caseStudy.heroImage} alt={caseStudy.heroAlt || `${project.name} hero mockup`} label="HERO MOCKUP / 手機或桌機主視覺" />
+            )}
           </div>
 
           <div className="case-meta-grid">
@@ -802,7 +803,13 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
                     <h3>{renderInfoText(item.title)}</h3>
                     <p>{renderInfoText(item.body)}</p>
                   </div>
-                  <PhotoSlot src={item.image} alt={item.slot} label={item.slot} compact className={item.imageFocus} />
+                  {item.visual ? (
+                    <div className="case-decision__visual">
+                      <ShopeeVisual id={item.visual} compact />
+                    </div>
+                  ) : (
+                    <PhotoSlot src={item.image} alt={item.slot} label={item.slot} compact className={item.imageFocus} />
+                  )}
                 </article>
               ))}
             </div>
@@ -851,10 +858,10 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
           <CaseSection title={sectionTitles.designSystem} className="case-section--system">
             <div className="case-design-system">
               {[
-                ['Visual Principles', caseStudy.designSystem.principles],
-                ['Color System', caseStudy.designSystem.colors],
-                ['Typography', caseStudy.designSystem.typography],
-                ['Interaction States', caseStudy.designSystem.states],
+                [caseStudy.designSystem.principlesLabel || 'Visual Principles', caseStudy.designSystem.principles],
+                [caseStudy.designSystem.colorsLabel || 'Color System', caseStudy.designSystem.colors],
+                [caseStudy.designSystem.typographyLabel || 'Typography', caseStudy.designSystem.typography],
+                [caseStudy.designSystem.statesLabel || 'Interaction States', caseStudy.designSystem.states],
               ].map(([panelTitle, panelBody], index) => (
                 <article className={`case-panel ${DESIGN_SYSTEM_TONES[index]}`} key={panelTitle}>
                   <h3>{renderInfoText(panelTitle)}</h3>
@@ -913,9 +920,9 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
         </CaseSection>
 
         {isPickmin && (
-          <CaseSection title="CTA" className="case-section--cta">
+          <section className="case-section case-section--cta" aria-label="Project link">
             <ProjectCTA content={caseStudy.cta} liveHref={project.link} />
-          </CaseSection>
+          </section>
         )}
       </article>
     </div>

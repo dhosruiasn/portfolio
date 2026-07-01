@@ -194,6 +194,10 @@
   right: 326px;
 }
 
+.digital-tune--work-order-card {
+  right: 640px;
+}
+
 .digital-tune strong {
   display: block;
   margin-bottom: 8px;

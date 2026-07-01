@@ -33,6 +33,12 @@ const DEFAULT_PICKMIN_CARD_TUNE = {
   videoY: 2,
 };
 
+const DEFAULT_WORK_ORDER_CARD_TUNE = {
+  imageScale: 1.07,
+  imageX: 12,
+  imageY: 2,
+};
+
 function TuneRow({ label, value, min, max, step = 0.1, unit = '%', onChange }) {
   return (
     <label className="digital-tune__row">
@@ -75,10 +81,24 @@ function PickminCardTunePanel({ tune, setTune }) {
   );
 }
 
+function WorkOrderCardTunePanel({ tune, setTune }) {
+  const set = (key) => (value) => setTune((current) => ({ ...current, [key]: value }));
+  return (
+    <div className="digital-tune digital-tune--work-order-card">
+      <strong>Work-Order 封面</strong>
+      <TuneRow label="比例" value={tune.imageScale} min={0.6} max={2.4} step={0.01} unit="x" onChange={set('imageScale')} />
+      <TuneRow label="X" value={tune.imageX} min={-220} max={220} step={1} unit="px" onChange={set('imageX')} />
+      <TuneRow label="Y" value={tune.imageY} min={-260} max={260} step={1} unit="px" onChange={set('imageY')} />
+      <textarea readOnly value={JSON.stringify(tune)} />
+    </div>
+  );
+}
+
 export default function DigitalWorks() {
   const [active, setActive] = useState(null);
   const [tune, setTune] = useState(DEFAULT_DIGITAL_TUNE);
   const [pickminCardTune, setPickminCardTune] = useState(DEFAULT_PICKMIN_CARD_TUNE);
+  const [workOrderCardTune, setWorkOrderCardTune] = useState(DEFAULT_WORK_ORDER_CARD_TUNE);
   const handleClose = useCallback(() => setActive(null), []);
   const rootRef = useRef(null);
   const sceneRef = useRef(null);
@@ -229,6 +249,9 @@ export default function DigitalWorks() {
         '--pickmin-card-video-scale': pickminCardTune.videoScale,
         '--pickmin-card-video-x': `${pickminCardTune.videoX}px`,
         '--pickmin-card-video-y': `${pickminCardTune.videoY}px`,
+        '--work-order-card-image-scale': workOrderCardTune.imageScale,
+        '--work-order-card-image-x': `${workOrderCardTune.imageX}px`,
+        '--work-order-card-image-y': `${workOrderCardTune.imageY}px`,
       }}
     >
       <div className="digital-works__intro">
@@ -264,6 +287,7 @@ export default function DigitalWorks() {
         </div>
       </div>
       {SHOW_DIGITAL_EDIT && <PickminCardTunePanel tune={pickminCardTune} setTune={setPickminCardTune} />}
+      {SHOW_DIGITAL_EDIT && <WorkOrderCardTunePanel tune={workOrderCardTune} setTune={setWorkOrderCardTune} />}
 
       <div className="digital-works__projects">
         <div className="container digital-works__grid" ref={gridRef}>

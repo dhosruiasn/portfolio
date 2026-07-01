@@ -10,11 +10,40 @@ const SAMPLE = 6;
 const FONT_SIZE = 7;
 const DECODE_DURATION = 1.4; // seconds for the full decrypt-in
 
-export default function AsciiArt({ src = '/images/hero-character.png' }) {
+// Entrance: an irregular debris burst from a few random cores that springs back and
+// converges into the image, glyphs locking to their real char as the picture focuses
+// in, with a warm pulse at the moment most of them meet.
+const BURST_SPEED = 22; // base explosion speed
+const BURST_MIN = 0.12; // slowest debris (fraction of BURST_SPEED)
+const BURST_TAIL = 2.2; // heavy-tailed extra speed → a few shards fly far, most drift near
+const ORIGIN_SEEDS = 6; // irregular burst cores so the start isn't a clean circle
+const ORIGIN_SPREAD = 48; // how far those cores sit from the centre (px)
+const ORIGIN_JITTER = 20; // extra scatter of each glyph around its core (px)
+const SPRING = 0.05; // pull toward home (steady-state value)
+const DAMP = 0.85; // velocity damping
+const BURST_TIME = 0.3; // seconds of near-free explosion before the spring engages
+const SPRING_RAMP = 0.55; // seconds for the spring to ramp to full
+const LOCK_BASE = 0.5; // earliest a central glyph locks to its real char
+const LOCK_SPREAD = 0.85; // extra delay for the outermost glyphs → focus-in wave
+const FLASH_FRACTION = 0.8; // fire the convergence pulse once this share has locked
+const FLASH_DUR = 0.5; // pulse fade time (seconds)
+
+const INK = [26, 26, 26]; // #1A1A1A
+const ON_BROWN = [255, 245, 114]; // #fff572 (glyph over a coffee cell)
+const PULSE = [232, 150, 74]; // warm convergence highlight
+const rgbStr = (c) => `rgb(${c[0] | 0}, ${c[1] | 0}, ${c[2] | 0})`;
+const mixRgb = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
+
+export default function AsciiArt({ src = '/images/hero-character.png', maskRef, started = true }) {
   const canvasRef = useRef(null);
   const particlesRef = useRef([]);
   const mouseRef = useRef({ x: -9999, y: -9999 });
-  const startRef = useRef(0);
+  const startRef = useRef(0); // 0 = entrance not begun yet (waiting for reveal)
+  const startedRef = useRef(started);
+
+  useEffect(() => {
+    startedRef.current = started;
+  }, [started]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -25,6 +54,7 @@ export default function AsciiArt({ src = '/images/hero-character.png' }) {
     ctx.scale(dpr, dpr);
 
     let rafId;
+    let flashStart = -1; // performance.now() when the convergence pulse fires (-1 = not yet)
     const img = new Image();
     // 同源圖不需要 crossOrigin；設了反而在一般快取 reload 時會 CORS 失敗 → 掉到 fallback
     img.src = assetPath(src);
@@ -40,6 +70,48 @@ export default function AsciiArt({ src = '/images/hero-character.png' }) {
       flick: SCRAMBLE[Math.floor(Math.random() * SCRAMBLE.length)],
       revealAt: Math.random() * DECODE_DURATION, // when it locks to its real char
     });
+
+    // Scatter every glyph across a few irregular burst cores with chaotic, heavy-tailed
+    // debris velocities (no clean circle), then stagger when each locks to its real char
+    // by distance from the centre so the picture focuses in as it converges.
+    const initEntrance = (particles) => {
+      if (!particles.length) return;
+      const TAU = Math.PI * 2;
+      let cx = 0;
+      let cy = 0;
+      for (const p of particles) {
+        cx += p.homeX;
+        cy += p.homeY;
+      }
+      cx /= particles.length;
+      cy /= particles.length;
+      let maxD = 1;
+      for (const p of particles) {
+        const d = Math.hypot(p.homeX - cx, p.homeY - cy);
+        if (d > maxD) maxD = d;
+      }
+      // a handful of off-centre cores so the origin reads as irregular shrapnel, not a disc
+      const seeds = [];
+      for (let s = 0; s < ORIGIN_SEEDS; s++) {
+        const a = Math.random() * TAU;
+        const r = Math.pow(Math.random(), 0.6) * ORIGIN_SPREAD;
+        seeds.push([cx + Math.cos(a) * r, cy + Math.sin(a) * r]);
+      }
+      for (const p of particles) {
+        const norm = Math.hypot(p.homeX - cx, p.homeY - cy) / maxD; // 0 (centre) → 1 (edge)
+        const seed = seeds[(Math.random() * seeds.length) | 0];
+        p.x = seed[0] + (Math.random() - 0.5) * ORIGIN_JITTER;
+        p.y = seed[1] + (Math.random() - 0.5) * ORIGIN_JITTER;
+        // fully random direction + heavy-tailed speed → uneven, jagged debris field
+        const ang = Math.random() * TAU;
+        const spd = BURST_SPEED * (BURST_MIN + Math.pow(Math.random(), 2.2) * BURST_TAIL);
+        p.vx = Math.cos(ang) * spd;
+        p.vy = Math.sin(ang) * spd;
+        p.revealAt = LOCK_BASE + norm * LOCK_SPREAD + Math.random() * 0.2;
+        p.locked = false;
+      }
+      flashStart = -1;
+    };
 
     const buildParticles = () => {
       const off = document.createElement('canvas');
@@ -63,7 +135,7 @@ export default function AsciiArt({ src = '/images/hero-character.png' }) {
         }
       }
       particlesRef.current = particles;
-      startRef.current = performance.now();
+      startRef.current = 0; // entrance begins once the hero is revealed (see animate)
     };
 
     const drawFallback = () => {
@@ -77,7 +149,7 @@ export default function AsciiArt({ src = '/images/hero-character.png' }) {
         }
       }
       particlesRef.current = particles;
-      startRef.current = performance.now();
+      startRef.current = 0; // entrance begins once the hero is revealed (see animate)
     };
 
     img.onload = buildParticles;
@@ -86,13 +158,46 @@ export default function AsciiArt({ src = '/images/hero-character.png' }) {
     const animate = () => {
       ctx.clearRect(0, 0, WIDTH, HEIGHT);
       ctx.font = `${FONT_SIZE}px monospace`;
-      ctx.fillStyle = '#1A1A1A';
 
+      // Hold the burst until the hero is revealed, then kick it off so the whole
+      // big-bang → converge plays in view rather than behind the loading blinds.
+      if (!startRef.current) {
+        if (startedRef.current && particlesRef.current.length) {
+          initEntrance(particlesRef.current);
+          startRef.current = performance.now();
+        } else {
+          rafId = requestAnimationFrame(animate);
+          return;
+        }
+      }
+
+      const now = performance.now();
       const { x: mx, y: my } = mouseRef.current;
-      const elapsed = (performance.now() - startRef.current) / 1000;
+      const elapsed = (now - startRef.current) / 1000;
 
-      for (const p of particlesRef.current) {
-        // cursor repulsion + spring back
+      // Spring engages only after the initial burst, then ramps to full — so the
+      // explosion reads first and the convergence follows.
+      const springK = SPRING * Math.min(1, Math.max(0, (elapsed - BURST_TIME) / SPRING_RAMP));
+
+      // Convergence pulse: a brief warm flash the frame after most glyphs have locked.
+      let pulse = 0;
+      if (flashStart >= 0) {
+        const ft = (now - flashStart) / 1000;
+        pulse = ft < FLASH_DUR ? 1 - ft / FLASH_DUR : 0;
+      }
+
+      // When a coffee pixel-mask cell sits behind a glyph, draw that glyph light so
+      // it stays legible on the brown. Map particle (internal) coords → viewport coords.
+      const sampleBrown = maskRef?.current?.sample?.() || null;
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = rect.width / WIDTH;
+      const scaleY = rect.height / HEIGHT;
+
+      const particles = particlesRef.current;
+      let lockedCount = 0;
+
+      for (const p of particles) {
+        // cursor repulsion
         const dx = p.x - mx;
         const dy = p.y - my;
         const dist = Math.hypot(dx, dy);
@@ -101,15 +206,25 @@ export default function AsciiArt({ src = '/images/hero-character.png' }) {
           p.vx += (dx / dist) * force * 4;
           p.vy += (dy / dist) * force * 4;
         }
-        p.vx += (p.homeX - p.x) * 0.05;
-        p.vy += (p.homeY - p.y) * 0.05;
-        p.vx *= 0.85;
-        p.vy *= 0.85;
+        // spring home (ramped during entrance) + damping
+        p.vx += (p.homeX - p.x) * springK;
+        p.vy += (p.homeY - p.y) * springK;
+        p.vx *= DAMP;
+        p.vy *= DAMP;
         p.x += p.vx;
         p.y += p.vy;
 
-        // decode intro: flicker random chars then lock to real char
-        if (elapsed >= p.revealAt) {
+        if (!p.locked && elapsed >= p.revealAt) p.locked = true;
+        if (p.locked) lockedCount++;
+
+        const overBrown = sampleBrown
+          ? sampleBrown(rect.left + p.x * scaleX, rect.top + p.y * scaleY)
+          : false;
+        const base = overBrown ? ON_BROWN : INK;
+        ctx.fillStyle = pulse > 0 ? rgbStr(mixRgb(base, PULSE, pulse * 0.7)) : rgbStr(base);
+
+        // flicker random chars until locked, then hold the real char
+        if (p.locked) {
           ctx.globalAlpha = 1;
           ctx.fillText(p.char, p.x, p.y);
         } else {
@@ -121,6 +236,11 @@ export default function AsciiArt({ src = '/images/hero-character.png' }) {
         }
       }
       ctx.globalAlpha = 1;
+
+      // Fire the convergence pulse the first time the image mostly meets.
+      if (flashStart < 0 && particles.length && lockedCount / particles.length >= FLASH_FRACTION) {
+        flashStart = now;
+      }
 
       rafId = requestAnimationFrame(animate);
     };
@@ -146,7 +266,7 @@ export default function AsciiArt({ src = '/images/hero-character.png' }) {
       canvas.removeEventListener('mousemove', handleMove);
       canvas.removeEventListener('mouseleave', handleLeave);
     };
-  }, [src]);
+  }, [src, maskRef]);
 
   return <canvas ref={canvasRef} className="ascii-art" />;
 }

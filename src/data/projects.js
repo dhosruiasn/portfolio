@@ -1,4 +1,5 @@
 import { pickminCaseStudy } from './pickminCaseStudy.js';
+import { shopeeArchiveCaseStudy } from './shopeeArchiveCaseStudy.js';
 
 export const projects = [
   {
@@ -87,7 +88,6 @@ export const projects = [
         logoImage: '/images/projects/googoolii/logo-full.png',
         prototypeHref: '',
         prototypeLabel: '原型整修中',
-        systemCtaLabel: '完整設計系統',
         systemBackLabel: '返回案例',
         systemPageTitle: 'GOOGOOLii Design System',
         systemPageIntro: '從品牌色彩、字體、質感到元件的完整設計語言。',
@@ -229,7 +229,6 @@ export const projects = [
         logoImage: '/images/projects/googoolii/logo-full.png',
         prototypeHref: '',
         prototypeLabel: 'Prototype under maintenance',
-        systemCtaLabel: 'View design system',
         systemBackLabel: 'Back to case study',
         systemPageTitle: 'GOOGOOLii Design System',
         systemPageIntro: 'The complete design language — from brand color, type and texture to components.',
@@ -365,23 +364,25 @@ export const projects = [
   },
   {
     id: 'shopee-archive',
-    name: 'Workflow Assistant Tool',
-    category: { zh: '內部工具', en: 'Internal Tool' },
+    name: 'Work-Order Sync Bot',
+    detailTitle: { zh: 'Work-Order Sync Bot', en: 'Work-Order Sync Bot' },
+    category: { zh: '內部工具 · 自動化', en: 'Internal Tool · Automation' },
     height: 380,
     marginTop: 20,
-    media: '/images/projects/shopee-archive-cover.jpg',
+    media: '/images/projects/Work-Order Sync Bot/Work-Order Sync Bot＿封面.png',
     link: '',
     zh: {
-      about: '於蝦皮任職期間，以 AI 工具開發的自動化歸檔工具，解決團隊工作流程效率問題。展現「設計師不只做設計，還能自己造工具」的思維。',
-      role: '需求發現 + 工具設計 + 開發',
-      tech: 'VibeCoding, AI 輔助開發',
+      about: '於蝦皮任職期間，以 Google Apps Script 打造的設計檔歸檔與寄信自動化系統。設計師每天要把設計檔歸檔到外部公槽並寄給跨部門，一張約 5 分鐘，高峰日可能累積到 8 張以上；系統依 Google Sheet 自動建立外部資料夾、複製內部公槽檔案並產生草稿信，設計師確認後即可寄出，大幅降低重複工時。',
+      role: '需求發現 + 流程設計 + 介面設計 + 開發',
+      tech: 'Apps Script, Python / Tkinter, Sheets, Drive',
       note: '內部工具，無公開介面',
     },
     en: {
-      about: 'An AI-powered automation tool built during my tenure at Shopee to solve archiving workflow bottlenecks. Demonstrates the mindset of "a designer who builds their own tools."',
-      role: 'Problem discovery + tool design + development',
-      tech: 'VibeCoding, AI-assisted development',
+      about: 'A design-file archiving and email automation built at Shopee. A cloud Apps Script collects orders and prepares draft emails; a desktop Python/Tkinter dashboard does the real file copy. Designers archive files and email them cross-department daily, about 5 minutes per order and up to 8+ orders on peak days — now they just hit start, confirm and send.',
+      role: 'Problem discovery + flow design + UI design + dev',
+      tech: 'Apps Script, Python / Tkinter, Sheets, Drive',
       note: 'Internal tool, no public interface',
     },
+    caseStudy: shopeeArchiveCaseStudy,
   },
 ];

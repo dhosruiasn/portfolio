@@ -17,6 +17,20 @@ function PlaceholderBlock({ label, placeholder }) {
   );
 }
 
+function PickminMediaBlock({ media, label, placeholder }) {
+  if (!media?.src) return <PlaceholderBlock label={label} placeholder={placeholder} />;
+
+  return (
+    <div className="pickmin-media-block">
+      {media.type === 'video' ? (
+        <video src={assetPath(media.src)} muted loop autoPlay playsInline preload="metadata" aria-label={media.alt || label} />
+      ) : (
+        <img src={assetPath(media.src)} alt={media.alt || ''} loading="lazy" />
+      )}
+    </div>
+  );
+}
+
 export function ProductComplexitySection({ content }) {
   return (
     <div className="pickmin-complexity">
@@ -168,7 +182,7 @@ export function InteractionFlowSection({ content }) {
           </article>
         ))}
       </div>
-      <PlaceholderBlock label="Collection flow screen" placeholder={content.placeholder} />
+      <PickminMediaBlock label="Collection flow screen" media={content.media} placeholder={content.placeholder} />
     </div>
   );
 }
@@ -180,7 +194,11 @@ export function MotionShowcase({ content }) {
       <div className="pickmin-motion__grid">
         {content.items.map((item) => (
           <article className="pickmin-motion-card" key={item.id}>
-            <PlaceholderBlock label={`MOTION: ${item.name.toUpperCase()}`} placeholder={item.placeholder} />
+            <PickminMediaBlock
+              label={`MOTION: ${item.name.toUpperCase()}`}
+              media={{ type: 'video', src: item.video, alt: `${item.name} motion example` }}
+              placeholder={item.placeholder}
+            />
             <div className="pickmin-motion-card__copy">
               <h3>{item.name}</h3>
               <p>{item.context}</p>
@@ -266,10 +284,6 @@ export function ProjectCTA({ content, liveHref }) {
       <a className="pickmin-cta__button" href={liveHref} target="_blank" rel="noreferrer">
         {content.live}
       </a>
-      <button className="pickmin-cta__button pickmin-cta__button--disabled" type="button" disabled>
-        <span>{content.designSystem}</span>
-        <em>{content.comingSoon}</em>
-      </button>
     </div>
   );
 }

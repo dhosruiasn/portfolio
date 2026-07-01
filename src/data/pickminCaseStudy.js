@@ -4,9 +4,11 @@ const pickminImages = {
   search: '/images/projects/pickmin/search-owned-status.png',
   admin: '/images/projects/pickmin/upload-admin-review.png',
   multilingual: '/images/projects/pickmin/multilingual-comparison.png',
+  collectionFlow: '/images/projects/pickmin/flow-collection-01.png',
+  map: '/images/projects/pickmin/map-system-screen.png',
 };
 
-const motionVideoBase = '/videos/projects/pickmin/';
+const motionVideoBase = '/videos/projects/';
 
 const sharedFoundations = {
   colorTokens: [
@@ -69,29 +71,29 @@ const productComponents = {
 
 const commonMediaPlaceholders = {
   collectionFlow: {
-    filename: 'public/images/projects/pickmin/flow-collection-01.webp',
+    filename: 'public/images/projects/pickmin/flow-collection-01.png',
     size: '860 x 1720',
-    format: 'WebP or PNG',
+    format: 'PNG',
   },
   tabMotion: {
-    filename: `${motionVideoBase}motion-tab.webm`,
+    filename: `${motionVideoBase}motion-tab.mp4`,
     size: '720 x 1440',
-    format: 'WebM or MP4, 3-6 seconds',
+    format: 'MP4',
   },
   pushPopMotion: {
-    filename: `${motionVideoBase}motion-push-pop.webm`,
+    filename: `${motionVideoBase}motion-push-pop.mp4`,
     size: '720 x 1440',
-    format: 'WebM or MP4, 3-6 seconds',
+    format: 'MP4',
   },
   collectionSheetMotion: {
-    filename: `${motionVideoBase}motion-collection-sheet.webm`,
+    filename: `${motionVideoBase}motion-collection-sheet.mp4`,
     size: '720 x 1440',
-    format: 'WebM or MP4, 3-6 seconds',
+    format: 'MP4',
   },
   mapScreen: {
-    filename: 'public/images/projects/pickmin/map-system-screen.webp',
+    filename: 'public/images/projects/pickmin/map-system-screen.png',
     size: '1440 x 1080',
-    format: 'WebP or PNG',
+    format: 'PNG',
   },
 };
 
@@ -286,16 +288,20 @@ const zh = {
       { id: 'save', label: '04 Save Collection', action: '儲存收藏', state: 'Saving / Error handling', feedback: '按鈕顯示 loading 並避免重複提交' },
       { id: 'feedback', label: '05 Show Feedback', action: '完成或返回', state: 'Success toast or error message', feedback: '成功後返回原列表，失敗保留可重試狀態' },
     ],
-    placeholder: commonMediaPlaceholders.collectionFlow,
+    media: {
+      type: 'image',
+      src: pickminImages.collectionFlow,
+      alt: 'Collection flow showing postcard detail, folder selection, and save feedback',
+    },
   },
   motionSystem: {
     title: 'MOTION SYSTEM',
     intro:
       '動態不只是裝飾，而是用來說明頁面層級、操作方向與系統回饋。平行頁面使用淡入淡出，進入子頁時使用橫向位移，暫時性任務則由底部彈窗承接。',
     items: [
-      { id: 'tab', name: 'Tab Switch', context: '同層級頁面切換', behavior: 'Cross-fade', duration: '0.26s', easing: 'cubic-bezier(0.32, 0.72, 0, 1)', reducedMotion: '直接切換內容，不播放淡入淡出', video: `${motionVideoBase}motion-tab.webm`, placeholder: commonMediaPlaceholders.tabMotion },
-      { id: 'push-pop', name: 'Push / Pop', context: '進入子頁與返回', behavior: 'Directional transition', duration: '0.3s', easing: 'cubic-bezier(0.32, 0.72, 0, 1)', reducedMotion: '移除位移，只保留狀態更新', video: `${motionVideoBase}motion-push-pop.webm`, placeholder: commonMediaPlaceholders.pushPopMotion },
-      { id: 'collection-sheet', name: 'CollectionSheet', context: '暫時性的收藏任務', behavior: 'Slide up / slide down', duration: '0.3s', easing: 'cubic-bezier(0.34, 1.4, 0.64, 1)', reducedMotion: '直接顯示 sheet 靜態狀態', video: `${motionVideoBase}motion-collection-sheet.webm`, placeholder: commonMediaPlaceholders.collectionSheetMotion },
+      { id: 'tab', name: 'Tab Switch', context: '同層級頁面切換', behavior: 'Cross-fade', duration: '0.26s', easing: 'cubic-bezier(0.32, 0.72, 0, 1)', reducedMotion: '直接切換內容，不播放淡入淡出', video: `${motionVideoBase}motion-tab.mp4`, placeholder: commonMediaPlaceholders.tabMotion },
+      { id: 'push-pop', name: 'Push / Pop', context: '進入子頁與返回', behavior: 'Directional transition', duration: '0.3s', easing: 'cubic-bezier(0.32, 0.72, 0, 1)', reducedMotion: '移除位移，只保留狀態更新', video: `${motionVideoBase}motion-push-pop.mp4`, placeholder: commonMediaPlaceholders.pushPopMotion },
+      { id: 'collection-sheet', name: 'CollectionSheet', context: '暫時性的收藏任務', behavior: 'Slide up / slide down', duration: '0.3s', easing: 'cubic-bezier(0.34, 1.4, 0.64, 1)', reducedMotion: '直接顯示 sheet 靜態狀態', video: `${motionVideoBase}motion-collection-sheet.mp4`, placeholder: commonMediaPlaceholders.collectionSheetMotion },
     ],
   },
   localization: {
@@ -317,8 +323,9 @@ const zh = {
       { id: 'home', title: 'Home / Browse', image: pickminImages.home, labels: ['Postcard Card', 'Category Badge', 'Bottom Navigation'] },
       { id: 'search', title: 'Search / Ownership', image: pickminImages.search, labels: ['Search Field', 'Filter Chip', 'Ownership Status'] },
       { id: 'admin', title: 'Upload / Review', image: pickminImages.admin, labels: ['Status Feedback', 'Review Controls', 'Image Preview'] },
+      { id: 'map', title: 'Map / Route', image: pickminImages.map, labels: ['Map System', 'Route Planning', 'Location Context'] },
     ],
-    missing: [commonMediaPlaceholders.mapScreen],
+    missing: [],
   },
   implementation: {
     body:
@@ -340,8 +347,6 @@ const zh = {
   },
   cta: {
     live: 'EXPLORE LIVE PROTOTYPE',
-    designSystem: 'VIEW DESIGN SYSTEM',
-    comingSoon: 'Coming Soon',
     manualReview: 'Live product — best viewed on a mobile device for the full collection experience.',
   },
 };
@@ -517,8 +522,6 @@ const en = {
   },
   cta: {
     live: 'EXPLORE LIVE PROTOTYPE',
-    designSystem: 'VIEW DESIGN SYSTEM',
-    comingSoon: 'Coming Soon',
     manualReview: 'Live product — best viewed on a mobile device for the full collection experience.',
   },
 };

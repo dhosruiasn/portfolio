@@ -342,6 +342,13 @@ body:has(.detail-page),
   letter-spacing: 0;
 }
 
+.detail-page--shopee-archive .case-hero__subtitle {
+  margin-bottom: 18px;
+  max-width: 620px;
+  font-size: clamp(20px, 1.65vw, 30px);
+  line-height: 1.18;
+}
+
 .detail-page--case .case-hero__subtitle,
 .detail-page--case .case-section--overview .case-panel h3,
 .detail-page--case .case-section--trust .case-panel:nth-child(1) h3 {
@@ -1984,7 +1991,9 @@ body:has(.detail-page),
   color: #141414;
 }
 .detail-page--googoolii-custom .googoolii-hero__logo {
-  border: 1px solid #e4e4e4;
+  padding: 0;
+  border: 0;
+  background: transparent;
 }
 
 /* Eyebrows: quiet brand-blue labels (no sticker badge) */
@@ -2104,45 +2113,6 @@ body:has(.detail-page),
   font-weight: 800;
   color: #141414;
 }
-
-/* End-of-page CTA (matches the portfolio's bottom-CTA placement) */
-.detail-page--googoolii-custom .googoolii-cta {
-  display: flex;
-  justify-content: center;
-  padding: 24px 0 48px;
-}
-.detail-page--googoolii-custom .googoolii-cta__button {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 56px;
-  padding: 0 34px;
-  border: 0;
-  border-radius: 999px;
-  background: #141414;
-  color: #ffffff;
-  font-weight: 900;
-  font-size: clamp(15px, 1.2vw, 18px);
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  /* Keep the pill label on one line so it never stacks/breaks inside the button */
-  white-space: nowrap;
-}
-.detail-page--googoolii-custom .googoolii-cta__button svg {
-  flex: none;
-  width: 18px;
-  height: 18px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2.6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.detail-page--googoolii-custom .googoolii-cta__button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
-}
-
 
 /* Token hex code → neutral gray (was orange) */
 .detail-page--googoolii-custom .googoolii-token code {
@@ -2840,6 +2810,24 @@ body:has(.detail-page),
   color: #050505;
 }
 
+.pickmin-media-block {
+  display: grid;
+  place-items: center;
+  min-height: 360px;
+  margin-top: 16px;
+  overflow: hidden;
+  border-radius: 28px;
+  background: #fff;
+}
+
+.pickmin-media-block img,
+.pickmin-media-block video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 .pickmin-motion__grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2855,6 +2843,23 @@ body:has(.detail-page),
   min-height: 330px;
   margin-top: 0;
   align-content: end;
+}
+
+.pickmin-motion-card .pickmin-media-block {
+  min-height: 0;
+  aspect-ratio: 16 / 9;
+  margin-top: 0;
+  background: #f0f0eb;
+}
+
+.pickmin-motion-card .pickmin-media-block video {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  aspect-ratio: auto;
+  border-radius: 22px;
+  object-fit: cover;
 }
 
 .pickmin-motion-card__copy {
@@ -2993,7 +2998,7 @@ body:has(.detail-page),
 
 .pickmin-cta {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: 14px;
 }
 
@@ -3015,31 +3020,6 @@ body:has(.detail-page),
 .pickmin-cta__button:hover {
   transform: translateY(-3px) rotate(-1deg);
   background: #ff6a33;
-}
-
-.pickmin-cta__button--disabled {
-  background: #c8c8c8;
-  cursor: not-allowed;
-}
-
-.pickmin-cta__button--disabled em {
-  display: block;
-  margin-top: 8px;
-  font-family: var(--font-body-en);
-  font-size: 14px;
-  font-style: normal;
-  line-height: 1.2;
-}
-
-.pickmin-cta p {
-  grid-column: 1 / -1;
-  margin: 0;
-  padding: 18px;
-  border-radius: 18px;
-  background: #fff;
-  font-size: 14px;
-  line-height: 1.45;
-  color: #6b3415;
 }
 
 .detail-tune {

@@ -81,6 +81,14 @@
   background: #d9d9d9;
 }
 
+.project-card--shopee-archive .project-card__front img {
+  object-fit: contain;
+  object-position: center;
+  transform: translate(var(--work-order-card-image-x, 0), var(--work-order-card-image-y, 0)) scale(var(--work-order-card-image-scale, 1));
+  transform-origin: center;
+  background: #d9d9d9;
+}
+
 .project-card__pill {
   position: absolute;
   right: 16px;
