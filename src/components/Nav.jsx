@@ -3,7 +3,7 @@ import { useLanguage } from '../context/LanguageContext.jsx';
 import '../styles/components/Nav.css';
 
 export default function Nav({ heroRef }) {
-  const { lang, toggleLang } = useLanguage();
+  const { lang, setLang } = useLanguage();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -26,12 +26,30 @@ export default function Nav({ heroRef }) {
         </a>
         <span className="nav__brand">DORIS KAO</span>
         <div className="nav__right">
-          <a href="#about" className="nav__link">
+          <a href="#resume-wireframe" className="nav__link">
             ABOUT
           </a>
-          <button className="nav__toggle" onClick={toggleLang}>
-            {lang === 'en' ? 'TC' : 'EN'}
-          </button>
+          <div className="nav__language" aria-label="Language selection">
+            <button
+              className={`nav__language-option${lang === 'en' ? ' nav__language-option--active' : ''}`}
+              type="button"
+              aria-pressed={lang === 'en'}
+              aria-current={lang === 'en' ? 'true' : undefined}
+              onClick={() => setLang('en')}
+            >
+              EN
+            </button>
+            <span aria-hidden="true">/</span>
+            <button
+              className={`nav__language-option${lang === 'zh' ? ' nav__language-option--active' : ''}`}
+              type="button"
+              aria-pressed={lang === 'zh'}
+              aria-current={lang === 'zh' ? 'true' : undefined}
+              onClick={() => setLang('zh')}
+            >
+              中
+            </button>
+          </div>
         </div>
       </div>
     </nav>

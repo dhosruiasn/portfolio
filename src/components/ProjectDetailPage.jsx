@@ -604,7 +604,7 @@ function GoogooliiCaseStudyPage({ project, content, caseStudy, title, tune, setT
   );
 }
 
-function CaseStudyPage({ project, content, caseStudy, title, visitLabel, tune, setTune, imageTune, setImageTune, flowTune, setFlowTune, flowCopy, setFlowCopy, pageRef, onClose }) {
+function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visitLabel, tune, setTune, imageTune, setImageTune, flowTune, setFlowTune, flowCopy, setFlowCopy, pageRef, onClose }) {
   const isPickmin = project.id === 'pickmin';
   const sectionTitles = {
     problem: 'PROBLEM',
@@ -618,10 +618,19 @@ function CaseStudyPage({ project, content, caseStudy, title, visitLabel, tune, s
     ...caseStudy.sectionTitles,
   };
   const panelTitles = {
-    goals: '設計目標',
-    implementation: '從設計到可上線產品',
-    security: '資料可信度與安全設計',
-    outcome: '最終成果',
+    ...(caseStudyLang === 'en'
+      ? {
+          goals: 'Design goals',
+          implementation: 'From design to a shippable product',
+          security: 'Data trust & security design',
+          outcome: 'Outcome',
+        }
+      : {
+          goals: '設計目標',
+          implementation: '從設計到可上線產品',
+          security: '資料可信度與安全設計',
+          outcome: '最終成果',
+        }),
     ...caseStudy.panelTitles,
   };
   const hasFallingArchitectureChips = project.id === 'googoolii' || project.id === 'pickmin';
@@ -1089,6 +1098,7 @@ export default function ProjectDetailPage({ project, onClose }) {
         project={project}
         content={content}
         caseStudy={caseStudy}
+        caseStudyLang={caseStudyLang}
         title={title}
         visitLabel={visitLabel}
         tune={tune}

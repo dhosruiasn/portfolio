@@ -1,0 +1,17 @@
+.brand-name-transition {
+  position: fixed;
+  z-index: 120;
+  display: block;
+  white-space: nowrap;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  transform-origin: left top;
+  will-change: left, top, width, height, font-size, color;
+}
+
+@media (prefers-reduced-motion: reduce), (max-width: 767px) {
+  .brand-name-transition {
+    display: none;
+  }
+}

@@ -1,18 +1,22 @@
 .digital-works {
   background: #fff573;
+  overflow: clip;
 }
 
 .digital-works__intro {
   position: relative;
   height: 180vh;
   background: #6b3415;
+  overflow: clip;
+  contain: paint;
 }
 
 .digital-works__scene {
   position: sticky;
   top: 0;
   height: 100vh;
-  overflow: hidden;
+  overflow: clip;
+  contain: paint;
   background: #6b3415;
 }
 

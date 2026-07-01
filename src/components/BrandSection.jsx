@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { TextScramble } from '../utils/TextScramble.js';
 import { assetPath } from '../utils/assetPath.js';
+import { useLanguage } from '../context/LanguageContext.jsx';
 import GraphicOverlay from './GraphicOverlay.jsx';
 import BrandEditPanel from './BrandEditPanel.jsx';
 import '../styles/components/BrandSection.css';
@@ -102,6 +103,11 @@ const DEFAULT_TUNE = {
 };
 
 export default function BrandSection() {
+  const { lang } = useLanguage();
+  const brandCopy =
+    lang === 'en'
+      ? { line1: 'Original illustration IP — characters, apparel & merch', line2: 'Knock knock — come on in!', enterAlt: 'Knock to enter GOOGOOlii' }
+      : { line1: '自有插畫 IP 角色、服飾與周邊商品', line2: '敲敲門，進來逛逛！', enterAlt: '敲敲門進入 GOOGOOlii' };
   const rootRef = useRef(null);
   const posterRef = useRef(null);
   const brandRef = useRef(null);
@@ -385,14 +391,14 @@ export default function BrandSection() {
           <img
             className="bs-layer bs-door-closed"
             src={assetPath(`${BASE}/door-closed.png`)}
-            alt="敲敲門進入 GOOGOOlii"
+            alt={brandCopy.enterAlt}
             onClick={handleEnterClick}
           />
           <img className="bs-layer bs-awning" src={assetPath(`${BASE}/awning.png`)} alt="" />
           <img className="bs-layer bs-signage" src={assetPath(`${BASE}/signage-googoolii.png`)} alt="GOOGOOlii" />
           <img className="bs-layer bs-sign-character" src={assetPath(`${BASE}/sign-character.png`)} alt="" />
           {/* 只亮螢幕框：halo 同時當「點螢幕點燈」熱區 + tint 把白點成淺黃 */}
-          <div className="bs-screen-glow bs-screen-halo" onClick={() => setLit(true)} title="點亮招牌" />
+          <div className="bs-screen-glow bs-screen-halo" onClick={() => setLit(true)} title={lang === 'en' ? 'Light up the sign' : '點亮招牌'} />
           <div className="bs-screen-glow bs-screen-tint" />
           {STARS.map((n) => (
             <div
@@ -435,9 +441,9 @@ export default function BrandSection() {
               MY BRAND
             </h2>
             <p className="bs-desc">
-              自有插畫 IP 角色、服飾與周邊商品
+              {brandCopy.line1}
               <br />
-              敲敲門，進來逛逛！
+              {brandCopy.line2}
             </p>
           </div>
 

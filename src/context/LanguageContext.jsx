@@ -17,6 +17,7 @@ export function LanguageProvider({ children }) {
       lang,
       htmlLang,
       t: i18n[lang],
+      setLang,
       toggleLang: () => setLang((l) => (l === 'zh' ? 'en' : 'zh')),
     }),
     [htmlLang, lang]

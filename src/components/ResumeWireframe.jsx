@@ -1,128 +1,215 @@
+import { useLanguage } from '../context/LanguageContext.jsx';
+import { resumeData } from '../data/resume.js';
 import { assetPath } from '../utils/assetPath.js';
 import '../styles/components/ResumeWireframe.css';
 
-const expertise = [
-  ['01', 'Brand Identity', '品牌識別與系統'],
-  ['02', 'Art Direction', '視覺概念與方向'],
-  ['03', 'Campaign Design', '數位活動視覺'],
-  ['04', 'UI & Interaction', 'UI 與互動設計'],
-  ['05', 'Motion Experience', '動態與數位體驗'],
-  ['06', 'AI-assisted Design', 'AI 輔助 / VibeCoding'],
-];
+function SectionLabel({ children, id }) {
+  return (
+    <h2 className="resume-wireframe__label" id={id}>
+      {children}
+    </h2>
+  );
+}
 
-const projects = [
-  ['PICKMIN POSTCARDS', 'Product Design / Design System / VibeCoding'],
-  ['UI TWEAKER', 'Tool Design / Interaction Design / AI Plugin'],
-  ['GOOGOOLII', 'Brand Strategy / E-commerce / Interactive Experience'],
-];
+function ContactItem({ item, lang }) {
+  const value = typeof item.value === 'object' ? item.value[lang] : item.value;
 
-const tools = ['Ai', 'Ps', 'Ae', 'Fi', 'React', 'Vite', 'Next', 'AI', 'Git'];
+  return (
+    <li className={`resume-wireframe__contact-item${item.disabled ? ' resume-wireframe__contact-item--disabled' : ''}`}>
+      <span>{item.label[lang]}</span>
+      {item.href ? (
+        <a
+          href={assetPath(item.href)}
+          target={item.href.startsWith('http') ? '_blank' : undefined}
+          rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+          aria-label={`${item.label[lang]}: ${value}`}
+        >
+          {value}
+        </a>
+      ) : (
+        <em aria-disabled={item.disabled ? 'true' : undefined}>{value}</em>
+      )}
+    </li>
+  );
+}
 
-function SectionLabel({ children }) {
-  return <p className="resume-wireframe__label">{children}</p>;
+function CvActions({ cv }) {
+  const cvHref = `${import.meta.env.BASE_URL}${cv.file}`;
+
+  return (
+    <div className="resume-wireframe__cv-actions" aria-label="CV actions">
+      <a
+        className="resume-wireframe__cv-button resume-wireframe__cv-button--primary"
+        href={cvHref}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {cv.viewLabel}
+      </a>
+      <a
+        className="resume-wireframe__cv-button resume-wireframe__cv-button--secondary"
+        href={cvHref}
+        download
+      >
+        {cv.downloadLabel}
+      </a>
+    </div>
+  );
+}
+
+function ExperienceSection({ content }) {
+  return (
+    <section className="resume-wireframe__experience" aria-labelledby="resume-experience-title">
+      <SectionLabel id="resume-experience-title">{content.labels.experience}</SectionLabel>
+      <div className="resume-wireframe__company">{content.experience.companyHeading}</div>
+      <div className="resume-wireframe__experience-list">
+        {content.experience.roles.map((role) => (
+          <article className="resume-wireframe__experience-item" key={role.id}>
+            <time>{role.period}</time>
+            <div className="resume-wireframe__experience-copy">
+              <h3>{role.title}</h3>
+              <ul>
+                {role.responsibilities.map((item) => (
+                  <li key={item.id}>{item.label}</li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function ProjectsSection({ content, onProjectOpen }) {
+  return (
+    <section className="resume-wireframe__projects" aria-labelledby="resume-projects-title">
+      <SectionLabel id="resume-projects-title">{content.labels.projects}</SectionLabel>
+      <div className="resume-wireframe__project-list">
+        {content.projects.map((project) => (
+          <a
+            key={project.id}
+            className="resume-wireframe__project"
+            href="#digital-works"
+            onClick={(event) => onProjectOpen(event, project.id)}
+            aria-label={`${content.labels.viewProject.replace(' ↗', '')}: ${project.title}`}
+          >
+            <span className="resume-wireframe__project-number">{project.number}</span>
+            <div>
+              <h3>{project.title}</h3>
+              <p>{project.meta}</p>
+            </div>
+            <strong>{content.labels.viewProject}</strong>
+          </a>
+        ))}
+      </div>
+    </section>
+  );
 }
 
 export default function ResumeWireframe() {
+  const { lang } = useLanguage();
+  const content = resumeData[lang];
+  const cv = resumeData.cv[lang];
+  const visibleLinks = resumeData.links.filter((item) => item.href);
+
+  const handleProjectOpen = (event, projectId) => {
+    event.preventDefault();
+    window.dispatchEvent(new CustomEvent('portfolio:open-project', { detail: { projectId } }));
+  };
+
   return (
-    <section className="section resume-wireframe" id="resume-wireframe" aria-label="Resume wireframe">
+    <section className="section resume-wireframe" id="resume-wireframe" aria-label={content.ariaLabel}>
       <div className="container resume-wireframe__inner">
         <div className="resume-wireframe__poster">
-          <aside className="resume-wireframe__visual" aria-label="Portrait placeholder">
-            <span className="resume-wireframe__sticker resume-wireframe__sticker--top">Brand</span>
-            <span className="resume-wireframe__sticker resume-wireframe__sticker--mid">AI</span>
-            <div className="resume-wireframe__placeholder">
-              <div />
-              <p>Portrait / brand visual</p>
+          <aside className="resume-wireframe__visual">
+            <div className="resume-wireframe__portrait">
+              <span className="resume-wireframe__sticker resume-wireframe__sticker--top" aria-hidden="true">
+                Brand
+              </span>
+              <span className="resume-wireframe__sticker resume-wireframe__sticker--mid" aria-hidden="true">
+                AI
+              </span>
+              <div className="resume-wireframe__placeholder">
+                <img src={assetPath(resumeData.portrait.src)} alt={content.portraitAlt} />
+              </div>
+              <div className="resume-wireframe__caption">
+                <span>{content.role}</span>
+                <span>{content.location}</span>
+              </div>
             </div>
-            <div className="resume-wireframe__caption">
-              <span>Brand Visual Designer</span>
-              <span>Taipei, Taiwan</span>
+
+            <div className="resume-wireframe__contact">
+              <SectionLabel>{content.labels.contact}</SectionLabel>
+              <ul>
+                {resumeData.contact.map((item) => (
+                  <ContactItem key={item.id} item={item} lang={lang} />
+                ))}
+              </ul>
+            </div>
+
+            <div className="resume-wireframe__links">
+              <SectionLabel>{content.labels.links}</SectionLabel>
+              <ul>
+                {visibleLinks.map((item) => (
+                  <ContactItem key={item.id} item={item} lang={lang} />
+                ))}
+              </ul>
             </div>
           </aside>
 
           <main className="resume-wireframe__main">
             <header className="resume-wireframe__intro">
-              <h2>DORIS KAO</h2>
-              <h3>Brand Visual Designer with Digital & AI-driven Practice</h3>
-              <p>品牌視覺設計師，專注於品牌系統、數位介面與互動體驗。</p>
-              <a className="resume-wireframe__download" href={assetPath('/cv.pdf')} download>
-                DOWNLOAD CV
-                <span>下載完整 PDF 履歷</span>
-              </a>
+              <h1 className="resume-wireframe__title">{content.title}</h1>
+              <p className="resume-wireframe__positioning">{content.positioning}</p>
+              <p className="resume-wireframe__intro-line">{content.intro}</p>
+              <CvActions cv={cv} />
             </header>
 
-            <section className="resume-wireframe__profile">
-              <SectionLabel>PROFILE</SectionLabel>
-              <p>
-                具備近 5 年品牌與視覺設計經驗，曾於蝦皮購物負責數位素材、品牌合作、IP
-                商品與大型線下活動視覺。擅長將品牌概念轉化為可跨媒介延展的視覺語言。
-              </p>
-              <p>
-                近期透過 AI 與 VibeCoding 實際完成 Web App、設計工具與品牌電商網站，持續探索品牌、動態、互動與技術之間的可能性。
-              </p>
-            </section>
-
-            <section className="resume-wireframe__projects">
-              <SectionLabel>SELECTED PROJECTS</SectionLabel>
-              <div className="resume-wireframe__project-list">
-                {projects.map(([title, meta], index) => (
-                  <article key={title} className="resume-wireframe__project">
-                    <span>{String(index + 1).padStart(2, '0')}</span>
-                    <div>
-                      <h4>{title}</h4>
-                      <p>{meta}</p>
-                    </div>
-                  </article>
-                ))}
-              </div>
+            <section className="resume-wireframe__profile" aria-labelledby="resume-profile-title">
+              <SectionLabel id="resume-profile-title">{content.labels.profile}</SectionLabel>
+              <p>{content.profile}</p>
             </section>
           </main>
 
           <aside className="resume-wireframe__side">
-            <section className="resume-wireframe__skills">
-              <SectionLabel>CORE EXPERTISE</SectionLabel>
+            <section className="resume-wireframe__skills" aria-labelledby="resume-expertise-title">
+              <SectionLabel id="resume-expertise-title">{content.labels.expertise}</SectionLabel>
               <div className="resume-wireframe__expertise-grid">
-                {expertise.map(([number, title, zh]) => (
-                  <article key={number}>
-                    <span>{number}</span>
-                    <h4>{title}</h4>
-                    <p>{zh}</p>
+                {content.expertise.map((item) => (
+                  <article key={item.id}>
+                    <span>{item.number}</span>
+                    <h3>{item.title}</h3>
+                    <p>{item.detail}</p>
                   </article>
                 ))}
               </div>
             </section>
 
-            <section className="resume-wireframe__tools">
-              <SectionLabel>TOOLS</SectionLabel>
-              <div className="resume-wireframe__tool-grid">
-                {tools.map((tool) => (
-                  <span key={tool}>{tool}</span>
+            <section className="resume-wireframe__tools" aria-labelledby="resume-tools-title">
+              <SectionLabel id="resume-tools-title">{content.labels.tools}</SectionLabel>
+              <div className="resume-wireframe__tool-groups">
+                {content.tools.map((group) => (
+                  <div className="resume-wireframe__tool-group" key={group.id}>
+                    <h3>{group.title}</h3>
+                    <div className="resume-wireframe__tool-list">
+                      {group.items.map((tool) => (
+                        <span className={tool.note ? 'resume-wireframe__tool-pill resume-wireframe__tool-pill--stacked' : 'resume-wireframe__tool-pill'} key={tool.id}>
+                          <strong>{tool.label}</strong>
+                          {tool.note ? <em>{tool.note}</em> : null}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 ))}
               </div>
             </section>
-
-            <section className="resume-wireframe__experience">
-              <SectionLabel>EXPERIENCE</SectionLabel>
-              <div className="resume-wireframe__job">
-                <h4>SHOPEE TAIWAN</h4>
-                <p>Graphic Designer</p>
-                <span>2022.08 — 2026.06</span>
-                <p>Design Intern</p>
-                <span>2021.10 — 2022.08</span>
-              </div>
-              <ul>
-                <li>Brand / Campaign / IP visual</li>
-                <li>Offline event & retail touchpoints</li>
-                <li>AI workflow tools</li>
-              </ul>
-            </section>
-
-            <section className="resume-wireframe__mini">
-              <SectionLabel>EDUCATION / BEYOND</SectionLabel>
-              <p>［學校名稱］ / ［科系名稱］</p>
-              <p>Illustration / Character Design / Independent Brand</p>
-            </section>
           </aside>
+
+          <div className="ResumeLowerGrid resume-wireframe__lower">
+            <ProjectsSection content={content} onProjectOpen={handleProjectOpen} />
+            <ExperienceSection content={content} />
+          </div>
         </div>
       </div>
     </section>

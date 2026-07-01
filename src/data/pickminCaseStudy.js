@@ -99,7 +99,7 @@ const zh = {
   heroImage: pickminImages.hero,
   subtitle: '為 Pikmin Bloom 玩家打造的多語明信片收藏、追蹤與管理 Web App。',
   summary:
-    'Pickmin Postcards 是一個從零設計與開發的收藏型產品，協助玩家搜尋、記錄、收藏與管理 Pikmin Bloom 的明信片、花點與菇點，並用收藏資料夾、地圖與路線規劃探索地點。專案涵蓋產品策略、資訊架構、UI 設計、多語系介面、使用者資料流程、圖片上傳、地圖路線、管理後台與正式部署。',
+    'Pikmin Postcards 是一個從零設計與開發的收藏型產品，協助玩家搜尋、記錄、收藏與管理 Pikmin Bloom 的明信片、花點與菇點，並用收藏資料夾、地圖與路線規劃探索地點。專案涵蓋產品策略、資訊架構、UI 設計、多語系介面、使用者資料流程、圖片上傳、地圖路線、管理後台與正式部署。',
   meta: [
     { label: 'ABOUT', value: '多語明信片收藏、搜尋與管理 Web App' },
     { label: 'ROLE', value: '產品設計 / UI 設計 / 前端開發' },
@@ -123,7 +123,7 @@ const zh = {
   },
   complexity: {
     title: 'PRODUCT COMPLEXITY',
-    body: 'Pickmin 不是單一瀏覽頁，而是一個同時支援公開資料、個人收藏、圖片上傳、管理審核與四語介面的產品。這些流程讓視覺、元件與狀態需要以系統方式維護。',
+    body: 'Pikmin 不是單一瀏覽頁，而是一個同時支援公開資料、個人收藏、圖片上傳、管理審核與四語介面的產品。這些流程讓視覺、元件與狀態需要以系統方式維護。',
     items: [
       { id: 'screens', value: '10+', label: 'Screens' },
       { id: 'languages', value: '4', label: 'Languages' },
@@ -156,7 +156,7 @@ const zh = {
   },
   architecture: {
     note:
-      'Pickmin 的資訊架構核心是把「公開資料」與「個人資料」分開處理。公開資料提供搜尋與瀏覽，個人資料則保存使用者的收藏狀態。這讓同一張明信片可以同時承載社群資料與個人紀錄，不會互相覆蓋。',
+      'Pikmin 的資訊架構核心是把「公開資料」與「個人資料」分開處理。公開資料提供搜尋與瀏覽，個人資料則保存使用者的收藏狀態。這讓同一張明信片可以同時承載社群資料與個人紀錄，不會互相覆蓋。',
     items: ['公開明信片資料庫', '花點 / 菇點 / 隱藏 / 金盆 分類', '明信片詳情', '搜尋與篩選', '個人收藏資料夾', '地圖與路線', '圖片上傳', '回報與審核', '管理後台', '多語系內容'],
   },
   whyDesignSystem: {
@@ -193,7 +193,7 @@ const zh = {
   ],
   foundations: {
     title: 'VISUAL FOUNDATIONS',
-    intro: '這些基礎規則來自目前 Pickmin 作品集展示與正式產品畫面的共同語言，並用於解釋顏色、文字、間距、圓角與觸控範圍如何落到元件上。',
+    intro: '這些基礎規則來自目前 Pikmin 作品集展示與正式產品畫面的共同語言，並用於解釋顏色、文字、間距、圓角與觸控範圍如何落到元件上。',
     colors: [
       { id: 'primary-action', group: 'Action', name: 'Primary / Black', usage: 'primary buttons and confirm actions' },
       { id: 'accent-blue', group: 'Accent', name: 'Interactive Blue', usage: 'selected state, active filter, focus ring' },
@@ -235,7 +235,7 @@ const zh = {
   },
   productComponents: {
     title: 'COMPONENTS SHAPED BY THE PRODUCT',
-    intro: 'Pickmin 的元件不是通用 UI kit，而是直接回應收藏、分類、儲存與錯誤回饋情境。',
+    intro: 'Pikmin 的元件不是通用 UI kit，而是直接回應收藏、分類、儲存與錯誤回饋情境。',
     postcardCard: {
       ...productComponents.postcardCard,
       title: 'Postcard Card',
@@ -327,12 +327,12 @@ const zh = {
   },
   security: {
     body:
-      '因為 Pickmin 涉及登入、使用者收藏、圖片上傳與公開資料維護，我在產品設計中加入權限與審核思考。公開資料、個人資料與管理者操作被拆成不同流程，避免使用者上傳直接影響正式資料，也降低資料被誤改或濫用的風險。',
+      '因為 Pikmin 涉及登入、使用者收藏、圖片上傳與公開資料維護，我在產品設計中加入權限與審核思考。公開資料、個人資料與管理者操作被拆成不同流程，避免使用者上傳直接影響正式資料，也降低資料被誤改或濫用的風險。',
     items: ['使用者登入與個人收藏資料分離', '圖片上傳需經過審核', '管理後台限制權限', 'public / private data flow 分離', '部署 headers 與允許來源控管'],
   },
   outcome: {
     body:
-      'Pickmin 最終從一個收藏痛點，發展成一個具備前台、個人化資料、管理後台與部署安全考量的完整產品。這個專案讓我不只處理 UI 畫面，也完整經歷了產品定義、資料架構、互動流程、工程限制與正式上線後的維護問題。',
+      'Pikmin 最終從一個收藏痛點，發展成一個具備前台、個人化資料、管理後台與部署安全考量的完整產品。這個專案讓我不只處理 UI 畫面，也完整經歷了產品定義、資料架構、互動流程、工程限制與正式上線後的維護問題。',
     items: ['完成可上線 Web App', '支援 4 語言', '建立公開資料 + 個人收藏流程', '建立圖片上傳與審核機制', '建立管理後台', '完成 PWA 與 Vercel 部署'],
     reflection:
       '建立這套系統後，我不再以單一頁面為單位處理視覺，而是從規則、元件與操作模式思考產品如何持續擴充。這個過程也讓我更清楚理解視覺決策、互動方式、多語系需求與 React 元件結構之間的關係。',
@@ -350,7 +350,7 @@ const en = {
   ...zh,
   subtitle: 'A multilingual postcard collection, tracking, and management web app for Pikmin Bloom players.',
   summary:
-    'Pickmin Postcards is a collection product designed and built from scratch to help players search, record, collect, and manage Pikmin Bloom postcards, flower spots, and mushroom spots, with collection folders, a map, and route planning to explore locations. The project covers product strategy, information architecture, UI design, multilingual interfaces, user data flows, image upload, map and routes, admin review, and production deployment.',
+    'Pikmin Postcards is a collection product designed and built from scratch to help players search, record, collect, and manage Pikmin Bloom postcards, flower spots, and mushroom spots, with collection folders, a map, and route planning to explore locations. The project covers product strategy, information architecture, UI design, multilingual interfaces, user data flows, image upload, map and routes, admin review, and production deployment.',
   meta: [
     { label: 'ABOUT', value: 'Multilingual postcard collection, search, and management web app' },
     { label: 'ROLE', value: 'Product design / UI design / frontend development' },
@@ -374,7 +374,7 @@ const en = {
   },
   complexity: {
     ...zh.complexity,
-    body: 'Pickmin is not a single browse page. It supports public data, personal collections, image upload, admin review, and four-language interfaces. That product scope requires visual rules, component states, and interaction patterns to be maintained as a system.',
+    body: 'Pikmin is not a single browse page. It supports public data, personal collections, image upload, admin review, and four-language interfaces. That product scope requires visual rules, component states, and interaction patterns to be maintained as a system.',
   },
   problems: [
     { title: 'Scattered data', body: 'Players often keep postcards in screenshots, photo albums, or chat history without a focused management system.' },
@@ -433,7 +433,7 @@ const en = {
   ],
   foundations: {
     ...zh.foundations,
-    intro: 'These foundation rules are drawn from the shared visual language of the current Pickmin portfolio presentation and product screens, showing how color, type, spacing, radius, and touch targets land in components.',
+    intro: 'These foundation rules are drawn from the shared visual language of the current Pikmin portfolio presentation and product screens, showing how color, type, spacing, radius, and touch targets land in components.',
     typographyNote: 'Latin uses TASA Explorer; CJK uses Chiron Hei HK; display headings use Chocolate Classical Sans, all loaded via Google Fonts with a system-ui fallback. Four-language samples set zh-Hant, en, ja, and ko on each container.',
   },
   coreComponents: {
@@ -442,7 +442,7 @@ const en = {
   },
   productComponents: {
     ...zh.productComponents,
-    intro: 'Pickmin components are shaped by collection, folder selection, saving, and error feedback rather than generic UI kit needs.',
+    intro: 'Pikmin components are shaped by collection, folder selection, saving, and error feedback rather than generic UI kit needs.',
     postcardCard: {
       ...zh.productComponents.postcardCard,
       purpose: 'Carries image, location, ownership, and collection cues across search, browse, and save flows.',
@@ -491,6 +491,7 @@ const en = {
   localization: {
     ...zh.localization,
     intro: 'The same component needs to handle four different text lengths. Card titles are capped at two lines, action buttons resize to content, and text is not constrained by fixed widths.',
+    rules: ['Titles cap at two lines and truncate on overflow', 'Buttons resize to fit content', 'CJK font fallback follows the language container', 'Key actions use text and state together, not icons alone'],
   },
   systemToProduct: {
     ...zh.systemToProduct,
@@ -503,12 +504,12 @@ const en = {
   },
   security: {
     body:
-      'Because Pickmin includes login, personal collection records, image upload, and public data maintenance, permission and review flows were part of the product design. Public data, private data, and admin actions are separated to avoid direct uncontrolled changes to production data.',
+      'Because Pikmin includes login, personal collection records, image upload, and public data maintenance, permission and review flows were part of the product design. Public data, private data, and admin actions are separated to avoid direct uncontrolled changes to production data.',
     items: ['Separated user login and personal collection data', 'Image uploads require review', 'Admin dashboard permission boundaries', 'Public / private data flow separation', 'Deployment headers and allowed origins'],
   },
   outcome: {
     body:
-      'Pickmin grew from a collection pain point into a complete product with public browsing, personal data, admin review, and deployment safety considerations. It required product definition, data architecture, interaction design, engineering constraints, and maintenance thinking.',
+      'Pikmin grew from a collection pain point into a complete product with public browsing, personal data, admin review, and deployment safety considerations. It required product definition, data architecture, interaction design, engineering constraints, and maintenance thinking.',
     items: ['Launched web app', '4-language support', 'Public data + personal collection flow', 'Image upload and review workflow', 'Admin dashboard', 'PWA and Vercel deployment'],
     reflection:
       'Building this system shifted my process from styling individual screens to designing reusable rules, components, and interaction patterns. It also helped me connect visual decisions, motion, localization, and React structure as one product system.',

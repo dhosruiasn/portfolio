@@ -5,6 +5,7 @@ import LoadingBlinds from './components/LoadingBlinds.jsx';
 import Marquee from './components/Marquee.jsx';
 import Hero from './components/Hero.jsx';
 import Nav from './components/Nav.jsx';
+import BrandNameTransition from './components/BrandNameTransition.jsx';
 import DigitalWorks from './components/DigitalWorks.jsx';
 import GraphicSleeve from './components/GraphicSleeve.jsx';
 import BrandSection from './components/BrandSection.jsx';
@@ -35,6 +36,7 @@ export default function App() {
       <Marquee heroRef={heroRef} />
       <Hero ref={heroRef} started={introDone} />
       <Nav heroRef={heroRef} />
+      <BrandNameTransition />
 
       <DigitalWorks />
 

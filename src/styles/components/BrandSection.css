@@ -304,7 +304,7 @@
 @media (max-width: 768px) {
   .brand-section {
     padding: 0;
-    background: #6b3415;
+    background: #d9d9d9;
   }
 
   .brand-section::before {
@@ -313,6 +313,18 @@
 
   .brand-section__sticky {
     background: #6b3415;
+  }
+
+  .brand-section__sticky::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 10px;
+    z-index: 30;
+    background: #d9d9d9;
+    pointer-events: none;
   }
 
   .brand-section__stage {
@@ -355,15 +367,31 @@
   }
 
   .brand-posters {
+    height: auto;
+    min-height: 0;
     overflow-x: auto;
     overflow-y: visible;
+    scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+  }
+
+  .brand-posters::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: 0;
+    right: 0;
+    height: 18px;
+    z-index: 3;
+    background: #d9d9d9;
+    pointer-events: none;
   }
 
   .brand-posters__sticky {
     width: 940px;
     min-width: 940px;
+    height: auto;
     overflow: visible;
   }
 
@@ -377,8 +405,16 @@
 
   .brand-posters__stage {
     width: 940px;
-    min-height: 100%;
+    min-height: 0;
     aspect-ratio: 1920 / 1097;
+  }
+
+  .brand-poster__item {
+    scroll-snap-align: center;
+  }
+
+  .brand-poster__surface figcaption {
+    bottom: 8%;
   }
 }
 

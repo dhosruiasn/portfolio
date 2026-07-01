@@ -3,7 +3,7 @@ import { pickminCaseStudy } from './pickminCaseStudy.js';
 export const projects = [
   {
     id: 'pickmin',
-    name: 'Pickmin Postcards',
+    name: 'Pikmin Postcards',
     category: { zh: '產品設計 × 開發', en: 'Product Design × Dev' },
     height: 360,
     marginTop: 0,
