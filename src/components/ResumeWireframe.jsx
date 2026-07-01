@@ -120,6 +120,7 @@ export default function ResumeWireframe() {
 
   return (
     <section className="section resume-wireframe" id="resume-wireframe" aria-label={content.ariaLabel}>
+      <span className="resume-wireframe__anchor" id="about" aria-hidden="true" />
       <div className="container resume-wireframe__inner">
         <div className="resume-wireframe__poster">
           <aside className="resume-wireframe__visual">

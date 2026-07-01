@@ -2,6 +2,15 @@
   background: #f3f2ee;
   scroll-margin-top: var(--nav-height);
   padding: calc(var(--nav-height) + 46px) 0 60px;
+  position: relative;
+}
+
+.resume-wireframe__anchor {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 1px;
+  height: 1px;
+  scroll-margin-top: var(--nav-height);
 }
 
 .resume-wireframe__inner {

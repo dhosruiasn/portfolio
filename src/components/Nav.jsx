@@ -26,7 +26,7 @@ export default function Nav({ heroRef }) {
         </a>
         <span className="nav__brand">DORIS KAO</span>
         <div className="nav__right">
-          <a href="#resume-wireframe" className="nav__link">
+          <a href="#about" className="nav__link">
             ABOUT
           </a>
           <div className="nav__language" aria-label="Language selection">
