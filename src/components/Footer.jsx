@@ -111,7 +111,7 @@ function FooterShapeField({ play }) {
       ]);
 
       const compact = W < 720;
-      const mailWidth = compact ? Math.min(226, W * 0.78) : 270;
+      const mailWidth = compact ? Math.min(286, W * 0.86) : 340;
       const wixWidth = compact ? Math.min(218, W * 0.76) : 260;
       const badgeHeight = compact ? 58 : 72;
       const orbSize = compact ? 112 : 142;
@@ -121,8 +121,8 @@ function FooterShapeField({ play }) {
         {
           kind: 'pill',
           label: 'mail',
-          text: 'googoolii.good@gmail.com',
-          href: 'mailto:googoolii.good@gmail.com',
+          text: 'doris.kao20000619@gmail.com',
+          href: 'mailto:doris.kao20000619@gmail.com',
           color: FOOTER_PALETTE.orange,
           fg: '#fff',
           w: mailWidth,

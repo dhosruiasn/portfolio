@@ -87,6 +87,14 @@ const FLOW_TONES = [
 const FALLING_CHIP_COLORS = ['#fff', '#ff9ec8', '#a8d8ff', '#d9ef7d', '#81c996', '#d9cda2', '#ffd66b', '#c7b6ff', '#fff'];
 const FALLING_CHIP_ROTATIONS = [-3, 2, -2, 3, -4, 2.5, -2.5, 1.5, -1];
 const FALLING_CHIP_START_ROTATIONS = [-14, 12, -10, 16, -18, 13, -12, 10, -9];
+const PICKMIN_PRELOAD_IMAGES = [
+  '/images/projects/pickmin/Hero%20mockup.avif',
+  '/images/projects/pickmin/home-public-browse.avif',
+  '/images/projects/pickmin/search-owned-status.avif',
+  '/images/projects/pickmin/upload-admin-review.avif',
+  '/images/projects/pickmin/multilingual-comparison.avif',
+  '/images/projects/pickmin/map-system-screen.avif',
+];
 
 const NO_BREAK_TERMS = [
   '插畫 IP 品牌網站',
@@ -207,6 +215,27 @@ const NO_BREAK_TERMS = [
 
 const noBreakTermsByLength = [...NO_BREAK_TERMS].sort((a, b) => b.length - a.length);
 const noBreakPattern = new RegExp(`(${noBreakTermsByLength.map((term) => term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`, 'g');
+
+function preloadPickminImages() {
+  if (typeof document === 'undefined') return;
+
+  PICKMIN_PRELOAD_IMAGES.forEach((src) => {
+    const href = assetPath(src);
+    if (!href || document.head.querySelector(`link[data-pickmin-preload="${href}"]`)) return;
+
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'image';
+    link.type = 'image/avif';
+    link.href = href;
+    link.dataset.pickminPreload = href;
+    document.head.appendChild(link);
+
+    const image = new Image();
+    image.decoding = 'async';
+    image.src = href;
+  });
+}
 
 function TuneRow({ label, value, min, max, step = 0.1, unit = '', onChange }) {
   return (
@@ -988,6 +1017,7 @@ export default function ProjectDetailPage({ project, onClose }) {
   useEffect(() => {
     setTune(getDetailTune(project));
     setImageTune(DEFAULT_IMAGE_TUNE);
+    if (project?.id === 'pickmin') preloadPickminImages();
   }, [project?.id]);
 
   useEffect(() => {
@@ -1053,8 +1083,9 @@ export default function ProjectDetailPage({ project, onClose }) {
 
       const caseStudy = pageRef.current?.querySelector('.case-study');
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const compactViewport = window.matchMedia('(max-width: 900px)').matches;
       const fallingChipClouds = caseStudy ? Array.from(caseStudy.querySelectorAll('.case-chip-cloud--falling')) : [];
-      if (caseStudy && !reduceMotion) {
+      if (caseStudy && !reduceMotion && !compactViewport) {
         const revealGroups = Array.from(caseStudy.querySelectorAll('.case-card-grid, .case-flow, .case-decision-list, .case-design-system, .case-component-strip, .case-chip-cloud--stacked, .pickmin-complexity__grid, .pickmin-ds-intro__map, .pickmin-principles, .pickmin-foundations__colors, .pickmin-core-components, .pickmin-product-components, .pickmin-interaction-flow__controls, .pickmin-interaction-demo, .pickmin-motion__grid, .pickmin-localization__grid, .pickmin-system-product__screens, .pickmin-reflection__next, .googoolii-concept-grid, .googoolii-visual-list, .googoolii-color-grid, .googoolii-type-grid, .googoolii-flow-list, .googoolii-interaction-grid'));
         revealGroups.forEach((group) => {
           const children = Array.from(group.children);
