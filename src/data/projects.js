@@ -371,7 +371,7 @@ export const projects = [
     category: { zh: '內部工具 · 自動化', en: 'Internal Tool · Automation' },
     height: 380,
     marginTop: 20,
-    media: '/images/projects/Work-Order Sync Bot/Work-Order Sync Bot＿封面.png',
+    media: '/images/projects/Work-Order Sync Bot/work-order-cover-full.png',
     link: '',
     zh: {
       about: '於蝦皮任職期間，以 Google Apps Script 打造的設計檔歸檔與寄信自動化系統。設計師每天要把設計檔歸檔到外部公槽並寄給跨部門，一張約 5 分鐘，高峰日可能累積到 8 張以上；系統依 Google Sheet 自動建立外部資料夾、複製內部公槽檔案並產生草稿信，設計師確認後即可寄出，大幅降低重複工時。',

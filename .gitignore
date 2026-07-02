@@ -8,3 +8,6 @@ house.ai
 
 # Source media (large originals, not deployed)
 media-source/
+
+# Claude harness docs (local paths, keep out of public repo)
+CLAUDE.md

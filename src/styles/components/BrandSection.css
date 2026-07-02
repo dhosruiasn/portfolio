@@ -341,6 +341,9 @@
   .bs-brand {
     top: var(--mobile-brand-top, 20%);
     left: var(--mobile-brand-left, 4%);
+    /* 真機字體度量比模擬寬，說明文字曾在 iPhone 上貼齊視窗被裁；
+       加右界讓長行改為換行 */
+    right: 16px;
   }
 
   .bs-brand__title {

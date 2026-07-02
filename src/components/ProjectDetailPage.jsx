@@ -477,6 +477,66 @@ function GoogooliiSystemPage({ caseStudy, onBack }) {
   );
 }
 
+/* 長內頁閱讀輔助：頂部進度條＋章節跳轉（case / googoolii 兩種版型通用） */
+function CaseChapterNav({ pageRef }) {
+  const { lang } = useLanguage();
+  const [progress, setProgress] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [chapters, setChapters] = useState([]);
+
+  useEffect(() => {
+    const page = pageRef.current;
+    if (!page) return undefined;
+    const sections = Array.from(page.querySelectorAll('.case-section, .googoolii-section'))
+      .map((el) => ({ el, label: el.querySelector('h2')?.textContent?.trim() }))
+      .filter((item) => item.label);
+    setChapters(sections);
+
+    const onScroll = () => {
+      const max = page.scrollHeight - page.clientHeight;
+      setProgress(max > 0 ? Math.min(1, page.scrollTop / max) : 0);
+    };
+    onScroll();
+    page.addEventListener('scroll', onScroll, { passive: true });
+    return () => page.removeEventListener('scroll', onScroll);
+  }, [pageRef]);
+
+  const jumpTo = (el) => {
+    const page = pageRef.current;
+    if (!page) return;
+    const top = el.getBoundingClientRect().top - page.getBoundingClientRect().top + page.scrollTop - 16;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    page.scrollTo({ top, behavior: reduce ? 'auto' : 'smooth' });
+    setOpen(false);
+  };
+
+  if (!chapters.length) return null;
+
+  return (
+    <>
+      <div className="case-progress" aria-hidden="true">
+        <div className="case-progress__bar" style={{ transform: `scaleX(${progress})` }} />
+      </div>
+      <button
+        className="case-chapters__toggle"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+      >
+        {lang === 'zh' ? '章節 ☰' : 'Index ☰'}
+      </button>
+      {open && (
+        <nav className="case-chapters" aria-label={lang === 'zh' ? '章節目錄' : 'Chapter index'}>
+          {chapters.map(({ el, label }, index) => (
+            <button key={`${label}-${index}`} className="case-chapters__link" onClick={() => jumpTo(el)}>
+              {label}
+            </button>
+          ))}
+        </nav>
+      )}
+    </>
+  );
+}
+
 function GoogooliiCaseStudyPage({ project, content, caseStudy, title, tune, setTune, pageRef, onClose }) {
   const [showSystem, setShowSystem] = useState(false);
   return (
@@ -493,6 +553,7 @@ function GoogooliiCaseStudyPage({ project, content, caseStudy, title, tune, setT
       <button className="detail-page__close" onClick={onClose} aria-label="close">
         ✕
       </button>
+      {!showSystem && <CaseChapterNav pageRef={pageRef} />}
       {SHOW_DETAIL_EDIT && <DetailTunePanel tune={tune} setTune={setTune} />}
 
       {showSystem ? (
@@ -723,6 +784,7 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
       <button className="detail-page__close" onClick={onClose} aria-label="close">
         ✕
       </button>
+      <CaseChapterNav pageRef={pageRef} />
       {SHOW_DETAIL_EDIT && <DetailTunePanel tune={tune} setTune={setTune} />}
       {SHOW_DETAIL_EDIT && <ImageTunePanel imageTune={imageTune} setImageTune={setImageTune} />}
       {SHOW_DETAIL_EDIT && <FlowTunePanel flowTune={flowTune} setFlowTune={setFlowTune} flowCopy={flowCopy} setFlowCopy={setFlowCopy} />}

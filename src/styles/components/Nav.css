@@ -93,6 +93,13 @@
   transition: color 0.2s ease, transform 0.2s ease;
 }
 
+/* 隱形擴大觸控範圍（約 44px 高），不動視覺排版與底線位置 */
+.nav__language-option::before {
+  content: '';
+  position: absolute;
+  inset: -12px -6px;
+}
+
 .nav__language-option::after {
   content: '';
   position: absolute;
@@ -128,6 +135,10 @@
 @media (max-width: 768px) {
   .nav__inner {
     padding: 0 14px;
+    /* 桌面的 1fr auto 1fr 在窄螢幕會讓右欄擠進中央、貼住品牌字，
+       改為中欄彈性軌道讓三塊各自保有間距 */
+    grid-template-columns: auto 1fr auto;
+    column-gap: 10px;
   }
 
   .nav__brand {

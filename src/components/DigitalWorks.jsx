@@ -34,9 +34,10 @@ const DEFAULT_PICKMIN_CARD_TUNE = {
 };
 
 const DEFAULT_WORK_ORDER_CARD_TUNE = {
-  imageScale: 1.07,
-  imageX: 12,
-  imageY: 2,
+  // 新封面 work-order-cover-full.png 已含完整視窗與留白，不需再縮放位移
+  imageScale: 1,
+  imageX: 0,
+  imageY: 0,
 };
 
 function TuneRow({ label, value, min, max, step = 0.1, unit = '%', onChange }) {

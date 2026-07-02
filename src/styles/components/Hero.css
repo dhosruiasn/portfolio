@@ -1,6 +1,8 @@
 .hero {
   position: relative;
   height: 100vh;
+  /* iOS Safari 工具列會蓋住 100vh 底部（名字釘在 bottom），svh 以最小可視高度計 */
+  height: 100svh;
   background: #fff573;
   overflow: hidden;
   padding: 76px 40px 28px;
@@ -78,5 +80,7 @@
   }
   .hero__name {
     left: 20px;
+    /* 80px 下限會讓 DORIS KAO® 在 375px 寬時超出視窗，改用 vw 讓名字貼合螢幕寬 */
+    font-size: clamp(40px, 15.5vw, 240px);
   }
 }
