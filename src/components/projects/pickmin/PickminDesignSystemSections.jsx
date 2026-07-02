@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { assetPath } from '../../../utils/assetPath.js';
 import ProductComponentShowcase from './ProductComponentShowcase.jsx';
 
@@ -17,6 +18,27 @@ function PlaceholderBlock({ label, placeholder }) {
   );
 }
 
+function getOptimizedImageSources(src) {
+  if (!src?.endsWith('.png')) return null;
+  return {
+    avif: src.replace(/\.png$/, '.avif'),
+    webp: src.replace(/\.png$/, '.webp'),
+  };
+}
+
+function PickminImage({ src, alt = '', loading = 'lazy', width, height }) {
+  const sources = getOptimizedImageSources(src);
+  if (!sources) return <img src={assetPath(src)} alt={alt} loading={loading} width={width} height={height} />;
+
+  return (
+    <picture>
+      <source srcSet={assetPath(sources.avif)} type="image/avif" />
+      <source srcSet={assetPath(sources.webp)} type="image/webp" />
+      <img src={assetPath(src)} alt={alt} loading={loading} width={width} height={height} />
+    </picture>
+  );
+}
+
 function PickminMediaBlock({ media, label, placeholder }) {
   if (!media?.src) return <PlaceholderBlock label={label} placeholder={placeholder} />;
 
@@ -25,9 +47,22 @@ function PickminMediaBlock({ media, label, placeholder }) {
       {media.type === 'video' ? (
         <video src={assetPath(media.src)} muted loop autoPlay playsInline preload="metadata" aria-label={media.alt || label} />
       ) : (
-        <img src={assetPath(media.src)} alt={media.alt || ''} loading="lazy" />
+        <PickminImage src={media.src} alt={media.alt || ''} />
       )}
     </div>
+  );
+}
+
+function StepLabel({ label }) {
+  const match = label.match(/^(\d{2})\s+(.+)$/);
+  if (!match) return label;
+
+  return (
+    <>
+      <span className="pickmin-step-label__number">{match[1]}</span>
+      {' '}
+      <span className="pickmin-step-label__text">{match[2]}</span>
+    </>
   );
 }
 
@@ -86,7 +121,7 @@ export function DesignPrinciplesSection({ items }) {
       {items.map((item) => (
         <article className="pickmin-principle-card" key={item.id}>
           <div className="pickmin-principle-card__media">
-            <img src={assetPath(item.image)} alt="" loading="lazy" width="604" height="344" />
+            <PickminImage src={item.image} alt="" width="604" height="344" />
           </div>
           <div className="pickmin-principle-card__copy">
             <span>{item.number}</span>
@@ -176,22 +211,104 @@ export function ProductComponentsSection({ content }) {
 }
 
 export function InteractionFlowSection({ content }) {
+  const [activeStepId, setActiveStepId] = useState(content.steps[0]?.id || 'select');
+  const activeIndex = Math.max(0, content.steps.findIndex((step) => step.id === activeStepId));
+  const activeStep = content.steps[activeIndex] || content.steps[0];
+  const isSheetOpen = activeIndex >= 1;
+  const isFolderSelected = activeIndex >= 2;
+  const isSaving = activeStepId === 'save';
+  const isComplete = activeStepId === 'feedback';
+
+  const nextStep = () => {
+    const nextIndex = activeIndex >= content.steps.length - 1 ? 0 : activeIndex + 1;
+    setActiveStepId(content.steps[nextIndex].id);
+  };
+
   return (
     <div className="pickmin-interaction-flow">
       <SectionIntro>{content.intro}</SectionIntro>
-      <div className="pickmin-interaction-flow__grid">
+      <div className="pickmin-interaction-flow__controls" aria-label="Collection flow controls">
         {content.steps.map((step) => (
-          <article className="pickmin-flow-step" key={step.id}>
-            <h3>{step.label}</h3>
-            <dl>
-              <div><dt>Action</dt><dd>{step.action}</dd></div>
-              <div><dt>State</dt><dd>{step.state}</dd></div>
-              <div><dt>Feedback</dt><dd>{step.feedback}</dd></div>
-            </dl>
-          </article>
+          <button
+            className={step.id === activeStepId ? 'is-active' : ''}
+            type="button"
+            key={step.id}
+            onClick={() => setActiveStepId(step.id)}
+            aria-pressed={step.id === activeStepId}
+            aria-label={step.label}
+          >
+            <StepLabel label={step.label} />
+          </button>
         ))}
       </div>
-      <PickminMediaBlock label="Collection flow screen" media={content.media} placeholder={content.placeholder} />
+      <div className="pickmin-interaction-demo">
+        <div className="pickmin-interaction-demo__stage">
+          <div className={`pickmin-demo-phone${isSheetOpen ? ' pickmin-demo-phone--sheet-open' : ''}`}>
+            <div className="pickmin-demo-phone__bar" />
+            <div className="pickmin-demo-screen">
+              <div className="pickmin-demo-screen__top">
+                <span>Browse</span>
+                <strong>Tokyo Tower</strong>
+              </div>
+              <button
+                className={`pickmin-demo-card${activeStepId !== 'select' ? ' is-selected' : ''}`}
+                type="button"
+                onClick={() => setActiveStepId('open-sheet')}
+              >
+                <span className="pickmin-demo-card__image" />
+                <span className="pickmin-demo-card__copy">
+                  <strong>Tokyo Tower Postcard</strong>
+                  <em>Minato City · Owned</em>
+                </span>
+              </button>
+              <div className="pickmin-demo-list" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </div>
+              {isSheetOpen && (
+                <div className={`pickmin-demo-sheet${isSaving ? ' is-saving' : ''}${isComplete ? ' is-complete' : ''}`}>
+                  <span className="pickmin-demo-sheet__handle" />
+                  <div className="pickmin-demo-sheet__head">
+                    <strong>Save to collection</strong>
+                    <span>{isSaving ? 'Saving' : isComplete ? 'Saved' : 'Select folder'}</span>
+                  </div>
+                  <div className="pickmin-demo-folders">
+                    {['Favorites', 'Tokyo Trip', 'Rare Finds'].map((folder, index) => (
+                      <button
+                        className={isFolderSelected && index === 1 ? 'is-selected' : ''}
+                        type="button"
+                        key={folder}
+                        onClick={() => setActiveStepId('choose-folder')}
+                      >
+                        <strong>{folder}</strong>
+                        <span>{index === 1 ? '12 postcards' : `${index + 3} postcards`}</span>
+                      </button>
+                    ))}
+                  </div>
+                  <button className="pickmin-demo-save" type="button" onClick={() => setActiveStepId(isFolderSelected ? 'save' : 'choose-folder')} disabled={isSaving}>
+                    {isSaving ? 'Saving...' : isComplete ? 'Saved' : 'Save postcard'}
+                  </button>
+                </div>
+              )}
+              {isComplete && <div className="pickmin-demo-toast">Added to Tokyo Trip</div>}
+            </div>
+          </div>
+        </div>
+        <article className="pickmin-flow-step pickmin-flow-step--active">
+          <h3>
+            <StepLabel label={activeStep.label} />
+          </h3>
+          <dl>
+            <div><dt>Action</dt><dd>{activeStep.action}</dd></div>
+            <div><dt>State</dt><dd>{activeStep.state}</dd></div>
+            <div><dt>Feedback</dt><dd>{activeStep.feedback}</dd></div>
+          </dl>
+          <button type="button" onClick={nextStep}>
+            {activeIndex >= content.steps.length - 1 ? 'Reset flow' : 'Next state'}
+          </button>
+        </article>
+      </div>
     </div>
   );
 }
@@ -257,7 +374,7 @@ export function SystemToProductSection({ content }) {
         {content.screens.map((screen) => (
           <article className="pickmin-product-screen" key={screen.id}>
             <div className="pickmin-product-screen__media">
-              <img src={assetPath(screen.image)} alt={`${screen.title} product screen`} loading="lazy" width="3024" height="1724" />
+              <PickminImage src={screen.image} alt={`${screen.title} product screen`} width="3024" height="1724" />
             </div>
             <div className="pickmin-product-screen__labels">
               <h3>{screen.title}</h3>

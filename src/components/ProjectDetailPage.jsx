@@ -296,11 +296,32 @@ function renderInfoText(item) {
     );
 }
 
+function getPickminOptimizedImageSources(src) {
+  if (!src?.includes('/images/projects/pickmin/') || !src.endsWith('.png')) return null;
+  return {
+    avif: src.replace(/\.png$/, '.avif'),
+    webp: src.replace(/\.png$/, '.webp'),
+  };
+}
+
+function ProjectImage({ src, alt = '' }) {
+  const sources = getPickminOptimizedImageSources(src);
+  if (!sources) return <img src={assetPath(src)} alt={alt} />;
+
+  return (
+    <picture>
+      <source srcSet={assetPath(sources.avif)} type="image/avif" />
+      <source srcSet={assetPath(sources.webp)} type="image/webp" />
+      <img src={assetPath(src)} alt={alt} />
+    </picture>
+  );
+}
+
 function PhotoSlot({ label, compact = false, src, alt = '', className = '' }) {
   return (
     <div className={`case-photo-slot${compact ? ' case-photo-slot--compact' : ''}${src ? ' case-photo-slot--image' : ''}${className ? ` ${className}` : ''}`}>
       {src ? (
-        <img src={assetPath(src)} alt={alt} />
+        <ProjectImage src={src} alt={alt} />
       ) : (
         <>
           <span className="case-photo-slot__mark">DK®</span>
@@ -1034,7 +1055,7 @@ export default function ProjectDetailPage({ project, onClose }) {
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const fallingChipClouds = caseStudy ? Array.from(caseStudy.querySelectorAll('.case-chip-cloud--falling')) : [];
       if (caseStudy && !reduceMotion) {
-        const revealGroups = Array.from(caseStudy.querySelectorAll('.case-card-grid, .case-flow, .case-decision-list, .case-design-system, .case-component-strip, .case-chip-cloud--stacked, .pickmin-complexity__grid, .pickmin-ds-intro__map, .pickmin-principles, .pickmin-foundations__colors, .pickmin-core-components, .pickmin-product-components, .pickmin-interaction-flow__grid, .pickmin-motion__grid, .pickmin-localization__grid, .pickmin-system-product__screens, .pickmin-reflection__next, .googoolii-concept-grid, .googoolii-visual-list, .googoolii-color-grid, .googoolii-type-grid, .googoolii-flow-list, .googoolii-interaction-grid'));
+        const revealGroups = Array.from(caseStudy.querySelectorAll('.case-card-grid, .case-flow, .case-decision-list, .case-design-system, .case-component-strip, .case-chip-cloud--stacked, .pickmin-complexity__grid, .pickmin-ds-intro__map, .pickmin-principles, .pickmin-foundations__colors, .pickmin-core-components, .pickmin-product-components, .pickmin-interaction-flow__controls, .pickmin-interaction-demo, .pickmin-motion__grid, .pickmin-localization__grid, .pickmin-system-product__screens, .pickmin-reflection__next, .googoolii-concept-grid, .googoolii-visual-list, .googoolii-color-grid, .googoolii-type-grid, .googoolii-flow-list, .googoolii-interaction-grid'));
         revealGroups.forEach((group) => {
           const children = Array.from(group.children);
           if (children.length) gsap.set(children, { y: 32, opacity: 0 });
@@ -1058,7 +1079,7 @@ export default function ProjectDetailPage({ project, onClose }) {
               caseObserver.unobserve(entry.target);
             });
           },
-          { root: pageRef.current, threshold: 0.2 }
+          { root: pageRef.current, rootMargin: '0px 0px -8% 0px', threshold: 0.03 }
         );
         revealGroups.forEach((group) => caseObserver.observe(group));
       }
