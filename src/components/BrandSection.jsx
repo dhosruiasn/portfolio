@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { TextScramble } from '../utils/TextScramble.js';
 import { assetPath } from '../utils/assetPath.js';
 import { useLanguage } from '../context/LanguageContext.jsx';
-import GraphicOverlay from './GraphicOverlay.jsx';
+import GraphicOverlay, { COLLAGE_ASSETS } from './GraphicOverlay.jsx';
 import BrandEditPanel from './BrandEditPanel.jsx';
 import '../styles/components/BrandSection.css';
 
@@ -165,6 +165,28 @@ export default function BrandSection() {
     return () => ctx.revert();
   }, []);
 
+  // 預載門後拼貼頁的圖：頁面載入後趁瀏覽器空檔先在背景載好，
+  // 使用者滑到門、點進去時就不用等（總量約 1.2MB）
+  useEffect(() => {
+    let idleId;
+    let timeoutId;
+    const preload = () => {
+      COLLAGE_ASSETS.forEach((src) => {
+        const img = new Image();
+        img.src = src;
+      });
+    };
+    if ('requestIdleCallback' in window) {
+      idleId = window.requestIdleCallback(preload, { timeout: 3000 });
+    } else {
+      timeoutId = window.setTimeout(preload, 1500);
+    }
+    return () => {
+      if (idleId && 'cancelIdleCallback' in window) window.cancelIdleCallback(idleId);
+      if (timeoutId) window.clearTimeout(timeoutId);
+    };
+  }, []);
+
   // 切版「定住後」再滑一下 → 觸發點燈（pin 之後）
   useEffect(() => {
     if (!rootRef.current) return undefined;
@@ -195,7 +217,23 @@ export default function BrandSection() {
         });
       }
       if (screenGlow.length) gsap.to(screenGlow, { opacity: 1, duration: 0.5 });
-      if (bubble.length) gsap.to(bubble, { opacity: 1, scale: 1, ease: 'back.out(1.7)', duration: 0.4, delay: 0.3 });
+      if (bubble.length) {
+        gsap.to(bubble, { opacity: 1, scale: 1, ease: 'back.out(1.7)', duration: 0.4, delay: 0.3 });
+        // 泡泡以中心為圓心、左右對稱擺盪（−3°↔+3°）
+        gsap.fromTo(
+          bubble,
+          { rotation: -3 },
+          {
+            rotation: 3,
+            transformOrigin: 'center center',
+            duration: 0.9,
+            repeat: -1,
+            yoyo: true,
+            ease: 'sine.inOut',
+            delay: 0.7,
+          }
+        );
+      }
       // 門「半開又合上」反覆示意，提示可點擊進入
       if (doorClosed.length) {
         gsap.to(doorClosed, {

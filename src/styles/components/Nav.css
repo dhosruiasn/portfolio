@@ -33,6 +33,10 @@
   line-height: 0.9;
   letter-spacing: 0;
   color: var(--accent);
+  /* 可點回 hero：像連結一樣。注意：不要在這裡加 opacity 過渡，
+     會攔截 BrandNameTransition 用 gsap 瞬間切換 autoAlpha 的 nav↔CV 形變。 */
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .nav__right {

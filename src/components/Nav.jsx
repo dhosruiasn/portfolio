@@ -24,7 +24,9 @@ export default function Nav({ heroRef }) {
         <a href="#digital-works" className="nav__link">
           WORKS
         </a>
-        <span className="nav__brand">DORIS KAO</span>
+        <a href="#hero" className="nav__brand" aria-label="Back to top">
+          DORIS KAO
+        </a>
         <div className="nav__right">
           <a href="#about" className="nav__link">
             ABOUT

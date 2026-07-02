@@ -254,7 +254,7 @@ const Hero = forwardRef(function Hero({ started = true }, ref) {
   }, [ref]);
 
   return (
-    <section className="hero" ref={ref}>
+    <section className="hero" id="hero" ref={ref}>
       <HeroPixelMask maskRef={maskRef} />
       {/* 幾何圖形物理場：墜落堆在名字上方（名字=底座），游標推開像球一樣彈動 */}
       <ShapeField floorRef={nameWrapRef} start={started} />
