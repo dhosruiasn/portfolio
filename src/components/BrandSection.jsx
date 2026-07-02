@@ -57,6 +57,7 @@ const POSTERS = [
 const params = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
 const SHOW_GRID = !!params && params.has('grid');
 const SHOW_EDIT = !!params && params.has('edit');
+const SHOW_OVERLAY = !!params && params.has('overlay'); // dev：直接開門後拼貼頁預覽
 const DOOR_HINGE = '43.67% 74.05%';
 
 // 可調位置的預設值（編輯面板會即時覆寫；調好後把數值寫死回這裡）
@@ -114,7 +115,7 @@ export default function BrandSection() {
   const [tune, setTune] = useState(DEFAULT_TUNE);
   const [lit, setLit] = useState(false); // 燈是否亮（招牌＋螢幕）
   const [doorOpen, setDoorOpen] = useState(false);
-  const [overlayOpen, setOverlayOpen] = useState(false);
+  const [overlayOpen, setOverlayOpen] = useState(SHOW_OVERLAY);
   const isEnteringRef = useRef(false);
 
   // 入場：元件就定位，但招牌＋螢幕「先不亮」
