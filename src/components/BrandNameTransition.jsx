@@ -54,7 +54,7 @@ export default function BrandNameTransition() {
   useEffect(() => {
     const navBrand = document.querySelector('.nav__brand');
     const resumeTitle = document.querySelector('.resume-wireframe__title');
-    const resumeSection = document.querySelector('#resume-wireframe');
+    const resumeSection = document.querySelector('.resume-wireframe');
     if (!navBrand || !resumeTitle || !resumeSection) return undefined;
 
     const proxy = document.createElement('div');

@@ -1,16 +1,10 @@
 .resume-wireframe {
-  background: #f3f2ee;
-  scroll-margin-top: var(--nav-height);
+  background: #f4f4f4;
+  scroll-margin-top: 0;
   padding: calc(var(--nav-height) + 46px) 0 60px;
   position: relative;
-}
-
-.resume-wireframe__anchor {
-  position: absolute;
-  inset: 0 auto auto 0;
-  width: 1px;
-  height: 1px;
-  scroll-margin-top: var(--nav-height);
+  z-index: 3;
+  isolation: isolate;
 }
 
 .resume-wireframe__inner {
@@ -102,7 +96,7 @@
   right: max(4px, calc(100% - 292px));
   width: 62px;
   height: 62px;
-  background: #b3a0d6;
+  background: #ff9101;
   transform: rotate(12deg);
 }
 
@@ -316,9 +310,9 @@
   display: grid;
   align-content: start;
   padding: 17px 15px;
-  border: 1.5px solid rgba(37, 41, 54, 0.18);
+  border: 0;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.34);
+  background: #fff;
 }
 
 .resume-wireframe__expertise-grid span {
@@ -362,9 +356,9 @@
   gap: 4px;
   min-height: 30px;
   padding: 6px 10px;
-  border: 1px solid rgba(37, 41, 54, 0.18);
+  border: 0;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.42);
+  background: #fff;
   font-size: 12px;
   font-weight: 700;
   line-height: 1.15;

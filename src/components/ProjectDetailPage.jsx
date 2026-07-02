@@ -17,6 +17,7 @@ import {
   VisualFoundationsSection,
 } from './projects/pickmin/PickminDesignSystemSections.jsx';
 import ShopeeVisual from './projects/shopeeArchive/ShopeeArchiveVisuals.jsx';
+import UiTweakerVisual from './projects/uiTweaker/UiTweakerVisuals.jsx';
 import '../styles/components/ProjectDetailPage.css';
 
 const params = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
@@ -308,6 +309,19 @@ function PhotoSlot({ label, compact = false, src, alt = '', className = '' }) {
       )}
     </div>
   );
+}
+
+function VideoSlot({ src, alt = '', className = '' }) {
+  return (
+    <div className={`case-photo-slot case-photo-slot--image case-photo-slot--video${className ? ` ${className}` : ''}`}>
+      <video src={assetPath(src)} muted loop autoPlay playsInline preload="metadata" aria-label={alt} />
+    </div>
+  );
+}
+
+function ProjectCaseVisual({ projectId, id, compact = false }) {
+  if (projectId === 'ui-tweaker') return <UiTweakerVisual id={id} compact={compact} />;
+  return <ShopeeVisual id={id} compact={compact} />;
 }
 
 function CaseSection({ title, className = '', children }) {
@@ -628,7 +642,7 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
         }),
     ...caseStudy.panelTitles,
   };
-  const hasFallingArchitectureChips = project.id === 'googoolii' || project.id === 'pickmin' || project.id === 'shopee-archive';
+  const hasFallingArchitectureChips = project.id === 'googoolii' || project.id === 'pickmin' || project.id === 'shopee-archive' || project.id === 'ui-tweaker';
 
   return (
     <div
@@ -684,9 +698,11 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
                 </a>
               )}
             </div>
-            {caseStudy.heroVisual ? (
+            {caseStudy.heroVideo ? (
+              <VideoSlot src={caseStudy.heroVideo} alt={caseStudy.heroAlt || `${project.name} demo video`} />
+            ) : caseStudy.heroVisual ? (
               <div className="case-hero__visual">
-                <ShopeeVisual id={caseStudy.heroVisual} />
+                <ProjectCaseVisual projectId={project.id} id={caseStudy.heroVisual} />
               </div>
             ) : (
               <PhotoSlot src={caseStudy.heroImage} alt={caseStudy.heroAlt || `${project.name} hero mockup`} label="HERO MOCKUP / 手機或桌機主視覺" />
@@ -803,12 +819,14 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
                     <h3>{renderInfoText(item.title)}</h3>
                     <p>{renderInfoText(item.body)}</p>
                   </div>
-                  {item.visual ? (
+                  {item.image ? (
+                    <PhotoSlot src={item.image} alt={item.slot} label={item.slot} compact className={item.imageFocus} />
+                  ) : item.visual ? (
                     <div className="case-decision__visual">
-                      <ShopeeVisual id={item.visual} compact />
+                      <ProjectCaseVisual projectId={project.id} id={item.visual} compact />
                     </div>
                   ) : (
-                    <PhotoSlot src={item.image} alt={item.slot} label={item.slot} compact className={item.imageFocus} />
+                    <PhotoSlot alt={item.slot} label={item.slot} compact className={item.imageFocus} />
                   )}
                 </article>
               ))}
@@ -922,6 +940,15 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
         {isPickmin && (
           <section className="case-section case-section--cta" aria-label="Project link">
             <ProjectCTA content={caseStudy.cta} liveHref={project.link} />
+          </section>
+        )}
+
+        {!isPickmin && project.id === 'ui-tweaker' && project.link && (
+          <section className="case-section case-section--cta" aria-label="Project link">
+            <a className="case-end-cta" href={project.link} target="_blank" rel="noreferrer">
+              {caseStudyLang === 'zh' ? '前往網站' : 'VISIT SITE'}
+              <ExternalArrowIcon />
+            </a>
           </section>
         )}
       </article>
@@ -1082,7 +1109,7 @@ export default function ProjectDetailPage({ project, onClose }) {
     content.note,
   ].filter(Boolean);
   const detailTitle = project.detailTitle?.[lang] || project.detailTitle;
-  const title = detailTitle || (project.id === 'ui-tweaker' ? `${project.name} - skill` : project.name);
+  const title = detailTitle || project.name;
 
   if (caseStudy) {
     if (caseStudy.variant === 'googoolii-concept') {

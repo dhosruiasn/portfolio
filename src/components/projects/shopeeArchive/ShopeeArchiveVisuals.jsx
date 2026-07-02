@@ -149,10 +149,101 @@ function GmailMock() {
   );
 }
 
+function ConfigMock() {
+  return (
+    <div className="sa-visual sa-config" role="img" aria-label="同步流程中心的流程設定畫面：任務命名、Sheet 網址、同步欄位與勾選選項">
+      <div className="sa-visual__bar">
+        <span className="sa-visual__dot" style={{ background: '#ff5f57' }} />
+        <span className="sa-visual__dot" style={{ background: '#febc2e' }} />
+        <span className="sa-visual__dot" style={{ background: '#28c840' }} />
+        <span className="sa-visual__title">同步流程中心 — 流程設定</span>
+      </div>
+      <div className="sa-config__stage">
+        <div className="sa-config__card">
+          <div className="sa-config__title">流程設定</div>
+          <div className="sa-config__field">
+            <span className="sa-config__label">任務命名：</span>
+            <span className="sa-config__input">雙12 素材同步</span>
+          </div>
+          <div className="sa-config__field">
+            <span className="sa-config__label">Sheet 網址：</span>
+            <span className="sa-config__input">docs.google.com/spreadsheets/d/1A2b3C…</span>
+          </div>
+          <div className="sa-config__field">
+            <span className="sa-config__label">Sheet 名稱：</span>
+            <span className="sa-config__input">工單清單</span>
+          </div>
+          <div className="sa-config__cols">
+            <span className="lab">同步欄位：</span>
+            <span className="sa-config__colbox">C</span>
+            <span className="sep">至</span>
+            <span className="sa-config__colbox">D</span>
+          </div>
+          <div className="sa-config__checks">
+            <span className="sa-config__check sa-config__check--on">
+              <span className="sa-config__box">✓</span>只同步當天日期（A 欄）
+            </span>
+            <span className="sa-config__check sa-config__check--muted">
+              <span className="sa-config__box">✓</span>略過 psd、psb 和 ai 檔
+            </span>
+          </div>
+          <div className="sa-config__btns">
+            <span className="sa-config__btn sa-config__btn--cancel">取消</span>
+            <span className="sa-config__btn sa-config__btn--save">儲存修改</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CalendarEvent({ dot, date, keyword, rest, sub, tag, tagKind, muted }) {
+  return (
+    <div className="sa-cal__row">
+      <span className="sa-cal__date">{date}</span>
+      <span className="sa-cal__dot" style={{ background: dot }} />
+      <span className="sa-cal__event">
+        <span className={`ttl${muted ? ' muted' : ''}`}>
+          {keyword ? (
+            <>[<span className="sa-cal__kw">{keyword}</span>]{rest}</>
+          ) : (
+            rest
+          )}
+        </span>
+        {sub && <span className="sub">{sub}</span>}
+      </span>
+      <span className={`sa-cal__tag ${tagKind === 'skip' ? 'sa-cal__tag--skip' : 'sa-cal__tag--on'}`}>{tag}</span>
+    </div>
+  );
+}
+
+function CalendarMock() {
+  return (
+    <div className="sa-visual sa-cal-wrap" role="img" aria-label="Google 日曆：系統只抓標題含「美術」的事件並擷取主旨與截止日">
+      <div className="sa-cal__head">
+        <span className="g">
+          <span style={{ background: '#1a73e8' }} />
+          <span style={{ background: '#9aa0a6' }} />
+        </span>
+        <span className="m">Google 日曆 · 2025 年 12 月</span>
+        <span className="today">只抓「美術」</span>
+      </div>
+      <div className="sa-cal">
+        <CalendarEvent dot="#1a73e8" date="12/02 (二)" keyword="美術" rest=" 雙12 首頁 Banner" sub="10:00–11:00 · DL 12/05 · 附件連結" tag="偵測 ✓" tagKind="on" />
+        <CalendarEvent dot="#9aa0a6" date="12/02 (二)" rest="團隊週會" sub="09:00–09:30" tag="略過" tagKind="skip" muted />
+        <CalendarEvent dot="#1a73e8" date="12/03 (三)" keyword="美術" rest=" 品牌週 KV" sub="14:00–15:00 · DL 12/06" tag="偵測 ✓" tagKind="on" />
+      </div>
+      <div className="sa-cal__note">系統只抓標題含「美術」的事件，並擷取主旨與 DL 截止日寫入 Sheet。</div>
+    </div>
+  );
+}
+
 const VISUALS = {
   dashboard: DashboardMock,
   sheet: SheetMock,
   gmail: GmailMock,
+  config: ConfigMock,
+  calendar: CalendarMock,
 };
 
 export default function ShopeeVisual({ id, compact = false }) {

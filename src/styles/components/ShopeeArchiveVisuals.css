@@ -14,6 +14,8 @@
   isolation: isolate;
 }
 
+/* Grid items: align-self:center vertically centers each mock within its
+   row, so a short visual stays balanced against a taller copy panel. */
 .case-hero__visual,
 .case-decision__visual {
   align-self: center;
@@ -243,15 +245,15 @@
 }
 .sa-config__nav .brand { color: #fff; font-size: 13px; font-weight: 600; }
 .sa-config__nav .crumb { margin-left: auto; color: #94a3b8; font-size: 12px; }
-.sa-config__stage { background: #f1f5f9; padding: 18px; }
+.sa-config__stage { background: #f1f5f9; padding: 16px; }
 .sa-config__card {
   background: #fff;
   border: 1px solid #e2e8f0;
   border-radius: 18px;
-  padding: 18px 22px 20px;
+  padding: 16px 22px;
 }
-.sa-config__title { text-align: center; font-size: 17px; font-weight: 600; color: #1e293b; margin: 0 0 16px; }
-.sa-config__field { display: flex; align-items: center; margin-bottom: 10px; }
+.sa-config__title { text-align: center; font-size: 16px; font-weight: 600; color: #1e293b; margin: 0 0 12px; }
+.sa-config__field { display: flex; align-items: center; margin-bottom: 8px; }
 .sa-config__label { width: 84px; flex-shrink: 0; font-size: 12px; font-weight: 600; color: #64748b; }
 .sa-config__input {
   flex: 1;
@@ -259,14 +261,14 @@
   background: #f8fafc;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
-  padding: 9px 14px;
+  padding: 8px 14px;
   font-size: 12px;
   color: #334155;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.sa-config__cols { display: flex; align-items: center; margin: 4px 0 14px; }
+.sa-config__cols { display: flex; align-items: center; margin: 2px 0 12px; }
 .sa-config__cols .lab { width: 84px; flex-shrink: 0; font-size: 12px; font-weight: 600; color: #64748b; }
 .sa-config__colbox {
   width: 52px;
@@ -274,13 +276,13 @@
   background: #f8fafc;
   border: 1px solid #e2e8f0;
   border-radius: 10px;
-  padding: 9px 0;
+  padding: 8px 0;
   font-size: 14px;
   font-weight: 600;
   color: #1e293b;
 }
 .sa-config__cols .sep { margin: 0 12px; color: #cbd5e1; font-size: 12px; font-weight: 600; }
-.sa-config__checks { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+.sa-config__checks { display: flex; flex-direction: column; gap: 7px; margin-bottom: 12px; }
 .sa-config__check { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; }
 .sa-config__box {
   width: 15px; height: 15px; border-radius: 4px;

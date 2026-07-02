@@ -468,6 +468,18 @@ body:has(.detail-page),
   padding: clamp(10px, 1.4vw, 20px);
 }
 
+.case-photo-slot--video {
+  background: #141414;
+}
+
+.case-photo-slot--video video {
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  display: block;
+  object-fit: cover;
+}
+
 .case-photo-slot--focus-search.case-photo-slot--image img {
   width: 100%;
   height: 100%;
@@ -2344,15 +2356,18 @@ body:has(.detail-page),
   line-height: 1.65;
 }
 
-/* Pikmin: lighter content headings + readable metric values (less display-font pressure) */
-.detail-page--pickmin .case-section__heading h2 {
+/* Case pages: section headings use the same readable body type across projects. */
+.detail-page--case .case-section__heading h2,
+.detail-page--googoolii-custom .googoolii-section__heading h2 {
   font-family: var(--font-body-en), var(--font-body-zh);
   font-size: clamp(24px, 2.6vw, 40px);
   font-weight: 800;
   line-height: 1.15;
 }
 
-.detail-page--pickmin .case-metric strong {
+.detail-page--pickmin .case-metric strong,
+.detail-page--shopee-archive .case-metric strong,
+.detail-page--ui-tweaker .case-metric strong {
   font-family: var(--font-body-en), var(--font-body-zh);
   font-size: clamp(28px, 2.8vw, 44px);
   line-height: 1.05;
@@ -3004,22 +3019,77 @@ body:has(.detail-page),
 
 .pickmin-cta__button {
   min-height: 120px;
-  display: grid;
-  place-items: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
   padding: 24px;
   border-radius: 34px;
   background: var(--accent);
   color: #fff;
-  font-family: var(--font-heading);
-  font-size: clamp(34px, 4vw, 70px);
-  line-height: 0.95;
+  font-family: var(--font-body-en), var(--font-body-zh);
+  font-size: clamp(28px, 3.4vw, 58px);
+  font-weight: 900;
+  line-height: 1;
   text-align: center;
   transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.pickmin-cta__button svg {
+  width: 0.72em;
+  height: 0.72em;
+  flex: none;
 }
 
 .pickmin-cta__button:hover {
   transform: translateY(-3px) rotate(-1deg);
   background: #ff6a33;
+}
+
+.case-end-cta {
+  min-height: 120px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  width: 100%;
+  padding: 24px;
+  border-radius: 34px;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--font-body-en), var(--font-body-zh);
+  font-size: clamp(28px, 3.4vw, 58px);
+  font-weight: 900;
+  line-height: 1;
+  text-align: center;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.case-end-cta svg {
+  width: 0.72em;
+  height: 0.72em;
+  flex: none;
+}
+
+.detail-page__visit svg path,
+.case-hero__visit svg path,
+.pickmin-cta__button svg path,
+.case-end-cta svg path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.case-end-cta:hover {
+  transform: translateY(-3px) rotate(-1deg);
+  background: #ff6a33;
+}
+
+.case-end-cta:focus-visible {
+  outline: 4px solid #fff573;
+  outline-offset: 5px;
 }
 
 .detail-tune {

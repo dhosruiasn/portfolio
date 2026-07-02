@@ -1,5 +1,6 @@
 import { pickminCaseStudy } from './pickminCaseStudy.js';
 import { shopeeArchiveCaseStudy } from './shopeeArchiveCaseStudy.js';
+import { uiTweakerCaseStudy } from './uiTweakerCaseStudy.js';
 
 export const projects = [
   {
@@ -50,6 +51,7 @@ export const projects = [
       deliverables: '9 design-tuning categories, structured output, plugin, bilingual landing page, GitHub repo',
       link: 'https://dhosruiasn.github.io/ui-tweaker-skill/',
     },
+    caseStudy: uiTweakerCaseStudy,
   },
   {
     id: 'googoolii',

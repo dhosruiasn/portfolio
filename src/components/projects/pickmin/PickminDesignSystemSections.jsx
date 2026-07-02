@@ -31,6 +31,15 @@ function PickminMediaBlock({ media, label, placeholder }) {
   );
 }
 
+function ExternalArrowIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M7 17 17 7" />
+      <path d="M10 7h7v7" />
+    </svg>
+  );
+}
+
 export function ProductComplexitySection({ content }) {
   return (
     <div className="pickmin-complexity">
@@ -283,6 +292,7 @@ export function ProjectCTA({ content, liveHref }) {
     <div className="pickmin-cta">
       <a className="pickmin-cta__button" href={liveHref} target="_blank" rel="noreferrer">
         {content.live}
+        <ExternalArrowIcon />
       </a>
     </div>
   );

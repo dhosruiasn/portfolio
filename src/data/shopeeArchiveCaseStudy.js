@@ -76,6 +76,7 @@ export const shopeeArchiveCaseStudy = {
         title: '用「美術」關鍵字過濾工作行程',
         body: '公司所有設計需求都會標上「美術」，把它設為關鍵字就能只抓到工作相關的工單，避免把一般會議或私人行程也抓進系統。',
         slot: '日曆關鍵字過濾',
+        visual: 'calendar',
       },
       {
         title: '從日曆自動帶入主旨與截止日',
@@ -87,6 +88,7 @@ export const shopeeArchiveCaseStudy = {
         title: '用桌面 Dashboard 實際搬檔',
         body: '桌面端的 Python Dashboard 透過 Service Account 讀表，依 Sheet 內容建立外部資料夾並複製內部公槽檔案，還能略過 psd／psb／ai、只同步當天、只更新較新檔案，取代最耗時、最容易出錯的手動歸檔。',
         slot: '桌面同步 Dashboard',
+        visual: 'config',
       },
       {
         title: '只產生草稿，保留人工寄出',
@@ -220,6 +222,7 @@ export const shopeeArchiveCaseStudy = {
         title: 'Filter work events with the "美術" keyword',
         body: 'Every design request at the company is tagged with "美術", so using it as the keyword captures only work orders and keeps ordinary meetings or personal events out of the system.',
         slot: 'Calendar keyword filter',
+        visual: 'calendar',
       },
       {
         title: 'Pull subject and deadline from the calendar',
@@ -231,6 +234,7 @@ export const shopeeArchiveCaseStudy = {
         title: 'A desktop dashboard does the actual copy',
         body: 'The desktop Python dashboard reads the sheet via a service account, creates the external folder and copies the internal shared-drive files — and can skip psd/psb/ai, sync today only, and update only newer files, replacing the most time-consuming, error-prone manual archiving.',
         slot: 'Desktop sync dashboard',
+        visual: 'config',
       },
       {
         title: 'Draft only, keep the human send',

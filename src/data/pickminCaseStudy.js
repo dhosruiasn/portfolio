@@ -346,7 +346,7 @@ const zh = {
     next: ['Design System 仍會隨產品功能演進', '後續需補更多 accessibility testing', 'Admin components 尚未完整文件化'],
   },
   cta: {
-    live: 'EXPLORE LIVE PROTOTYPE',
+    live: '前往網站',
     manualReview: 'Live product — best viewed on a mobile device for the full collection experience.',
   },
 };
@@ -521,7 +521,7 @@ const en = {
     next: ['Design System is still evolving with the product', 'Additional accessibility testing is planned', 'Admin components are not yet fully documented'],
   },
   cta: {
-    live: 'EXPLORE LIVE PROTOTYPE',
+    live: 'VISIT SITE',
     manualReview: 'Live product — best viewed on a mobile device for the full collection experience.',
   },
 };
