@@ -1,6 +1,8 @@
 .hero {
   position: relative;
   height: 100vh;
+  /* 舊 iOS（<15.4，不認 svh）用 -webkit-fill-available 扣掉工具列 */
+  height: -webkit-fill-available;
   /* iOS Safari 工具列會蓋住 100vh 底部（名字釘在 bottom），svh 以最小可視高度計 */
   height: 100svh;
   background: #fff573;
@@ -74,13 +76,81 @@
     padding: 60px 20px 24px;
   }
   .hero__ascii {
-    top: 60px;
-    right: 20px;
-    height: min(420px, 42vh);
+    /* 滿版置中緊貼 marquee（60px）下緣：寬度撐滿螢幕（維持 640/820 比例），
+       上方不再留空；形狀縮小並排在下方，不重疊 ASCII */
+    top: 40px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: min(100vw - 16px, 62vh * 0.7805);
+    height: auto;
+    aspect-ratio: 640 / 820;
   }
   .hero__name {
     left: 20px;
-    /* 80px 下限會讓 DORIS KAO® 在 375px 寬時超出視窗，改用 vw 讓名字貼合螢幕寬 */
-    font-size: clamp(40px, 15.5vw, 240px);
+    /* 兩行排版：DORIS / KAO 各一行 → 字級放大填滿螢幕寬（使用者回饋太小）。
+       flex 不換行，讓 ® 貼在 KAO 那行的底部；換行發生在 name-text 內部。 */
+    font-size: clamp(60px, 23.5vw, 240px);
+    flex-wrap: nowrap;
+    align-items: flex-end;
+    line-height: 0.84;
+  }
+  .hero__name-text {
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+  /* 空格 span 撐滿整行 → 強制在 DORIS 與 KAO 之間換行（flex 換行點） */
+  .hero__name-space {
+    flex-basis: 100%;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+  }
+  /* 兩行時外掛的 ® 會被 flex 推到最右邊（換行 flex 容器寬＝可用寬）；
+     改藏起來、用 ::after 讓 ® 直接貼在 KAO 字尾（::after 不受 scramble 重建影響） */
+  .hero__reg {
+    display: none;
+  }
+  .hero__name-text::after {
+    content: '®';
+    align-self: flex-start;
+    margin-left: 0.08em;
+    margin-top: 0.12em;
+    font-size: 0.3em;
+    line-height: 1;
+    color: var(--accent);
+  }
+}
+
+
+/* 橫向手機（矮視窗）：名字與 ASCII 用 vh 封頂，避免互疊爆版 */
+@media (max-width: 900px) and (max-height: 500px) and (orientation: landscape) {
+  .hero__name {
+    font-size: min(15.5vw, 22vh);
+  }
+
+  .hero__ascii {
+    top: 56px;
+    height: min(300px, 52vh);
+  }
+}
+
+
+/* 平板直式（769–1024 portrait）：吃桌面版規則會讓 ASCII 過大、名字比例失衡 */
+@media (min-width: 769px) and (max-width: 1024px) and (orientation: portrait) {
+  .hero__ascii {
+    height: min(560px, 52vh);
+  }
+
+  .hero__name {
+    font-size: clamp(72px, 13vw, 160px);
+  }
+}
+
+/* 摺疊機／方形視窗（600–768，高寬相近）：兩行名字 23.5vw 會過大，降一級 */
+@media (min-width: 600px) and (max-width: 768px) {
+  .hero__name {
+    font-size: clamp(56px, 16vw, 150px);
   }
 }

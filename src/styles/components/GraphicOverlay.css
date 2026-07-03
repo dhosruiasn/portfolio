@@ -5,6 +5,8 @@
   background: rgb(18, 61, 200);
   overflow-x: hidden;
   overflow-y: auto;
+  /* 捲到頂/底時不要把捲動鏈到底下的主頁 */
+  overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   /* 橘色星星游標 */
   cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M16 1 L19.5 11.2 L30.3 11.4 L21.7 17.9 L24.8 28.1 L16 22 L7.2 28.1 L10.3 17.9 L1.7 11.4 L12.5 11.2 Z' fill='%23FF7A00'/%3E%3C/svg%3E") 16 16, auto;
@@ -67,12 +69,13 @@
 .graphic-overlay__close {
   position: fixed;
   /* iOS 瀏海／動態島下方的安全距離；44px 達到建議觸控尺寸 */
-  top: max(20px, env(safe-area-inset-top));
+  top: max(28px, calc(env(safe-area-inset-top) + 8px));
   right: 20px;
   z-index: 10000;
   color: #fff;
-  font-size: 20px;
-  line-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -118,3 +121,34 @@
   50% { transform: rotate(2.5deg); }
 }
 
+
+/* 首次進入的「拖拖看」提示，5s 後或第一次拖曳即淡出 */
+.graphic-overlay__hint {
+  position: fixed;
+  left: 50%;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  z-index: 10001;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(17, 17, 17, 0.82);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: go-hint 5s ease forwards;
+}
+
+@keyframes go-hint {
+  0% { opacity: 0; transform: translateX(-50%) translateY(8px); }
+  12%, 78% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .graphic-overlay__hint { animation: none; }
+}

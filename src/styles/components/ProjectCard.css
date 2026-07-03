@@ -130,4 +130,9 @@
   .project-card {
     flex: 0 0 100%;
   }
+
+  /* 觸控裝置沒有 hover：可點提示 pill 常駐顯示 */
+  .project-card__pill {
+    opacity: 1;
+  }
 }

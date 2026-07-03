@@ -67,6 +67,15 @@ export default function BrandNameTransition() {
     const reduceMotion = window.matchMedia(REDUCED_QUERY);
     const desktop = window.matchMedia(DESKTOP_QUERY);
 
+    // 手機不做 nav↔CV 形變：nav 品牌字恆顯示、CV 大標整個移除（使用者指定）。
+    // 直接略過所有 trigger，避免捲到 CV 時 nav 品牌被 autoAlpha 藏掉
+    if (!desktop.matches) {
+      gsap.set(navBrand, { autoAlpha: 1 });
+      gsap.set(resumeTitle, { autoAlpha: 0 });
+      proxy.remove();
+      return undefined;
+    }
+
     const setNavState = () => {
       activeTarget = 'nav';
       gsap.set(proxy, { autoAlpha: 0 });

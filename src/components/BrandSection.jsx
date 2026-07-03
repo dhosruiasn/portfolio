@@ -55,9 +55,9 @@ const POSTERS = [
   },
 ];
 const params = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
-const SHOW_GRID = !!params && params.has('grid');
-const SHOW_EDIT = !!params && params.has('edit');
-const SHOW_OVERLAY = !!params && params.has('overlay'); // dev：直接開門後拼貼頁預覽
+const SHOW_GRID = import.meta.env.DEV && !!params && params.has('grid');
+const SHOW_EDIT = import.meta.env.DEV && !!params && params.has('edit');
+const SHOW_OVERLAY = import.meta.env.DEV && !!params && params.has('overlay'); // dev：直接開門後拼貼頁預覽
 const DOOR_HINGE = '43.67% 74.05%';
 
 // 可調位置的預設值（編輯面板會即時覆寫；調好後把數值寫死回這裡）
@@ -77,7 +77,7 @@ const DEFAULT_TUNE = {
   glowH: 18,
   mobileStageWidth: 248,
   mobileBrandLeft: 4,
-  mobileBrandTop: 9.5,
+  mobileBrandTop: 15, // 原 9.5 太貼 nav、下方留白過多（使用者回饋）
   mobileBrandSize: 12,
   mobileDescX: 7,
   mobileDescY: 0,
@@ -476,10 +476,21 @@ export default function BrandSection() {
 
           {/* MY BRAND 文字：錨定視窗左上（不被商店裁切影響） */}
           <div className="bs-brand">
+            {/* 手機版裝飾星星（6 顆，實心/描邊交錯），填補標題周圍的留白 */}
+            {[1, 2, 3, 4, 5, 6].map((n) => (
+              <svg key={n} className={`bs-brand__deco bs-brand__deco--${n}`} viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M12 1l2.9 7.3L22 9.5l-5.5 4.7L18.4 22 12 17.7 5.6 22l1.9-7.8L2 9.5l7.1-1.2z"
+                  fill={n % 2 === 0 ? 'none' : '#fff573'}
+                  stroke={n % 2 === 0 ? '#fff573' : 'none'}
+                  strokeWidth={n % 2 === 0 ? 1.6 : 0}
+                />
+              </svg>
+            ))}
             <h2 className="bs-brand__title" ref={brandRef}>
               MY BRAND
             </h2>
-            <p className="bs-desc">
+            <p className={`bs-desc bs-desc--${lang}`}>
               {brandCopy.line1}
               <br />
               {brandCopy.line2}

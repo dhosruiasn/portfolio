@@ -104,23 +104,16 @@ const zh = {
     'Pikmin Postcards 是一個從零設計與開發的收藏型產品，協助玩家搜尋、記錄、收藏與管理 Pikmin Bloom 的明信片、花點與菇點，並用收藏資料夾、地圖與路線規劃探索地點。專案涵蓋產品策略、資訊架構、UI 設計、多語系介面、使用者資料流程、圖片上傳、地圖路線、管理後台與正式部署。',
   meta: [
     { label: 'ABOUT', value: '多語明信片收藏、搜尋與管理 Web App' },
-    { label: 'ROLE', value: '產品設計 / UI 設計 / 前端開發' },
     { label: 'PLATFORM', value: 'Responsive Web App / PWA' },
     { label: 'LANGUAGES', value: '繁體中文、English、日本語、한국어' },
     { label: 'RESPONSIBILITIES', value: '產品策略、Design System、互動流程、i18n、React 實作、部署' },
-    { label: 'TECH STACK', value: 'React、Vite、Supabase (Auth / DB / Storage)、Cloudflare R2、Leaflet、Vercel' },
   ],
-  metrics: [
-    { value: '10+', label: '核心頁面與管理介面' },
-    { value: '4', label: '語言 i18n 架構' },
-    { value: 'PWA', label: '行動裝置收藏體驗' },
-    { value: 'R2', label: '圖片上傳與雲端儲存' },
-  ],
+  metrics: [],
   overview: {
     title: '從玩家收藏痛點出發的產品設計',
     body: [
       'Pikmin Bloom 的明信片收藏具有高度的地點性與稀有性，但玩家實際管理收藏時，常需要依靠截圖、記憶、社群貼文或手動整理。這讓搜尋、比對、記錄擁有狀態與補充資料變得繁瑣。',
-      '我將這個需求轉化為一個可正式使用的 Web App，讓玩家能以更結構化的方式瀏覽公開明信片資料、記錄個人收藏，並透過上傳與管理流程持續補完整體資料庫。',
+      '我負責從產品策略、資訊架構到前端實作的完整流程，並決定以收藏資料夾、地圖與路線的結構，取代玩家原本截圖式的零散管理。',
     ],
   },
   complexity: {
@@ -358,23 +351,16 @@ const en = {
     'Pikmin Postcards is a collection product designed and built from scratch to help players search, record, collect, and manage Pikmin Bloom postcards, flower spots, and mushroom spots, with collection folders, a map, and route planning to explore locations. The project covers product strategy, information architecture, UI design, multilingual interfaces, user data flows, image upload, map and routes, admin review, and production deployment.',
   meta: [
     { label: 'ABOUT', value: 'Multilingual postcard collection, search, and management web app' },
-    { label: 'ROLE', value: 'Product design / UI design / frontend development' },
     { label: 'PLATFORM', value: 'Responsive Web App / PWA' },
     { label: 'LANGUAGES', value: 'Traditional Chinese, English, Japanese, Korean' },
     { label: 'RESPONSIBILITIES', value: 'Product strategy, design system, interaction flows, i18n, React implementation, deployment' },
-    { label: 'TECH STACK', value: 'React, Vite, Supabase (Auth / DB / Storage), Cloudflare R2, Leaflet, Vercel' },
   ],
-  metrics: [
-    { value: '10+', label: 'Core screens and admin views' },
-    { value: '4', label: 'Language i18n structure' },
-    { value: 'PWA', label: 'Mobile collection experience' },
-    { value: 'R2', label: 'Image upload and cloud storage' },
-  ],
+  metrics: [],
   overview: {
     title: 'Product design shaped by a collection pain point',
     body: [
       'Pikmin Bloom postcards are highly location-based and collectible, but players often rely on screenshots, memory, social posts, or manual notes to manage what they have. Searching, comparing, and recording ownership status becomes tedious quickly.',
-      'I turned that need into a usable web app where players can browse public postcard data, keep personal collection records, upload missing images, and help maintain the database through a reviewed workflow.',
+      'I owned the full process from product strategy and information architecture to front-end build, choosing a structure of collection folders, maps, and routes to replace the scattered, screenshot-based management players relied on.',
     ],
   },
   complexity: {

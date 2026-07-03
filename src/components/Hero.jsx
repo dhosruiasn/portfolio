@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useRef } from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { TextScramble } from '../utils/TextScramble.js';
@@ -21,6 +21,9 @@ function HeroPixelMask({ maskRef }) {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+    // 觸控裝置整段不啟用（含 sampler）：沒有游標、點擊觸發像 glitch，
+    // 且常駐 rAF 迴圈耗電（使用者確認手機移除）
+    if (window.matchMedia('(hover: none)').matches) return;
     const ctx = canvas.getContext('2d');
     const cell = 38;
     let cols = 0;
@@ -174,13 +177,12 @@ const Hero = forwardRef(function Hero({ started = true }, ref) {
     if (!started || !nameRef.current) return;
     let cancelled = false;
     let rafId = 0;
-
     const renderNameGlyphs = () => {
       if (!nameRef.current) return;
       nameRef.current.replaceChildren(
         ...HERO_NAME.split('').map((char, index) => {
           const span = document.createElement('span');
-          span.className = 'hero__name-char';
+          span.className = char === ' ' ? 'hero__name-char hero__name-space' : 'hero__name-char';
           span.textContent = char === ' ' ? '\u00a0' : char;
           span.dataset.char = char;
           span.style.color = NAME_INK;
@@ -191,6 +193,15 @@ const Hero = forwardRef(function Hero({ started = true }, ref) {
       );
       nameRef.current.setAttribute('aria-label', HERO_NAME);
     };
+
+    // 失效保險：scramble 若被中斷（切分頁/語言切換），4s 後重建正確字形。
+    // 必須用 renderNameGlyphs()（含兩行需要的 space span），不能寫純 textContent，
+    // 否則會把已完成的兩行名字塌回一行。比對時把 nbsp 正規化成一般空格。
+    const failsafe = setTimeout(() => {
+      if (cancelled || !nameRef.current) return;
+      const text = nameRef.current.textContent.replace(/\u00a0/g, ' ');
+      if (text !== HERO_NAME) renderNameGlyphs();
+    }, 4000);
 
     const sampleRect = (sampleBrown, rect) => {
       const x1 = rect.left;
@@ -230,6 +241,7 @@ const Hero = forwardRef(function Hero({ started = true }, ref) {
 
     return () => {
       cancelled = true;
+      clearTimeout(failsafe);
       cancelAnimationFrame(rafId);
       fx.destroy();
     };
@@ -263,7 +275,7 @@ const Hero = forwardRef(function Hero({ started = true }, ref) {
       </div>
       <h1 className="hero__name" ref={nameWrapRef}>
         <span className="hero__name-text" ref={nameRef}>
-          DORIS KAO
+          DORIS<span className="hero__name-space" aria-hidden="true"> </span>KAO
         </span>
         <span className="hero__reg">®</span>
       </h1>

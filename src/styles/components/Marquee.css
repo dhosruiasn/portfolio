@@ -42,3 +42,14 @@
     transform: translateX(-50%);
   }
 }
+
+@media (max-width: 768px) {
+  /* 窄機一次只看得到半句：縮字＋放慢，讓句子讀得完 */
+  .marquee__item {
+    font-size: 21px;
+  }
+
+  .marquee__track {
+    animation-duration: 30s;
+  }
+}

@@ -107,12 +107,16 @@ export default function ShapeField({ floorRef, start = true }) {
         Bodies.rectangle(W + 50, H / 2, 100, H * 3, wall),
       ]);
 
+      // 手機縮小到 72%：形狀是內容標籤要保留，但原尺寸會蓋住 ASCII 主視覺
+      // 手機縮更小（0.58）：形狀並排落地一層，不會堆高壓到 ASCII 主視覺
+      const compact = W < 700;
+      const k = compact ? 0.58 : 1;
       defs.forEach((d, i) => {
         let el;
         if (d.svg) {
           el = makeEl(d.className);
-          el.style.width = d.size + 'px';
-          el.style.height = d.size + 'px';
+          el.style.width = Math.round(d.size * k) + 'px';
+          el.style.height = Math.round(d.size * k) + 'px';
           el.innerHTML =
             d.svg(d.color) +
             (d.text ? `<span class="shape__text">${d.text}</span>` : '');
@@ -120,11 +124,11 @@ export default function ShapeField({ floorRef, start = true }) {
           el = makeEl(d.className, d.html);
           if (d.text) el.textContent = d.text;
           if (d.size) {
-            el.style.width = d.size + 'px';
-            el.style.height = d.size + 'px';
+            el.style.width = Math.round(d.size * k) + 'px';
+            el.style.height = Math.round(d.size * k) + 'px';
           }
-          if (d.w) el.style.width = d.w + 'px';
-          if (d.h) el.style.height = d.h + 'px';
+          if (d.w) el.style.width = Math.round(d.w * k) + 'px';
+          if (d.h) el.style.height = Math.round(d.h * k) + 'px';
           if (d.color) el.style.background = d.color;
         }
         if (d.fg) el.style.color = d.fg;
@@ -132,7 +136,10 @@ export default function ShapeField({ floorRef, start = true }) {
         const w = el.offsetWidth || d.w || d.size || 80;
         const h = el.offsetHeight || d.h || d.size || 44;
 
-        const startX = 80 + ((i * 137) % Math.max(W - 160, 200));
+        // 手機平均分佈落點（並排一層）；桌面沿用錯落
+        const startX = compact
+          ? (W / (defs.length + 1)) * (i + 1)
+          : 80 + ((i * 137) % Math.max(W - 160, 200));
         const startY = -120 - Math.random() * 500; // 從上方錯落墜落
 
         const opts = {
@@ -202,10 +209,32 @@ export default function ShapeField({ floorRef, start = true }) {
 
     const ro = new ResizeObserver(() => build());
     ro.observe(container);
-    build();
+    // 低階機保護：matter-js 初始化延到主線程空檔再跑，不擋首屏渲染
+    let idleId = null;
+    if ('requestIdleCallback' in window) {
+      idleId = window.requestIdleCallback(() => build(), { timeout: 800 });
+    } else {
+      idleId = setTimeout(build, 120);
+    }
+
+    // 背景分頁暫停物理運算：rAF 被節流時 delta 積累，切回來形狀會噴飛
+    const onVisibility = () => {
+      if (!runner) return;
+      if (document.hidden) {
+        Runner.stop(runner);
+      } else {
+        Runner.run(runner, engine);
+      }
+    };
+    document.addEventListener('visibilitychange', onVisibility);
 
     return () => {
       ro.disconnect();
+      if (idleId !== null) {
+        if ('cancelIdleCallback' in window) window.cancelIdleCallback(idleId);
+        else clearTimeout(idleId);
+      }
+      document.removeEventListener('visibilitychange', onVisibility);
       if (mouseMove) container.removeEventListener('mousemove', mouseMove);
       if (runner) Runner.stop(runner);
       if (engine) {

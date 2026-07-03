@@ -51,6 +51,9 @@
 html {
   scroll-behavior: smooth;
   overflow-x: clip;
+  /* iOS Safari 網址列／橡皮筋回彈區的底色：
+     頂端接 marquee 橘紅、底端接 footer 深棕，讓瀏覽器介面後方像頁面的延伸 */
+  background: linear-gradient(to bottom, var(--accent) 0%, var(--accent) 50%, #6b3415 50%, #6b3415 100%) fixed;
 }
 
 body {
@@ -113,4 +116,13 @@ video {
   .container {
     padding: 0 20px;
   }
+}
+
+/* 圖片載入失敗的佔位（App.jsx 全域 error 監聽加上 class） */
+.img-load-failed {
+  min-height: 60px;
+  background:
+    repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0.05) 0, rgba(0, 0, 0, 0.05) 8px, transparent 8px, transparent 16px),
+    #efede8;
+  outline: 1px dashed rgba(0, 0, 0, 0.18);
 }

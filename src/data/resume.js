@@ -2,13 +2,13 @@ export const resumeData = {
   cv: {
     zh: {
       file: 'cv/Doris_Kao_CV_ZH.pdf',
-      viewLabel: '查看履歷 ↗',
-      downloadLabel: '下載 PDF 履歷 ↓',
+      viewLabel: '查看履歷',
+      downloadLabel: '下載 PDF 履歷',
     },
     en: {
       file: 'cv/Doris_Kao_CV_EN.pdf',
-      viewLabel: 'VIEW CV ↗',
-      downloadLabel: 'DOWNLOAD CV ↓',
+      viewLabel: 'VIEW CV',
+      downloadLabel: 'DOWNLOAD CV',
     },
   },
   portrait: {
@@ -60,7 +60,7 @@ export const resumeData = {
       experience: 'EXPERIENCE',
       contact: 'CONTACT',
       links: 'LINKS',
-      viewProject: '查看 ↗',
+      viewProject: '查看',
     },
     expertise: [
       { id: 'brand', number: '01', title: 'Brand Identity', detail: '品牌識別與視覺系統' },
@@ -77,7 +77,7 @@ export const resumeData = {
         items: [
           { id: 'illustrator', label: 'Adobe Illustrator' },
           { id: 'photoshop', label: 'Adobe Photoshop' },
-          { id: 'figma', label: 'Figma', note: 'Working knowledge' },
+          { id: 'figma', label: 'Figma' },
         ],
       },
       {
@@ -159,7 +159,7 @@ export const resumeData = {
       experience: 'EXPERIENCE',
       contact: 'CONTACT',
       links: 'LINKS',
-      viewProject: 'VIEW ↗',
+      viewProject: 'VIEW',
     },
     expertise: [
       { id: 'brand', number: '01', title: 'Brand Identity', detail: 'Brand identity & visual systems' },
@@ -176,7 +176,7 @@ export const resumeData = {
         items: [
           { id: 'illustrator', label: 'Adobe Illustrator' },
           { id: 'photoshop', label: 'Adobe Photoshop' },
-          { id: 'figma', label: 'Figma', note: 'Working knowledge' },
+          { id: 'figma', label: 'Figma' },
         ],
       },
       {

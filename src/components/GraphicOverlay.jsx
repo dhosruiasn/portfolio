@@ -12,6 +12,9 @@ import '../styles/components/GraphicOverlay.css';
 
 const BASE = '/images/graphic/collage';
 
+// StrictMode 安全的 history 清理：cleanup 排程 back()，重掛載時取消（見下方 effect）
+let pendingCollageBack = null;
+
 // 底圖拆成三層（滿版方案）：上半部咕咕力橫幅 go-header、底部工作列 go-taskbar、
 // 中段為純藍底色（CSS）。商品散落在中段 canvas。
 // left/top/width 皆為中段 canvas 的百分比；rot 為旋轉角度。
@@ -45,24 +48,31 @@ export const COLLAGE_ASSETS = [
   ...ITEMS.map((item) => `${BASE}/${item.src}`),
 ].map((path) => assetPath(path));
 
-function DraggableItem({ item, offset, z, isMobile }) {
+function DraggableItem({ item, offset, z, isMobile, jitter }) {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({ id: item.id });
   // 已存下的位移 + 這次拖曳的即時位移
   const x = offset.x + (transform?.x || 0);
   const y = offset.y + (transform?.y || 0);
-  const top = isMobile && item.mTop !== undefined ? item.mTop : item.top;
+  const baseTop = isMobile && item.mTop !== undefined ? item.mTop : item.top;
+  // 手機商品放大 1.3 倍（使用者回饋偏小），left 往中央收避免出界
+  const width = isMobile ? item.width * 1.3 : item.width;
+  const baseLeft = isMobile ? 50 + (item.left - 50) * 0.78 : item.left;
+  // 每次開啟的隨機抖動（left/top/rot），限制在畫布內
+  const left = Math.min(Math.max(0, 98 - width), Math.max(0, baseLeft + (jitter?.dl || 0)));
+  const top = baseTop + (jitter?.dt || 0);
 
   const style = {
-    left: `${item.left}%`,
+    left: `${left}%`,
     top: `${top}%`,
-    width: `${item.width}%`,
-    transform: `translate3d(${x}px, ${y}px, 0) rotate(${item.rot}deg)`,
+    width: `${width}%`,
+    transform: `translate3d(${x}px, ${y}px, 0) rotate(${item.rot + (jitter?.dr || 0)}deg)`,
     zIndex: z,
   };
 
   return (
     <button
       ref={setNodeRef}
+      data-item-id={item.id}
       className={`graphic-overlay__item${isDragging ? ' is-dragging' : ''}`}
       style={style}
       {...listeners}
@@ -78,26 +88,95 @@ export default function GraphicOverlay({ onClose }) {
   const [offsets, setOffsets] = useState({}); // 每件商品拖曳後保留的位移 (px)
   const [zMap, setZMap] = useState({}); // 拖過的商品浮到最上層
   const zCounter = useRef(ITEMS.length);
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
+
+  // 手機返回手勢＝關閉拼貼頁（onClose 走 ref，避免父層 inline function 重跑 effect）。
+  // cleanup 的 back() 延遲執行、重掛載時取消：StrictMode 的「掛載→清理→再掛載」
+  // 會讓立即 back() 觸發 popstate 把剛開的 overlay 關掉（實機閃退）
+  useEffect(() => {
+    let closedByPop = false;
+    if (pendingCollageBack) {
+      clearTimeout(pendingCollageBack);
+      pendingCollageBack = null;
+    } else {
+      window.history.pushState({ portfolioOverlay: 'collage' }, '');
+    }
+    const onPop = () => {
+      closedByPop = true;
+      onCloseRef.current?.();
+    };
+    window.addEventListener('popstate', onPop);
+    return () => {
+      window.removeEventListener('popstate', onPop);
+      if (!closedByPop) {
+        pendingCollageBack = setTimeout(() => {
+          pendingCollageBack = null;
+          window.history.back();
+        }, 60);
+      }
+    };
+  }, []);
   // 開啟當下判斷一次即可（覆蓋層生命週期短）
   const isMobile = useMemo(() => window.matchMedia('(max-width: 768px)').matches, []);
+
+  // 每次開啟商品排法都不一樣：位置 ±5%、旋轉 ±8°（掛載時算一次）
+  const jitters = useMemo(() => {
+    const map = {};
+    ITEMS.forEach((item) => {
+      map[item.id] = {
+        dl: (Math.random() - 0.5) * 10,
+        dt: (Math.random() - 0.5) * 8,
+        dr: (Math.random() - 0.5) * 16,
+      };
+    });
+    return map;
+  }, []);
 
   // 小門檻：避免輕點就觸發拖曳
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 4 } }));
 
+  const [showHint, setShowHint] = useState(true);
+
   const handleDragStart = ({ active }) => {
+    setShowHint(false);
     zCounter.current += 1;
     setZMap((prev) => ({ ...prev, [active.id]: zCounter.current }));
   };
 
   const handleDragEnd = ({ active, delta }) => {
-    setOffsets((prev) => ({
-      ...prev,
-      [active.id]: {
-        x: (prev[active.id]?.x || 0) + delta.x,
-        y: (prev[active.id]?.y || 0) + delta.y,
-      },
-    }));
+    // 拖曳邊界：讓商品至少留一部分在畫面內，不會被甩出去救不回來
+    const frame = overlayRef.current?.querySelector('.graphic-overlay__frame');
+    const el = overlayRef.current?.querySelector(`[data-item-id="${active.id}"]`);
+    setOffsets((prev) => {
+      let x = (prev[active.id]?.x || 0) + delta.x;
+      let y = (prev[active.id]?.y || 0) + delta.y;
+      if (frame && el) {
+        const fr = frame.getBoundingClientRect();
+        const er = el.getBoundingClientRect();
+        const margin = 40; // 至少保留 40px 在框內
+        // er 已含本次拖曳位移；換算成相對 frame 的可回收範圍
+        const overRight = er.left - (fr.right - margin);
+        const overLeft = (fr.left + margin) - er.right;
+        const overBottom = er.top - (fr.bottom - margin);
+        const overTop = (fr.top + margin) - er.bottom;
+        if (overRight > 0) x -= overRight;
+        if (overLeft > 0) x += overLeft;
+        if (overBottom > 0) y -= overBottom;
+        if (overTop > 0) y += overTop;
+      }
+      return { ...prev, [active.id]: { x, y } };
+    });
   };
+
+  // 鎖住底下頁面的捲動（否則手機上拖曳／滑動會讓主頁偷偷捲到別的段落）
+  useEffect(() => {
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prevOverflow;
+    };
+  }, []);
 
   useEffect(() => {
     if (!overlayRef.current) return undefined;
@@ -106,9 +185,9 @@ export default function GraphicOverlay({ onClose }) {
     const tween = gsap.from(items, {
       scale: 0,
       opacity: 0,
-      duration: 0.6,
+      duration: 0.36,
       ease: 'back.out(1.7)',
-      stagger: 0.05,
+      stagger: 0.022,
       transformOrigin: '50% 50%',
     });
     return () => tween.revert();
@@ -117,7 +196,9 @@ export default function GraphicOverlay({ onClose }) {
   return (
     <div className="graphic-overlay" ref={overlayRef}>
       <button className="graphic-overlay__close" onClick={onClose} aria-label="Close">
-        ✕
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+          <path d="M5 5l14 14M19 5 5 19" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" />
+        </svg>
       </button>
       <div className="graphic-overlay__frame">
         {/* 噪點在 header/taskbar 之上、商品（positioned 的 canvas）之下 */}
@@ -132,12 +213,19 @@ export default function GraphicOverlay({ onClose }) {
                 offset={offsets[item.id] || { x: 0, y: 0 }}
                 z={zMap[item.id] || index + 1}
                 isMobile={isMobile}
+                jitter={jitters[item.id]}
               />
             ))}
           </DndContext>
         </div>
         <img className="graphic-overlay__taskbar" src={assetPath(`${BASE}/bg/go-taskbar.webp`)} alt="" />
       </div>
+      {showHint && (
+        <div className="graphic-overlay__hint" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path d="M9 11V5.5a1.5 1.5 0 013 0V11m0-1.5a1.5 1.5 0 013 0V12m0-1a1.5 1.5 0 013 0v4a5 5 0 01-5 5h-1.5a5 5 0 01-4.3-2.5L6 15a1.6 1.6 0 012.7-1.7l.8.9" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          {isMobile ? '拖拖看商品' : 'Drag the goods around'}
+        </div>
+      )}
     </div>
   );
 }

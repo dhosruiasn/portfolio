@@ -645,7 +645,8 @@
     display: grid;
     gap: 26px;
     max-width: none;
-    padding-bottom: 32px;
+    /* 歸零上一個斷點的 40px padding：讓 experience→tools 間距與其他段一致（26px） */
+    padding-bottom: 0;
   }
 
   .resume-wireframe__tools {
@@ -665,6 +666,17 @@
   .resume-wireframe__contact,
   .resume-wireframe__links {
     width: min(100%, 300px);
+  }
+
+  /* 個人照置中（使用者回饋） */
+  .resume-wireframe__portrait {
+    justify-items: center;
+  }
+
+  .resume-wireframe__placeholder,
+  .resume-wireframe__caption {
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .resume-wireframe__sticker--mid {
@@ -689,8 +701,15 @@
     font-size: 14px;
   }
 
+  /* 手機維持兩欄並排（卡片內容短，單欄會拉出一長串） */
+  /* 手機移除 CV 大標（nav 品牌字已足夠識別，形變也已停用） */
+  .resume-wireframe__title {
+    display: none;
+  }
+
   .resume-wireframe__expertise-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
   }
 
   .resume-wireframe__expertise-grid article {
@@ -743,4 +762,38 @@
   .resume-wireframe__sticker--mid {
     display: none;
   }
+}
+
+/* SVG 箭頭圖示（取代 unicode ↗↓，iOS 上會變 emoji） */
+.resume-wireframe__icon {
+  display: inline-block;
+  width: 0.85em;
+  height: 0.85em;
+  margin-left: 0.4em;
+  vertical-align: -0.08em;
+}
+
+/* Email 已複製提示 */
+.resume-wireframe__copied {
+  margin-left: 8px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--accent, #ec5b2b);
+}
+
+/* 列印樣式：作品集常被存成 PDF 轉寄 —— 隱藏互動裝飾、確保文字可讀 */
+@media print {
+  .nav, .hero__scroll-cue, .case-chapters__toggle, .case-progress,
+  .graphic-overlay, .loading-blinds, .marquee, .hero__shapefield,
+  .brand-posters, .footer__stage, [class*="__tune"] {
+    display: none !important;
+  }
+  * {
+    color: #111 !important;
+    background: #fff !important;
+    box-shadow: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  body { overflow: visible !important; }
 }

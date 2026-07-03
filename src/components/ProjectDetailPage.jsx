@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { useLanguage } from '../context/LanguageContext.jsx';
 import { assetPath } from '../utils/assetPath.js';
+import { projects } from '../data/projects.js';
 import {
   CoreComponentShowcase,
   DesignPrinciplesSection,
@@ -21,7 +22,10 @@ import UiTweakerVisual from './projects/uiTweaker/UiTweakerVisuals.jsx';
 import '../styles/components/ProjectDetailPage.css';
 
 const params = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
-const SHOW_DETAIL_EDIT = !!params && params.has('detailEdit');
+const SHOW_DETAIL_EDIT = import.meta.env.DEV && !!params && params.has('detailEdit');
+
+// StrictMode 安全的 history 清理：cleanup 排程 back()，重掛載時取消
+let pendingDetailBack = null;
 
 const DEFAULT_DETAIL_TUNE = {
   titleY: -9,
@@ -237,6 +241,26 @@ function preloadPickminImages() {
   });
 }
 
+function preloadHeroMedia(caseStudy) {
+  if (typeof document === 'undefined' || !caseStudy) return;
+  [
+    { src: caseStudy.heroImage, key: 'detailHeroImage' },
+  ].forEach(({ src, key }) => {
+    if (!src) return;
+    const href = assetPath(src);
+    if (!href) return;
+    if (document.head.querySelector(`link[data-${key}="${href}"]`)) return;
+
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'image';
+    link.href = href;
+    link.dataset[key] = href;
+    link.fetchPriority = 'high';
+    document.head.appendChild(link);
+  });
+}
+
 function TuneRow({ label, value, min, max, step = 0.1, unit = '', onChange }) {
   return (
     <label className="detail-tune__row">
@@ -385,6 +409,37 @@ function CaseSection({ title, className = '', children }) {
   );
 }
 
+function normalizeHeadingText(value) {
+  return String(value || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9\u4e00-\u9fff]+/g, ' ')
+    .trim()
+    .split(/\s+/)
+    .map((word) => (word.endsWith('s') ? word.slice(0, -1) : word))
+    .filter(Boolean);
+}
+
+function isRedundantPanelTitle(sectionTitle, panelTitle) {
+  const sectionWords = normalizeHeadingText(sectionTitle);
+  const panelWords = normalizeHeadingText(panelTitle);
+  if (!sectionWords.length || !panelWords.length) return false;
+
+  const sectionJoined = sectionWords.join('');
+  const panelJoined = panelWords.join('');
+  if (sectionJoined === panelJoined || sectionJoined.includes(panelJoined) || panelJoined.includes(sectionJoined)) {
+    return true;
+  }
+
+  const fillerWords = new Set(['design', 'tool', 'data', 'visual']);
+  const corePanelWords = panelWords.filter((word) => !fillerWords.has(word));
+  return corePanelWords.length === 1 && sectionWords.includes(corePanelWords[0]);
+}
+
+function renderPanelTitle(sectionTitle, panelTitle) {
+  if (!panelTitle || isRedundantPanelTitle(sectionTitle, panelTitle)) return null;
+  return <h3>{renderInfoText(panelTitle)}</h3>;
+}
+
 function TextPanel({ title, body, className = '' }) {
   return (
     <article className={`case-panel${className ? ` ${className}` : ''}`}>
@@ -477,19 +532,151 @@ function GoogooliiSystemPage({ caseStudy, onBack }) {
   );
 }
 
+function GoogooliiHeroMedia({ caseStudy }) {
+  const hasVideo = !!caseStudy.heroVideo;
+  const posterSrc = caseStudy.heroImage ? assetPath(caseStudy.heroImage) : null;
+  const desktopVideoSrc = hasVideo ? assetPath(caseStudy.heroVideo) : null;
+  const mobileVideoSrc = caseStudy.heroMobileVideo ? assetPath(caseStudy.heroMobileVideo) : null;
+  // <source media> 只有 Safari 認得，Chrome 會直接播第一個來源；
+  // 改用 matchMedia 在 JS 端選檔（開啟當下判斷一次即可）
+  const videoSrc = useMemo(() => {
+    if (!hasVideo) return null;
+    if (mobileVideoSrc && window.matchMedia('(max-width: 900px)').matches) return mobileVideoSrc;
+    return desktopVideoSrc;
+  }, [hasVideo, mobileVideoSrc, desktopVideoSrc]);
+
+  // 比照 ui-tweaker 的 VideoSlot：純 video、不疊 poster/opacity 門檻。
+  // 之前的「播放才顯示」機制在實機上讓整塊沒畫面（ui-tweaker 純 video 反而正常）
+  return (
+    <div className="googoolii-hero__stage googoolii-hero__stage--video-ready">
+      {hasVideo ? (
+        <video
+          className="googoolii-hero__screen"
+          muted
+          loop
+          autoPlay
+          playsInline
+          preload="metadata"
+          onClick={(e) => e.currentTarget.play().catch(() => {})}
+          aria-label={caseStudy.heroAlt}
+          src={videoSrc}
+        />
+      ) : (
+        <img className="googoolii-hero__screen" src={posterSrc} alt={caseStudy.heroAlt} />
+      )}
+    </div>
+  );
+}
+
+/* UI 符號一律用 SVG（unicode ✕/☰ 在部分行動裝置會以 emoji 或不一致字形渲染） */
+function IconClose() {
+  return (
+    <svg viewBox="0 0 24 24" width="0.9em" height="0.9em" aria-hidden="true" focusable="false">
+      <path d="M5 5l14 14M19 5 5 19" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function IconMenu() {
+  return (
+    <svg viewBox="0 0 16 14" width="14" height="12" aria-hidden="true" focusable="false">
+      <path d="M1 2h14M1 7h14M1 12h14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/* 內頁底部「下一個專案」：透過既有的 portfolio:open-project 事件切換，串聯瀏覽 */
+function NextProjectLink({ project }) {
+  const { lang } = useLanguage();
+  const index = projects.findIndex((item) => item.id === project.id);
+  const next = projects[(index + 1) % projects.length];
+  if (!next || next.id === project.id) return null;
+  return (
+    <button
+      type="button"
+      className="case-next"
+      onClick={() => {
+        window.dispatchEvent(new CustomEvent('portfolio:open-project', { detail: { projectId: next.id } }));
+      }}
+    >
+      <span className="case-next__label">{lang === 'zh' ? '下一個專案' : 'NEXT PROJECT'}</span>
+      <strong className="case-next__name">
+        {next.name}
+        <svg viewBox="0 0 16 16" width="0.8em" height="0.8em" aria-hidden="true" focusable="false">
+          <path d="M2 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </strong>
+    </button>
+  );
+}
+
+/* 案例圖片點擊放大檢視（手機上截圖文字小、原本無法細看） */
+function CaseLightbox({ pageRef }) {
+  const [img, setImg] = useState(null);
+
+  useEffect(() => {
+    const page = pageRef.current;
+    if (!page) return undefined;
+    const onClick = (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLImageElement)) return;
+      if (target.closest('button, a')) return;
+      if ((target.naturalWidth || 0) < 300) return; // 略過小圖示
+      setImg({ src: target.currentSrc || target.src, alt: target.alt || '' });
+    };
+    page.addEventListener('click', onClick);
+    return () => page.removeEventListener('click', onClick);
+  }, [pageRef]);
+
+  // lightbox 開啟時鎖住內頁捲動，避免快速滑動穿透背景
+  useEffect(() => {
+    const page = pageRef.current;
+    if (!img || !page) return undefined;
+    const prev = page.style.overflow;
+    page.style.overflow = 'hidden';
+    return () => {
+      page.style.overflow = prev;
+    };
+  }, [img, pageRef]);
+
+  // Escape 先關 lightbox（capture + stopPropagation，避免連整個內頁一起關掉）
+  useEffect(() => {
+    if (!img) return undefined;
+    const onKey = (event) => {
+      if (event.key !== 'Escape') return;
+      event.stopPropagation();
+      setImg(null);
+    };
+    window.addEventListener('keydown', onKey, true);
+    return () => window.removeEventListener('keydown', onKey, true);
+  }, [img]);
+
+  if (!img) return null;
+  return (
+    <div className="case-lightbox" role="dialog" aria-modal="true" onClick={() => setImg(null)}>
+      <button className="case-lightbox__close" aria-label="Close">
+        <IconClose />
+      </button>
+      <img src={img.src} alt={img.alt} />
+    </div>
+  );
+}
+
 /* 長內頁閱讀輔助：頂部進度條＋章節跳轉（case / googoolii 兩種版型通用） */
 function CaseChapterNav({ pageRef }) {
   const { lang } = useLanguage();
   const [progress, setProgress] = useState(0);
   const [open, setOpen] = useState(false);
   const [chapters, setChapters] = useState([]);
+  const [activeIndex, setActiveIndex] = useState(-1);
 
   useEffect(() => {
     const page = pageRef.current;
     if (!page) return undefined;
     const sections = Array.from(page.querySelectorAll('.case-section, .googoolii-section'))
       .map((el) => ({ el, label: el.querySelector('h2')?.textContent?.trim() }))
-      .filter((item) => item.label);
+      // offsetParent 為 null＝被 display:none 藏起來的段落，不放進目錄
+      .filter((item) => item.label && item.el.offsetParent !== null);
     setChapters(sections);
 
     const onScroll = () => {
@@ -519,15 +706,36 @@ function CaseChapterNav({ pageRef }) {
       </div>
       <button
         className="case-chapters__toggle"
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => {
+          // 開啟時計算目前所在章節（scroll-spy），只在開選單時算、不吃捲動效能
+          if (!open) {
+            const page = pageRef.current;
+            if (page) {
+              const pageTop = page.getBoundingClientRect().top;
+              let current = -1;
+              chapters.forEach((chapter, index) => {
+                if (chapter.el.getBoundingClientRect().top - pageTop <= 140) current = index;
+              });
+              setActiveIndex(current);
+            }
+          }
+          setOpen((v) => !v);
+        }}
         aria-expanded={open}
       >
-        {lang === 'zh' ? '章節 ☰' : 'Index ☰'}
+        {lang === 'zh' ? '章節' : 'Index'}
+        <IconMenu />
       </button>
       {open && (
         <nav className="case-chapters" aria-label={lang === 'zh' ? '章節目錄' : 'Chapter index'}>
           {chapters.map(({ el, label }, index) => (
-            <button key={`${label}-${index}`} className="case-chapters__link" onClick={() => jumpTo(el)}>
+            <button
+              key={`${label}-${index}`}
+              className={`case-chapters__link${index === activeIndex ? ' case-chapters__link--active' : ''}`}
+              aria-current={index === activeIndex ? 'true' : undefined}
+              onClick={() => jumpTo(el)}
+            >
+              <span className="case-chapters__num">{String(index + 1).padStart(2, '0')}</span>
               {label}
             </button>
           ))}
@@ -551,9 +759,10 @@ function GoogooliiCaseStudyPage({ project, content, caseStudy, title, tune, setT
       }}
     >
       <button className="detail-page__close" onClick={onClose} aria-label="close">
-        ✕
+        <IconClose />
       </button>
       {!showSystem && <CaseChapterNav pageRef={pageRef} />}
+      {!showSystem && <CaseLightbox pageRef={pageRef} />}
       {SHOW_DETAIL_EDIT && <DetailTunePanel tune={tune} setTune={setTune} />}
 
       {showSystem ? (
@@ -562,35 +771,23 @@ function GoogooliiCaseStudyPage({ project, content, caseStudy, title, tune, setT
       <article className="case-study googoolii-case">
         <header className="googoolii-hero">
           <div className="googoolii-hero__copy">
-            <img className="googoolii-hero__logo" src={assetPath(caseStudy.logoImage)} alt="GOOGOOLii logo" />
-            <div className="detail-page__name-mask">
-              <h1 className="detail-page__name">{title}</h1>
+            <div className="googoolii-hero__brand-block">
+              <img className="googoolii-hero__logo" src={assetPath(caseStudy.logoImage)} alt="GOOGOOLii logo" />
+              <div className="detail-page__name-mask">
+                <h1 className="detail-page__name">{title}</h1>
+              </div>
             </div>
-            <p className="googoolii-hero__subtitle">{renderInfoText(caseStudy.subtitle)}</p>
-            <p className="googoolii-hero__summary">{renderInfoText(caseStudy.summary)}</p>
-            <div className="googoolii-role-list" aria-label="My role">
-              {caseStudy.roleItems.map((item) => (
-                <span key={item}>{renderInfoText(item)}</span>
-              ))}
+            <div className="googoolii-hero__intro-block">
+              <p className="googoolii-hero__subtitle">{renderInfoText(caseStudy.subtitle)}</p>
+              <p className="googoolii-hero__summary">{renderInfoText(caseStudy.summary)}</p>
+              <div className="googoolii-role-list" aria-label="My role">
+                {caseStudy.roleItems.map((item) => (
+                  <span key={item}>{renderInfoText(item)}</span>
+                ))}
+              </div>
             </div>
           </div>
-          <div className="googoolii-hero__stage">
-            {caseStudy.heroVideo ? (
-              <video
-                className="googoolii-hero__screen"
-                src={assetPath(caseStudy.heroVideo)}
-                poster={assetPath(caseStudy.heroImage)}
-                muted
-                loop
-                autoPlay
-                playsInline
-                preload="metadata"
-                aria-label={caseStudy.heroAlt}
-              />
-            ) : (
-              <img className="googoolii-hero__screen" src={assetPath(caseStudy.heroImage)} alt={caseStudy.heroAlt} />
-            )}
-          </div>
+          <GoogooliiHeroMedia caseStudy={caseStudy} />
 
           <div className="case-meta-grid googoolii-meta-grid">
             {caseStudy.meta.map((item) => (
@@ -718,6 +915,7 @@ function GoogooliiCaseStudyPage({ project, content, caseStudy, title, tune, setT
           </div>
         </GoogooliiSection>
 
+        <NextProjectLink project={project} />
       </article>
       )}
     </div>
@@ -782,9 +980,10 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
       }}
     >
       <button className="detail-page__close" onClick={onClose} aria-label="close">
-        ✕
+        <IconClose />
       </button>
       <CaseChapterNav pageRef={pageRef} />
+      <CaseLightbox pageRef={pageRef} />
       {SHOW_DETAIL_EDIT && <DetailTunePanel tune={tune} setTune={setTune} />}
       {SHOW_DETAIL_EDIT && <ImageTunePanel imageTune={imageTune} setImageTune={setImageTune} />}
       {SHOW_DETAIL_EDIT && <FlowTunePanel flowTune={flowTune} setFlowTune={setFlowTune} flowCopy={flowCopy} setFlowCopy={setFlowCopy} />}
@@ -831,14 +1030,16 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
           </div>
         </header>
 
-        <div className="case-metrics" aria-label="Project metrics">
-          {caseStudy.metrics.map((item) => (
-            <div className="case-metric" key={`${item.value}-${item.label}`}>
-              <strong>{renderInfoText(item.value)}</strong>
-              <span>{renderInfoText(item.label)}</span>
-            </div>
-          ))}
-        </div>
+        {caseStudy.metrics?.length > 0 && (
+          <div className="case-metrics" aria-label="Project metrics">
+            {caseStudy.metrics.map((item) => (
+              <div className="case-metric" key={`${item.value}-${item.label}`}>
+                <strong>{renderInfoText(item.value)}</strong>
+                <span>{renderInfoText(item.label)}</span>
+              </div>
+            ))}
+          </div>
+        )}
 
         <CaseSection title="OVERVIEW" className="case-section--overview">
           <TextPanel title={caseStudy.overview.title} body={caseStudy.overview.body} />
@@ -865,7 +1066,7 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
           <CaseSection title={sectionTitles.goals} className="case-section--users">
             <div className="case-split">
               <div className="case-panel">
-                <h3>{renderInfoText(panelTitles.goals)}</h3>
+                {renderPanelTitle(sectionTitles.goals, panelTitles.goals)}
                 <ul className="case-list">
                   {caseStudy.goals.map((item) => (
                     <li key={item}>{renderInfoText(item)}</li>
@@ -994,12 +1195,15 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
                 [caseStudy.designSystem.statesLabel || 'Interaction States', caseStudy.designSystem.states],
               ].map(([panelTitle, panelBody], index) => (
                 <article className={`case-panel ${DESIGN_SYSTEM_TONES[index]}`} key={panelTitle}>
-                  <h3>{renderInfoText(panelTitle)}</h3>
+                  {renderPanelTitle(sectionTitles.designSystem, panelTitle)}
                   {panelBody.slice(0, 2).map((item) => (
                     <p key={item}>{renderInfoText(item)}</p>
                   ))}
                 </article>
               ))}
+              <p className="case-component-strip__label">
+                {caseStudyLang === 'zh' ? '流程關鍵元件' : 'Flow keywords'}
+              </p>
               <div className="case-component-strip">
                 {caseStudy.designSystem.components.slice(0, 8).map((item) => (
                   <span key={item}>{renderInfoText(item)}</span>
@@ -1013,7 +1217,7 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
           <CaseSection title={sectionTitles.trust} className="case-section--trust">
             <div className="case-split">
               <div className="case-panel">
-                <h3>{renderInfoText(panelTitles.implementation)}</h3>
+                {renderPanelTitle(sectionTitles.trust, panelTitles.implementation)}
                 <p>{renderInfoText(caseStudy.implementation.body)}</p>
                 <ul className="case-list">
                   {caseStudy.implementation.items.map((item) => (
@@ -1022,7 +1226,7 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
                 </ul>
               </div>
               <div className="case-panel">
-                <h3>{renderInfoText(panelTitles.security)}</h3>
+                {renderPanelTitle(sectionTitles.trust, panelTitles.security)}
                 <p>{renderInfoText(caseStudy.security.body)}</p>
                 <ul className="case-list">
                   {caseStudy.security.items.map((item) => (
@@ -1037,7 +1241,7 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
         <CaseSection title={sectionTitles.outcome} className="case-section--outcome">
           <div className="case-split">
             <div className="case-panel">
-              <h3>{renderInfoText(panelTitles.outcome)}</h3>
+              {renderPanelTitle(sectionTitles.outcome, panelTitles.outcome)}
               <p>{renderInfoText(caseStudy.outcome.body)}</p>
             </div>
             <div className="case-chip-cloud case-chip-cloud--stacked">
@@ -1063,6 +1267,7 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
             </a>
           </section>
         )}
+        <NextProjectLink project={project} />
       </article>
     </div>
   );
@@ -1086,7 +1291,44 @@ export default function ProjectDetailPage({ project, onClose }) {
     const nextCaseStudy = project?.caseStudy?.[lang] || project?.caseStudy?.zh;
     setFlowTune(DEFAULT_FLOW_TUNE);
     setFlowCopy(nextCaseStudy?.flow?.note || '');
+    preloadHeroMedia(nextCaseStudy);
   }, [project?.id, lang]);
+
+  // 手機返回手勢／返回鍵＝關閉內頁，而不是直接離開網站。
+  // deps 用「是否開啟」而非 project：用「下一個專案」切換時不要 back/push 折騰 history。
+  // cleanup 的 back() 延遲執行、重掛載時取消：StrictMode 下立即 back() 會觸發
+  // popstate 把剛開的頁面關掉（實機閃退）
+  const detailOpen = !!project;
+  useEffect(() => {
+    if (!detailOpen) return undefined;
+    let closedByPop = false;
+    if (pendingDetailBack) {
+      clearTimeout(pendingDetailBack);
+      pendingDetailBack = null;
+    } else {
+      window.history.pushState({ portfolioOverlay: 'project' }, '');
+    }
+    const onPop = () => {
+      closedByPop = true;
+      onClose();
+    };
+    window.addEventListener('popstate', onPop);
+    return () => {
+      window.removeEventListener('popstate', onPop);
+      // 用 ✕ 或 Escape 關閉時，把剛剛推入的 history 消化掉
+      if (!closedByPop) {
+        pendingDetailBack = setTimeout(() => {
+          pendingDetailBack = null;
+          window.history.back();
+        }, 60);
+      }
+    };
+  }, [detailOpen, onClose]);
+
+  // 切換專案（下一個專案）時回到內頁頂部
+  useEffect(() => {
+    pageRef.current?.scrollTo?.({ top: 0 });
+  }, [project?.id]);
 
   useEffect(() => {
     if (!project || !pageRef.current) return;
@@ -1102,12 +1344,14 @@ export default function ProjectDetailPage({ project, onClose }) {
       const nameEl = page?.querySelector('.detail-page__name');
       if (!page) return;
 
-      gsap.from(page, { opacity: 0, duration: 0.4, ease: 'power2.out' });
+      // 手機入場更跟手：時長縮短約 40%（使用者核准的 UX 提案）
+      const compactEntrance = window.matchMedia('(max-width: 900px)').matches;
+      gsap.from(page, { opacity: 0, duration: compactEntrance ? 0.25 : 0.4, ease: 'power2.out' });
       if (nameEl) {
         gsap.fromTo(
           nameEl,
           { yPercent: 110 },
-          { yPercent: 0, duration: 0.72, delay: 0.05, ease: 'power3.out' }
+          { yPercent: 0, duration: compactEntrance ? 0.45 : 0.72, delay: 0.03, ease: 'power3.out' }
         );
       }
       const standardLeftItems = gsap.utils.toArray('.detail-page__left > *');
@@ -1275,7 +1519,7 @@ export default function ProjectDetailPage({ project, onClose }) {
       }}
     >
       <button className="detail-page__close" onClick={onClose} aria-label="close">
-        ✕
+        <IconClose />
       </button>
       {SHOW_DETAIL_EDIT && <DetailTunePanel tune={tune} setTune={setTune} />}
 

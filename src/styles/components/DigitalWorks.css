@@ -17,16 +17,25 @@
   height: 100vh;
   overflow: clip;
   contain: paint;
-  background: #6b3415;
+  background: transparent;
 }
 
 .digital-works__art {
   position: absolute;
   left: 50%;
   bottom: 0;
+  z-index: 1;
   width: max(100vw, 175.63vh);
   aspect-ratio: 3841 / 2187;
   transform: translateX(-50%);
+}
+
+.digital-works__art::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: #6b3415;
 }
 
 .digital-works__light {
@@ -140,8 +149,14 @@
     height: 150vh;
   }
 
+  .digital-works__scene {
+    height: 100lvh;
+    min-height: 100dvh;
+    background: transparent;
+  }
+
   .digital-works__art {
-    width: max(190vw, 175.63vh);
+    width: max(190vw, 175.63lvh);
   }
 
   .digital-works__headline {

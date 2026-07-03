@@ -251,7 +251,7 @@ export default function Footer() {
   }, []);
 
   return (
-    <footer className="section footer" ref={sectionRef}>
+    <footer className="section footer" id="contact" ref={sectionRef}>
       <div className="container footer__inner">
         <FooterShapeField play={playShapes} />
         <p className="footer__copyright">{t.footer.copyright}</p>

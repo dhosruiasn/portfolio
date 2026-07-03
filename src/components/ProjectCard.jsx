@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { useLanguage } from '../context/LanguageContext.jsx';
 import { assetPath } from '../utils/assetPath.js';
 import '../styles/components/ProjectCard.css';
@@ -5,6 +6,22 @@ import '../styles/components/ProjectCard.css';
 export default function ProjectCard({ project, onOpen }) {
   const { lang, t } = useLanguage();
   const isVideo = project.mediaType === 'video';
+  const videoRef = useRef(null);
+
+  // 只有進入視窗的卡片影片才播放，離開就暫停 —— 低階機同時播四支會掉幀
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return undefined;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) v.play().catch(() => {});
+        else v.pause();
+      },
+      { threshold: 0.25 }
+    );
+    io.observe(v);
+    return () => io.disconnect();
+  }, []);
   const cardHeight = typeof project.height === 'number' ? `${project.height}px` : project.height;
   const cardOffset = typeof project.marginTop === 'number' ? `${project.marginTop}px` : project.marginTop || '0px';
 
@@ -30,13 +47,14 @@ export default function ProjectCard({ project, onOpen }) {
             {project.media &&
               (isVideo ? (
                 <video
+                  ref={videoRef}
                   src={assetPath(project.media)}
                   poster={project.poster ? assetPath(project.poster) : undefined}
                   muted
                   loop
                   autoPlay
                   playsInline
-                  preload="metadata"
+                  preload="none"
                   aria-label={project.name}
                 />
               ) : (

@@ -19,6 +19,7 @@ body:has(.detail-page),
 #root:has(.detail-page),
 .app:has(.detail-page),
 .digital-works:has(.detail-page) {
+  background: #e5e5e5;
   max-width: 100vw;
   overflow-x: clip;
 }
@@ -28,6 +29,9 @@ body:has(.detail-page),
   top: 22px;
   right: 28px;
   z-index: 210;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 58px;
   height: 58px;
   border-radius: 50%;
@@ -105,7 +109,7 @@ body:has(.detail-page),
   color: #050505;
   font-family: var(--font-body-en), var(--font-body-zh);
   font-weight: 600;
-  font-size: clamp(16px, 1.35vw, 22px);
+  font-size: clamp(1rem, 1.35vw, 22px);
   line-height: 1.25;
   line-break: strict;
   text-wrap: pretty;
@@ -163,7 +167,7 @@ body:has(.detail-page),
   margin: 0 0 18px;
   font-family: var(--font-body-en), var(--font-body-zh);
   font-weight: 400;
-  font-size: clamp(15px, 1.25vw, 22px);
+  font-size: clamp(0.9375rem, 1.25vw, 22px);
   line-height: 1.65;
   color: #050505;
   line-break: strict;
@@ -364,7 +368,7 @@ body:has(.detail-page),
 .case-hero__summary {
   margin: 0 0 28px;
   font-family: var(--font-body-en), var(--font-body-zh);
-  font-size: clamp(16px, 1.25vw, 21px);
+  font-size: clamp(1rem, 1.25vw, 21px);
   line-height: 1.75;
   color: #050505;
 }
@@ -576,7 +580,7 @@ body:has(.detail-page),
 .case-meta strong {
   display: block;
   font-family: var(--font-body-en), var(--font-body-zh);
-  font-size: clamp(15px, 1.16vw, 19px);
+  font-size: clamp(0.9375rem, 1.16vw, 19px);
   line-height: 1.45;
 }
 
@@ -608,6 +612,47 @@ body:has(.detail-page),
   font-size: 15px;
   font-weight: 800;
   line-height: 1.35;
+}
+
+/* 打破整排白卡的單調：套用與 flow 節點相同的品牌三色節奏，
+   第四張留白作喘息（各案例頁自動用自己的 --case-* 色票） */
+.case-metric:nth-child(3n + 1) {
+  background: var(--case-orange);
+}
+
+.case-metric:nth-child(3n + 1) strong,
+.case-metric:nth-child(3n + 1) > span {
+  color: #fff;
+}
+
+.case-metric:nth-child(3n + 2) {
+  background: var(--case-yellow);
+}
+
+.case-metric:nth-child(3n + 2) strong,
+.case-metric:nth-child(3n + 2) > span {
+  color: var(--case-ink, #141414);
+}
+
+.case-metric:nth-child(3n + 3) {
+  background: var(--case-blue);
+}
+
+.case-metric:nth-child(3n + 3) strong,
+.case-metric:nth-child(3n + 3) > span {
+  color: #fff;
+}
+
+.case-metric:nth-child(4n) {
+  background: #fff;
+}
+
+.case-metric:nth-child(4n) strong {
+  color: #6b3415;
+}
+
+.case-metric:nth-child(4n) > span {
+  color: #050505;
 }
 
 .case-section {
@@ -710,7 +755,7 @@ body:has(.detail-page),
 
 .case-section--overview .case-panel p {
   max-width: none;
-  font-size: clamp(17px, 1.35vw, 24px);
+  font-size: clamp(1.0625rem, 1.35vw, 24px);
 }
 
 .case-section--overview .case-panel p + p {
@@ -990,6 +1035,17 @@ body:has(.detail-page),
   background: #232323;
 }
 
+.case-component-strip__label {
+  grid-column: 1 / -1;
+  margin: 2px 0 -8px;
+  color: rgba(255, 255, 255, 0.72);
+  font-family: var(--font-body-en), var(--font-body-zh);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
 .case-section--system .case-component-strip::-webkit-scrollbar {
   display: none;
 }
@@ -1047,7 +1103,7 @@ body:has(.detail-page),
   border-radius: 42px;
   background: var(--case-ink);
   color: #fff;
-  font-size: clamp(16px, 1.22vw, 22px);
+  font-size: clamp(1rem, 1.22vw, 22px);
 }
 
 .case-section--outcome .case-chip-cloud--stacked > span:nth-child(2),
@@ -1077,7 +1133,7 @@ body:has(.detail-page),
 .case-decision__copy p {
   margin: 0 0 16px;
   font-family: var(--font-body-en), var(--font-body-zh);
-  font-size: clamp(15px, 1.18vw, 20px);
+  font-size: clamp(0.9375rem, 1.18vw, 20px);
   line-height: 1.75;
   color: #050505;
   text-wrap: pretty;
@@ -1118,7 +1174,7 @@ body:has(.detail-page),
   position: relative;
   padding-left: 18px;
   font-family: var(--font-body-en), var(--font-body-zh);
-  font-size: clamp(15px, 1.05vw, 18px);
+  font-size: clamp(0.9375rem, 1.05vw, 18px);
   line-height: 1.55;
 }
 
@@ -1267,7 +1323,7 @@ body:has(.detail-page),
 .case-flow__item strong {
   display: block;
   font-family: var(--font-body-en), var(--font-body-zh);
-  font-size: clamp(16px, 1.22vw, 22px);
+  font-size: clamp(1rem, 1.22vw, 22px);
   font-weight: 900;
   line-height: 1.15;
   text-align: center;
@@ -1395,7 +1451,7 @@ body:has(.detail-page),
   transform: none;
   transform-origin: center;
   color: inherit;
-  font-size: clamp(16px, 1.22vw, 22px);
+  font-size: clamp(1rem, 1.22vw, 22px);
   font-weight: 850;
   line-height: 1.05;
   white-space: nowrap;
@@ -1532,6 +1588,17 @@ body:has(.detail-page),
   overflow: hidden;
 }
 
+.googoolii-hero__brand-block {
+  min-width: 0;
+}
+
+.googoolii-hero__intro-block {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+}
+
 .googoolii-hero__eyebrow,
 .googoolii-section__heading > span,
 .googoolii-panel > span,
@@ -1579,7 +1646,7 @@ body:has(.detail-page),
   max-width: 780px;
   margin: 0 0 24px;
   font-family: var(--font-body-en), var(--font-body-zh);
-  font-size: clamp(16px, 1.24vw, 21px);
+  font-size: clamp(1rem, 1.24vw, 21px);
   line-height: 1.72;
   color: #fff;
 }
@@ -1627,15 +1694,32 @@ body:has(.detail-page),
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 }
 
+.googoolii-hero__poster,
 .googoolii-hero__screen {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   border: 0;
-  background: #fff;
   object-fit: cover;
   transform: scale(1.06);
+}
+
+.googoolii-hero__poster {
+  z-index: 1;
+  background: #fff;
+}
+
+.googoolii-hero__screen {
+  z-index: 2;
+  background: transparent;
+  opacity: 0;
+  transition: opacity 0.28s ease;
+}
+
+.googoolii-hero__stage--video-ready .googoolii-hero__screen,
+.googoolii-hero__stage--image .googoolii-hero__screen {
+  opacity: 1;
 }
 
 .googoolii-hero__product,
@@ -1741,7 +1825,7 @@ body:has(.detail-page),
 .googoolii-type-row p {
   margin: 0;
   font-family: var(--font-body-en), var(--font-body-zh);
-  font-size: clamp(15px, 1.12vw, 19px);
+  font-size: clamp(0.9375rem, 1.12vw, 19px);
   line-height: 1.72;
   color: inherit;
 }
@@ -1873,7 +1957,7 @@ body:has(.detail-page),
 
 .googoolii-type-row strong {
   font-family: var(--font-body-en), var(--font-body-zh);
-  font-size: clamp(18px, 1.45vw, 26px);
+  font-size: clamp(1.125rem, 1.45vw, 26px);
   line-height: 1.15;
   color: var(--case-ink);
 }
@@ -2123,7 +2207,7 @@ body:has(.detail-page),
 .detail-page--googoolii-custom .googoolii-system-page__head p {
   margin: 0;
   max-width: 680px;
-  font-size: clamp(15px, 1.2vw, 19px);
+  font-size: clamp(0.9375rem, 1.2vw, 19px);
   line-height: 1.6;
   color: #444444;
 }
@@ -2134,7 +2218,7 @@ body:has(.detail-page),
 .detail-page--googoolii-custom .googoolii-system-page__block > h3 {
   margin: 0;
   font-family: var(--font-body-en), var(--font-body-zh);
-  font-size: clamp(18px, 1.6vw, 24px);
+  font-size: clamp(1.125rem, 1.6vw, 24px);
   font-weight: 800;
   color: #141414;
 }
@@ -2200,7 +2284,7 @@ body:has(.detail-page),
   max-width: 980px;
   margin: 0 0 22px;
   font-family: var(--font-body-en), var(--font-body-zh);
-  font-size: clamp(16px, 1.24vw, 21px);
+  font-size: clamp(1rem, 1.24vw, 21px);
   line-height: 1.72;
   color: #050505;
 }
@@ -2293,7 +2377,8 @@ body:has(.detail-page),
   min-height: 42px;
   padding: 10px 14px;
   border-radius: 999px;
-  background: #f0f0eb;
+  background: #fff;
+  border: 1px solid rgba(20, 20, 20, 0.14);
   color: #050505;
   font-family: var(--font-body-en), var(--font-body-zh);
   font-weight: 800;
@@ -2496,7 +2581,7 @@ body:has(.detail-page),
 
 .pickmin-type-scale__row strong {
   font-family: 'TASA Explorer', 'Chiron Hei HK', 'Chocolate Classical Sans', system-ui, sans-serif;
-  font-size: clamp(15px, 1.15vw, 19px);
+  font-size: clamp(0.9375rem, 1.15vw, 19px);
   color: #111111;
 }
 
@@ -3588,6 +3673,19 @@ body:has(.detail-page),
     transform: none;
   }
 
+  /* 桌面版大色塊卡片是「文字沉底／置中」造型（GOAL 470px、ARCHITECTURE 390px、
+     OUTCOME 430px）；手機直排時大半留白像破版，一律改貼合內容高度 */
+  .case-section--users .case-split > .case-panel,
+  .case-section--architecture .case-panel,
+  .case-section--outcome .case-panel {
+    min-height: 0;
+    align-content: start;
+  }
+
+  .case-section--users .case-split > .case-panel {
+    padding-top: 26px;
+  }
+
   .case-hero {
     min-height: auto;
   }
@@ -3623,8 +3721,20 @@ body:has(.detail-page),
     margin-top: 14px;
   }
 
+  .case-meta {
+    min-height: 0;
+  }
+
   .case-metrics {
     margin: 28px 0;
+  }
+
+  /* 直排時 space-between 會把數字和說明拉太開，改貼合內容 */
+  .case-metric,
+  .pickmin-complexity__grid .case-metric {
+    min-height: 0;
+    justify-content: flex-start;
+    gap: 10px;
   }
 
   .case-section {
@@ -3675,6 +3785,16 @@ body:has(.detail-page),
     transform: none;
   }
 
+  .detail-page--case .case-section--problem,
+  .detail-page--case .case-section--system {
+    width: calc(100% + 40px);
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 18px;
+    padding-right: 18px;
+    border-radius: 0;
+  }
+
   .case-section--overview .case-panel h3,
   .case-section--problem .case-panel h3 {
     white-space: normal;
@@ -3691,6 +3811,7 @@ body:has(.detail-page),
 
   .case-section--system .case-panel:nth-child(1),
   .case-section--system .case-panel:nth-child(4),
+  .case-section--system .case-component-strip__label,
   .case-section--system .case-component-strip {
     grid-column: auto;
     grid-row: auto;
@@ -3748,11 +3869,11 @@ body:has(.detail-page),
   .case-flow__item::after {
     top: auto;
     right: auto;
-    left: 28px;
+    left: 50%;
     bottom: -22px;
     width: 14px;
     height: 22px;
-    transform: none;
+    transform: translateX(-50%);
     clip-path: polygon(42% 0, 58% 0, 58% 68%, 100% 68%, 50% 100%, 0 68%, 42% 68%);
   }
 
@@ -3761,11 +3882,11 @@ body:has(.detail-page),
   .case-flow__item:nth-child(7)::after {
     top: auto;
     right: auto;
-    left: 28px;
+    left: 50%;
     bottom: -22px;
     width: 14px;
     height: 22px;
-    transform: none;
+    transform: translateX(-50%);
     clip-path: polygon(42% 0, 58% 0, 58% 68%, 100% 68%, 50% 100%, 0 68%, 42% 68%);
   }
 
@@ -3775,6 +3896,19 @@ body:has(.detail-page),
 
   .case-chip-cloud--stacked {
     grid-template-columns: 1fr;
+  }
+
+  .case-section--outcome .case-chip-cloud--stacked {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .case-section--outcome .case-chip-cloud--stacked > span {
+    min-height: 64px;
+    padding: 16px 18px;
+    border-radius: 24px;
+    font-size: clamp(0.9375rem, 4.2vw, 17px);
+    line-height: 1.3;
   }
 
   .case-chip-cloud--falling {
@@ -3898,13 +4032,76 @@ body:has(.detail-page),
     padding-right: 16px;
   }
 
+  .detail-page--googoolii-custom .googoolii-hero {
+    gap: 14px;
+    min-height: auto;
+  }
+
+  .detail-page--googoolii-custom .googoolii-hero__copy {
+    display: contents;
+  }
+
+  .detail-page--googoolii-custom .googoolii-hero__brand-block,
+  .detail-page--googoolii-custom .googoolii-hero__intro-block {
+    min-width: 0;
+    padding: 22px;
+    border: 1px solid #e4e4e4;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+  }
+
+  .detail-page--googoolii-custom .googoolii-hero__brand-block {
+    order: 1;
+    padding-bottom: 18px;
+  }
+
+  .detail-page--googoolii-custom .googoolii-hero__stage {
+    order: 2;
+  }
+
+  .detail-page--googoolii-custom .googoolii-hero__intro-block {
+    order: 3;
+  }
+
+  .detail-page--googoolii-custom .googoolii-meta-grid {
+    order: 4;
+  }
+
+  .detail-page--googoolii-custom .googoolii-hero__logo {
+    width: min(230px, 72vw);
+    margin-bottom: 0;
+  }
+
+  /* 標題回歸可見（先前用 sr-only 藏起來，使用者要求顯示）：logo 下方、貼合卡片寬 */
+  /* 手機版標題排法比照其他案例頁：大標直接放頁面上、不放 logo、
+     brand-block 卸掉白卡外框（使用者指定） */
+  .detail-page--googoolii-custom .googoolii-hero__logo {
+    display: none;
+  }
+
+  .detail-page--googoolii-custom .googoolii-hero__brand-block {
+    padding: 0;
+    border: 0;
+    background: none;
+    box-shadow: none;
+    overflow: visible;
+  }
+
+  .detail-page--googoolii-custom .detail-page__name-mask {
+    max-width: calc(100% - 64px);
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+
   .detail-page--googoolii-custom .detail-page__name {
-    font-size: 44px;
-    line-height: 0.88;
+    font-size: clamp(34px, 12.5vw, 62px);
+    line-height: 0.92;
     white-space: normal;
     overflow-wrap: anywhere;
-    -webkit-text-stroke-width: 1.2px;
-    text-shadow: 3px 3px 0 var(--case-ink);
+    -webkit-text-stroke-width: 0;
+    text-shadow: none;
   }
 
   .googoolii-hero__subtitle,
@@ -3932,11 +4129,12 @@ body:has(.detail-page),
   }
 
   .googoolii-hero__stage {
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 1040 / 666;
+    min-height: 0;
   }
 
   .googoolii-hero__screen {
-    height: 74%;
+    height: 100%;
     object-fit: cover;
   }
 
@@ -4051,6 +4249,9 @@ body:has(.detail-page),
   right: 20px;
   bottom: max(20px, env(safe-area-inset-bottom));
   z-index: 209;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   min-height: 44px;
   padding: 10px 18px;
   border-radius: var(--radius-pill);
@@ -4098,4 +4299,150 @@ body:has(.detail-page),
 .case-chapters__link:focus-visible {
   background: rgba(236, 91, 43, 0.12);
   color: var(--accent);
+}
+
+@media (max-width: 900px) {
+  .case-chapters {
+    right: 18px;
+    max-height: min(48vh, 360px);
+  }
+}
+
+/* ---------- 內頁底部「下一個專案」 ---------- */
+.case-next {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  width: 100%;
+  margin-top: 18px;
+  padding: 20px 24px;
+  border-radius: 18px;
+  /* outline 樣式：VISIT SITE（橘色實心）是主 CTA，這裡退居導覽層級，
+     避免頁尾兩顆同重量按鈕互搶（使用者回饋） */
+  background: rgba(26, 26, 26, 0.045);
+  border: 0;
+  color: #1a1a1a;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.case-next:active,
+.case-next:hover {
+  background: rgba(26, 26, 26, 0.09);
+}
+
+.case-next:hover {
+  transform: translateY(-3px);
+}
+
+.case-next__label {
+  font-family: var(--font-body-en);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+}
+
+.case-next__name {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-body-en), var(--font-body-zh);
+  font-size: clamp(21px, 3.4vw, 34px);
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+/* ---------- 圖片放大檢視 ---------- */
+.case-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 260;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(10, 10, 10, 0.92);
+  cursor: zoom-out;
+}
+
+.case-lightbox img {
+  max-width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.case-lightbox__close {
+  position: fixed;
+  top: max(18px, env(safe-area-inset-top));
+  right: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* 目錄目前所在章節 */
+.case-chapters__link--active {
+  background: rgba(236, 91, 43, 0.14);
+  color: var(--accent);
+  font-weight: 800;
+}
+
+
+@media (max-width: 900px) {
+  /* 色票區手機改兩欄緊湊卡：色塊變頂部色條、說明縮小，整段長度約減半 */
+  .pickmin-foundations__colors,
+  .googoolii-color-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .pickmin-token-card,
+  .googoolii-token {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    min-height: 0;
+    padding: 12px;
+  }
+
+  .pickmin-token-card__swatch,
+  .googoolii-token__swatch {
+    min-height: 0;
+    height: 30px;
+    width: 100%;
+  }
+
+  .pickmin-token-card p,
+  .googoolii-token p {
+    font-size: 11.5px;
+    line-height: 1.45;
+  }
+}
+
+/* 章節目錄編號 */
+.case-chapters__num {
+  margin-right: 10px;
+  font-family: var(--font-body-en);
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+}
+
+/* 901–1180 窄桌面：case-split 改等寬兩欄，右欄不再過窄 */
+@media (min-width: 901px) and (max-width: 1180px) {
+  .case-section--users .case-split,
+  .case-split {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }

@@ -56,8 +56,10 @@ export default function GraphicSleeve() {
       ctx.font = `${fs}px Dotrice`;
       ctx.letterSpacing = `${Math.round(fs * 0.1)}px`;
       ctx.globalCompositeOperation = 'destination-out';
-      ctx.fillText('GRAPHIC', W / 2, H * 0.38);
-      ctx.fillText('WORK', W / 2, H * 0.66);
+      // 直式手機：字級受寬度限制而偏小，兩行拉近往中間靠，避免大片空橘
+      const portrait = H > W * 1.2;
+      ctx.fillText('GRAPHIC', W / 2, H * (portrait ? 0.42 : 0.38));
+      ctx.fillText('WORK', W / 2, H * (portrait ? 0.58 : 0.66));
       ctx.beginPath();
       ctx.arc(W / 2, H, NOTCH_R, 0, Math.PI * 2);
       ctx.fill();

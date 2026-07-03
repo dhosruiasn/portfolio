@@ -15,7 +15,7 @@ const ARROW_ORIGINS = {
   right: { x: 84.83, y: 84.22 },
 };
 const params = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
-const SHOW_DIGITAL_EDIT = !!params && params.has('digitalEdit');
+const SHOW_DIGITAL_EDIT = import.meta.env.DEV && !!params && params.has('digitalEdit');
 const DEFAULT_DIGITAL_TUNE = {
   titleBottom: 5.8,
   titleSize: 14.2,
@@ -218,14 +218,16 @@ export default function DigitalWorks() {
     const ctx = gsap.context(() => {
       const cards = gridRef.current?.querySelectorAll('.project-card__flip');
       if (!cards?.length) return;
+      // 手機單欄卡片很高：翻卡提早完成，避免使用者停住時卡在半翻的橘背面
+      const compact = window.matchMedia('(max-width: 900px)').matches;
       gsap.to(cards, {
         rotateY: 180,
         ease: 'none',
-        stagger: 0.6,
+        stagger: compact ? 0.35 : 0.6,
         scrollTrigger: {
           trigger: gridRef.current,
           start: 'top 96%',
-          end: 'top 34%',
+          end: compact ? 'top 58%' : 'top 34%',
           scrub: true,
         },
       });

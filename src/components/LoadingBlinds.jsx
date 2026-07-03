@@ -12,12 +12,18 @@ export default function LoadingBlinds({ onDone }) {
 
   useEffect(() => {
     if (!rootRef.current || !cordRef.current || !slatsRef.current) return undefined;
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      onDone?.();
+      setGone(true);
+    };
+    // 失效保險：動畫若因分頁背景／rAF 卡住沒觸發 onComplete，最遲 3.5s 強制放行
+    const failsafe = setTimeout(finish, 3500);
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
-        onComplete: () => {
-          onDone?.();
-          setGone(true);
-        },
+        onComplete: finish,
       });
       // 0.3s 拉繩微晃
       tl.to(
@@ -34,7 +40,10 @@ export default function LoadingBlinds({ onDone }) {
         0.6
       );
     }, rootRef.current);
-    return () => ctx.revert();
+    return () => {
+      clearTimeout(failsafe);
+      ctx.revert();
+    };
   }, [onDone]);
 
   if (gone) return null;

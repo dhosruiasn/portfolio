@@ -7,8 +7,6 @@ export const shopeeArchiveCaseStudy = {
     heroVisual: 'dashboard',
     meta: [
       { label: 'PROJECT TYPE', value: '內部自動化工具（歸檔 + 寄信）' },
-      { label: 'MY ROLE', value: '需求發現 · 流程設計 · 介面設計 · 開發' },
-      { label: 'STACK', value: 'Apps Script · Python / Tkinter · Sheets · Drive' },
       { label: 'HUMAN IN LOOP', value: '系統建草稿 · 設計師確認後寄出' },
     ],
     metrics: [
@@ -153,8 +151,6 @@ export const shopeeArchiveCaseStudy = {
     heroVisual: 'dashboard',
     meta: [
       { label: 'PROJECT TYPE', value: 'Internal automation (archiving + email)' },
-      { label: 'MY ROLE', value: 'Problem discovery · Flow design · UI design · Dev' },
-      { label: 'STACK', value: 'Apps Script · Python / Tkinter · Sheets · Drive' },
       { label: 'HUMAN IN LOOP', value: 'System drafts · designer confirms & sends' },
     ],
     metrics: [

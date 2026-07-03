@@ -1,7 +1,25 @@
+import { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext.jsx';
 import { resumeData } from '../data/resume.js';
 import { assetPath } from '../utils/assetPath.js';
 import '../styles/components/ResumeWireframe.css';
+
+/* 箭頭一律用 SVG：unicode ↗ 在 iOS 會以 emoji 樣式渲染 */
+function IconArrowUpRight() {
+  return (
+    <svg className="resume-wireframe__icon" viewBox="0 0 14 14" aria-hidden="true" focusable="false">
+      <path d="M3.5 10.5 10.5 3.5M5 3.5h5.5V9" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function IconArrowDown() {
+  return (
+    <svg className="resume-wireframe__icon" viewBox="0 0 14 14" aria-hidden="true" focusable="false">
+      <path d="M7 2.5v8M3.5 7.5 7 11l3.5-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 
 function SectionLabel({ children, id }) {
   return (
@@ -13,6 +31,18 @@ function SectionLabel({ children, id }) {
 
 function ContactItem({ item, lang }) {
   const value = typeof item.value === 'object' ? item.value[lang] : item.value;
+  const isMail = item.href?.startsWith('mailto:');
+  const [copied, setCopied] = useState(false);
+
+  // Email：手機上 mailto 常開錯 App，改成點擊複製到剪貼簿（仍保留 mailto 的 href 供長按）
+  const handleMailClick = (event) => {
+    if (!navigator.clipboard) return; // 無 clipboard API 就走預設 mailto
+    event.preventDefault();
+    navigator.clipboard.writeText(value).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1600);
+    }).catch(() => { window.location.href = item.href; });
+  };
 
   return (
     <li className={`resume-wireframe__contact-item${item.disabled ? ' resume-wireframe__contact-item--disabled' : ''}`}>
@@ -22,9 +52,11 @@ function ContactItem({ item, lang }) {
           href={assetPath(item.href)}
           target={item.href.startsWith('http') ? '_blank' : undefined}
           rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+          onClick={isMail ? handleMailClick : undefined}
           aria-label={`${item.label[lang]}: ${value}`}
         >
           {value}
+          {isMail && <span className="resume-wireframe__copied" aria-live="polite">{copied ? (lang === 'zh' ? '已複製 ✓' : 'Copied ✓') : ''}</span>}
         </a>
       ) : (
         <em aria-disabled={item.disabled ? 'true' : undefined}>{value}</em>
@@ -45,6 +77,7 @@ function CvActions({ cv }) {
         rel="noopener noreferrer"
       >
         {cv.viewLabel}
+        <IconArrowUpRight />
       </a>
       <a
         className="resume-wireframe__cv-button resume-wireframe__cv-button--secondary"
@@ -52,6 +85,7 @@ function CvActions({ cv }) {
         download
       >
         {cv.downloadLabel}
+        <IconArrowDown />
       </a>
     </div>
   );
@@ -92,14 +126,17 @@ function ProjectsSection({ content, onProjectOpen }) {
             className="resume-wireframe__project"
             href="#digital-works"
             onClick={(event) => onProjectOpen(event, project.id)}
-            aria-label={`${content.labels.viewProject.replace(' ↗', '')}: ${project.title}`}
+            aria-label={`${content.labels.viewProject}: ${project.title}`}
           >
             <span className="resume-wireframe__project-number">{project.number}</span>
             <div>
               <h3>{project.title}</h3>
               <p>{project.meta}</p>
             </div>
-            <strong>{content.labels.viewProject}</strong>
+            <strong>
+              {content.labels.viewProject}
+              <IconArrowUpRight />
+            </strong>
           </a>
         ))}
       </div>
@@ -124,9 +161,6 @@ export default function ResumeWireframe() {
         <div className="resume-wireframe__poster">
           <aside className="resume-wireframe__visual">
             <div className="resume-wireframe__portrait">
-              <span className="resume-wireframe__sticker resume-wireframe__sticker--top" aria-hidden="true">
-                Brand
-              </span>
               <span className="resume-wireframe__sticker resume-wireframe__sticker--mid" aria-hidden="true">
                 AI
               </span>
@@ -162,7 +196,6 @@ export default function ResumeWireframe() {
             <header className="resume-wireframe__intro">
               <h1 className="resume-wireframe__title">{content.title}</h1>
               <p className="resume-wireframe__positioning">{content.positioning}</p>
-              <p className="resume-wireframe__intro-line">{content.intro}</p>
               <CvActions cv={cv} />
             </header>
 
@@ -207,7 +240,6 @@ export default function ResumeWireframe() {
           </aside>
 
           <div className="ResumeLowerGrid resume-wireframe__lower">
-            <ProjectsSection content={content} onProjectOpen={handleProjectOpen} />
             <ExperienceSection content={content} />
           </div>
         </div>

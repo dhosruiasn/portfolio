@@ -47,3 +47,10 @@
   display: block;
   filter: drop-shadow(0 12px 30px rgba(0, 0, 0, 0.12));
 }
+
+@media (max-width: 768px) {
+  /* 縮短捲動跑道：手機上整段是靜態橘色套，180vh 會讓空白感拖太久 */
+  .graphic-sleeve {
+    height: 150vh;
+  }
+}

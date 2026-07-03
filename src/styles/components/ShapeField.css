@@ -83,4 +83,8 @@
     width: 100%;
     top: 60px;
   }
+
+  .shape--label {
+    font-size: 15px;
+  }
 }
