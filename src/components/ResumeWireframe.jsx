@@ -161,9 +161,6 @@ export default function ResumeWireframe() {
         <div className="resume-wireframe__poster">
           <aside className="resume-wireframe__visual">
             <div className="resume-wireframe__portrait">
-              <span className="resume-wireframe__sticker resume-wireframe__sticker--mid" aria-hidden="true">
-                AI
-              </span>
               <div className="resume-wireframe__placeholder">
                 <img src={assetPath(resumeData.portrait.src)} alt={content.portraitAlt} />
               </div>

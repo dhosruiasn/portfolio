@@ -55,9 +55,10 @@ export default function AsciiArt({ src = '/images/hero-character.png', maskRef, 
 
     let rafId;
     let flashStart = -1; // performance.now() when the convergence pulse fires (-1 = not yet)
+    // 同源圖不需要 crossOrigin；設了反而在一般快取 reload 時會 CORS 失敗 → 掉到 fallback。
+    // img 的建立與 src 指定移到 onload/onerror 綁定之後（見下方），否則「快取圖在綁 onload
+    // 前就載完」會錯過 load 事件 → 松鼠不出現，要刷新好幾次才好（使用者實機回報）。
     const img = new Image();
-    // 同源圖不需要 crossOrigin；設了反而在一般快取 reload 時會 CORS 失敗 → 掉到 fallback
-    img.src = assetPath(src);
 
     const makeParticle = (x, y, char) => ({
       homeX: x,
@@ -154,6 +155,10 @@ export default function AsciiArt({ src = '/images/hero-character.png', maskRef, 
 
     img.onload = buildParticles;
     img.onerror = drawFallback;
+    // 綁好 handler 後才設 src；若圖已在快取（complete 且有寬度）直接建 particles，
+    // 因為此時 load 事件可能已錯過、不會再觸發
+    img.src = assetPath(src);
+    if (img.complete && img.naturalWidth > 0) buildParticles();
 
     const animate = () => {
       ctx.clearRect(0, 0, WIDTH, HEIGHT);

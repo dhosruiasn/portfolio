@@ -8,6 +8,7 @@ import {
 } from '@dnd-kit/core';
 import gsap from 'gsap';
 import { assetPath } from '../utils/assetPath.js';
+import { lockBodyScroll, unlockBodyScroll } from '../utils/scrollLock.js';
 import '../styles/components/GraphicOverlay.css';
 
 const BASE = '/images/graphic/collage';
@@ -171,13 +172,11 @@ export default function GraphicOverlay({ onClose }) {
     });
   };
 
-  // 鎖住底下頁面的捲動（否則手機上拖曳／滑動會讓主頁偷偷捲到別的段落）
+  // 鎖住底下頁面的捲動（iOS 正解 position:fixed，見 scrollLock）——
+  // 否則手機拖曳／滑動會讓主頁偷偷捲動，關閉後位置錯亂
   useEffect(() => {
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = prevOverflow;
-    };
+    lockBodyScroll();
+    return () => unlockBodyScroll();
   }, []);
 
   useEffect(() => {

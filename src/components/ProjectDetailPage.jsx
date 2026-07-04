@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { useLanguage } from '../context/LanguageContext.jsx';
 import { assetPath } from '../utils/assetPath.js';
+import { lockBodyScroll, unlockBodyScroll } from '../utils/scrollLock.js';
 import { projects } from '../data/projects.js';
 import {
   CoreComponentShowcase,
@@ -1334,9 +1335,8 @@ export default function ProjectDetailPage({ project, onClose }) {
   useEffect(() => {
     if (!project || !pageRef.current) return;
 
-    // lock the underlying page scroll while keeping its position
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    // 鎖住背景捲動（iOS 正解 position:fixed，見 scrollLock）——避免關閉後背景亂捲
+    lockBodyScroll();
     let caseObserver;
     let fallingChipObserver;
 
@@ -1451,7 +1451,7 @@ export default function ProjectDetailPage({ project, onClose }) {
       fallingChipObserver?.disconnect();
       ctx.revert();
       window.removeEventListener('keydown', onKey);
-      document.body.style.overflow = prevOverflow;
+      unlockBodyScroll();
     };
   }, [project, onClose]);
 

@@ -69,14 +69,14 @@ export const projects = [
     status: { zh: '進行中', en: 'In Progress' },
     zh: {
       about: '以插畫 IP 與復古玩具店為核心，重新設計從商品選購到填寫收件資料的結帳體驗，讓購物流程像一段具有角色感與小劇場感的互動過程。',
-      role: 'Brand Direction / Visual System / UI Design / Interaction Design / Motion Prototype / Front-end Experiment',
+      role: 'Brand Direction / Visual System / Interaction Design / Motion & Front-end',
       tech: 'Next.js, React Three Fiber, GSAP, dnd-kit, Tailwind CSS, Web Audio',
       deliverables: 'Brand system snapshot、商品購物頁、結帳過場、結帳掃碼、收件資料表單與互動原型。',
       status: '進行中',
     },
     en: {
       about: 'An interactive commerce and checkout concept for GOOGOOLii, centered on an illustration IP and a retro toy-store world.',
-      role: 'Brand Direction / Visual System / UI Design / Interaction Design / Motion Prototype / Front-end Experiment',
+      role: 'Brand Direction / Visual System / Interaction Design / Motion & Front-end',
       tech: 'Next.js, React Three Fiber, GSAP, dnd-kit, Tailwind CSS, Web Audio',
       deliverables: 'Brand system snapshot, product shopping page, checkout transition, scan flow, shipping form, and motion prototype.',
       status: 'In Progress',
@@ -148,12 +148,9 @@ export const projects = [
           ],
           treatment: [
             '去背商品漂浮',
-            '粗黑描邊',
-            'Hard Shadow',
+            '粗黑描邊 + Hard Shadow',
             'Sticker-like Treatment',
             '商品與角色分層',
-            '前景商品大於背景機器',
-            '輸送帶上逐件掃描',
             '半色調網點與不規則卡片',
           ],
           components: [
