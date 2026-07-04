@@ -12,7 +12,7 @@ export default function GraphicEntry() {
     <>
       <div className="graphic-entry">
         <button className="graphic-entry__image" onClick={() => setOpen(true)}>
-          <img src={assetPath('/images/graphic/entry.jpg')} alt="Graphic Works" />
+          <img src={assetPath('/images/graphic/collage/bg/go-header.webp')} alt="Graphic Works" />
           <span className="graphic-entry__cta">{t.enter}</span>
         </button>
       </div>

@@ -19,12 +19,29 @@ export default function Nav({ heroRef }) {
     const heroEl = heroRef?.current;
     if (!heroEl) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => setVisible(!entry.isIntersecting),
-      { threshold: 0 }
-    );
-    observer.observe(heroEl);
-    return () => observer.disconnect();
+    let rafId = 0;
+    const sync = () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        setVisible(heroEl.getBoundingClientRect().bottom <= 1);
+      });
+    };
+    sync();
+    const delayedSyncs = [80, 300, 800].map((delay) => window.setTimeout(sync, delay));
+    window.addEventListener('scroll', sync, { passive: true });
+    window.addEventListener('hashchange', sync);
+    window.addEventListener('load', sync);
+    window.addEventListener('resize', sync);
+    window.addEventListener('orientationchange', sync);
+    return () => {
+      cancelAnimationFrame(rafId);
+      delayedSyncs.forEach((id) => window.clearTimeout(id));
+      window.removeEventListener('scroll', sync);
+      window.removeEventListener('hashchange', sync);
+      window.removeEventListener('load', sync);
+      window.removeEventListener('resize', sync);
+      window.removeEventListener('orientationchange', sync);
+    };
   }, [heroRef]);
 
   // nav 隱藏（回到 hero）時順便收合選單

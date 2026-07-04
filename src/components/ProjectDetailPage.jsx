@@ -1246,7 +1246,7 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
               {renderPanelTitle(sectionTitles.outcome, panelTitles.outcome)}
               <p>{renderInfoText(caseStudy.outcome.body)}</p>
             </div>
-            <div className="case-chip-cloud case-chip-cloud--stacked">
+            <div className="case-chip-cloud case-chip-cloud--stacked case-chip-cloud--outcome" aria-label={caseStudyLang === 'zh' ? '成果重點' : 'Outcome highlights'}>
               {caseStudy.outcome.items.map((item, index) => (
                 <span className={OUTCOME_TONES[index]} key={item}>{renderInfoText(item)}</span>
               ))}

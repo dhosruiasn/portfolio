@@ -539,6 +539,26 @@
   .resume-wireframe__projects {
     margin-top: 0;
   }
+
+  .resume-wireframe__experience {
+    grid-column: 1 / -1;
+  }
+
+  .resume-wireframe__experience-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 30px;
+    border-top: 1px solid rgba(37, 41, 54, 0.14);
+  }
+
+  .resume-wireframe__experience-item {
+    grid-template-columns: minmax(92px, 0.42fr) minmax(0, 1fr);
+    column-gap: 18px;
+    border-top: 0;
+  }
+
+  .resume-wireframe__contact {
+    margin-top: clamp(42px, 3.6vw, 58px);
+  }
 }
 
 @media (min-width: 981px) and (max-width: 1280px) {
@@ -548,7 +568,7 @@
   }
 
   .resume-wireframe__experience-item {
-    grid-template-columns: 104px minmax(0, 1fr);
+    grid-template-columns: minmax(86px, 0.42fr) minmax(0, 1fr);
     column-gap: 18px;
   }
 }

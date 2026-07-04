@@ -2,14 +2,16 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLanguage } from '../context/LanguageContext.jsx';
+import { resumeData } from '../data/resume.js';
 import { assetPath } from '../utils/assetPath.js';
 import '../styles/components/About.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function About() {
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
   const cardRef = useRef(null);
+  const cv = resumeData.cv[lang] || resumeData.cv.en;
 
   useEffect(() => {
     if (!cardRef.current) return undefined;
@@ -70,14 +72,14 @@ export default function About() {
           <h4 className="about__heading">{t.about.toolsTitle}</h4>
           <p className="about__tools">{t.about.tools}</p>
 
-          <a className="about__download" href={assetPath('/cv.pdf')} download>
+          <a className="about__download" href={assetPath(cv.file)} download>
             {t.about.download}
           </a>
 
           <p className="about__fullname">{t.about.fullName}</p>
         </div>
         <div className="about__illustration">
-          <img src={assetPath('/images/about/bg.jpg')} alt="About illustration" />
+          <img src={assetPath(resumeData.portrait.src)} alt={t.about.fullName} />
         </div>
       </div>
     </section>

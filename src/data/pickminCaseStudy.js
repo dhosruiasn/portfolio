@@ -125,7 +125,13 @@ const zh = {
   complexity: {
     title: 'PRODUCT COMPLEXITY',
     body: 'Pickmin 不是單一瀏覽頁，而是一個同時支援公開資料、個人收藏、圖片上傳、管理審核與四語介面的產品。這些流程讓視覺、元件與狀態需要以系統方式維護。',
-    items: [],
+    items: [
+      { id: 'public-data', value: '公開', label: '明信片資料庫' },
+      { id: 'personal-collection', value: '個人', label: '收藏與擁有狀態' },
+      { id: 'upload', value: '上傳', label: '圖片與資料補充' },
+      { id: 'admin-review', value: '審核', label: '回報與管理流程' },
+      { id: 'i18n', value: '4 語', label: '介面與內容維護' },
+    ],
   },
   problems: [
     { title: '資料分散', body: '玩家常把明信片保存在截圖、相簿或聊天紀錄中，缺少集中管理方式。' },
@@ -372,6 +378,13 @@ const en = {
   complexity: {
     ...zh.complexity,
     body: 'Pickmin is not a single browse page. It supports public data, personal collections, image upload, admin review, and four-language interfaces. That product scope requires visual rules, component states, and interaction patterns to be maintained as a system.',
+    items: [
+      { id: 'public-data', value: 'Public', label: 'Postcard database' },
+      { id: 'personal-collection', value: 'Personal', label: 'Collection status' },
+      { id: 'upload', value: 'Upload', label: 'Image contribution' },
+      { id: 'admin-review', value: 'Review', label: 'Reports and admin flow' },
+      { id: 'i18n', value: '4 lang', label: 'Interface maintenance' },
+    ],
   },
   problems: [
     { title: 'Scattered data', body: 'Players often keep postcards in screenshots, photo albums, or chat history without a focused management system.' },

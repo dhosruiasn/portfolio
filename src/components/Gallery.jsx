@@ -8,12 +8,12 @@ import '../styles/components/Gallery.css';
 gsap.registerPlugin(ScrollTrigger);
 
 const IMAGES = [
-  '/images/graphic/gallery-1.jpg',
-  '/images/graphic/gallery-2.jpg',
-  '/images/graphic/gallery-3.jpg',
-  '/images/graphic/gallery-4.jpg',
-  '/images/graphic/gallery-5.jpg',
-  '/images/graphic/gallery-6.jpg',
+  { src: '/images/graphic/poster/poster_1.png', alt: 'Mirror poster' },
+  { src: '/images/graphic/poster/poster_2.png', alt: 'Story poster' },
+  { src: '/images/graphic/poster/poster_3.png', alt: 'MEOW TEE poster' },
+  { src: '/images/graphic/collage/items/tee-best.webp', alt: 'BEST tee merchandise' },
+  { src: '/images/graphic/collage/items/birthday-cake.webp', alt: 'Birthday cake merchandise' },
+  { src: '/images/graphic/collage/items/keyring-cat.webp', alt: 'Cat keyring merchandise' },
 ];
 
 export default function Gallery() {
@@ -42,13 +42,13 @@ export default function Gallery() {
       <div className="container">
         <h3 className="gallery__title">{t.gallery.title}</h3>
         <div className="gallery__grid" ref={gridRef}>
-          {IMAGES.map((src, i) => (
+          {IMAGES.map((item, i) => (
             <div
-              key={src}
+              key={item.src}
               className="gallery__item"
               style={i === 0 ? { gridRow: 'span 2' } : undefined}
             >
-              <img src={assetPath(src)} alt={`graphic-${i}`} />
+              <img src={assetPath(item.src)} alt={item.alt} />
             </div>
           ))}
         </div>

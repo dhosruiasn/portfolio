@@ -79,7 +79,6 @@ export function ProductComplexitySection({ content }) {
   return (
     <div className="pickmin-complexity">
       <article className="case-panel pickmin-complexity__copy">
-        <h3>{content.title}</h3>
         <p>{content.body}</p>
       </article>
       {content.items?.length > 0 && (

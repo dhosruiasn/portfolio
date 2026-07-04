@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Doris Kao">
+  <rect width="64" height="64" rx="14" fill="#ec5b2b"/>
+  <circle cx="48" cy="16" r="7" fill="#fff572"/>
+  <path d="M15 17h15c10 0 18 6 18 15s-8 15-18 15H15V17Zm10 9v12h5c5 0 8-2 8-6s-3-6-8-6h-5Z" fill="#2e2318"/>
+  <path d="M14 48h36v5H14v-5Z" fill="#2e2318"/>
+</svg>

@@ -13,15 +13,27 @@ export default function ProjectCard({ project, onOpen }) {
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return undefined;
+    const play = () => {
+      if (document.visibilityState === 'visible') v.play().catch(() => {});
+    };
     const io = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) v.play().catch(() => {});
+        if (entry.isIntersecting) play();
         else v.pause();
       },
-      { threshold: 0.25 }
+      { rootMargin: '120px 0px', threshold: 0.05 }
     );
     io.observe(v);
-    return () => io.disconnect();
+    v.addEventListener('loadeddata', play);
+    v.addEventListener('canplay', play);
+    document.addEventListener('visibilitychange', play);
+    play();
+    return () => {
+      io.disconnect();
+      v.removeEventListener('loadeddata', play);
+      v.removeEventListener('canplay', play);
+      document.removeEventListener('visibilitychange', play);
+    };
   }, []);
   const cardHeight = typeof project.height === 'number' ? `${project.height}px` : project.height;
   const cardOffset = typeof project.marginTop === 'number' ? `${project.marginTop}px` : project.marginTop || '0px';

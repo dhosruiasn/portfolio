@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLanguage } from './context/LanguageContext.jsx';
 import LoadingBlinds from './components/LoadingBlinds.jsx';
@@ -16,6 +16,24 @@ export default function App() {
   const { htmlLang } = useLanguage();
   const heroRef = useRef(null);
   const [introDone, setIntroDone] = useState(false);
+
+  const scrollToCurrentHash = useCallback(() => {
+    const hash = window.location.hash.replace(/^#/, '');
+    if (!hash) return;
+    const target = document.getElementById(decodeURIComponent(hash));
+    if (!target) return;
+    const top = target.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo({ top, behavior: 'auto' });
+    requestAnimationFrame(() => {
+      window.scrollTo({ top, behavior: 'auto' });
+      ScrollTrigger.refresh();
+    });
+  }, []);
+
+  const handleIntroDone = useCallback(() => {
+    setIntroDone(true);
+    [0, 160, 520].forEach((delay) => window.setTimeout(scrollToCurrentHash, delay));
+  }, [scrollToCurrentHash]);
 
   useEffect(() => {
     const refresh = () => ScrollTrigger.refresh();
@@ -36,6 +54,16 @@ export default function App() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!introDone) return undefined;
+    const timers = [0, 160, 520].map((delay) => window.setTimeout(scrollToCurrentHash, delay));
+    window.addEventListener('hashchange', scrollToCurrentHash);
+    return () => {
+      timers.forEach((id) => window.clearTimeout(id));
+      window.removeEventListener('hashchange', scrollToCurrentHash);
+    };
+  }, [introDone, scrollToCurrentHash]);
+
   // 圖片載入失敗時給佔位樣式，避免資產 404 變成無提示的白框。
   // 只處理自家資產（同源），不攔第三方圖
   useEffect(() => {
@@ -51,7 +79,7 @@ export default function App() {
 
   return (
     <div lang={htmlLang}>
-      <LoadingBlinds onDone={() => setIntroDone(true)} />
+      <LoadingBlinds onDone={handleIntroDone} />
       <Marquee heroRef={heroRef} />
       <Hero ref={heroRef} started={introDone} />
       <Nav heroRef={heroRef} />
