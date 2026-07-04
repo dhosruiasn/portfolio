@@ -82,6 +82,7 @@ export function ProductComplexitySection({ content }) {
         <h3>{content.title}</h3>
         <p>{content.body}</p>
       </article>
+      {content.items?.length > 0 && (
       <div className="pickmin-complexity__grid">
         {content.items.map((item) => (
           <div className="case-metric" key={item.id}>
@@ -90,6 +91,7 @@ export function ProductComplexitySection({ content }) {
           </div>
         ))}
       </div>
+      )}
     </div>
   );
 }

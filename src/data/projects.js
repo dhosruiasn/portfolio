@@ -98,7 +98,6 @@ export const projects = [
         systemPageIntro: '從品牌色彩、字體、質感到元件的完整設計語言。',
         roleItems: ['Brand Direction', 'Visual System', 'Interaction Design', 'Motion & Front-end'],
         meta: [
-          { label: 'PROJECT TYPE', value: 'Brand System & Interactive Checkout Concept' },
           { label: 'CORE FLOW', value: '商品購物頁 → 結帳過場 → 結帳掃碼 → 收件資料' },
           { label: 'STATUS', value: '個人品牌 × 互動概念專案' },
         ],
@@ -240,7 +239,6 @@ export const projects = [
         systemPageIntro: 'The complete design language — from brand color, type and texture to components.',
         roleItems: ['Brand Direction', 'Visual System', 'Interaction Design', 'Motion & Front-end'],
         meta: [
-          { label: 'PROJECT TYPE', value: 'Brand System & Interactive Checkout Concept' },
           { label: 'CORE FLOW', value: 'Shopping page → Checkout transition → Scan → Shipping details' },
           { label: 'STATUS', value: 'Personal brand × interaction concept project' },
         ],

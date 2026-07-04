@@ -67,14 +67,31 @@ export default function BrandNameTransition() {
     const reduceMotion = window.matchMedia(REDUCED_QUERY);
     const desktop = window.matchMedia(DESKTOP_QUERY);
 
-    // 手機不做 nav↔CV 形變：nav 品牌字恆顯示、CV 大標整個移除（使用者指定）。
-    // 直接略過所有 trigger，避免捲到 CV 時 nav 品牌被 autoAlpha 藏掉
+    // 手機不做形變動畫，但做「視覺接力」：CV 大標恆顯示；當 CV 標題進入視窗，
+    // nav 的 DORIS KAO 淡出（避免同畫面兩個名字），捲離 CV 再淡回（使用者要求）。
     if (!desktop.matches) {
-      // 手機不做形變：nav 品牌字恆顯示，CV 大標改為靜態顯示（使用者要求 CV 要有名字）
-      gsap.set(navBrand, { autoAlpha: 1 });
       gsap.set(resumeTitle, { autoAlpha: 1 });
+      gsap.set(navBrand, { autoAlpha: 1 });
+      // 原生 scroll 監聽（最無依賴、不受 ScrollTrigger/IO refresh 時機影響）：
+      // CV 標題進入視窗上 62% 時，nav 的 DORIS KAO 淡出（同畫面不出現兩個名字），捲離再淡回。
+      let hidden = false;
+      const sync = () => {
+        const r = resumeTitle.getBoundingClientRect();
+        const inView = r.top < window.innerHeight * 0.62 && r.bottom > 0;
+        if (inView !== hidden) {
+          hidden = inView;
+          gsap.to(navBrand, { autoAlpha: inView ? 0 : 1, duration: 0.2 });
+        }
+      };
+      window.addEventListener('scroll', sync, { passive: true });
+      window.addEventListener('resize', sync, { passive: true });
+      sync();
       proxy.remove();
-      return undefined;
+      return () => {
+        window.removeEventListener('scroll', sync);
+        window.removeEventListener('resize', sync);
+        gsap.set(navBrand, { autoAlpha: 1 });
+      };
     }
 
     const setNavState = () => {

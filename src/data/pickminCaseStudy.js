@@ -108,7 +108,13 @@ const zh = {
     { label: 'LANGUAGES', value: '繁體中文、English、日本語、한국어' },
     { label: 'RESPONSIBILITIES', value: '產品策略、Design System、互動流程、i18n、React 實作、部署' },
   ],
-  metrics: [],
+  metrics: [
+    { value: '10+', label: 'Screens' },
+    { value: '4', label: 'Languages' },
+    { value: 'Multi', label: 'User flows' },
+    { value: 'Mobile-first', label: 'Responsive PWA' },
+    { value: 'User + Admin', label: 'Interfaces' },
+  ],
   overview: {
     title: '從玩家收藏痛點出發的產品設計',
     body: [
@@ -119,13 +125,7 @@ const zh = {
   complexity: {
     title: 'PRODUCT COMPLEXITY',
     body: 'Pikmin 不是單一瀏覽頁，而是一個同時支援公開資料、個人收藏、圖片上傳、管理審核與四語介面的產品。這些流程讓視覺、元件與狀態需要以系統方式維護。',
-    items: [
-      { id: 'screens', value: '10+', label: 'Screens' },
-      { id: 'languages', value: '4', label: 'Languages' },
-      { id: 'flows', value: 'Multi', label: 'User flows' },
-      { id: 'mobile', value: 'Mobile-first', label: 'Responsive PWA' },
-      { id: 'interfaces', value: 'User + Admin', label: 'Interfaces' },
-    ],
+    items: [],
   },
   problems: [
     { title: '資料分散', body: '玩家常把明信片保存在截圖、相簿或聊天紀錄中，缺少集中管理方式。' },
@@ -355,7 +355,13 @@ const en = {
     { label: 'LANGUAGES', value: 'Traditional Chinese, English, Japanese, Korean' },
     { label: 'RESPONSIBILITIES', value: 'Product strategy, design system, interaction flows, i18n, React implementation, deployment' },
   ],
-  metrics: [],
+  metrics: [
+    { value: '10+', label: 'Screens' },
+    { value: '4', label: 'Languages' },
+    { value: 'Multi', label: 'User flows' },
+    { value: 'Mobile-first', label: 'Responsive PWA' },
+    { value: 'User + Admin', label: 'Interfaces' },
+  ],
   overview: {
     title: 'Product design shaped by a collection pain point',
     body: [

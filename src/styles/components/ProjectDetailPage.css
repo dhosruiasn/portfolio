@@ -4128,9 +4128,13 @@ body:has(.detail-page),
     min-height: auto;
   }
 
+  /* iOS Safari 對「grid item + aspect-ratio」可能算不出高度 → stage 塌成 0 高，
+     只剩 4px 黑邊＋硬陰影＝側邊小黑點。改用 padding-bottom 比例法（全瀏覽器可靠）。 */
   .googoolii-hero__stage {
-    aspect-ratio: 1040 / 666;
+    aspect-ratio: auto;
+    height: 0;
     min-height: 0;
+    padding-bottom: 64%; /* 666 / 1040 */
   }
 
   .googoolii-hero__screen {
@@ -4444,5 +4448,13 @@ body:has(.detail-page),
   .case-section--users .case-split,
   .case-split {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  /* 色票區手機精簡：只留色塊＋名稱＋hex，隱藏用途說明（整段大幅縮短） */
+  .pickmin-token-card p,
+  .googoolii-token p {
+    display: none;
   }
 }

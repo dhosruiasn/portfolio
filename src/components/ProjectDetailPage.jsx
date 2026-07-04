@@ -557,6 +557,7 @@ function GoogooliiHeroMedia({ caseStudy }) {
           autoPlay
           playsInline
           preload="metadata"
+          poster={posterSrc || undefined}
           onClick={(e) => e.currentTarget.play().catch(() => {})}
           aria-label={caseStudy.heroAlt}
           src={videoSrc}

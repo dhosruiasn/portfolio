@@ -7,7 +7,6 @@ export const uiTweakerCaseStudy = {
     heroAlt: 'UI Tweaker demo video showing live visual controls and preview updates',
     meta: [
       { label: 'PROJECT TYPE', value: 'Internal design tool / Claude Code Plugin' },
-      { label: 'CORE FLOW', value: '選取元件 → 調整屬性 → 即時預覽 → 複製輸出' },
       { label: 'STATUS', value: '已發布 GitHub Pages 與 plugin 說明' },
     ],
     metrics: [
@@ -147,7 +146,6 @@ export const uiTweakerCaseStudy = {
     heroAlt: 'UI Tweaker demo video showing live visual controls and preview updates',
     meta: [
       { label: 'PROJECT TYPE', value: 'Internal design tool / Claude Code Plugin' },
-      { label: 'CORE FLOW', value: 'Select component → tune properties → preview → copy output' },
       { label: 'STATUS', value: 'Published with GitHub Pages and plugin docs' },
     ],
     metrics: [
