@@ -11,3 +11,8 @@ media-source/
 
 # Claude harness docs (local paths, keep out of public repo)
 CLAUDE.md
+
+# 大原始影片母檔（本機保留，不進 repo；線上用壓縮版）
+public/videos/projects/googoolii-hero.mp4
+public/videos/projects/pickmin封面影片.mp4
+public/videos/projects/ui-tweaker-skill -demo-vedio.mp4

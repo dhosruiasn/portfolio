@@ -702,9 +702,14 @@
   }
 
   /* 手機維持兩欄並排（卡片內容短，單欄會拉出一長串） */
-  /* 手機移除 CV 大標（nav 品牌字已足夠識別，形變也已停用） */
+  /* CV 大標靜態顯示（morph 已停用）：讓區塊有明確主題，不再像沒標題的區域 */
   .resume-wireframe__title {
-    display: none;
+    display: block;
+    visibility: visible;
+    opacity: 1;
+    margin-bottom: 12px;
+    font-size: clamp(48px, 15vw, 78px);
+    line-height: 0.9;
   }
 
   .resume-wireframe__expertise-grid {

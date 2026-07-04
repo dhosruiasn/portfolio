@@ -70,8 +70,9 @@ export default function BrandNameTransition() {
     // 手機不做 nav↔CV 形變：nav 品牌字恆顯示、CV 大標整個移除（使用者指定）。
     // 直接略過所有 trigger，避免捲到 CV 時 nav 品牌被 autoAlpha 藏掉
     if (!desktop.matches) {
+      // 手機不做形變：nav 品牌字恆顯示，CV 大標改為靜態顯示（使用者要求 CV 要有名字）
       gsap.set(navBrand, { autoAlpha: 1 });
-      gsap.set(resumeTitle, { autoAlpha: 0 });
+      gsap.set(resumeTitle, { autoAlpha: 1 });
       proxy.remove();
       return undefined;
     }

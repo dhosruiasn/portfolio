@@ -82,6 +82,8 @@
   .hero__shapefield {
     width: 100%;
     top: 60px;
+    /* 圖形疊在 ASCII 之上（見 Hero.css 手機 z-index 對調）：色塊不透明，文字才讀得清 */
+    z-index: 3;
   }
 
   .shape--label {

@@ -54,12 +54,14 @@ function DraggableItem({ item, offset, z, isMobile, jitter }) {
   const x = offset.x + (transform?.x || 0);
   const y = offset.y + (transform?.y || 0);
   const baseTop = isMobile && item.mTop !== undefined ? item.mTop : item.top;
-  // 手機商品放大 1.3 倍（使用者回饋偏小），left 往中央收避免出界
-  const width = isMobile ? item.width * 1.3 : item.width;
-  const baseLeft = isMobile ? 50 + (item.left - 50) * 0.78 : item.left;
+  // 手機商品放大（1.18，比 1.3 溫和以減少重疊）；不再往中央收攏（那會讓商品橫向擠成一團），
+  // 保留原本橫跨整個畫布的分佈，只夾住右緣避免出界。垂直額外拉開讓商品分散。
+  const width = isMobile ? item.width * 1.18 : item.width;
+  const baseLeft = isMobile ? item.left : item.left;
+  const baseTopSpread = isMobile ? baseTop * 1.12 : baseTop;
   // 每次開啟的隨機抖動（left/top/rot），限制在畫布內
   const left = Math.min(Math.max(0, 98 - width), Math.max(0, baseLeft + (jitter?.dl || 0)));
-  const top = baseTop + (jitter?.dt || 0);
+  const top = baseTopSpread + (jitter?.dt || 0);
 
   const style = {
     left: `${left}%`,

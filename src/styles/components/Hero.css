@@ -76,8 +76,9 @@
     padding: 60px 20px 24px;
   }
   .hero__ascii {
-    /* 滿版置中緊貼 marquee（60px）下緣：寬度撐滿螢幕（維持 640/820 比例），
-       上方不再留空；形狀縮小並排在下方，不重疊 ASCII */
+    /* 滿版置中緊貼 marquee（60px）下緣：寬度撐滿螢幕（維持 640/820 比例）。
+       z-index 降到圖形之下：兩者重疊時由不透明色塊蓋住 ASCII，文字才清楚 */
+    z-index: 2;
     top: 40px;
     left: 50%;
     right: auto;
