@@ -73,7 +73,7 @@ function PickminCardTunePanel({ tune, setTune }) {
   const set = (key) => (value) => setTune((current) => ({ ...current, [key]: value }));
   return (
     <div className="digital-tune digital-tune--pickmin-card">
-      <strong>Pikmin 卡片影片</strong>
+      <strong>Pickmin 卡片影片</strong>
       <TuneRow label="比例" value={tune.videoScale} min={0.9} max={3.2} step={0.01} unit="x" onChange={set('videoScale')} />
       <TuneRow label="X" value={tune.videoX} min={-180} max={180} step={1} unit="px" onChange={set('videoX')} />
       <TuneRow label="Y" value={tune.videoY} min={-240} max={240} step={1} unit="px" onChange={set('videoY')} />

@@ -5,13 +5,13 @@ import { uiTweakerCaseStudy } from './uiTweakerCaseStudy.js';
 export const projects = [
   {
     id: 'pickmin',
-    name: 'Pikmin Postcards',
+    name: 'Pickmin Postcards',
     category: { zh: '產品設計 × 開發', en: 'Product Design × Dev' },
     height: 360,
     marginTop: 0,
-    media: '/videos/projects/pickmin%E5%B0%81%E9%9D%A2%E5%BD%B1%E7%89%87-720.mp4',
+    media: '/videos/projects/pickmin%E5%B0%81%E9%9D%A2%E5%BD%B1%E7%89%87-1080.mp4',
     mediaType: 'video',
-    poster: '/videos/projects/pickmin%E5%B0%81%E9%9D%A2%E5%BD%B1%E7%89%87-poster.jpg',
+    poster: '/videos/projects/pickmin%E5%B0%81%E9%9D%A2%E5%BD%B1%E7%89%87-poster2.jpg',
     link: 'https://pickmin-postcards.vercel.app/',
     zh: {
       about: '為 Pikmin Bloom 玩家打造的明信片追蹤與收藏 Web App。從零主導完整產品設計——視覺系統、UI 介面、互動邏輯到雲端部署，全程以 VibeCoding 方式實作。',
@@ -35,9 +35,9 @@ export const projects = [
     category: { zh: '工具開發', en: 'Tool Development' },
     height: 420,
     marginTop: 40,
-    media: '/videos/projects/ui-tweaker-skill%20-demo-vedio-720.mp4',
+    media: '/videos/projects/ui-tweaker-skill%20-demo-vedio-1080.mp4',
     mediaType: 'video',
-    poster: '/videos/projects/ui-tweaker-skill%20-demo-vedio-poster.jpg',
+    poster: '/videos/projects/ui-tweaker-skill%20-demo-vedio-poster2.jpg',
     link: 'https://dhosruiasn.github.io/ui-tweaker-skill/',
     zh: {
       about: '為 VibeCoding 設計師打造的視覺微調工具。控制面板參考 Figma 屬性面板邏輯，將常見的文字、間距、尺寸、圓角、陰影、位置與狀態調整轉化成可即時預覽的介面。',

@@ -8,7 +8,8 @@ export default function ProjectCard({ project, onOpen }) {
   const isVideo = project.mediaType === 'video';
   const videoRef = useRef(null);
 
-  // 只有進入視窗的卡片影片才播放，離開就暫停 —— 低階機同時播四支會掉幀
+  // 進入視窗才播放、離開暫停（省電/防掉幀）。preload 維持 auto：
+  // 上一輪改 preload="none" 造成「捲到卡片才開始下載→好幾秒黑格才播」的回退
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return undefined;
@@ -54,7 +55,7 @@ export default function ProjectCard({ project, onOpen }) {
                   loop
                   autoPlay
                   playsInline
-                  preload="none"
+                  preload="auto"
                   aria-label={project.name}
                 />
               ) : (

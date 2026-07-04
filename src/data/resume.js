@@ -123,7 +123,7 @@ export const resumeData = {
       {
         id: 'pickmin',
         number: '01',
-        title: 'PIKMIN POSTCARDS',
+        title: 'PICKMIN POSTCARDS',
         meta: 'Product Design / Design System / VibeCoding',
       },
       {
@@ -222,7 +222,7 @@ export const resumeData = {
       {
         id: 'pickmin',
         number: '01',
-        title: 'PIKMIN POSTCARDS',
+        title: 'PICKMIN POSTCARDS',
         meta: 'Product Design / Design System / VibeCoding',
       },
       {

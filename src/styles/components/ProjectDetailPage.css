@@ -3741,6 +3741,14 @@ body:has(.detail-page),
     padding: 42px 0;
   }
 
+  /* Pikmin 桌面的交替色帶有水平 padding，手機會讓 OVERVIEW 等卡比 metrics 窄 40px
+     （使用者回報寬度不一）——手機歸零、對齊全站卡寬 */
+  .detail-page--pickmin .case-section {
+    padding-left: 0;
+    padding-right: 0;
+    border-radius: 0;
+  }
+
   .case-section--overview,
   .case-section--users,
   .case-section--architecture,
