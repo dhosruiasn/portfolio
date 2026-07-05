@@ -384,7 +384,11 @@
 }
 
 .resume-wireframe__company {
-  margin-bottom: 4px;
+  width: fit-content;
+  max-width: 100%;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid rgba(37, 41, 54, 0.14);
   font-family: var(--font-body-en);
   font-size: 14px;
   font-weight: 800;
@@ -547,7 +551,6 @@
   .resume-wireframe__experience-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: 30px;
-    border-top: 1px solid rgba(37, 41, 54, 0.14);
   }
 
   .resume-wireframe__experience-item {
@@ -557,7 +560,7 @@
   }
 
   .resume-wireframe__contact {
-    margin-top: clamp(42px, 3.6vw, 58px);
+    margin-top: clamp(26px, 1.55vw, 32px);
   }
 }
 
