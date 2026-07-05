@@ -3789,6 +3789,10 @@ body:has(.detail-page),
     border-radius: 0;
   }
 
+  .detail-page--pickmin .case-section:nth-of-type(even) {
+    background: transparent;
+  }
+
   .case-section--overview,
   .case-section--users,
   .case-section--architecture,
@@ -4218,6 +4222,16 @@ body:has(.detail-page),
 
   .googoolii-section {
     padding: 44px 0;
+  }
+
+  .detail-page--googoolii-custom .googoolii-section {
+    padding-left: 0;
+    padding-right: 0;
+    border-radius: 0;
+  }
+
+  .detail-page--googoolii-custom .googoolii-section:nth-of-type(even) {
+    background: transparent;
   }
 
   .googoolii-section__heading h2 {
