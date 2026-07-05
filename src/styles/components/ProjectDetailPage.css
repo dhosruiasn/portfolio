@@ -3996,6 +3996,28 @@ body:has(.detail-page),
     grid-template-columns: 1fr;
   }
 
+  .pickmin-complexity__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .pickmin-complexity__grid .case-metric {
+    min-height: 104px;
+    padding: 16px;
+    border-radius: 24px;
+    gap: 8px;
+  }
+
+  .detail-page--pickmin .pickmin-complexity__grid .case-metric strong {
+    font-size: clamp(1.25rem, 5.6vw, 1.75rem);
+    line-height: 1.05;
+  }
+
+  .pickmin-complexity__grid .case-metric > span {
+    font-size: 0.875rem;
+    line-height: 1.25;
+  }
+
   .pickmin-component-family__states--postcardCard,
   .pickmin-component-family__states--folderCard,
   .pickmin-component-family__states--collectionSheet,
