@@ -63,8 +63,8 @@ export default function LoadingBlinds({ ready = true, onDone }) {
           <span className="loading-blinds__loader-square" style={{ '--loader-index': i }} key={i} />
         ))}
       </div>
-      <div className="loading-blinds__cord-swing">
-        <div className="loading-blinds__cord" ref={cordRef}>
+      <div className="loading-blinds__cord-swing" ref={cordRef}>
+        <div className="loading-blinds__cord">
           <span className="loading-blinds__weight" />
         </div>
       </div>
