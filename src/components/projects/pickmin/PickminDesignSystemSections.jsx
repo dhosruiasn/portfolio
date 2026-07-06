@@ -41,7 +41,7 @@ function PickminImage({ src, alt = '', loading = 'lazy', width, height }) {
 
 function LazyPickminVideo({ src, alt = '' }) {
   const videoRef = useRef(null);
-  const [shouldLoad, setShouldLoad] = useState(false);
+  const [shouldLoad, setShouldLoad] = useState(true);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -55,19 +55,21 @@ function LazyPickminVideo({ src, alt = '' }) {
         if (entry.isIntersecting) {
           setShouldLoad(true);
           play();
-        } else {
-          video.pause();
         }
       },
       { rootMargin: '180px 0px', threshold: 0.05 }
     );
 
     observer.observe(video);
+    video.load();
+    play();
+    video.addEventListener('loadeddata', play);
     video.addEventListener('canplay', play);
     document.addEventListener('visibilitychange', play);
 
     return () => {
       observer.disconnect();
+      video.removeEventListener('loadeddata', play);
       video.removeEventListener('canplay', play);
       document.removeEventListener('visibilitychange', play);
     };
@@ -79,8 +81,9 @@ function LazyPickminVideo({ src, alt = '' }) {
       src={shouldLoad ? assetPath(src) : undefined}
       muted
       loop
+      autoPlay
       playsInline
-      preload="none"
+      preload="auto"
       aria-label={alt}
     />
   );

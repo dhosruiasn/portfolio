@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { useLanguage } from '../context/LanguageContext.jsx';
 import { assetPath } from '../utils/assetPath.js';
+import { warmProjectMedia } from '../utils/projectMediaPreload.js';
 import { lockBodyScroll, unlockBodyScroll } from '../utils/scrollLock.js';
 import { projects } from '../data/projects.js';
 import {
@@ -389,8 +390,6 @@ function LazyAutoVideo({ src, alt = '', className = '', poster }) {
         if (entry.isIntersecting) {
           setShouldLoad(true);
           play();
-        } else {
-          video.pause();
         }
       },
       { rootMargin: '180px 0px', threshold: 0.05 }
@@ -1340,6 +1339,7 @@ export default function ProjectDetailPage({ project, onClose }) {
   const [flowCopy, setFlowCopy] = useState('');
 
   useEffect(() => {
+    warmProjectMedia(project);
     setTune(getDetailTune(project));
     setImageTune(DEFAULT_IMAGE_TUNE);
     if (project?.id === 'pickmin') preloadPickminImages();

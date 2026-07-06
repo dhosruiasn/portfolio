@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { projects } from '../data/projects.js';
 import { assetPath } from '../utils/assetPath.js';
+import { warmProjectMedia } from '../utils/projectMediaPreload.js';
 import ProjectCard from './ProjectCard.jsx';
 import ProjectDetailPage from './ProjectDetailPage.jsx';
 import '../styles/components/DigitalWorks.css';
@@ -102,8 +103,13 @@ export default function DigitalWorks() {
   const [pickminCardTune, setPickminCardTune] = useState(DEFAULT_PICKMIN_CARD_TUNE);
   const [workOrderCardTune, setWorkOrderCardTune] = useState(DEFAULT_WORK_ORDER_CARD_TUNE);
   const handleOpenProject = useCallback((project) => {
+    warmProjectMedia(project);
     setOpeningProjectId(project.id);
     setActive(project);
+  }, []);
+  const handlePrepareOpenProject = useCallback((project) => {
+    warmProjectMedia(project);
+    setOpeningProjectId(project.id);
   }, []);
   const handleClose = useCallback(() => {
     setActive(null);
@@ -306,7 +312,7 @@ export default function DigitalWorks() {
             <ProjectCard
               key={project.id}
               project={project}
-              onPrepareOpen={() => setOpeningProjectId(project.id)}
+              onPrepareOpen={handlePrepareOpenProject}
               onOpen={handleOpenProject}
               isOpening={openingProjectId === project.id}
             />
