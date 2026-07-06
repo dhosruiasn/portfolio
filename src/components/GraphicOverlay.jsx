@@ -19,7 +19,7 @@ let pendingCollageBack = null;
 // 底圖拆成三層（滿版方案）：上半部咕咕力橫幅 go-header、底部工作列 go-taskbar、
 // 中段為純藍底色（CSS）。商品散落在中段 canvas。
 // left/top/width 皆為中段 canvas 的百分比；rot 為旋轉角度。
-// top 允許負值＝疊到 header 下緣（桌面版沿用原拼貼構圖）；
+// top 可保留原本構圖的負值，但渲染時會依商品尺寸夾進 canvas；
 // mTop 為手機版覆寫，避免高個子商品把橫幅標題整個蓋住。
 const ITEMS = [
   { id: 'tee-best', src: 'items/tee-best.webp', alt: 'BEST tee', left: 2, top: -18.5, mLeft: 2, mTop: 6, mWidth: 28, width: 29, rot: -6 },
@@ -41,6 +41,26 @@ const ITEMS = [
   { id: 'lighter-short', src: 'items/lighter-short.webp', alt: 'Lighter', left: 93, top: 91, mLeft: 92, mTop: 86, mWidth: 6, width: 6.2, rot: 10 },
 ];
 
+const ITEM_ASPECTS = {
+  'tee-best': 1600 / 824,
+  mirro: 884 / 907,
+  'tee-pushover': 1600 / 623,
+  'stickers-1': 891 / 634,
+  'keyring-cat': 947 / 430,
+  'birthday-cake': 1263 / 1600,
+  'keyring-car': 685 / 884,
+  'lighter-long': 1274 / 299,
+  'keyring-dog': 880 / 533,
+  'stickers-7': 785 / 1003,
+  'stickers-2': 562 / 1078,
+  'grip-hotdog': 623 / 480,
+  'stickers-3': 562 / 1077,
+  'stickers-4': 878 / 633,
+  'stickers-5': 897 / 631,
+  'stickers-6': 355 / 870,
+  'lighter-short': 774 / 280,
+};
+
 // 給 BrandSection 在使用者滑到門之前預載，點門進來才不會等圖
 export const COLLAGE_ASSETS = [
   `${BASE}/bg/go-header.webp`,
@@ -48,7 +68,9 @@ export const COLLAGE_ASSETS = [
   ...ITEMS.map((item) => `${BASE}/${item.src}`),
 ].map((path) => assetPath(path));
 
-function DraggableItem({ item, offset, z, isMobile, jitter }) {
+const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+function DraggableItem({ item, offset, z, isMobile, jitter, canvasSize }) {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({ id: item.id });
   const imageSrc = assetPath(`${BASE}/${item.src}`);
   const isSticker = item.id.startsWith('stickers-');
@@ -62,9 +84,19 @@ function DraggableItem({ item, offset, z, isMobile, jitter }) {
   const width = isMobile ? (item.mWidth ?? item.width) : item.width;
   const baseLeft = isMobile && item.mLeft !== undefined ? item.mLeft : item.left;
   const baseTopSpread = isMobile ? baseTop * 1.08 : baseTop;
-  // 每次開啟的隨機抖動（left/top/rot），限制在畫布內
-  const left = Math.min(Math.max(0, 98 - width), Math.max(0, baseLeft + (jitter?.dl || 0)));
-  const top = baseTopSpread + (jitter?.dt || 0);
+  const edgeGap = isMobile ? 5 : 4.5;
+  const bottomGap = isMobile ? 5.8 : 6.2;
+  const canvasRatio = canvasSize?.width && canvasSize?.height
+    ? canvasSize.width / canvasSize.height
+    : 3024 / 2697;
+  const itemHeight = width * (ITEM_ASPECTS[item.id] || 1) * canvasRatio;
+  // 每次開啟的隨機抖動（left/top/rot），但保留工作列與四邊安全距離。
+  const left = clamp(baseLeft + (jitter?.dl || 0), edgeGap, Math.max(edgeGap, 100 - width - edgeGap));
+  const top = clamp(
+    baseTopSpread + (jitter?.dt || 0),
+    edgeGap,
+    Math.max(edgeGap, 100 - itemHeight - bottomGap),
+  );
 
   const style = {
     left: `${left}%`,
@@ -94,8 +126,10 @@ function DraggableItem({ item, offset, z, isMobile, jitter }) {
 
 export default function GraphicOverlay({ onClose }) {
   const overlayRef = useRef(null);
+  const canvasRef = useRef(null);
   const [offsets, setOffsets] = useState({}); // 每件商品拖曳後保留的位移 (px)
   const [zMap, setZMap] = useState({}); // 拖過的商品浮到最上層
+  const [canvasSize, setCanvasSize] = useState(null);
   const zCounter = useRef(ITEMS.length);
   const onCloseRef = useRef(onClose);
   onCloseRef.current = onClose;
@@ -129,6 +163,18 @@ export default function GraphicOverlay({ onClose }) {
   // 開啟當下判斷一次即可（覆蓋層生命週期短）
   const isMobile = useMemo(() => window.matchMedia('(max-width: 768px)').matches, []);
 
+  useEffect(() => {
+    if (!canvasRef.current) return undefined;
+    const updateCanvasSize = () => {
+      const rect = canvasRef.current.getBoundingClientRect();
+      setCanvasSize({ width: rect.width, height: rect.height });
+    };
+    updateCanvasSize();
+    const observer = new ResizeObserver(updateCanvasSize);
+    observer.observe(canvasRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   // 每次開啟商品排法都不一樣：位置 ±5%、旋轉 ±8°（掛載時算一次）
   const jitters = useMemo(() => {
     const map = {};
@@ -155,20 +201,20 @@ export default function GraphicOverlay({ onClose }) {
 
   const handleDragEnd = ({ active, delta }) => {
     // 拖曳邊界：讓商品至少留一部分在畫面內，不會被甩出去救不回來
-    const frame = overlayRef.current?.querySelector('.graphic-overlay__frame');
+    const canvas = overlayRef.current?.querySelector('.graphic-overlay__canvas');
     const el = overlayRef.current?.querySelector(`[data-item-id="${active.id}"]`);
     setOffsets((prev) => {
       let x = (prev[active.id]?.x || 0) + delta.x;
       let y = (prev[active.id]?.y || 0) + delta.y;
-      if (frame && el) {
-        const fr = frame.getBoundingClientRect();
+      if (canvas && el) {
+        const fr = canvas.getBoundingClientRect();
         const er = el.getBoundingClientRect();
-        const margin = 40; // 至少保留 40px 在框內
-        // er 已含本次拖曳位移；換算成相對 frame 的可回收範圍
-        const overRight = er.left - (fr.right - margin);
-        const overLeft = (fr.left + margin) - er.right;
-        const overBottom = er.top - (fr.bottom - margin);
-        const overTop = (fr.top + margin) - er.bottom;
+        const margin = 8;
+        // er 已含本次拖曳位移；放手後完整收回藍色 canvas，避開下方工作列。
+        const overRight = er.right - (fr.right - margin);
+        const overLeft = (fr.left + margin) - er.left;
+        const overBottom = er.bottom - (fr.bottom - margin);
+        const overTop = (fr.top + margin) - er.top;
         if (overRight > 0) x -= overRight;
         if (overLeft > 0) x += overLeft;
         if (overBottom > 0) y -= overBottom;
@@ -211,7 +257,7 @@ export default function GraphicOverlay({ onClose }) {
         {/* 噪點在 header/taskbar 之上、商品（positioned 的 canvas）之下 */}
         <div className="graphic-overlay__noise" aria-hidden="true" />
         <img className="graphic-overlay__header" src={assetPath(`${BASE}/bg/go-header.webp`)} alt="GOOGOO STORE" />
-        <div className="graphic-overlay__canvas">
+        <div className="graphic-overlay__canvas" ref={canvasRef}>
           <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
             {ITEMS.map((item, index) => (
               <DraggableItem
@@ -221,6 +267,7 @@ export default function GraphicOverlay({ onClose }) {
                 z={zMap[item.id] || index + 1}
                 isMobile={isMobile}
                 jitter={jitters[item.id]}
+                canvasSize={canvasSize}
               />
             ))}
           </DndContext>
