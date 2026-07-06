@@ -70,6 +70,9 @@
   width: 11px;
   height: 112vh;
   z-index: 2;
+  overflow: visible;
+  background: #60cfff;
+  border-radius: 3px;
   transform-origin: 50% 0%;
   will-change: transform;
 }
@@ -84,8 +87,6 @@
   inset: 0;
   width: 11px;
   height: 112vh;
-  background: #60cfff;
-  border-radius: 3px;
   will-change: transform;
 }
 
