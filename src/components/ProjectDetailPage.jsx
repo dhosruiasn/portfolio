@@ -1401,9 +1401,10 @@ export default function ProjectDetailPage({ project, onClose }) {
       const nameEl = page?.querySelector('.detail-page__name');
       if (!page) return;
 
-      // 手機入場更跟手：時長縮短約 40%（使用者核准的 UX 提案）
+      // Keep the overlay itself opaque from the first paint. Fading the whole
+      // fixed page exposes the Digital Works grid underneath on mobile taps.
       const compactEntrance = window.matchMedia('(max-width: 900px)').matches;
-      gsap.from(page, { opacity: 0, duration: compactEntrance ? 0.25 : 0.4, ease: 'power2.out' });
+      gsap.set(page, { opacity: 1 });
       if (nameEl) {
         gsap.fromTo(
           nameEl,
