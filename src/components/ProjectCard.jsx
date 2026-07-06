@@ -3,37 +3,46 @@ import { useLanguage } from '../context/LanguageContext.jsx';
 import { assetPath } from '../utils/assetPath.js';
 import '../styles/components/ProjectCard.css';
 
+const PRIORITY_CARD_VIDEO_IDS = new Set(['pickmin', 'ui-tweaker']);
+const AUTOPLAY_AHEAD_VIDEO_IDS = new Set(['pickmin']);
+
 export default function ProjectCard({ project, onOpen, onPrepareOpen, isOpening = false }) {
   const { lang, t } = useLanguage();
   const isVideo = project.mediaType === 'video';
+  const shouldPrimeVideo = isVideo && PRIORITY_CARD_VIDEO_IDS.has(project.id);
+  const shouldPlayAhead = isVideo && AUTOPLAY_AHEAD_VIDEO_IDS.has(project.id);
   const videoRef = useRef(null);
-  const isInViewRef = useRef(false);
-  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+  const isInViewRef = useRef(shouldPlayAhead);
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(shouldPrimeVideo);
   const [videoReady, setVideoReady] = useState(false);
 
-  // 進入視窗才播放、離開暫停；poster 先顯示，避免手機一進頁就抓多支影片。
+  // 重要作品先掛 src；Pickmin 允許還沒滑到前先 muted play，避免進場時像沒載入。
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return undefined;
     const play = () => {
-      if (isInViewRef.current && document.visibilityState === 'visible') v.play().catch(() => {});
+      if ((isInViewRef.current || shouldPlayAhead) && document.visibilityState === 'visible') v.play().catch(() => {});
     };
     const io = new IntersectionObserver(
       ([entry]) => {
         isInViewRef.current = entry.isIntersecting;
         if (entry.isIntersecting) {
           setShouldLoadVideo(true);
-          if (v.currentSrc) v.load();
+          if (v.currentSrc && v.readyState === 0) v.load();
           play();
-        } else {
+        } else if (!shouldPlayAhead) {
           v.pause();
         }
       },
-      { rootMargin: '120px 0px', threshold: 0.05 }
+      { rootMargin: shouldPrimeVideo ? '900px 0px' : '120px 0px', threshold: 0.05 }
     );
     io.observe(v);
     v.addEventListener('loadeddata', play);
     v.addEventListener('canplay', play);
+    if (shouldPrimeVideo) {
+      if (v.readyState === 0) v.load();
+      play();
+    }
     document.addEventListener('visibilitychange', play);
     return () => {
       io.disconnect();
@@ -41,12 +50,12 @@ export default function ProjectCard({ project, onOpen, onPrepareOpen, isOpening 
       v.removeEventListener('canplay', play);
       document.removeEventListener('visibilitychange', play);
     };
-  }, []);
+  }, [shouldPlayAhead, shouldPrimeVideo]);
 
   useEffect(() => {
     const v = videoRef.current;
     if (!v || !shouldLoadVideo) return;
-    v.load();
+    if (v.readyState === 0) v.load();
     if (isInViewRef.current && document.visibilityState === 'visible') v.play().catch(() => {});
   }, [shouldLoadVideo]);
   const cardHeight = typeof project.height === 'number' ? `${project.height}px` : project.height;
@@ -93,7 +102,7 @@ export default function ProjectCard({ project, onOpen, onPrepareOpen, isOpening 
                     loop
                     autoPlay
                     playsInline
-                    preload="metadata"
+                    preload={shouldPrimeVideo ? 'auto' : 'metadata'}
                     aria-label={project.name}
                     onLoadedData={() => setVideoReady(true)}
                     onCanPlay={() => setVideoReady(true)}

@@ -246,7 +246,8 @@ function preloadHeroMedia(caseStudy) {
   if (typeof document === 'undefined' || !caseStudy) return;
   [
     { src: caseStudy.heroImage, key: 'detailHeroImage' },
-  ].forEach(({ src, key }) => {
+    { src: caseStudy.heroVideo, key: 'detailHeroVideo', as: 'video', type: 'video/mp4' },
+  ].forEach(({ src, key, as = 'image', type }) => {
     if (!src) return;
     const href = assetPath(src);
     if (!href) return;
@@ -254,7 +255,8 @@ function preloadHeroMedia(caseStudy) {
 
     const link = document.createElement('link');
     link.rel = 'preload';
-    link.as = 'image';
+    link.as = as;
+    if (type) link.type = type;
     link.href = href;
     link.dataset[key] = href;
     link.fetchPriority = 'high';
@@ -373,7 +375,7 @@ function ProjectImage({ src, alt = '', loading = 'lazy' }) {
 
 function LazyAutoVideo({ src, alt = '', className = '', poster }) {
   const videoRef = useRef(null);
-  const [shouldLoad, setShouldLoad] = useState(false);
+  const [shouldLoad, setShouldLoad] = useState(true);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -395,11 +397,15 @@ function LazyAutoVideo({ src, alt = '', className = '', poster }) {
     );
 
     observer.observe(video);
+    video.load();
+    play();
+    video.addEventListener('loadeddata', play);
     video.addEventListener('canplay', play);
     document.addEventListener('visibilitychange', play);
 
     return () => {
       observer.disconnect();
+      video.removeEventListener('loadeddata', play);
       video.removeEventListener('canplay', play);
       document.removeEventListener('visibilitychange', play);
     };
@@ -412,8 +418,9 @@ function LazyAutoVideo({ src, alt = '', className = '', poster }) {
       src={shouldLoad ? assetPath(src) : undefined}
       muted
       loop
+      autoPlay
       playsInline
-      preload="none"
+      preload="auto"
       poster={poster ? assetPath(poster) : undefined}
       aria-label={alt}
     />
