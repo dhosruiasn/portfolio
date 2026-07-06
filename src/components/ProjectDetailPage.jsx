@@ -435,10 +435,10 @@ function PhotoSlot({ label, compact = false, src, alt = '', className = '' }) {
   );
 }
 
-function VideoSlot({ src, alt = '', className = '' }) {
+function VideoSlot({ src, alt = '', className = '', poster }) {
   return (
     <div className={`case-photo-slot case-photo-slot--image case-photo-slot--video${className ? ` ${className}` : ''}`}>
-      <LazyAutoVideo src={src} alt={alt} />
+      <LazyAutoVideo src={src} alt={alt} poster={poster} />
     </div>
   );
 }
@@ -1061,7 +1061,7 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
               )}
             </div>
             {caseStudy.heroVideo ? (
-              <VideoSlot src={caseStudy.heroVideo} alt={caseStudy.heroAlt || `${project.name} demo video`} />
+              <VideoSlot src={caseStudy.heroVideo} alt={caseStudy.heroAlt || `${project.name} demo video`} poster={caseStudy.heroImage || project.poster} />
             ) : caseStudy.heroVisual ? (
               <div className="case-hero__visual">
                 <ProjectCaseVisual projectId={project.id} id={caseStudy.heroVisual} />
