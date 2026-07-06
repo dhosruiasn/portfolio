@@ -8,6 +8,7 @@ export default function LoadingBlinds({ ready = true, onDone }) {
   const rootRef = useRef(null);
   const slatsRef = useRef(null);
   const cordRef = useRef(null);
+  const loaderRef = useRef(null);
   const [gone, setGone] = useState(false);
 
   useEffect(() => {
@@ -26,6 +27,7 @@ export default function LoadingBlinds({ ready = true, onDone }) {
       const tl = gsap.timeline({
         onComplete: finish,
       });
+      tl.to(loaderRef.current, { opacity: 0, scale: 0.96, duration: 0.18, ease: 'power1.out' }, 0.48);
       // 0.3s 拉繩微晃
       tl.to(
         cordRef.current,
@@ -54,6 +56,11 @@ export default function LoadingBlinds({ ready = true, onDone }) {
       <div className="loading-blinds__slats" ref={slatsRef}>
         {Array.from({ length: SLATS }).map((_, i) => (
           <div className="loading-blinds__slat" key={i} />
+        ))}
+      </div>
+      <div className="loading-blinds__loader" ref={loaderRef}>
+        {Array.from({ length: 5 }).map((_, i) => (
+          <span className="loading-blinds__loader-square" style={{ '--loader-index': i }} key={i} />
         ))}
       </div>
       <div className="loading-blinds__cord" ref={cordRef}>

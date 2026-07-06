@@ -9,6 +9,7 @@ export default function ProjectCard({ project, onOpen }) {
   const videoRef = useRef(null);
   const isInViewRef = useRef(false);
   const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
 
   // 進入視窗才播放、離開暫停；poster 先顯示，避免手機一進頁就抓多支影片。
   useEffect(() => {
@@ -72,17 +73,31 @@ export default function ProjectCard({ project, onOpen }) {
           <div className="project-card__face project-card__front">
             {project.media &&
               (isVideo ? (
-                <video
-                  ref={videoRef}
-                  src={shouldLoadVideo ? assetPath(project.media) : undefined}
-                  poster={project.poster ? assetPath(project.poster) : undefined}
-                  muted
-                  loop
-                  autoPlay
-                  playsInline
-                  preload="metadata"
-                  aria-label={project.name}
-                />
+                <>
+                  {project.poster && (
+                    <img
+                      className="project-card__poster"
+                      src={assetPath(project.poster)}
+                      alt=""
+                      aria-hidden="true"
+                      decoding="async"
+                    />
+                  )}
+                  <video
+                    ref={videoRef}
+                    className={videoReady ? 'project-card__video project-card__video--ready' : 'project-card__video'}
+                    src={shouldLoadVideo ? assetPath(project.media) : undefined}
+                    poster={project.poster ? assetPath(project.poster) : undefined}
+                    muted
+                    loop
+                    autoPlay
+                    playsInline
+                    preload="metadata"
+                    aria-label={project.name}
+                    onLoadedData={() => setVideoReady(true)}
+                    onCanPlay={() => setVideoReady(true)}
+                  />
+                </>
               ) : (
                 <img
                   src={assetPath(project.media)}
