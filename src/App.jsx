@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLanguage } from './context/LanguageContext.jsx';
+import { assetPath } from './utils/assetPath.js';
 import LoadingBlinds from './components/LoadingBlinds.jsx';
 import Marquee from './components/Marquee.jsx';
 import Hero from './components/Hero.jsx';
@@ -12,10 +13,69 @@ import BrandSection from './components/BrandSection.jsx';
 import ResumeWireframe from './components/ResumeWireframe.jsx';
 import Footer from './components/Footer.jsx';
 
+const CRITICAL_IMAGE_ASSETS = [
+  '/images/hero-character.png',
+  '/images/graphic/digital work/light.png',
+  '/images/graphic/digital work/左箭頭.png',
+  '/images/graphic/digital work/右箭頭.png',
+  '/images/graphic/digital work/燈罩.png',
+  '/images/graphic/digital work/燈線.png',
+  '/videos/projects/pickmin封面影片-poster2.jpg',
+  '/videos/projects/ui-tweaker-skill -demo-vedio-poster2.jpg',
+  '/images/projects/googoolii/product-shopping.jpg',
+  '/images/projects/Work-Order Sync Bot/work-order-cover-full.png',
+  '/images/graphic/brand-section/BG.png',
+  '/images/graphic/brand-section/house-body.png',
+  '/images/graphic/brand-section/chimney.png',
+  '/images/graphic/brand-section/door-inside.png',
+  '/images/graphic/brand-section/door-closed.png',
+  '/images/graphic/brand-section/awning.png',
+  '/images/graphic/brand-section/signage-googoolii.png',
+  '/images/graphic/brand-section/sign-character.png',
+  '/images/graphic/brand-section/bubble-knock.png',
+  '/images/graphic/brand-section/star-1.png',
+  '/images/graphic/brand-section/star-2.png',
+  '/images/graphic/brand-section/star-3.png',
+  '/images/graphic/brand-section/star-4.png',
+  '/images/graphic/brand-section/star-5.png',
+  '/images/graphic/brand-section/star-6.png',
+  '/images/graphic/brand-section/star-7.png',
+  '/images/graphic/brand-section/star-8.png',
+  '/images/about/cv Portrait.jpg',
+];
+
+function waitForImage(src, timeout = 5000) {
+  return new Promise((resolve) => {
+    const image = new Image();
+    let settled = false;
+    const finish = () => {
+      if (settled) return;
+      settled = true;
+      resolve();
+    };
+    const timer = window.setTimeout(finish, timeout);
+    image.onload = () => {
+      window.clearTimeout(timer);
+      if (image.decode) image.decode().catch(() => {}).finally(finish);
+      else finish();
+    };
+    image.onerror = () => {
+      window.clearTimeout(timer);
+      finish();
+    };
+    image.src = assetPath(src);
+    if (image.complete) {
+      window.clearTimeout(timer);
+      finish();
+    }
+  });
+}
+
 export default function App() {
   const { htmlLang } = useLanguage();
   const heroRef = useRef(null);
   const [introDone, setIntroDone] = useState(false);
+  const [criticalAssetsReady, setCriticalAssetsReady] = useState(false);
 
   const scrollToCurrentHash = useCallback(() => {
     const hash = window.location.hash.replace(/^#/, '');
@@ -34,6 +94,21 @@ export default function App() {
     setIntroDone(true);
     [0, 160, 520].forEach((delay) => window.setTimeout(scrollToCurrentHash, delay));
   }, [scrollToCurrentHash]);
+
+  useEffect(() => {
+    let cancelled = false;
+    const timeout = new Promise((resolve) => window.setTimeout(resolve, 6500));
+    const fontsReady = document.fonts?.ready?.catch(() => {}) || Promise.resolve();
+    const assetsReady = Promise.allSettled(CRITICAL_IMAGE_ASSETS.map((src) => waitForImage(src)));
+
+    Promise.race([Promise.allSettled([assetsReady, fontsReady]), timeout]).then(() => {
+      if (!cancelled) setCriticalAssetsReady(true);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     const refresh = () => ScrollTrigger.refresh();
@@ -79,7 +154,7 @@ export default function App() {
 
   return (
     <div lang={htmlLang}>
-      <LoadingBlinds onDone={handleIntroDone} />
+      <LoadingBlinds ready={criticalAssetsReady} onDone={handleIntroDone} />
       <Marquee heroRef={heroRef} />
       <Hero ref={heroRef} started={introDone} />
       <Nav heroRef={heroRef} />

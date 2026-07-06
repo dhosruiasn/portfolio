@@ -7,6 +7,7 @@ export default function ProjectCard({ project, onOpen }) {
   const { lang, t } = useLanguage();
   const isVideo = project.mediaType === 'video';
   const videoRef = useRef(null);
+  const isInViewRef = useRef(false);
   const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
 
   // 進入視窗才播放、離開暫停；poster 先顯示，避免手機一進頁就抓多支影片。
@@ -14,12 +15,14 @@ export default function ProjectCard({ project, onOpen }) {
     const v = videoRef.current;
     if (!v) return undefined;
     const play = () => {
-      if (document.visibilityState === 'visible') v.play().catch(() => {});
+      if (isInViewRef.current && document.visibilityState === 'visible') v.play().catch(() => {});
     };
     const io = new IntersectionObserver(
       ([entry]) => {
+        isInViewRef.current = entry.isIntersecting;
         if (entry.isIntersecting) {
           setShouldLoadVideo(true);
+          if (v.currentSrc) v.load();
           play();
         } else {
           v.pause();
@@ -38,6 +41,13 @@ export default function ProjectCard({ project, onOpen }) {
       document.removeEventListener('visibilitychange', play);
     };
   }, []);
+
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v || !shouldLoadVideo) return;
+    v.load();
+    if (isInViewRef.current && document.visibilityState === 'visible') v.play().catch(() => {});
+  }, [shouldLoadVideo]);
   const cardHeight = typeof project.height === 'number' ? `${project.height}px` : project.height;
   const cardOffset = typeof project.marginTop === 'number' ? `${project.marginTop}px` : project.marginTop || '0px';
 
@@ -68,6 +78,7 @@ export default function ProjectCard({ project, onOpen }) {
                   poster={project.poster ? assetPath(project.poster) : undefined}
                   muted
                   loop
+                  autoPlay
                   playsInline
                   preload="metadata"
                   aria-label={project.name}

@@ -4,13 +4,14 @@ import '../styles/components/LoadingBlinds.css';
 
 const SLATS = 12;
 
-export default function LoadingBlinds({ onDone }) {
+export default function LoadingBlinds({ ready = true, onDone }) {
   const rootRef = useRef(null);
   const slatsRef = useRef(null);
   const cordRef = useRef(null);
   const [gone, setGone] = useState(false);
 
   useEffect(() => {
+    if (!ready) return undefined;
     if (!rootRef.current || !cordRef.current || !slatsRef.current) return undefined;
     let done = false;
     const finish = () => {
@@ -44,7 +45,7 @@ export default function LoadingBlinds({ onDone }) {
       clearTimeout(failsafe);
       ctx.revert();
     };
-  }, [onDone]);
+  }, [onDone, ready]);
 
   if (gone) return null;
 
