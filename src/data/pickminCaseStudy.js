@@ -312,7 +312,7 @@ const zh = {
       { id: 'ja', lang: 'ja', label: '日本語', title: '東京タワー限定ポストカード', action: 'コレクションに追加', meta: '所持済み' },
       { id: 'ko', lang: 'ko', label: '한국어', title: '도쿄 타워 한정 엽서', action: '컬렉션에 추가', meta: '보유함' },
     ],
-    rules: ['標題最多兩行，超出時截斷', 'Button 依內容伸縮', 'CJK font fallback 依語言容器設定', '重要操作同時使用文字與狀態，不只依賴 icon'],
+    rules: ['標題最多兩行，超出時以 ... 代替', 'Button 依內容伸縮', 'CJK font fallback 依語言容器設定', '重要操作同時使用文字與狀態，不只依賴 icon'],
   },
   systemToProduct: {
     title: 'FROM SYSTEM TO PRODUCT',
