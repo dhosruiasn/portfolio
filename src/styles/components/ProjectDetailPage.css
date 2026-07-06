@@ -181,13 +181,14 @@ body:has(.detail-page),
 }
 
 .detail-page__term {
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
-/* No-break terms keep phrases together in flowing body text, but inside headings
-   (narrow cards, large type) they must be allowed to wrap so a title never spills
-   past its frame. CJK wraps between characters; Latin/number phrases only break
-   when they genuinely can't fit. */
+/* CJK + Latin project terms appear in narrow cards, large headings and long body
+   copy. Allow emergency wraps globally so Chinese layouts do not leave a large
+   unused right edge when a protected term lands near the end of a line. */
 .detail-page h1 .detail-page__term,
 .detail-page h2 .detail-page__term,
 .detail-page h3 .detail-page__term,
@@ -394,6 +395,9 @@ body:has(.detail-page),
   font-weight: 700;
   font-size: 14px;
   line-height: 1.2;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 
 .case-hero__pills > span {
@@ -2332,6 +2336,9 @@ body:has(.detail-page),
   font-size: clamp(1rem, 1.24vw, 21px);
   line-height: 1.72;
   color: #050505;
+  text-wrap: auto;
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 
 .pickmin-complexity {
