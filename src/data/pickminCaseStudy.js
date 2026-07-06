@@ -223,8 +223,8 @@ const zh = {
     touchTarget: 'Minimum 44px for tappable chips, controls, CTA, sheet actions, and navigation.',
   },
   coreComponents: {
-    title: 'CORE COMPONENT SYSTEM',
-    intro: '此區保留最常支撐產品流程的共用元件，聚焦狀態與行動端 pressed/selected feedback，而不是完整 UI kit 牆。',
+    title: 'CORE UI STATES & FEEDBACK',
+    intro: '此區整理 Pickmin 實際產品流程中反覆使用的核心 UI patterns 與狀態回饋，包含 button、search、filter、bottom navigation、bottom sheet 與 toast，讓互動狀態在不同功能中保持一致。',
     items: [
       { id: 'button', name: 'Button', states: ['Default', 'Pressed', 'Disabled', 'Loading'] },
       { id: 'search-field', name: 'Search Field', states: ['Default', 'Focus-visible', 'Error'] },
@@ -448,7 +448,7 @@ const en = {
   },
   coreComponents: {
     ...zh.coreComponents,
-    intro: 'This section keeps the shared components that support the main product flows, focusing on states and mobile pressed/selected feedback rather than a full UI kit wall.',
+    intro: 'This section documents the core UI patterns and state feedback reused across the Pickmin product flow, including buttons, search, filters, bottom navigation, bottom sheets, and toast messages, so interactions stay consistent across features.',
   },
   productComponents: {
     ...zh.productComponents,

@@ -1427,6 +1427,10 @@ body:has(.detail-page),
   box-shadow: inset 0 0 0 2px rgba(20, 20, 20, 0.08);
 }
 
+.case-section--outcome .case-chip-cloud--outcome > span span {
+  color: inherit !important;
+}
+
 .case-chip-cloud {
   display: flex;
   flex-wrap: wrap;

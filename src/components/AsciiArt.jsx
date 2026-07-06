@@ -27,6 +27,10 @@ const LOCK_BASE = 0.5; // earliest a central glyph locks to its real char
 const LOCK_SPREAD = 0.85; // extra delay for the outermost glyphs → focus-in wave
 const FLASH_FRACTION = 0.8; // fire the convergence pulse once this share has locked
 const FLASH_DUR = 0.5; // pulse fade time (seconds)
+const ASCII_3D_START = 2.1; // seconds after entrance; begins once the figure has mostly settled
+const ASCII_3D_FADE = 0.45;
+const ASCII_3D_CYCLE = 4.8;
+const ASCII_3D_MAX_TILT = 0.78;
 
 const INK = [26, 26, 26]; // #1A1A1A
 const ON_BROWN = [255, 245, 114]; // #fff572 (glyph over a coffee cell)
@@ -71,6 +75,38 @@ export default function AsciiArt({ src = '/images/hero-character.png', maskRef, 
       flick: SCRAMBLE[Math.floor(Math.random() * SCRAMBLE.length)],
       revealAt: Math.random() * DECODE_DURATION, // when it locks to its real char
     });
+
+    const drawRotatingAsciiCloud = (particles, elapsed, opacity, sampleBrown, rect, scaleX, scaleY, pulse) => {
+      const cycleT = ((elapsed - ASCII_3D_START) % ASCII_3D_CYCLE) / ASCII_3D_CYCLE;
+      const rotation = Math.sin(cycleT * Math.PI * 2) * ASCII_3D_MAX_TILT;
+      const cos = Math.max(0.2, Math.cos(rotation));
+      const direction = Math.sin(rotation);
+
+      ctx.save();
+      ctx.font = `${FONT_SIZE}px monospace`;
+
+      for (const p of particles) {
+        if (!p.locked) continue;
+        const rx = p.x - WIDTH / 2;
+        const ry = p.y - HEIGHT / 2;
+        const rowNorm = ry / (HEIGHT / 2);
+        const depth = (rx / (WIDTH / 2)) * direction;
+        const wave = Math.sin(ry * 0.04 + cycleT * Math.PI * 2) * Math.abs(direction) * 10;
+        const x = WIDTH / 2 + rx * cos + rowNorm * direction * 74 + wave;
+        const y = HEIGHT / 2 + ry * (1 + Math.abs(direction) * 0.08) + rowNorm * Math.abs(direction) * 28;
+        const overBrown = sampleBrown
+          ? sampleBrown(rect.left + x * scaleX, rect.top + y * scaleY)
+          : false;
+        const base = overBrown ? ON_BROWN : INK;
+        const alpha = opacity * (0.82 + Math.max(0, depth) * 0.14 + (1 - cos) * 0.04);
+
+        ctx.globalAlpha = Math.min(1, Math.max(0.55, alpha));
+        ctx.fillStyle = pulse > 0 ? rgbStr(mixRgb(base, PULSE, pulse * 0.55)) : rgbStr(base);
+        ctx.fillText(p.char, x, y);
+      }
+
+      ctx.restore();
+    };
 
     // Scatter every glyph across a few irregular burst cores with chaotic, heavy-tailed
     // debris velocities (no clean circle), then stagger when each locks to its real char
@@ -200,6 +236,8 @@ export default function AsciiArt({ src = '/images/hero-character.png', maskRef, 
 
       const particles = particlesRef.current;
       let lockedCount = 0;
+      const ascii3dOpacity = Math.min(1, Math.max(0, (elapsed - ASCII_3D_START) / ASCII_3D_FADE));
+      const particleOpacity = 1 - ascii3dOpacity;
 
       for (const p of particles) {
         // cursor repulsion
@@ -230,17 +268,21 @@ export default function AsciiArt({ src = '/images/hero-character.png', maskRef, 
 
         // flicker random chars until locked, then hold the real char
         if (p.locked) {
-          ctx.globalAlpha = 1;
+          ctx.globalAlpha = particleOpacity;
           ctx.fillText(p.char, p.x, p.y);
         } else {
           if (Math.random() < 0.35) {
             p.flick = SCRAMBLE[Math.floor(Math.random() * SCRAMBLE.length)];
           }
-          ctx.globalAlpha = 0.55;
+          ctx.globalAlpha = 0.55 * Math.max(particleOpacity, 0.35);
           ctx.fillText(p.flick, p.x, p.y);
         }
       }
       ctx.globalAlpha = 1;
+
+      if (ascii3dOpacity > 0) {
+        drawRotatingAsciiCloud(particles, elapsed, ascii3dOpacity, sampleBrown, rect, scaleX, scaleY, pulse);
+      }
 
       // Fire the convergence pulse the first time the image mostly meets.
       if (flashStart < 0 && particles.length && lockedCount / particles.length >= FLASH_FRACTION) {

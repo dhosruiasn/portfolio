@@ -6,6 +6,8 @@ import '../styles/components/GraphicSleeve.css';
 gsap.registerPlugin(ScrollTrigger);
 
 const NOTCH_R = 34;
+const BOLD_SWEEP_DURATION = 1500;
+const BOLD_SWEEP_PAUSE = 80;
 
 export default function GraphicSleeve() {
   const sectionRef = useRef(null);
@@ -21,8 +23,74 @@ export default function GraphicSleeve() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return undefined;
     let cancelled = false;
+    let frameId = 0;
+    let metrics = null;
+    const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
-    const draw = async () => {
+    const drawTextMask = (layout, offsetX = 0, offsetY = 0) => {
+      const { W, H, fs, portrait } = layout;
+      ctx.fillText('GRAPHIC', W / 2 + offsetX, H * (portrait ? 0.42 : 0.38) + offsetY);
+      ctx.fillText('WORK', W / 2 + offsetX, H * (portrait ? 0.58 : 0.66) + offsetY);
+      ctx.beginPath();
+      ctx.arc(W / 2, H, NOTCH_R, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.font = `${fs}px Dotrice`;
+    };
+
+    const drawFrame = (time = 0) => {
+      if (!metrics) return;
+      const { W, H, fs } = metrics;
+      ctx.clearRect(0, 0, W, H);
+      ctx.fillStyle = '#ec5b2b';
+      ctx.fillRect(0, 0, W, H);
+
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.font = `${fs}px Dotrice`;
+      ctx.letterSpacing = `${Math.round(fs * 0.1)}px`;
+      ctx.globalCompositeOperation = 'destination-out';
+      drawTextMask(metrics);
+
+      if (!reduceMotion) {
+        const cycle = BOLD_SWEEP_DURATION * 2 + BOLD_SWEEP_PAUSE;
+        const cycleTime = time % cycle;
+        const isThinning = cycleTime > BOLD_SWEEP_DURATION;
+        const phaseTime = isThinning ? cycleTime - BOLD_SWEEP_DURATION : cycleTime;
+        const progress = Math.min(phaseTime / BOLD_SWEEP_DURATION, 1);
+        const clipY = isThinning ? progress * H : 0;
+        const clipHeight = isThinning ? H - clipY : progress * H;
+        const boldOffset = Math.min(5.5, Math.max(1.8, fs * 0.016));
+        const diagonalOffset = boldOffset * 0.72;
+        const offsets = [
+          [boldOffset, 0],
+          [-boldOffset, 0],
+          [0, boldOffset],
+          [0, -boldOffset],
+          [diagonalOffset, diagonalOffset],
+          [-diagonalOffset, diagonalOffset],
+          [diagonalOffset, -diagonalOffset],
+          [-diagonalOffset, -diagonalOffset],
+        ];
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(0, clipY, W, clipHeight);
+        ctx.clip();
+        offsets.forEach(([x, y]) => drawTextMask(metrics, x, y));
+        ctx.restore();
+      }
+
+      ctx.globalCompositeOperation = 'source-over';
+    };
+
+    const animate = (time) => {
+      if (cancelled) return;
+      drawFrame(time);
+      if (!reduceMotion) frameId = window.requestAnimationFrame(animate);
+    };
+
+    const setup = async () => {
+      window.cancelAnimationFrame(frameId);
       const W = wrap.clientWidth;
       const H = wrap.clientHeight;
       if (!W || !H) return;
@@ -53,24 +121,19 @@ export default function GraphicSleeve() {
       const maxW = W * 0.9;
       const tw = ctx.measureText('GRAPHIC').width;
       const fs = tw > maxW ? Math.floor((fsTarget * maxW) / tw) : fsTarget;
-      ctx.font = `${fs}px Dotrice`;
-      ctx.letterSpacing = `${Math.round(fs * 0.1)}px`;
-      ctx.globalCompositeOperation = 'destination-out';
       // 直式手機：字級受寬度限制而偏小，兩行拉近往中間靠，避免大片空橘
       const portrait = H > W * 1.2;
-      ctx.fillText('GRAPHIC', W / 2, H * (portrait ? 0.42 : 0.38));
-      ctx.fillText('WORK', W / 2, H * (portrait ? 0.58 : 0.66));
-      ctx.beginPath();
-      ctx.arc(W / 2, H, NOTCH_R, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.globalCompositeOperation = 'source-over';
+      metrics = { W, H, fs, portrait };
+      if (reduceMotion) drawFrame();
+      else frameId = window.requestAnimationFrame(animate);
     };
 
-    draw();
-    const ro = new ResizeObserver(() => draw());
+    setup();
+    const ro = new ResizeObserver(() => setup());
     ro.observe(wrap);
     return () => {
       cancelled = true;
+      window.cancelAnimationFrame(frameId);
       ro.disconnect();
     };
   }, []);
