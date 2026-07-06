@@ -159,7 +159,7 @@ export default function DigitalWorks() {
 
       const trigger = ScrollTrigger.create({
         trigger: rootRef.current,
-        start: 'top top',
+        start: 'top 80%',
         end: '+=80%',
         onEnter: () => switchTlRef.current?.restart(),
         onEnterBack: () => switchTlRef.current?.restart(),
