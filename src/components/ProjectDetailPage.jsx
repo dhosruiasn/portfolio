@@ -358,16 +358,65 @@ function getPickminOptimizedImageSources(src) {
   };
 }
 
-function ProjectImage({ src, alt = '' }) {
+function ProjectImage({ src, alt = '', loading = 'lazy' }) {
   const sources = getPickminOptimizedImageSources(src);
-  if (!sources) return <img src={assetPath(src)} alt={alt} />;
+  if (!sources) return <img src={assetPath(src)} alt={alt} loading={loading} decoding="async" />;
 
   return (
     <picture>
       <source srcSet={assetPath(sources.avif)} type="image/avif" />
       <source srcSet={assetPath(sources.webp)} type="image/webp" />
-      <img src={assetPath(src)} alt={alt} />
+      <img src={assetPath(src)} alt={alt} loading={loading} decoding="async" />
     </picture>
+  );
+}
+
+function LazyAutoVideo({ src, alt = '', className = '', poster }) {
+  const videoRef = useRef(null);
+  const [shouldLoad, setShouldLoad] = useState(false);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return undefined;
+
+    const play = () => {
+      if (document.visibilityState === 'visible') video.play().catch(() => {});
+    };
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoad(true);
+          play();
+        } else {
+          video.pause();
+        }
+      },
+      { rootMargin: '180px 0px', threshold: 0.05 }
+    );
+
+    observer.observe(video);
+    video.addEventListener('canplay', play);
+    document.addEventListener('visibilitychange', play);
+
+    return () => {
+      observer.disconnect();
+      video.removeEventListener('canplay', play);
+      document.removeEventListener('visibilitychange', play);
+    };
+  }, []);
+
+  return (
+    <video
+      ref={videoRef}
+      className={className}
+      src={shouldLoad ? assetPath(src) : undefined}
+      muted
+      loop
+      playsInline
+      preload="none"
+      poster={poster ? assetPath(poster) : undefined}
+      aria-label={alt}
+    />
   );
 }
 
@@ -389,7 +438,7 @@ function PhotoSlot({ label, compact = false, src, alt = '', className = '' }) {
 function VideoSlot({ src, alt = '', className = '' }) {
   return (
     <div className={`case-photo-slot case-photo-slot--image case-photo-slot--video${className ? ` ${className}` : ''}`}>
-      <video src={assetPath(src)} muted loop autoPlay playsInline preload="metadata" aria-label={alt} />
+      <LazyAutoVideo src={src} alt={alt} />
     </div>
   );
 }
@@ -564,7 +613,7 @@ function GoogooliiHeroMedia({ caseStudy }) {
           src={videoSrc}
         />
       ) : (
-        <img className="googoolii-hero__screen" src={posterSrc} alt={caseStudy.heroAlt} />
+        <img className="googoolii-hero__screen" src={posterSrc} alt={caseStudy.heroAlt} loading="eager" decoding="async" />
       )}
     </div>
   );
@@ -659,7 +708,7 @@ function CaseLightbox({ pageRef }) {
       <button className="case-lightbox__close" aria-label="Close">
         <IconClose />
       </button>
-      <img src={img.src} alt={img.alt} />
+      <img src={img.src} alt={img.alt} loading="lazy" decoding="async" />
     </div>
   );
 }
@@ -774,7 +823,7 @@ function GoogooliiCaseStudyPage({ project, content, caseStudy, title, tune, setT
         <header className="googoolii-hero">
           <div className="googoolii-hero__copy">
             <div className="googoolii-hero__brand-block">
-              <img className="googoolii-hero__logo" src={assetPath(caseStudy.logoImage)} alt="GOOGOOLii logo" />
+              <img className="googoolii-hero__logo" src={assetPath(caseStudy.logoImage)} alt="GOOGOOLii logo" loading="lazy" decoding="async" />
               <div className="detail-page__name-mask">
                 <h1 className="detail-page__name">{title}</h1>
               </div>
@@ -872,7 +921,7 @@ function GoogooliiCaseStudyPage({ project, content, caseStudy, title, tune, setT
             {caseStudy.coreFlow.map((item) => (
               <article className="googoolii-flow-card" key={item.title}>
                 <div className="googoolii-flow-card__media">
-                  <img src={assetPath(item.image)} alt={`${item.title} screenshot`} />
+                  <img src={assetPath(item.image)} alt={`${item.title} screenshot`} loading="lazy" decoding="async" />
                 </div>
                 <div className="googoolii-flow-card__copy">
                   <span>{item.number}</span>
@@ -1553,12 +1602,14 @@ export default function ProjectDetailPage({ project, onClose }) {
 
         <div className="detail-page__media">
           {project.media && isVideo && (
-            <video src={assetPath(project.media)} controls autoPlay muted loop playsInline aria-label={project.name} />
+            <video src={assetPath(project.media)} controls muted loop playsInline preload="metadata" aria-label={project.name} />
           )}
           {project.media && !isVideo && (
             <img
               src={assetPath(project.media)}
               alt={project.name}
+              loading="lazy"
+              decoding="async"
               onError={(event) => {
                 event.currentTarget.hidden = true;
               }}
