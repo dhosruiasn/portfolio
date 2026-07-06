@@ -63,12 +63,12 @@ export const resumeData = {
       viewProject: '查看',
     },
     expertise: [
-      { id: 'brand', number: '01', title: 'Brand Identity', detail: '品牌識別與視覺系統' },
-      { id: 'direction', number: '02', title: 'Art Direction', detail: '視覺概念與設計方向' },
-      { id: 'campaign', number: '03', title: 'Digital Campaign', detail: '數位活動視覺' },
-      { id: 'ui', number: '04', title: 'UI & Interaction', detail: 'UI 與互動設計' },
-      { id: 'motion', number: '05', title: 'Motion Design', detail: '動態與數位體驗' },
-      { id: 'ai', number: '06', title: 'AI-assisted Design', detail: 'AI 輔助設計／VibeCoding' },
+      { id: 'brand', number: '01', title: 'Brand Identity', detail: '品牌規範與延展素材' },
+      { id: 'direction', number: '02', title: 'Art Direction', detail: '概念提案、風格板與視覺規則' },
+      { id: 'campaign', number: '03', title: 'Digital Campaign', detail: 'KV、Banner 與社群素材' },
+      { id: 'ui', number: '04', title: 'UI & Interaction', detail: 'Web 流程、元件與微互動' },
+      { id: 'motion', number: '05', title: 'Motion Design', detail: '動態素材與網頁體驗' },
+      { id: 'ai', number: '06', title: 'AI-assisted Design', detail: 'Prompt 到原型與工具實作' },
     ],
     tools: [
       {
@@ -162,12 +162,12 @@ export const resumeData = {
       viewProject: 'VIEW',
     },
     expertise: [
-      { id: 'brand', number: '01', title: 'Brand Identity', detail: 'Brand identity & visual systems' },
-      { id: 'direction', number: '02', title: 'Art Direction', detail: 'Visual concepts & design direction' },
-      { id: 'campaign', number: '03', title: 'Digital Campaign', detail: 'Digital campaign visuals' },
-      { id: 'ui', number: '04', title: 'UI & Interaction', detail: 'UI & interaction design' },
-      { id: 'motion', number: '05', title: 'Motion Design', detail: 'Motion & digital experiences' },
-      { id: 'ai', number: '06', title: 'AI-assisted Design', detail: 'AI-assisted design / VibeCoding' },
+      { id: 'brand', number: '01', title: 'Brand Identity', detail: 'Guidelines, systems, and rollout assets' },
+      { id: 'direction', number: '02', title: 'Art Direction', detail: 'Campaign concepts, moodboards, and visual rules' },
+      { id: 'campaign', number: '03', title: 'Digital Campaign', detail: 'Key visuals, banners, and social assets' },
+      { id: 'ui', number: '04', title: 'UI & Interaction', detail: 'Web flows, components, and micro-interactions' },
+      { id: 'motion', number: '05', title: 'Motion Design', detail: 'Animated assets for web and social channels' },
+      { id: 'ai', number: '06', title: 'AI-assisted Design', detail: 'Prompt-to-prototype workflows and design tools' },
     ],
     tools: [
       {
