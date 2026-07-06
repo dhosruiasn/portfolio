@@ -22,23 +22,23 @@ let pendingCollageBack = null;
 // top 可保留原本構圖的負值，但渲染時會依商品尺寸夾進 canvas；
 // mTop 為手機版覆寫，避免高個子商品把橫幅標題整個蓋住。
 const ITEMS = [
-  { id: 'tee-best', src: 'items/tee-best.webp', alt: 'BEST tee', left: 2, top: -18.5, mLeft: 2, mTop: 6, mWidth: 28, width: 29, rot: -6 },
-  { id: 'mirro', src: 'items/mirro.webp', alt: 'Mirror', left: 36, top: -19, mLeft: 36, mTop: 4, mWidth: 27, width: 28, rot: -4 },
-  { id: 'tee-pushover', src: 'items/tee-pushover.webp', alt: 'PUSHOVER tee', left: 70, top: -20, mLeft: 70, mTop: 6, mWidth: 24, width: 25, rot: 5 },
-  { id: 'stickers-1', src: 'items/stickers-1.webp', alt: 'Stickers', left: 5, top: 42, mLeft: 4, mTop: 37, mWidth: 14, width: 11, rot: 8 },
-  { id: 'keyring-cat', src: 'items/keyring-cat.webp', alt: 'Cat keyring', left: 23, top: 45, mLeft: 24, mTop: 42, mWidth: 11, width: 10.5, rot: -7 },
-  { id: 'birthday-cake', src: 'items/birthday-cake.webp', alt: 'Birthday cake', left: 38, top: 22, mLeft: 36, mTop: 27, mWidth: 32, width: 30, rot: 3 },
-  { id: 'keyring-car', src: 'items/keyring-car.webp', alt: 'Car keyring', left: 78, top: 57, mLeft: 78, mTop: 54, mWidth: 17, width: 18, rot: 7 },
-  { id: 'lighter-long', src: 'items/lighter-long.webp', alt: 'Lighter', left: 2, top: 60, mLeft: 2, mTop: 58, mWidth: 6, width: 6.5, rot: -14 },
-  { id: 'keyring-dog', src: 'items/keyring-dog.webp', alt: 'Dog keyring', left: 16, top: 69, mLeft: 15, mTop: 59, mWidth: 13, width: 12.5, rot: 6 },
-  { id: 'stickers-7', src: 'items/stickers-7.webp', alt: 'Stickers', left: 39, top: 58, mLeft: 38, mTop: 51, mWidth: 17, width: 16, rot: 5 },
-  { id: 'stickers-2', src: 'items/stickers-2.webp', alt: 'Stickers', left: 62, top: 61, mLeft: 61, mTop: 55, mWidth: 20, width: 19, rot: -5 },
-  { id: 'grip-hotdog', src: 'items/grip-hotdog.webp', alt: 'Hotdog grip', left: 89, top: 72, mLeft: 88, mTop: 68, mWidth: 8.5, width: 8.5, rot: 12 },
-  { id: 'stickers-3', src: 'items/stickers-3.webp', alt: 'Stickers', left: 5, top: 88, mLeft: 4, mTop: 82, mWidth: 20, width: 19, rot: -6 },
-  { id: 'stickers-4', src: 'items/stickers-4.webp', alt: 'Stickers', left: 30, top: 86, mLeft: 30, mTop: 81, mWidth: 11, width: 10.5, rot: 9 },
-  { id: 'stickers-5', src: 'items/stickers-5.webp', alt: 'Stickers', left: 47, top: 84, mLeft: 48, mTop: 78, mWidth: 11, width: 10.5, rot: -8 },
-  { id: 'stickers-6', src: 'items/stickers-6.webp', alt: 'Stickers', left: 66, top: 87, mLeft: 66, mTop: 83, mWidth: 20, width: 20, rot: 6 },
-  { id: 'lighter-short', src: 'items/lighter-short.webp', alt: 'Lighter', left: 93, top: 91, mLeft: 92, mTop: 86, mWidth: 6, width: 6.2, rot: 10 },
+  { id: 'tee-best', src: 'items/tee-best.webp', alt: 'BEST tee', left: 2, top: -18.5, mLeft: 2, mTop: 6, mWidth: 32, width: 29, rot: -6 },
+  { id: 'mirro', src: 'items/mirro.webp', alt: 'Mirror', left: 36, top: -19, mLeft: 36, mTop: 4, mWidth: 30.5, width: 28, rot: -4 },
+  { id: 'tee-pushover', src: 'items/tee-pushover.webp', alt: 'PUSHOVER tee', left: 70, top: -20, mLeft: 70, mTop: 6, mWidth: 27.5, width: 25, rot: 5 },
+  { id: 'stickers-1', src: 'items/stickers-1.webp', alt: 'Stickers', left: 5, top: 42, mLeft: 4, mTop: 37, mWidth: 16.5, width: 11, rot: 8 },
+  { id: 'keyring-cat', src: 'items/keyring-cat.webp', alt: 'Cat keyring', left: 23, top: 45, mLeft: 24, mTop: 42, mWidth: 13, width: 10.5, rot: -7 },
+  { id: 'birthday-cake', src: 'items/birthday-cake.webp', alt: 'Birthday cake', left: 38, top: 22, mLeft: 36, mTop: 27, mWidth: 36, width: 30, rot: 3 },
+  { id: 'keyring-car', src: 'items/keyring-car.webp', alt: 'Car keyring', left: 78, top: 57, mLeft: 78, mTop: 54, mWidth: 20, width: 18, rot: 7 },
+  { id: 'lighter-long', src: 'items/lighter-long.webp', alt: 'Lighter', left: 2, top: 60, mLeft: 2, mTop: 58, mWidth: 7.5, width: 6.5, rot: -14 },
+  { id: 'keyring-dog', src: 'items/keyring-dog.webp', alt: 'Dog keyring', left: 16, top: 69, mLeft: 15, mTop: 59, mWidth: 15.5, width: 12.5, rot: 6 },
+  { id: 'stickers-7', src: 'items/stickers-7.webp', alt: 'Stickers', left: 39, top: 58, mLeft: 38, mTop: 51, mWidth: 20, width: 16, rot: 5 },
+  { id: 'stickers-2', src: 'items/stickers-2.webp', alt: 'Stickers', left: 62, top: 61, mLeft: 61, mTop: 55, mWidth: 23.5, width: 19, rot: -5 },
+  { id: 'grip-hotdog', src: 'items/grip-hotdog.webp', alt: 'Hotdog grip', left: 89, top: 72, mLeft: 88, mTop: 68, mWidth: 10.5, width: 8.5, rot: 12 },
+  { id: 'stickers-3', src: 'items/stickers-3.webp', alt: 'Stickers', left: 5, top: 88, mLeft: 4, mTop: 82, mWidth: 23.5, width: 19, rot: -6 },
+  { id: 'stickers-4', src: 'items/stickers-4.webp', alt: 'Stickers', left: 30, top: 86, mLeft: 30, mTop: 81, mWidth: 13, width: 10.5, rot: 9 },
+  { id: 'stickers-5', src: 'items/stickers-5.webp', alt: 'Stickers', left: 47, top: 84, mLeft: 48, mTop: 78, mWidth: 13, width: 10.5, rot: -8 },
+  { id: 'stickers-6', src: 'items/stickers-6.webp', alt: 'Stickers', left: 66, top: 87, mLeft: 66, mTop: 83, mWidth: 24, width: 20, rot: 6 },
+  { id: 'lighter-short', src: 'items/lighter-short.webp', alt: 'Lighter', left: 93, top: 91, mLeft: 92, mTop: 86, mWidth: 7.6, width: 6.2, rot: 10 },
 ];
 
 const ITEM_ASPECTS = {
@@ -79,8 +79,8 @@ function DraggableItem({ item, offset, z, isMobile, jitter, canvasSize }) {
   const x = offset.x + (transform?.x || 0);
   const y = offset.y + (transform?.y || 0);
   const baseTop = isMobile && item.mTop !== undefined ? item.mTop : item.top;
-  // 手機商品放大（1.18，比 1.3 溫和以減少重疊）；不再往中央收攏（那會讓商品橫向擠成一團），
-  // 保留原本橫跨整個畫布的分佈，只夾住右緣避免出界。垂直額外拉開讓商品分散。
+  // 手機版使用獨立 mWidth 放大商品；不再往中央收攏（那會讓商品橫向擠成一團），
+  // 保留原本橫跨整個畫布的分佈，並交給下方邊界夾住避免出界。
   const width = isMobile ? (item.mWidth ?? item.width) : item.width;
   const baseLeft = isMobile && item.mLeft !== undefined ? item.mLeft : item.left;
   const baseTopSpread = isMobile ? baseTop * 1.08 : baseTop;
