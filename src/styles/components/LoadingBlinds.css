@@ -23,46 +23,6 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.07);
 }
 
-.loading-blinds__loader {
-  position: absolute;
-  top: calc(45.833333vh - 0.125px);
-  left: 50%;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(10px, 2.7vw, 18px);
-  transform: translate(-50%, -50%);
-  transform-origin: center;
-  pointer-events: none;
-}
-
-.loading-blinds__loader-square {
-  --loader-size: clamp(16px, 4.6vw, 26px);
-  display: block;
-  width: var(--loader-size);
-  height: var(--loader-size);
-  background: var(--accent);
-  border-radius: 1px;
-  box-shadow: 0 2px 0 rgba(107, 52, 21, 0.14);
-  animation: loading-square-dance 1.15s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
-  animation-delay: calc(var(--loader-index) * -0.12s);
-  will-change: transform;
-}
-
-.loading-blinds__loader-square:nth-child(2),
-.loading-blinds__loader-square:nth-child(4) {
-  animation-name: loading-square-hop;
-}
-
-.loading-blinds__loader-square:nth-child(3) {
-  animation-delay: -0.28s;
-}
-
-.loading-blinds__loader-square:nth-child(5) {
-  animation-delay: -0.42s;
-}
-
 .loading-blinds__cord-swing {
   position: absolute;
   top: -50vh; /* 往上延伸夠長，下拉時頂部不會露出斷掉 */
@@ -77,7 +37,7 @@
   will-change: transform;
 }
 
-.loading-blinds:not(.loading-blinds--ready) .loading-blinds__cord-swing {
+.loading-blinds:not(.loading-blinds--releasing) .loading-blinds__cord-swing {
   animation: loading-cord-sway 1.45s ease-in-out infinite;
 }
 
@@ -102,38 +62,6 @@
   background: #016499;
 }
 
-@keyframes loading-square-dance {
-  0%,
-  16%,
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-
-  42% {
-    transform: translateY(-15px) rotate(16deg);
-  }
-
-  64% {
-    transform: translateY(1px) rotate(-5deg);
-  }
-}
-
-@keyframes loading-square-hop {
-  0%,
-  20%,
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-
-  46% {
-    transform: translateY(-28px) rotate(28deg);
-  }
-
-  70% {
-    transform: translateY(2px) rotate(-10deg);
-  }
-}
-
 @keyframes loading-cord-sway {
   0%,
   100% {
@@ -154,7 +82,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .loading-blinds__loader-square,
   .loading-blinds__cord-swing {
     animation: none;
   }

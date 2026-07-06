@@ -40,56 +40,6 @@ const DEFAULT_WORK_ORDER_CARD_TUNE = {
   imageY: 0,
 };
 
-let detailHeroMediaPrewarmed = false;
-const warmedDetailVideos = [];
-
-function addDetailPreloadLink(src, as, type) {
-  if (typeof document === 'undefined' || !src) return null;
-  const href = assetPath(src);
-  if (!href || document.head.querySelector(`link[data-detail-hero-preload="${href}"]`)) return href;
-
-  const link = document.createElement('link');
-  link.rel = 'preload';
-  link.as = as;
-  link.setAttribute('as', as);
-  link.href = href;
-  if (type) link.type = type;
-  link.dataset.detailHeroPreload = href;
-  document.head.appendChild(link);
-  return href;
-}
-
-function prewarmDigitalDetailMedia() {
-  if (detailHeroMediaPrewarmed || typeof document === 'undefined') return;
-  detailHeroMediaPrewarmed = true;
-
-  const pickmin = projects.find((project) => project.id === 'pickmin');
-  const uiTweaker = projects.find((project) => project.id === 'ui-tweaker');
-  const pickminHero = pickmin?.caseStudy?.zh?.heroImage || pickmin?.caseStudy?.en?.heroImage;
-  const uiTweakerHeroVideo = uiTweaker?.caseStudy?.zh?.heroVideo || uiTweaker?.caseStudy?.en?.heroVideo;
-
-  const pickminHref = addDetailPreloadLink(pickminHero, 'image');
-  if (pickminHref) {
-    const image = new Image();
-    image.decoding = 'async';
-    image.src = pickminHref;
-  }
-
-  const videoHref = addDetailPreloadLink(uiTweakerHeroVideo, 'video', 'video/mp4');
-  if (videoHref) {
-    const video = document.createElement('video');
-    video.preload = 'auto';
-    video.muted = true;
-    video.playsInline = true;
-    video.src = videoHref;
-    video.setAttribute('aria-hidden', 'true');
-    video.style.cssText = 'position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;overflow:hidden;';
-    document.body.appendChild(video);
-    video.load();
-    warmedDetailVideos.push(video);
-  }
-}
-
 function TuneRow({ label, value, min, max, step = 0.1, unit = '%', onChange }) {
   return (
     <label className="digital-tune__row">
@@ -168,46 +118,6 @@ export default function DigitalWorks() {
   const rightArrowRef = useRef(null);
   const switchTlRef = useRef(null);
   const gridRef = useRef(null);
-
-  useEffect(() => {
-    let idleId = null;
-    let fallbackTimeoutId = null;
-    let safetyTimeoutId = null;
-    let observer = null;
-    const schedule = () => {
-      if (idleId || detailHeroMediaPrewarmed) return;
-      if ('requestIdleCallback' in window) {
-        idleId = window.requestIdleCallback(prewarmDigitalDetailMedia, { timeout: 1200 });
-      } else {
-        idleId = window.setTimeout(prewarmDigitalDetailMedia, 300);
-      }
-    };
-
-    if ('IntersectionObserver' in window && rootRef.current) {
-      observer = new IntersectionObserver(
-        ([entry]) => {
-          if (!entry.isIntersecting) return;
-          schedule();
-          observer?.disconnect();
-        },
-        { rootMargin: '900px 0px', threshold: 0 }
-      );
-      observer.observe(rootRef.current);
-    } else {
-      fallbackTimeoutId = window.setTimeout(schedule, 1800);
-    }
-
-    safetyTimeoutId = window.setTimeout(schedule, 5000);
-    return () => {
-      observer?.disconnect();
-      if (fallbackTimeoutId) window.clearTimeout(fallbackTimeoutId);
-      if (safetyTimeoutId) window.clearTimeout(safetyTimeoutId);
-      if (idleId) {
-        if ('cancelIdleCallback' in window) window.cancelIdleCallback(idleId);
-        else window.clearTimeout(idleId);
-      }
-    };
-  }, []);
 
   useEffect(() => {
     const handleResumeProjectOpen = (event) => {

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLanguage } from './context/LanguageContext.jsx';
 import { assetPath } from './utils/assetPath.js';
+import { projects } from './data/projects.js';
 import LoadingBlinds from './components/LoadingBlinds.jsx';
 import Marquee from './components/Marquee.jsx';
 import Hero from './components/Hero.jsx';
@@ -44,23 +45,60 @@ const CRITICAL_IMAGE_ASSETS = [
   '/images/about/cv Portrait.jpg',
 ];
 
+const warmedProjectVideos = [];
+
+function addAsset(assets, src) {
+  if (src) assets.add(src);
+}
+
+function collectProjectImageAssets() {
+  const assets = new Set();
+  projects.forEach((project) => {
+    addAsset(assets, project.poster);
+    if (project.mediaType !== 'video') addAsset(assets, project.media);
+    ['zh', 'en'].forEach((lang) => {
+      const caseStudy = project.caseStudy?.[lang];
+      addAsset(assets, caseStudy?.heroImage);
+      addAsset(assets, caseStudy?.heroMobileImage);
+    });
+  });
+  return Array.from(assets);
+}
+
+function collectProjectVideoAssets() {
+  const assets = new Set();
+  projects.forEach((project) => {
+    if (project.mediaType === 'video') addAsset(assets, project.media);
+    ['zh', 'en'].forEach((lang) => {
+      const caseStudy = project.caseStudy?.[lang];
+      addAsset(assets, caseStudy?.heroVideo);
+      addAsset(assets, caseStudy?.heroMobileVideo);
+    });
+  });
+  return Array.from(assets);
+}
+
+const PROJECT_IMAGE_ASSETS = collectProjectImageAssets();
+const PROJECT_VIDEO_ASSETS = collectProjectVideoAssets();
+const LOADING_IMAGE_ASSETS = Array.from(new Set([...CRITICAL_IMAGE_ASSETS, ...PROJECT_IMAGE_ASSETS]));
+
 function waitForImage(src, timeout = 5000) {
   return new Promise((resolve) => {
     const image = new Image();
     let settled = false;
+    let timer = null;
     const finish = () => {
       if (settled) return;
       settled = true;
+      if (timer) window.clearTimeout(timer);
       resolve();
     };
-    const timer = window.setTimeout(finish, timeout);
+    timer = window.setTimeout(finish, timeout);
     image.onload = () => {
-      window.clearTimeout(timer);
       if (image.decode) image.decode().catch(() => {}).finally(finish);
       else finish();
     };
     image.onerror = () => {
-      window.clearTimeout(timer);
       finish();
     };
     image.src = assetPath(src);
@@ -68,6 +106,37 @@ function waitForImage(src, timeout = 5000) {
       window.clearTimeout(timer);
       finish();
     }
+  });
+}
+
+function waitForVideoFrame(src, timeout = 4500) {
+  return new Promise((resolve) => {
+    if (typeof document === 'undefined') {
+      resolve();
+      return;
+    }
+
+    const video = document.createElement('video');
+    let settled = false;
+    let timer = null;
+    const finish = () => {
+      if (settled) return;
+      settled = true;
+      if (timer) window.clearTimeout(timer);
+      resolve();
+    };
+
+    timer = window.setTimeout(finish, timeout);
+    video.preload = 'auto';
+    video.muted = true;
+    video.playsInline = true;
+    video.src = assetPath(src);
+    video.setAttribute('aria-hidden', 'true');
+    video.addEventListener('loadeddata', finish, { once: true });
+    video.addEventListener('canplay', finish, { once: true });
+    video.addEventListener('error', finish, { once: true });
+    warmedProjectVideos.push(video);
+    video.load();
   });
 }
 
@@ -99,9 +168,10 @@ export default function App() {
     let cancelled = false;
     const timeout = new Promise((resolve) => window.setTimeout(resolve, 6500));
     const fontsReady = document.fonts?.ready?.catch(() => {}) || Promise.resolve();
-    const assetsReady = Promise.allSettled(CRITICAL_IMAGE_ASSETS.map((src) => waitForImage(src)));
+    const imagesReady = Promise.allSettled(LOADING_IMAGE_ASSETS.map((src) => waitForImage(src)));
+    const videosReady = Promise.allSettled(PROJECT_VIDEO_ASSETS.map((src) => waitForVideoFrame(src)));
 
-    Promise.race([Promise.allSettled([assetsReady, fontsReady]), timeout]).then(() => {
+    Promise.race([Promise.allSettled([imagesReady, videosReady, fontsReady]), timeout]).then(() => {
       if (!cancelled) setCriticalAssetsReady(true);
     });
 
