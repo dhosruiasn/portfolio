@@ -181,13 +181,14 @@
 }
 
 .resume-wireframe__cv-button--primary {
+  border: 0;
   background: #ec5b2b;
   color: #fff;
-  box-shadow: 5px 6px 0 #252936;
+  box-shadow: none;
 }
 
 .resume-wireframe__cv-button--primary:hover {
-  box-shadow: 5px 8px 0 #252936;
+  box-shadow: none;
 }
 
 .resume-wireframe__cv-button--secondary {

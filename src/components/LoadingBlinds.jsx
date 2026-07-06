@@ -52,7 +52,7 @@ export default function LoadingBlinds({ ready = true, onDone }) {
   if (gone) return null;
 
   return (
-    <div className="loading-blinds" ref={rootRef} aria-hidden="true">
+    <div className={`loading-blinds${ready ? ' loading-blinds--ready' : ''}`} ref={rootRef} aria-hidden="true">
       <div className="loading-blinds__slats" ref={slatsRef}>
         {Array.from({ length: SLATS }).map((_, i) => (
           <div className="loading-blinds__slat" key={i} />
@@ -63,8 +63,10 @@ export default function LoadingBlinds({ ready = true, onDone }) {
           <span className="loading-blinds__loader-square" style={{ '--loader-index': i }} key={i} />
         ))}
       </div>
-      <div className="loading-blinds__cord" ref={cordRef}>
-        <span className="loading-blinds__weight" />
+      <div className="loading-blinds__cord-swing">
+        <div className="loading-blinds__cord" ref={cordRef}>
+          <span className="loading-blinds__weight" />
+        </div>
       </div>
     </div>
   );

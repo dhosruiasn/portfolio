@@ -3,7 +3,7 @@ import { useLanguage } from '../context/LanguageContext.jsx';
 import { assetPath } from '../utils/assetPath.js';
 import '../styles/components/ProjectCard.css';
 
-export default function ProjectCard({ project, onOpen }) {
+export default function ProjectCard({ project, onOpen, onPrepareOpen, isOpening = false }) {
   const { lang, t } = useLanguage();
   const isVideo = project.mediaType === 'video';
   const videoRef = useRef(null);
@@ -54,7 +54,7 @@ export default function ProjectCard({ project, onOpen }) {
 
   return (
     <div
-      className={`project-card project-card--${project.id}`}
+      className={`project-card project-card--${project.id}${isOpening ? ' project-card--opening' : ''}`}
       style={{
         '--project-card-default-height': cardHeight,
         '--project-card-offset': cardOffset,
@@ -62,6 +62,7 @@ export default function ProjectCard({ project, onOpen }) {
     >
       <button
         className="project-card__media"
+        onPointerDown={() => onPrepareOpen?.(project)}
         onClick={() => onOpen(project)}
       >
         <div className="project-card__flip">

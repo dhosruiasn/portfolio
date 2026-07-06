@@ -62,16 +62,29 @@
   animation-delay: -0.42s;
 }
 
-/* 右側拉繩：一塊矩形，由上方延伸進來 */
-.loading-blinds__cord {
+.loading-blinds__cord-swing {
   position: absolute;
   top: -50vh; /* 往上延伸夠長，下拉時頂部不會露出斷掉 */
   right: 64px;
   width: 11px;
   height: 112vh;
+  z-index: 1;
+  transform-origin: 50% 0%;
+  will-change: transform;
+}
+
+.loading-blinds:not(.loading-blinds--ready) .loading-blinds__cord-swing {
+  animation: loading-cord-sway 1.45s ease-in-out infinite;
+}
+
+/* 右側拉繩：一塊矩形，由上方延伸進來 */
+.loading-blinds__cord {
+  position: absolute;
+  inset: 0;
+  width: 11px;
+  height: 112vh;
   background: #60cfff;
   border-radius: 3px;
-  z-index: 1;
   will-change: transform;
 }
 
@@ -119,8 +132,28 @@
   }
 }
 
+@keyframes loading-cord-sway {
+  0%,
+  100% {
+    transform: translateX(0) rotate(0deg);
+  }
+
+  28% {
+    transform: translateX(-8px) rotate(-1.35deg);
+  }
+
+  58% {
+    transform: translateX(7px) rotate(1.2deg);
+  }
+
+  78% {
+    transform: translateX(-3px) rotate(-0.55deg);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .loading-blinds__loader-square {
+  .loading-blinds__loader-square,
+  .loading-blinds__cord-swing {
     animation: none;
   }
 }

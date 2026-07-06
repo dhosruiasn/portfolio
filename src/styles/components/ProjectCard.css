@@ -35,6 +35,10 @@
   /* 預設 rotateY(0deg) 顯示橘色背面；GSAP 隨捲動翻到 180deg 顯示作品 */
 }
 
+.project-card--opening .project-card__flip {
+  transform: rotateY(180deg) !important;
+}
+
 .project-card__face {
   position: absolute;
   inset: 0;
