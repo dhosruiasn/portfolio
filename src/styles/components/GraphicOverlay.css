@@ -27,11 +27,21 @@
   overflow: hidden;
 }
 
-.graphic-overlay__header,
 .graphic-overlay__taskbar {
   width: 100%;
   display: block;
   flex: 0 0 auto;
+  user-select: none;
+  pointer-events: none;
+}
+
+.graphic-overlay__header {
+  width: 100%;
+  height: calc(100vw * 1325 / 4252);
+  display: block;
+  flex: 0 0 auto;
+  object-fit: cover;
+  object-position: top;
   user-select: none;
   pointer-events: none;
 }
@@ -44,6 +54,7 @@
   position: relative;
   width: 100%;
   flex: 1 0 auto;
+  background: rgb(18, 61, 200);
   /* 原圖中段 3024×2697（4200 − header 1386 − taskbar 117） */
   aspect-ratio: 3024 / 2697;
 }
