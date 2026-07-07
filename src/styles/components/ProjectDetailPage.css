@@ -454,12 +454,12 @@ body:has(.detail-page),
   margin-top: 22px;
   padding: 18px 24px;
   font-size: clamp(1.125rem, 1.8vw, 28px);
-  box-shadow: 0 10px 0 #1f2536;
+  box-shadow: none;
 }
 
 .case-hero__visit--primary:hover {
   transform: translateY(-3px) rotate(-1deg);
-  box-shadow: 0 13px 0 #1f2536;
+  box-shadow: none;
 }
 
 .case-hero__visit svg {
@@ -545,6 +545,20 @@ body:has(.detail-page),
 
 .case-hero__media-link .case-photo-slot {
   height: 100%;
+}
+
+.detail-page--pickmin .case-hero__media-link {
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.detail-page--pickmin .case-hero__media-link .case-photo-slot--video {
+  background: #d0d0d0;
+}
+
+.detail-page--pickmin .case-hero__media-link video {
+  height: calc(100% + 2px);
+  margin-bottom: -2px;
 }
 
 .case-hero__media-link:hover .case-photo-slot,
@@ -3864,7 +3878,7 @@ body:has(.detail-page),
   .case-hero__visit--primary {
     min-height: 62px;
     padding: 16px 18px;
-    box-shadow: 0 8px 0 #1f2536;
+    box-shadow: none;
   }
 
   .case-photo-slot--image {
