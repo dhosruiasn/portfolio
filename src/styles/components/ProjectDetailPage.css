@@ -2135,6 +2135,10 @@ body:has(.detail-page),
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
 }
 
+.detail-page--googoolii-custom .googoolii-flow-card {
+  overflow: hidden;
+}
+
 /* Hero copy: white panel, ink text (blue demoted to accent) */
 .detail-page--googoolii-custom .googoolii-hero__copy {
   background: #ffffff;
@@ -2276,10 +2280,12 @@ body:has(.detail-page),
 /* Flow card media: keep product screenshots, thin neutral frame */
 .detail-page--googoolii-custom .googoolii-flow-card__media {
   border-right: 1px solid #e4e4e4;
+  border-radius: 18px 0 0 18px;
 }
 .detail-page--googoolii-custom .googoolii-flow-card:nth-child(even) .googoolii-flow-card__media {
   border-right: 0;
   border-left: 1px solid #e4e4e4;
+  border-radius: 0 18px 18px 0;
 }
 
 /* Alternating section bands (same rhythm as the rest of the portfolio) */
@@ -4294,6 +4300,7 @@ body:has(.detail-page),
     border-left: 0;
     border-right: 0;
     border-bottom: 4px solid var(--case-ink);
+    border-radius: 18px 18px 0 0;
   }
 
   .googoolii-flow-card__media img,
