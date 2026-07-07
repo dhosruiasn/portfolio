@@ -472,6 +472,12 @@ body:has(.detail-page),
   stroke-linejoin: round;
 }
 
+.case-hero__visit--primary svg {
+  width: 1.18em;
+  height: 1.18em;
+  flex: 0 0 auto;
+}
+
 .case-photo-slot {
   position: relative;
   min-height: 520px;

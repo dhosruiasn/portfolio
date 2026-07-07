@@ -1201,6 +1201,18 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
           </div>
         </CaseSection>
 
+        {isPickmin && (
+          <>
+            <CaseSection title={caseStudy.collectionFlow.title} className="case-section--interaction-patterns">
+              <InteractionFlowSection content={caseStudy.collectionFlow} />
+            </CaseSection>
+
+            <CaseSection title={caseStudy.motionSystem.title} className="case-section--motion">
+              <MotionShowcase content={caseStudy.motionSystem} />
+            </CaseSection>
+          </>
+        )}
+
         {!isPickmin && (
           <CaseSection title={sectionTitles.decisions} className="case-section--decisions">
             <div className="case-decision-list">
@@ -1245,14 +1257,6 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
 
             <CaseSection title={caseStudy.productComponents.title} className="case-section--product-components">
               <ProductComponentsSection content={caseStudy.productComponents} />
-            </CaseSection>
-
-            <CaseSection title={caseStudy.collectionFlow.title} className="case-section--interaction-patterns">
-              <InteractionFlowSection content={caseStudy.collectionFlow} />
-            </CaseSection>
-
-            <CaseSection title={caseStudy.motionSystem.title} className="case-section--motion">
-              <MotionShowcase content={caseStudy.motionSystem} />
             </CaseSection>
 
             <CaseSection title={caseStudy.localization.title} className="case-section--localization">
