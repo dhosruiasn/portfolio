@@ -478,18 +478,6 @@ body:has(.detail-page),
   flex: 0 0 auto;
 }
 
-.detail-page--ui-tweaker .case-hero__visit {
-  min-height: 58px;
-  gap: 12px;
-  padding: 14px 22px;
-  font-size: clamp(1rem, 1.05vw, 18px);
-}
-
-.detail-page--ui-tweaker .case-hero__visit svg {
-  width: 1.08em;
-  height: 1.08em;
-}
-
 .case-photo-slot {
   position: relative;
   min-height: 520px;
@@ -954,7 +942,6 @@ body:has(.detail-page),
 
 .case-section--flow-section .case-panel {
   max-width: 980px;
-  margin-left: auto;
   border-radius: 28px;
   background: #fff;
 }
@@ -3615,6 +3602,9 @@ body:has(.detail-page),
 }
 
 .pickmin-cta {
+  /* case-section--cta 的 justify-items: center 會讓沒設寬的 grid item
+     縮成內容寬，按鈕跟著縮；撐滿讓按鈕吃到跟 case-end-cta 一樣的 1400px 上限 */
+  width: 100%;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 14px;

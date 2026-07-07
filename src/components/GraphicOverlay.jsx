@@ -254,8 +254,6 @@ export default function GraphicOverlay({ onClose }) {
         </svg>
       </button>
       <div className="graphic-overlay__frame">
-        {/* 噪點在 header/taskbar 之上、商品（positioned 的 canvas）之下 */}
-        <div className="graphic-overlay__noise" aria-hidden="true" />
         <img className="graphic-overlay__header" src={assetPath(`${BASE}/bg/go-header.webp`)} alt="GOOGOO STORE" />
         <div className="graphic-overlay__canvas" ref={canvasRef}>
           <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>

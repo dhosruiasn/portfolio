@@ -1083,7 +1083,7 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
                 <span>{content.tech}</span>
               </div>
               {project.link && (
-                <a className={`case-hero__visit${isPickmin ? ' case-hero__visit--primary' : ''}`} href={project.link} target="_blank" rel="noreferrer" aria-label={heroVisitLabel}>
+                <a className={`case-hero__visit${isPickmin || project.id === 'ui-tweaker' ? ' case-hero__visit--primary' : ''}`} href={project.link} target="_blank" rel="noreferrer" aria-label={heroVisitLabel}>
                   {heroVisitLabel}
                   <ExternalArrowIcon />
                 </a>
