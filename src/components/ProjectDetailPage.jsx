@@ -514,31 +514,6 @@ function ExternalArrowIcon() {
   );
 }
 
-function PickminLiveProductEntry({ content, liveHref, lang }) {
-  if (!liveHref) return null;
-
-  const eyebrow = lang === 'zh' ? 'LIVE PRODUCT' : 'LIVE PRODUCT';
-  const title = lang === 'zh' ? '先打開實際產品體驗收藏流程' : 'Open the live product and try the collection flow';
-  const body = content?.manualReview || (lang === 'zh'
-    ? '最完整的互動體驗在實際網站中，包含明信片搜尋、收藏、地圖與個人資料流程。'
-    : 'The full interaction lives in the deployed product, including search, collection, map, and personal data flows.');
-  const label = lang === 'zh' ? '前往互動網站' : 'TRY LIVE SITE';
-
-  return (
-    <section className="case-section case-section--live-product" aria-label={title}>
-      <a className="case-live-product" href={liveHref} target="_blank" rel="noreferrer">
-        <span>{eyebrow}</span>
-        <strong>{title}</strong>
-        <p>{body}</p>
-        <em>
-          {label}
-          <ExternalArrowIcon />
-        </em>
-      </a>
-    </section>
-  );
-}
-
 function GoogooliiSection({ eyebrow, title, className = '', children }) {
   return (
     <section className={`googoolii-section${className ? ` ${className}` : ''}`}>
@@ -1149,10 +1124,6 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
         </CaseSection>
 
         {isPickmin && (
-          <PickminLiveProductEntry content={caseStudy.cta} liveHref={project.link} lang={caseStudyLang} />
-        )}
-
-        {isPickmin && (
           <CaseSection title={caseStudy.complexity.title} className="case-section--complexity">
             <ProductComplexitySection content={caseStudy.complexity} />
           </CaseSection>
@@ -1161,7 +1132,7 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
         <CaseSection title={sectionTitles.problem} className="case-section--problem">
           <div className="case-card-grid case-card-grid--four">
             {caseStudy.problems.map((item, index) => (
-              <article className={`case-panel${isPickmin ? ' case-panel--neutral' : ` ${PROBLEM_TONES[index]}`}`} key={item.title}>
+              <article className="case-panel case-panel--neutral" key={item.title}>
                 <h3>{renderInfoText(item.title)}</h3>
                 <p>{renderInfoText(item.body)}</p>
               </article>
