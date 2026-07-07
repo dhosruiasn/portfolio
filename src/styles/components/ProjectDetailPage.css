@@ -181,13 +181,33 @@ body:has(.detail-page),
 }
 
 .detail-page__term {
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
-/* No-break terms keep phrases together in flowing body text, but inside headings
-   (narrow cards, large type) they must be allowed to wrap so a title never spills
-   past its frame. CJK wraps between characters; Latin/number phrases only break
-   when they genuinely can't fit. */
+:lang(zh-Hant) .detail-page__pill,
+:lang(zh-Hant) .detail-page__info-copy p,
+:lang(zh-Hant) .case-hero__subtitle,
+:lang(zh-Hant) .case-hero__summary,
+:lang(zh-Hant) .case-panel p,
+:lang(zh-Hant) .case-panel li,
+:lang(zh-Hant) .case-decision__copy p,
+:lang(zh-Hant) .case-decision__copy li,
+:lang(zh-Hant) .pickmin-ds-intro__copy p,
+:lang(zh-Hant) .googoolii-hero__subtitle,
+:lang(zh-Hant) .googoolii-hero__summary,
+:lang(zh-Hant) .googoolii-panel p,
+:lang(zh-Hant) .googoolii-panel li,
+:lang(zh-Hant) .googoolii-flow-card__copy p {
+  text-wrap: auto;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+/* CJK + Latin project terms appear in narrow cards, large headings and long body
+   copy. Allow emergency wraps globally so Chinese layouts do not leave a large
+   unused right edge when a protected term lands near the end of a line. */
 .detail-page h1 .detail-page__term,
 .detail-page h2 .detail-page__term,
 .detail-page h3 .detail-page__term,
@@ -394,6 +414,9 @@ body:has(.detail-page),
   font-weight: 700;
   font-size: 14px;
   line-height: 1.2;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 
 .case-hero__pills > span {
@@ -424,6 +447,21 @@ body:has(.detail-page),
   background: #ff6a33;
 }
 
+.case-hero__visit--primary {
+  width: 100%;
+  min-height: 74px;
+  justify-content: center;
+  margin-top: 22px;
+  padding: 18px 24px;
+  font-size: clamp(1.125rem, 1.8vw, 28px);
+  box-shadow: none;
+}
+
+.case-hero__visit--primary:hover {
+  transform: translateY(-3px) rotate(-1deg);
+  box-shadow: none;
+}
+
 .case-hero__visit svg {
   width: 18px;
   height: 18px;
@@ -432,6 +470,12 @@ body:has(.detail-page),
   stroke-width: 2.6;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+.case-hero__visit--primary svg {
+  width: 1.18em;
+  height: 1.18em;
+  flex: 0 0 auto;
 }
 
 .case-photo-slot {
@@ -495,6 +539,37 @@ body:has(.detail-page),
   min-height: inherit;
   display: block;
   object-fit: cover;
+}
+
+.case-hero__media-link {
+  position: relative;
+  display: block;
+  min-height: 520px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.case-hero__media-link .case-photo-slot {
+  height: 100%;
+}
+
+.detail-page--pickmin .case-hero__media-link {
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.detail-page--pickmin .case-hero__media-link .case-photo-slot--video {
+  background: #d0d0d0;
+}
+
+.detail-page--pickmin .case-hero__media-link video {
+  height: calc(100% + 2px);
+  margin-bottom: -2px;
+}
+
+.case-hero__media-link:hover .case-photo-slot,
+.case-hero__media-link:focus-visible .case-photo-slot {
+  filter: brightness(1.03);
 }
 
 .case-photo-slot--focus-search.case-photo-slot--image img {
@@ -756,6 +831,9 @@ body:has(.detail-page),
 .case-section--overview .case-panel p {
   max-width: none;
   font-size: clamp(1.0625rem, 1.35vw, 24px);
+  text-wrap: auto;
+  word-break: normal;
+  overflow-wrap: anywhere;
 }
 
 .case-section--overview .case-panel p + p {
@@ -795,6 +873,18 @@ body:has(.detail-page),
   white-space: normal;
   text-wrap: balance;
   overflow-wrap: break-word;
+}
+
+.case-section--problem .case-panel--neutral {
+  background: #fff !important;
+  color: #050505;
+  box-shadow: inset 0 0 0 2px rgba(20, 20, 20, 0.08);
+}
+
+.case-section--problem .case-panel--neutral h3,
+.case-section--problem .case-panel--neutral p,
+.case-section--problem .case-panel--neutral span {
+  color: #050505 !important;
 }
 
 .case-section--users .case-split {
@@ -852,7 +942,6 @@ body:has(.detail-page),
 
 .case-section--flow-section .case-panel {
   max-width: 980px;
-  margin-left: auto;
   border-radius: 28px;
   background: #fff;
 }
@@ -1342,15 +1431,17 @@ body:has(.detail-page),
 }
 
 .case-flow-note {
-  max-width: var(--case-flow-note-max, 960px);
+  width: min(100%, var(--case-flow-max, 1180px));
+  max-width: none;
   padding: var(--case-flow-note-padding, 28px);
   border-radius: 30px;
   background: #fff;
-  transform: translate(var(--case-flow-note-x, 0), var(--case-flow-note-y, 0));
+  transform: translate(0, var(--case-flow-note-y, 0));
 }
 
 .case-section--flow-section .case-flow-note {
-  max-width: var(--case-flow-note-max, 960px);
+  width: min(100%, var(--case-flow-max, 1180px));
+  max-width: none;
 }
 
 .case-flow-note p {
@@ -2042,12 +2133,17 @@ body:has(.detail-page),
   border-left: 4px solid var(--case-ink);
 }
 
-.googoolii-flow-card__media img {
+.googoolii-flow-card__media img,
+.googoolii-flow-card__media video {
   width: 100%;
   height: 100%;
   min-height: 460px;
   display: block;
   object-fit: cover;
+}
+
+.googoolii-flow-card__media video {
+  background: var(--case-poster-blue);
 }
 
 .googoolii-flow-card__copy {
@@ -2121,6 +2217,10 @@ body:has(.detail-page),
   border: 1px solid #e4e4e4;
   border-radius: 18px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+}
+
+.detail-page--googoolii-custom .googoolii-flow-card {
+  overflow: hidden;
 }
 
 /* Hero copy: white panel, ink text (blue demoted to accent) */
@@ -2264,10 +2364,12 @@ body:has(.detail-page),
 /* Flow card media: keep product screenshots, thin neutral frame */
 .detail-page--googoolii-custom .googoolii-flow-card__media {
   border-right: 1px solid #e4e4e4;
+  border-radius: 18px 0 0 18px;
 }
 .detail-page--googoolii-custom .googoolii-flow-card:nth-child(even) .googoolii-flow-card__media {
   border-right: 0;
   border-left: 1px solid #e4e4e4;
+  border-radius: 0 18px 18px 0;
 }
 
 /* Alternating section bands (same rhythm as the rest of the portfolio) */
@@ -2310,6 +2412,7 @@ body:has(.detail-page),
 .detail-page--pickmin .case-section--problem {
   width: 100%;
   margin: 30px 0;
+  background: #141414;
   transform: none;
 }
 
@@ -2329,6 +2432,9 @@ body:has(.detail-page),
   font-size: clamp(1rem, 1.24vw, 21px);
   line-height: 1.72;
   color: #050505;
+  text-wrap: auto;
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 
 .pickmin-complexity {
@@ -2365,11 +2471,18 @@ body:has(.detail-page),
 }
 
 .pickmin-ds-intro__copy {
-  min-height: 360px;
+  min-height: 300px;
   display: grid;
   align-content: center;
   border-radius: 58px 18px 58px 18px;
   background: #fff;
+}
+
+.pickmin-ds-intro__copy p {
+  max-width: none;
+  text-wrap: auto;
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 
 .pickmin-ds-intro__map {
@@ -2541,6 +2654,19 @@ body:has(.detail-page),
 
 .detail-page--pickmin .case-section:nth-of-type(even) {
   background: #f5f3ee;
+}
+
+.detail-page--pickmin .case-section.case-section--problem {
+  background: #141414;
+}
+
+.detail-page--pickmin .case-section.case-section--cta {
+  background: transparent;
+}
+
+.case-section--cta {
+  display: grid;
+  justify-items: center;
 }
 
 .pickmin-foundations__colors {
@@ -3476,17 +3602,23 @@ body:has(.detail-page),
 }
 
 .pickmin-cta {
+  /* case-section--cta 的 justify-items: center 會讓沒設寬的 grid item
+     縮成內容寬，按鈕跟著縮；撐滿讓按鈕吃到跟 case-end-cta 一樣的 1400px 上限 */
+  width: 100%;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 14px;
 }
 
 .pickmin-cta__button {
+  width: min(100%, 1400px);
   min-height: 120px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 18px;
+  justify-self: center;
+  margin-inline: auto;
   padding: 24px;
   border-radius: 34px;
   background: var(--accent);
@@ -3511,12 +3643,14 @@ body:has(.detail-page),
 }
 
 .case-end-cta {
+  width: min(100%, 1400px);
   min-height: 120px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 18px;
-  width: 100%;
+  justify-self: center;
+  margin-inline: auto;
   padding: 24px;
   border-radius: 34px;
   background: var(--accent);
@@ -3537,6 +3671,7 @@ body:has(.detail-page),
 
 .detail-page__visit svg path,
 .case-hero__visit svg path,
+.case-hero__media-link svg path,
 .pickmin-cta__button svg path,
 .case-end-cta svg path {
   fill: none;
@@ -3750,6 +3885,20 @@ body:has(.detail-page),
   .case-hero__copy,
   .case-photo-slot {
     min-height: 360px;
+  }
+
+  .case-hero__media-link {
+    min-height: 280px;
+  }
+
+  .detail-page--pickmin .case-hero__media-link {
+    order: -1;
+  }
+
+  .case-hero__visit--primary {
+    min-height: 62px;
+    padding: 16px 18px;
+    box-shadow: none;
   }
 
   .case-photo-slot--image {
@@ -4272,9 +4421,11 @@ body:has(.detail-page),
     border-left: 0;
     border-right: 0;
     border-bottom: 4px solid var(--case-ink);
+    border-radius: 18px 18px 0 0;
   }
 
-  .googoolii-flow-card__media img {
+  .googoolii-flow-card__media img,
+  .googoolii-flow-card__media video {
     min-height: 260px;
     aspect-ratio: 16 / 10;
     object-fit: cover;

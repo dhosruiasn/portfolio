@@ -35,6 +35,10 @@
   /* 預設 rotateY(0deg) 顯示橘色背面；GSAP 隨捲動翻到 180deg 顯示作品 */
 }
 
+.project-card--opening .project-card__flip {
+  transform: rotateY(180deg) !important;
+}
+
 .project-card__face {
   position: absolute;
   inset: 0;
@@ -73,12 +77,32 @@
   display: block;
 }
 
+.project-card__poster,
+.project-card__video {
+  position: absolute;
+  inset: 0;
+}
+
+.project-card__poster {
+  z-index: 0;
+}
+
+.project-card__video {
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+
+.project-card__video--ready {
+  opacity: 1;
+}
+
+.project-card--pickmin .project-card__poster,
 .project-card--pickmin .project-card__front video {
   object-fit: contain;
   object-position: center;
   transform: translate(var(--pickmin-card-video-x, 0), var(--pickmin-card-video-y, 0)) scale(var(--pickmin-card-video-scale, 1.3));
   transform-origin: center;
-  background: #d9d9d9;
 }
 
 .project-card--shopee-archive .project-card__front img {

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { assetPath } from '../../../utils/assetPath.js';
 import ProductComponentShowcase from './ProductComponentShowcase.jsx';
 
@@ -28,14 +28,64 @@ function getOptimizedImageSources(src) {
 
 function PickminImage({ src, alt = '', loading = 'lazy', width, height }) {
   const sources = getOptimizedImageSources(src);
-  if (!sources) return <img src={assetPath(src)} alt={alt} loading={loading} width={width} height={height} />;
+  if (!sources) return <img src={assetPath(src)} alt={alt} loading={loading} decoding="async" width={width} height={height} />;
 
   return (
     <picture>
       <source srcSet={assetPath(sources.avif)} type="image/avif" />
       <source srcSet={assetPath(sources.webp)} type="image/webp" />
-      <img src={assetPath(src)} alt={alt} loading={loading} width={width} height={height} />
+      <img src={assetPath(src)} alt={alt} loading={loading} decoding="async" width={width} height={height} />
     </picture>
+  );
+}
+
+function LazyPickminVideo({ src, alt = '' }) {
+  const videoRef = useRef(null);
+  const [shouldLoad, setShouldLoad] = useState(true);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return undefined;
+
+    const play = () => {
+      if (document.visibilityState === 'visible') video.play().catch(() => {});
+    };
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoad(true);
+          play();
+        }
+      },
+      { rootMargin: '180px 0px', threshold: 0.05 }
+    );
+
+    observer.observe(video);
+    video.load();
+    play();
+    video.addEventListener('loadeddata', play);
+    video.addEventListener('canplay', play);
+    document.addEventListener('visibilitychange', play);
+
+    return () => {
+      observer.disconnect();
+      video.removeEventListener('loadeddata', play);
+      video.removeEventListener('canplay', play);
+      document.removeEventListener('visibilitychange', play);
+    };
+  }, []);
+
+  return (
+    <video
+      ref={videoRef}
+      src={shouldLoad ? assetPath(src) : undefined}
+      muted
+      loop
+      autoPlay
+      playsInline
+      preload="auto"
+      aria-label={alt}
+    />
   );
 }
 
@@ -45,7 +95,7 @@ function PickminMediaBlock({ media, label, placeholder }) {
   return (
     <div className="pickmin-media-block">
       {media.type === 'video' ? (
-        <video src={assetPath(media.src)} muted loop autoPlay playsInline preload="metadata" aria-label={media.alt || label} />
+        <LazyPickminVideo src={media.src} alt={media.alt || label} />
       ) : (
         <PickminImage src={media.src} alt={media.alt || ''} />
       )}

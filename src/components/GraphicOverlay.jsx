@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   DndContext,
   useDraggable,
@@ -178,6 +178,48 @@ export default function GraphicOverlay({ onClose }) {
     });
   };
 
+  // 初始位置＋每次縮放後把整件商品夾回框內：商品是先定位再旋轉，旋轉後的
+  // 外接框可能凸出框緣被 overflow:hidden 裁掉。這裡用實測外接框（含旋轉/位移）
+  // 把凸出的量補進 offset，保證整件在框內（margin 留一點呼吸）。
+  const containItems = useCallback(() => {
+    const overlay = overlayRef.current;
+    const frame = overlay?.querySelector('.graphic-overlay__frame');
+    if (!frame) return;
+    const fr = frame.getBoundingClientRect();
+    const margin = 8;
+    setOffsets((prev) => {
+      let changed = false;
+      const next = { ...prev };
+      ITEMS.forEach((item) => {
+        const el = overlay.querySelector(`[data-item-id="${item.id}"]`);
+        if (!el) return;
+        const er = el.getBoundingClientRect();
+        const px = prev[item.id]?.x || 0;
+        const py = prev[item.id]?.y || 0;
+        let x = px;
+        let y = py;
+        // 整件收進框內；同時凸出左右（比框還寬）時以靠左為準，避免來回抵銷
+        const overLeft = (fr.left + margin) - er.left;
+        if (overLeft > 0) x += overLeft;
+        else {
+          const overRight = er.right - (fr.right - margin);
+          if (overRight > 0) x -= overRight;
+        }
+        const overTop = (fr.top + margin) - er.top;
+        if (overTop > 0) y += overTop;
+        else {
+          const overBottom = er.bottom - (fr.bottom - margin);
+          if (overBottom > 0) y -= overBottom;
+        }
+        if (x !== px || y !== py) {
+          next[item.id] = { x, y };
+          changed = true;
+        }
+      });
+      return changed ? next : prev;
+    });
+  }, []);
+
   // 鎖住底下頁面的捲動（iOS 正解 position:fixed，見 scrollLock）——
   // 否則手機拖曳／滑動會讓主頁偷偷捲動，關閉後位置錯亂
   useEffect(() => {
@@ -196,9 +238,25 @@ export default function GraphicOverlay({ onClose }) {
       ease: 'back.out(1.7)',
       stagger: 0.022,
       transformOrigin: '50% 50%',
+      // 進場動畫縮放期間量到的外接框偏小，等 rest（scale=1）才夾邊界
+      onComplete: containItems,
     });
     return () => tween.revert();
-  }, []);
+  }, [containItems]);
+
+  // 視窗尺寸變動（旋轉手機／改變寬度）→ 百分比位置重算，重新夾回框內
+  useEffect(() => {
+    let raf = 0;
+    const onResize = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(containItems);
+    };
+    window.addEventListener('resize', onResize);
+    return () => {
+      window.removeEventListener('resize', onResize);
+      cancelAnimationFrame(raf);
+    };
+  }, [containItems]);
 
   return (
     <div className="graphic-overlay" ref={overlayRef}>
@@ -208,8 +266,6 @@ export default function GraphicOverlay({ onClose }) {
         </svg>
       </button>
       <div className="graphic-overlay__frame">
-        {/* 噪點在 header/taskbar 之上、商品（positioned 的 canvas）之下 */}
-        <div className="graphic-overlay__noise" aria-hidden="true" />
         <img className="graphic-overlay__header" src={assetPath(`${BASE}/bg/go-header.webp`)} alt="GOOGOO STORE" />
         <div className="graphic-overlay__canvas">
           <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>

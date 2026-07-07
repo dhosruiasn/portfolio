@@ -184,6 +184,12 @@
   transform: translate(var(--desc-x, 0), var(--desc-y, 0));
 }
 
+.bs-desc--zh {
+  text-wrap: auto;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
 /* 座標格線（?grid 除錯用）：0~100% 對齊 stage，方便回報元件相對位置 */
 .bs-grid {
   position: absolute;

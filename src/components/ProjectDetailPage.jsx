@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { useLanguage } from '../context/LanguageContext.jsx';
 import { assetPath } from '../utils/assetPath.js';
+import { warmProjectMedia } from '../utils/projectMediaPreload.js';
 import { lockBodyScroll, unlockBodyScroll } from '../utils/scrollLock.js';
 import { projects } from '../data/projects.js';
 import {
@@ -246,7 +247,8 @@ function preloadHeroMedia(caseStudy) {
   if (typeof document === 'undefined' || !caseStudy) return;
   [
     { src: caseStudy.heroImage, key: 'detailHeroImage' },
-  ].forEach(({ src, key }) => {
+    { src: caseStudy.heroVideo, key: 'detailHeroVideo', as: 'video', type: 'video/mp4' },
+  ].forEach(({ src, key, as = 'image', type }) => {
     if (!src) return;
     const href = assetPath(src);
     if (!href) return;
@@ -254,7 +256,8 @@ function preloadHeroMedia(caseStudy) {
 
     const link = document.createElement('link');
     link.rel = 'preload';
-    link.as = 'image';
+    link.as = as;
+    if (type) link.type = type;
     link.href = href;
     link.dataset[key] = href;
     link.fetchPriority = 'high';
@@ -358,16 +361,68 @@ function getPickminOptimizedImageSources(src) {
   };
 }
 
-function ProjectImage({ src, alt = '' }) {
+function ProjectImage({ src, alt = '', loading = 'lazy' }) {
   const sources = getPickminOptimizedImageSources(src);
-  if (!sources) return <img src={assetPath(src)} alt={alt} />;
+  if (!sources) return <img src={assetPath(src)} alt={alt} loading={loading} decoding="async" />;
 
   return (
     <picture>
       <source srcSet={assetPath(sources.avif)} type="image/avif" />
       <source srcSet={assetPath(sources.webp)} type="image/webp" />
-      <img src={assetPath(src)} alt={alt} />
+      <img src={assetPath(src)} alt={alt} loading={loading} decoding="async" />
     </picture>
+  );
+}
+
+function LazyAutoVideo({ src, alt = '', className = '', poster }) {
+  const videoRef = useRef(null);
+  const [shouldLoad, setShouldLoad] = useState(true);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return undefined;
+
+    const play = () => {
+      if (document.visibilityState === 'visible') video.play().catch(() => {});
+    };
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoad(true);
+          play();
+        }
+      },
+      { rootMargin: '180px 0px', threshold: 0.05 }
+    );
+
+    observer.observe(video);
+    video.load();
+    play();
+    video.addEventListener('loadeddata', play);
+    video.addEventListener('canplay', play);
+    document.addEventListener('visibilitychange', play);
+
+    return () => {
+      observer.disconnect();
+      video.removeEventListener('loadeddata', play);
+      video.removeEventListener('canplay', play);
+      document.removeEventListener('visibilitychange', play);
+    };
+  }, []);
+
+  return (
+    <video
+      ref={videoRef}
+      className={className}
+      src={shouldLoad ? assetPath(src) : undefined}
+      muted
+      loop
+      autoPlay
+      playsInline
+      preload="auto"
+      poster={poster ? assetPath(poster) : undefined}
+      aria-label={alt}
+    />
   );
 }
 
@@ -386,10 +441,10 @@ function PhotoSlot({ label, compact = false, src, alt = '', className = '' }) {
   );
 }
 
-function VideoSlot({ src, alt = '', className = '' }) {
+function VideoSlot({ src, alt = '', className = '', poster }) {
   return (
     <div className={`case-photo-slot case-photo-slot--image case-photo-slot--video${className ? ` ${className}` : ''}`}>
-      <video src={assetPath(src)} muted loop autoPlay playsInline preload="metadata" aria-label={alt} />
+      <LazyAutoVideo src={src} alt={alt} poster={poster} />
     </div>
   );
 }
@@ -564,7 +619,7 @@ function GoogooliiHeroMedia({ caseStudy }) {
           src={videoSrc}
         />
       ) : (
-        <img className="googoolii-hero__screen" src={posterSrc} alt={caseStudy.heroAlt} />
+        <img className="googoolii-hero__screen" src={posterSrc} alt={caseStudy.heroAlt} loading="eager" decoding="async" />
       )}
     </div>
   );
@@ -659,7 +714,7 @@ function CaseLightbox({ pageRef }) {
       <button className="case-lightbox__close" aria-label="Close">
         <IconClose />
       </button>
-      <img src={img.src} alt={img.alt} />
+      <img src={img.src} alt={img.alt} loading="lazy" decoding="async" />
     </div>
   );
 }
@@ -774,7 +829,7 @@ function GoogooliiCaseStudyPage({ project, content, caseStudy, title, tune, setT
         <header className="googoolii-hero">
           <div className="googoolii-hero__copy">
             <div className="googoolii-hero__brand-block">
-              <img className="googoolii-hero__logo" src={assetPath(caseStudy.logoImage)} alt="GOOGOOLii logo" />
+              <img className="googoolii-hero__logo" src={assetPath(caseStudy.logoImage)} alt="GOOGOOLii logo" loading="lazy" decoding="async" />
               <div className="detail-page__name-mask">
                 <h1 className="detail-page__name">{title}</h1>
               </div>
@@ -872,7 +927,20 @@ function GoogooliiCaseStudyPage({ project, content, caseStudy, title, tune, setT
             {caseStudy.coreFlow.map((item) => (
               <article className="googoolii-flow-card" key={item.title}>
                 <div className="googoolii-flow-card__media">
-                  <img src={assetPath(item.image)} alt={`${item.title} screenshot`} />
+                  {item.video ? (
+                    <video
+                      src={assetPath(item.video)}
+                      poster={assetPath(item.image)}
+                      aria-label={`${item.title} motion preview`}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      preload="auto"
+                    />
+                  ) : (
+                    <img src={assetPath(item.image)} alt={`${item.title} screenshot`} loading="lazy" decoding="async" />
+                  )}
                 </div>
                 <div className="googoolii-flow-card__copy">
                   <span>{item.number}</span>
@@ -954,6 +1022,16 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
     ...caseStudy.panelTitles,
   };
   const hasFallingArchitectureChips = project.id === 'googoolii' || project.id === 'pickmin' || project.id === 'shopee-archive' || project.id === 'ui-tweaker';
+  const heroVisitLabel = isPickmin ? (caseStudyLang === 'zh' ? '前往互動網站' : 'TRY LIVE SITE') : visitLabel;
+  const heroMedia = caseStudy.heroVideo ? (
+    <VideoSlot src={caseStudy.heroVideo} alt={caseStudy.heroAlt || `${project.name} demo video`} poster={caseStudy.heroImage || project.poster} />
+  ) : caseStudy.heroVisual ? (
+    <div className="case-hero__visual">
+      <ProjectCaseVisual projectId={project.id} id={caseStudy.heroVisual} />
+    </div>
+  ) : (
+    <PhotoSlot src={caseStudy.heroImage} alt={caseStudy.heroAlt || `${project.name} hero mockup`} label="HERO MOCKUP / 手機或桌機主視覺" />
+  );
 
   return (
     <div
@@ -1005,20 +1083,18 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
                 <span>{content.tech}</span>
               </div>
               {project.link && (
-                <a className="case-hero__visit" href={project.link} target="_blank" rel="noreferrer" aria-label={visitLabel}>
-                  {visitLabel}
+                <a className={`case-hero__visit${isPickmin || project.id === 'ui-tweaker' ? ' case-hero__visit--primary' : ''}`} href={project.link} target="_blank" rel="noreferrer" aria-label={heroVisitLabel}>
+                  {heroVisitLabel}
                   <ExternalArrowIcon />
                 </a>
               )}
             </div>
-            {caseStudy.heroVideo ? (
-              <VideoSlot src={caseStudy.heroVideo} alt={caseStudy.heroAlt || `${project.name} demo video`} />
-            ) : caseStudy.heroVisual ? (
-              <div className="case-hero__visual">
-                <ProjectCaseVisual projectId={project.id} id={caseStudy.heroVisual} />
-              </div>
+            {isPickmin && project.link ? (
+              <a className="case-hero__media-link" href={project.link} target="_blank" rel="noreferrer" aria-label={heroVisitLabel}>
+                {heroMedia}
+              </a>
             ) : (
-              <PhotoSlot src={caseStudy.heroImage} alt={caseStudy.heroAlt || `${project.name} hero mockup`} label="HERO MOCKUP / 手機或桌機主視覺" />
+              heroMedia
             )}
           </div>
 
@@ -1056,7 +1132,7 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
         <CaseSection title={sectionTitles.problem} className="case-section--problem">
           <div className="case-card-grid case-card-grid--four">
             {caseStudy.problems.map((item, index) => (
-              <article className={`case-panel ${PROBLEM_TONES[index]}`} key={item.title}>
+              <article className="case-panel case-panel--neutral" key={item.title}>
                 <h3>{renderInfoText(item.title)}</h3>
                 <p>{renderInfoText(item.body)}</p>
               </article>
@@ -1155,6 +1231,14 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
               <DesignSystemIntroSection content={caseStudy.whyDesignSystem} />
             </CaseSection>
 
+            <CaseSection title={caseStudy.collectionFlow.title} className="case-section--interaction-patterns">
+              <InteractionFlowSection content={caseStudy.collectionFlow} />
+            </CaseSection>
+
+            <CaseSection title={caseStudy.motionSystem.title} className="case-section--motion">
+              <MotionShowcase content={caseStudy.motionSystem} />
+            </CaseSection>
+
             <CaseSection title="DESIGN PRINCIPLES" className="case-section--principles">
               <DesignPrinciplesSection items={caseStudy.designPrinciples} />
             </CaseSection>
@@ -1169,14 +1253,6 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
 
             <CaseSection title={caseStudy.productComponents.title} className="case-section--product-components">
               <ProductComponentsSection content={caseStudy.productComponents} />
-            </CaseSection>
-
-            <CaseSection title={caseStudy.collectionFlow.title} className="case-section--interaction-patterns">
-              <InteractionFlowSection content={caseStudy.collectionFlow} />
-            </CaseSection>
-
-            <CaseSection title={caseStudy.motionSystem.title} className="case-section--motion">
-              <MotionShowcase content={caseStudy.motionSystem} />
             </CaseSection>
 
             <CaseSection title={caseStudy.localization.title} className="case-section--localization">
@@ -1284,6 +1360,7 @@ export default function ProjectDetailPage({ project, onClose }) {
   const [flowCopy, setFlowCopy] = useState('');
 
   useEffect(() => {
+    warmProjectMedia(project);
     setTune(getDetailTune(project));
     setImageTune(DEFAULT_IMAGE_TUNE);
     if (project?.id === 'pickmin') preloadPickminImages();
@@ -1345,9 +1422,10 @@ export default function ProjectDetailPage({ project, onClose }) {
       const nameEl = page?.querySelector('.detail-page__name');
       if (!page) return;
 
-      // 手機入場更跟手：時長縮短約 40%（使用者核准的 UX 提案）
+      // Keep the overlay itself opaque from the first paint. Fading the whole
+      // fixed page exposes the Digital Works grid underneath on mobile taps.
       const compactEntrance = window.matchMedia('(max-width: 900px)').matches;
-      gsap.from(page, { opacity: 0, duration: compactEntrance ? 0.25 : 0.4, ease: 'power2.out' });
+      gsap.set(page, { opacity: 1 });
       if (nameEl) {
         gsap.fromTo(
           nameEl,
@@ -1553,12 +1631,14 @@ export default function ProjectDetailPage({ project, onClose }) {
 
         <div className="detail-page__media">
           {project.media && isVideo && (
-            <video src={assetPath(project.media)} controls autoPlay muted loop playsInline aria-label={project.name} />
+            <video src={assetPath(project.media)} controls muted loop playsInline preload="metadata" aria-label={project.name} />
           )}
           {project.media && !isVideo && (
             <img
               src={assetPath(project.media)}
               alt={project.name}
+              loading="lazy"
+              decoding="async"
               onError={(event) => {
                 event.currentTarget.hidden = true;
               }}

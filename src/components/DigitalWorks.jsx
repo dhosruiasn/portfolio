@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { projects } from '../data/projects.js';
 import { assetPath } from '../utils/assetPath.js';
+import { warmProjectMedia } from '../utils/projectMediaPreload.js';
 import ProjectCard from './ProjectCard.jsx';
 import ProjectDetailPage from './ProjectDetailPage.jsx';
 import '../styles/components/DigitalWorks.css';
@@ -97,10 +98,23 @@ function WorkOrderCardTunePanel({ tune, setTune }) {
 
 export default function DigitalWorks() {
   const [active, setActive] = useState(null);
+  const [openingProjectId, setOpeningProjectId] = useState(null);
   const [tune, setTune] = useState(DEFAULT_DIGITAL_TUNE);
   const [pickminCardTune, setPickminCardTune] = useState(DEFAULT_PICKMIN_CARD_TUNE);
   const [workOrderCardTune, setWorkOrderCardTune] = useState(DEFAULT_WORK_ORDER_CARD_TUNE);
-  const handleClose = useCallback(() => setActive(null), []);
+  const handleOpenProject = useCallback((project) => {
+    warmProjectMedia(project);
+    setOpeningProjectId(project.id);
+    setActive(project);
+  }, []);
+  const handlePrepareOpenProject = useCallback((project) => {
+    warmProjectMedia(project);
+    setOpeningProjectId(project.id);
+  }, []);
+  const handleClose = useCallback(() => {
+    setActive(null);
+    setOpeningProjectId(null);
+  }, []);
   const rootRef = useRef(null);
   const sceneRef = useRef(null);
   const lightRef = useRef(null);
@@ -116,13 +130,13 @@ export default function DigitalWorks() {
       const projectId = event.detail?.projectId;
       const project = projects.find((item) => item.id === projectId);
       if (!project) return;
-      setActive(project);
+      handleOpenProject(project);
       rootRef.current?.scrollIntoView({ block: 'start' });
     };
 
     window.addEventListener('portfolio:open-project', handleResumeProjectOpen);
     return () => window.removeEventListener('portfolio:open-project', handleResumeProjectOpen);
-  }, []);
+  }, [handleOpenProject]);
 
   useEffect(() => {
     if (
@@ -295,7 +309,13 @@ export default function DigitalWorks() {
       <div className="digital-works__projects">
         <div className="container digital-works__grid" ref={gridRef}>
           {projects.map((project) => (
-            <ProjectCard key={project.id} project={project} onOpen={setActive} />
+            <ProjectCard
+              key={project.id}
+              project={project}
+              onPrepareOpen={handlePrepareOpenProject}
+              onOpen={handleOpenProject}
+              isOpening={openingProjectId === project.id}
+            />
           ))}
         </div>
       </div>
