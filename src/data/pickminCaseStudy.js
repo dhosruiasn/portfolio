@@ -99,6 +99,7 @@ const commonMediaPlaceholders = {
 
 const zh = {
   heroImage: pickminImages.hero,
+  heroVideo: '/videos/projects/pickmin-hero-demo.mp4',
   subtitle: '為 Pikmin Bloom 玩家打造的多語明信片收藏、追蹤與管理 Web App。',
   summary:
     'Pickmin Postcards 是一個從零設計與開發的收藏型產品，協助玩家搜尋、記錄、收藏與管理 Pikmin Bloom 的明信片、花點與菇點，並用收藏資料夾、地圖與路線規劃探索地點。專案涵蓋產品策略、資訊架構、UI 設計、多語系介面、使用者資料流程、圖片上傳、地圖路線、管理後台與正式部署。',
@@ -346,7 +347,7 @@ const zh = {
   },
   cta: {
     live: '前往網站',
-    manualReview: 'Live product — best viewed on a mobile device for the full collection experience.',
+    manualReview: '實際產品以手機瀏覽最完整，可直接體驗明信片搜尋、收藏、地圖與個人資料流程。',
   },
 };
 

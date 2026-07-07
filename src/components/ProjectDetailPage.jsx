@@ -514,6 +514,31 @@ function ExternalArrowIcon() {
   );
 }
 
+function PickminLiveProductEntry({ content, liveHref, lang }) {
+  if (!liveHref) return null;
+
+  const eyebrow = lang === 'zh' ? 'LIVE PRODUCT' : 'LIVE PRODUCT';
+  const title = lang === 'zh' ? '先打開實際產品體驗收藏流程' : 'Open the live product and try the collection flow';
+  const body = content?.manualReview || (lang === 'zh'
+    ? '最完整的互動體驗在實際網站中，包含明信片搜尋、收藏、地圖與個人資料流程。'
+    : 'The full interaction lives in the deployed product, including search, collection, map, and personal data flows.');
+  const label = lang === 'zh' ? '前往互動網站' : 'TRY LIVE SITE';
+
+  return (
+    <section className="case-section case-section--live-product" aria-label={title}>
+      <a className="case-live-product" href={liveHref} target="_blank" rel="noreferrer">
+        <span>{eyebrow}</span>
+        <strong>{title}</strong>
+        <p>{body}</p>
+        <em>
+          {label}
+          <ExternalArrowIcon />
+        </em>
+      </a>
+    </section>
+  );
+}
+
 function GoogooliiSection({ eyebrow, title, className = '', children }) {
   return (
     <section className={`googoolii-section${className ? ` ${className}` : ''}`}>
@@ -1022,6 +1047,17 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
     ...caseStudy.panelTitles,
   };
   const hasFallingArchitectureChips = project.id === 'googoolii' || project.id === 'pickmin' || project.id === 'shopee-archive' || project.id === 'ui-tweaker';
+  const heroVisitLabel = isPickmin ? (caseStudyLang === 'zh' ? '前往互動網站' : 'TRY LIVE SITE') : visitLabel;
+  const heroMedia = caseStudy.heroVideo ? (
+    <VideoSlot src={caseStudy.heroVideo} alt={caseStudy.heroAlt || `${project.name} demo video`} poster={caseStudy.heroImage || project.poster} />
+  ) : caseStudy.heroVisual ? (
+    <div className="case-hero__visual">
+      <ProjectCaseVisual projectId={project.id} id={caseStudy.heroVisual} />
+    </div>
+  ) : (
+    <PhotoSlot src={caseStudy.heroImage} alt={caseStudy.heroAlt || `${project.name} hero mockup`} label="HERO MOCKUP / 手機或桌機主視覺" />
+  );
+  const heroMediaLabel = caseStudyLang === 'zh' ? '觀看實際產品' : 'Open live product';
 
   return (
     <div
@@ -1073,20 +1109,22 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
                 <span>{content.tech}</span>
               </div>
               {project.link && (
-                <a className="case-hero__visit" href={project.link} target="_blank" rel="noreferrer" aria-label={visitLabel}>
-                  {visitLabel}
+                <a className={`case-hero__visit${isPickmin ? ' case-hero__visit--primary' : ''}`} href={project.link} target="_blank" rel="noreferrer" aria-label={heroVisitLabel}>
+                  {heroVisitLabel}
                   <ExternalArrowIcon />
                 </a>
               )}
             </div>
-            {caseStudy.heroVideo ? (
-              <VideoSlot src={caseStudy.heroVideo} alt={caseStudy.heroAlt || `${project.name} demo video`} poster={caseStudy.heroImage || project.poster} />
-            ) : caseStudy.heroVisual ? (
-              <div className="case-hero__visual">
-                <ProjectCaseVisual projectId={project.id} id={caseStudy.heroVisual} />
-              </div>
+            {isPickmin && project.link ? (
+              <a className="case-hero__media-link" href={project.link} target="_blank" rel="noreferrer" aria-label={heroMediaLabel}>
+                {heroMedia}
+                <span>
+                  {heroMediaLabel}
+                  <ExternalArrowIcon />
+                </span>
+              </a>
             ) : (
-              <PhotoSlot src={caseStudy.heroImage} alt={caseStudy.heroAlt || `${project.name} hero mockup`} label="HERO MOCKUP / 手機或桌機主視覺" />
+              heroMedia
             )}
           </div>
 
@@ -1114,6 +1152,10 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
         <CaseSection title="OVERVIEW" className="case-section--overview">
           <TextPanel title={caseStudy.overview.title} body={caseStudy.overview.body} />
         </CaseSection>
+
+        {isPickmin && (
+          <PickminLiveProductEntry content={caseStudy.cta} liveHref={project.link} lang={caseStudyLang} />
+        )}
 
         {isPickmin && (
           <CaseSection title={caseStudy.complexity.title} className="case-section--complexity">
