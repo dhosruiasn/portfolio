@@ -2049,12 +2049,17 @@ body:has(.detail-page),
   border-left: 4px solid var(--case-ink);
 }
 
-.googoolii-flow-card__media img {
+.googoolii-flow-card__media img,
+.googoolii-flow-card__media video {
   width: 100%;
   height: 100%;
   min-height: 460px;
   display: block;
   object-fit: cover;
+}
+
+.googoolii-flow-card__media video {
+  background: var(--case-poster-blue);
 }
 
 .googoolii-flow-card__copy {
@@ -2375,11 +2380,18 @@ body:has(.detail-page),
 }
 
 .pickmin-ds-intro__copy {
-  min-height: 360px;
+  min-height: 300px;
   display: grid;
-  align-content: center;
+  align-content: start;
   border-radius: 58px 18px 58px 18px;
   background: #fff;
+}
+
+.pickmin-ds-intro__copy p {
+  max-width: none;
+  text-wrap: auto;
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 
 .pickmin-ds-intro__map {
@@ -4284,7 +4296,8 @@ body:has(.detail-page),
     border-bottom: 4px solid var(--case-ink);
   }
 
-  .googoolii-flow-card__media img {
+  .googoolii-flow-card__media img,
+  .googoolii-flow-card__media video {
     min-height: 260px;
     aspect-ratio: 16 / 10;
     object-fit: cover;

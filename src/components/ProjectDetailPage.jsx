@@ -927,7 +927,20 @@ function GoogooliiCaseStudyPage({ project, content, caseStudy, title, tune, setT
             {caseStudy.coreFlow.map((item) => (
               <article className="googoolii-flow-card" key={item.title}>
                 <div className="googoolii-flow-card__media">
-                  <img src={assetPath(item.image)} alt={`${item.title} screenshot`} loading="lazy" decoding="async" />
+                  {item.video ? (
+                    <video
+                      src={assetPath(item.video)}
+                      poster={assetPath(item.image)}
+                      aria-label={`${item.title} motion preview`}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      preload="auto"
+                    />
+                  ) : (
+                    <img src={assetPath(item.image)} alt={`${item.title} screenshot`} loading="lazy" decoding="async" />
+                  )}
                 </div>
                 <div className="googoolii-flow-card__copy">
                   <span>{item.number}</span>
