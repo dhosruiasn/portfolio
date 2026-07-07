@@ -1057,7 +1057,6 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
   ) : (
     <PhotoSlot src={caseStudy.heroImage} alt={caseStudy.heroAlt || `${project.name} hero mockup`} label="HERO MOCKUP / 手機或桌機主視覺" />
   );
-  const heroMediaLabel = caseStudyLang === 'zh' ? '觀看實際產品' : 'Open live product';
 
   return (
     <div
@@ -1116,12 +1115,8 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
               )}
             </div>
             {isPickmin && project.link ? (
-              <a className="case-hero__media-link" href={project.link} target="_blank" rel="noreferrer" aria-label={heroMediaLabel}>
+              <a className="case-hero__media-link" href={project.link} target="_blank" rel="noreferrer" aria-label={heroVisitLabel}>
                 {heroMedia}
-                <span>
-                  {heroMediaLabel}
-                  <ExternalArrowIcon />
-                </span>
               </a>
             ) : (
               heroMedia
@@ -1166,7 +1161,7 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
         <CaseSection title={sectionTitles.problem} className="case-section--problem">
           <div className="case-card-grid case-card-grid--four">
             {caseStudy.problems.map((item, index) => (
-              <article className={`case-panel ${PROBLEM_TONES[index]}`} key={item.title}>
+              <article className={`case-panel${isPickmin ? ' case-panel--neutral' : ` ${PROBLEM_TONES[index]}`}`} key={item.title}>
                 <h3>{renderInfoText(item.title)}</h3>
                 <p>{renderInfoText(item.body)}</p>
               </article>
