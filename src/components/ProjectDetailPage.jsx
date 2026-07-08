@@ -243,10 +243,13 @@ function preloadPickminImages() {
   });
 }
 
-function preloadHeroMedia(caseStudy) {
+function preloadHeroMedia(caseStudy, fallbackPoster) {
   if (typeof document === 'undefined' || !caseStudy) return;
+  // 預載「實際會用的 poster」：優先小的 heroPoster(webp)，沒有才退 heroImage 或
+  // 專案卡片 poster（ui-tweaker 靠 fallbackPoster 才會被預載）。避免預載 5.3MB PNG。
+  const posterSrc = caseStudy.heroPoster || caseStudy.heroImage || fallbackPoster;
   [
-    { src: caseStudy.heroImage, key: 'detailHeroImage' },
+    { src: posterSrc, key: 'detailHeroImage' },
     { src: caseStudy.heroVideo, key: 'detailHeroVideo', as: 'video', type: 'video/mp4' },
   ].forEach(({ src, key, as = 'image', type }) => {
     if (!src) return;
@@ -1025,7 +1028,7 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
   const hasFallingArchitectureChips = project.id === 'googoolii' || project.id === 'pickmin' || project.id === 'shopee-archive' || project.id === 'ui-tweaker';
   const heroVisitLabel = isPickmin ? (caseStudyLang === 'zh' ? '前往互動網站' : 'TRY LIVE SITE') : visitLabel;
   const heroMedia = caseStudy.heroVideo ? (
-    <VideoSlot src={caseStudy.heroVideo} alt={caseStudy.heroAlt || `${project.name} demo video`} poster={caseStudy.heroImage || project.poster} />
+    <VideoSlot src={caseStudy.heroVideo} alt={caseStudy.heroAlt || `${project.name} demo video`} poster={caseStudy.heroPoster || caseStudy.heroImage || project.poster} />
   ) : caseStudy.heroVisual ? (
     <div className="case-hero__visual">
       <ProjectCaseVisual projectId={project.id} id={caseStudy.heroVisual} />
@@ -1371,7 +1374,7 @@ export default function ProjectDetailPage({ project, onClose }) {
     const nextCaseStudy = project?.caseStudy?.[lang] || project?.caseStudy?.zh;
     setFlowTune(DEFAULT_FLOW_TUNE);
     setFlowCopy(nextCaseStudy?.flow?.note || '');
-    preloadHeroMedia(nextCaseStudy);
+    preloadHeroMedia(nextCaseStudy, project?.poster);
   }, [project?.id, lang]);
 
   // 手機返回手勢／返回鍵＝關閉內頁，而不是直接離開網站。

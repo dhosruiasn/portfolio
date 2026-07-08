@@ -99,6 +99,9 @@ const commonMediaPlaceholders = {
 
 const zh = {
   heroImage: pickminImages.hero,
+  // 影片 poster 專用：<video poster> 不能走 <picture>，直接指小的 webp（209K）
+  // 而非 heroImage 的 5.3MB PNG，手機才會「馬上顯示」hero 畫面。
+  heroPoster: '/images/projects/pickmin/Hero%20mockup.webp',
   heroVideo: '/videos/projects/pickmin-hero-1080.mp4',
   subtitle: '為 Pikmin Bloom 玩家打造的多語明信片收藏、追蹤與管理 Web App。',
   summary:

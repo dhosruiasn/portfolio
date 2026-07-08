@@ -158,6 +158,10 @@ export default function ShapeField({ floorRef, start = true }) {
         }
         Composite.add(world, body);
         items.push({ body, el, w, h });
+
+        // 同步先把元素移到落點（畫面上方外）：否則第一次 afterUpdate 前元素沒有
+        // transform，會被畫在容器左上角 (0,0) 閃一格（手機尤其明顯），才跳上去掉落。
+        el.style.transform = `translate(${startX - w / 2}px, ${startY - h / 2}px) rotate(${opts.angle}rad)`;
       });
 
       // 游標推力：靠近的圖形被像球一樣推開

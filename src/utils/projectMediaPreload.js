@@ -48,10 +48,19 @@ function warmVideo(src) {
   warmedVideos.set(href, video);
 }
 
+// pickmin 內文圖顯示走 <picture> 用 avif（幾百 K）；原檔 PNG 是 3–5MB。
+// 暖圖時把 pickmin 的 .png 換成 .avif，避免手機白白抓幾十 MB 沒在顯示的 PNG。
+function optimizedImageSrc(src) {
+  if (src.includes('/images/projects/pickmin/') && /\.png$/i.test(src)) {
+    return src.replace(/\.png$/i, '.avif');
+  }
+  return src;
+}
+
 export function warmProjectMedia(project) {
   if (typeof document === 'undefined' || !project) return;
   collectMediaPaths(project).forEach((src) => {
     if (VIDEO_PATH_RE.test(src)) warmVideo(src);
-    else warmImage(src);
+    else warmImage(optimizedImageSrc(src));
   });
 }
