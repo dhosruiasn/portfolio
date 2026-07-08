@@ -282,20 +282,20 @@ export default function DigitalWorks() {
             <img
               className="digital-works__arrow digital-works__arrow--left"
               ref={leftArrowRef}
-              src={assetPath(`${DIGITAL_ASSET_BASE}/左箭頭.png`)}
+              src={assetPath(`${DIGITAL_ASSET_BASE}/arrow-left.png`)}
               alt=""
             />
             <img
               className="digital-works__arrow digital-works__arrow--right"
               ref={rightArrowRef}
-              src={assetPath(`${DIGITAL_ASSET_BASE}/右箭頭.png`)}
+              src={assetPath(`${DIGITAL_ASSET_BASE}/arrow-right.png`)}
               alt=""
             />
-            <img className="digital-works__lamp" src={assetPath(`${DIGITAL_ASSET_BASE}/燈罩.png`)} alt="" />
+            <img className="digital-works__lamp" src={assetPath(`${DIGITAL_ASSET_BASE}/light-shade.png`)} alt="" />
             <img
               className="digital-works__cord"
               ref={cordRef}
-              src={assetPath(`${DIGITAL_ASSET_BASE}/燈線.png`)}
+              src={assetPath(`${DIGITAL_ASSET_BASE}/light-cord.png`)}
               alt="拉燈線"
               onClick={replaySwitch}
             />

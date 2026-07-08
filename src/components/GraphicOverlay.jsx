@@ -200,20 +200,22 @@ export default function GraphicOverlay({ onClose }) {
   };
 
   const handleDragEnd = ({ active, delta }) => {
-    // 拖曳邊界：讓商品至少留一部分在畫面內，不會被甩出去救不回來
+    // 拖曳邊界：左右/上緣以整個 frame 為界（版頭 go-header 下方的透明藍區也算可放區，
+    // 才不會一拖到那塊藍就彈回）；下緣以 canvas 底為界，避開最底的工作列 go-taskbar。
     const canvas = overlayRef.current?.querySelector('.graphic-overlay__canvas');
+    const frame = overlayRef.current?.querySelector('.graphic-overlay__frame');
     const el = overlayRef.current?.querySelector(`[data-item-id="${active.id}"]`);
     setOffsets((prev) => {
       let x = (prev[active.id]?.x || 0) + delta.x;
       let y = (prev[active.id]?.y || 0) + delta.y;
-      if (canvas && el) {
-        const fr = canvas.getBoundingClientRect();
+      if (canvas && frame && el) {
+        const cr = canvas.getBoundingClientRect();
+        const fr = frame.getBoundingClientRect();
         const er = el.getBoundingClientRect();
         const margin = 8;
-        // er 已含本次拖曳位移；放手後完整收回藍色 canvas，避開下方工作列。
         const overRight = er.right - (fr.right - margin);
         const overLeft = (fr.left + margin) - er.left;
-        const overBottom = er.bottom - (fr.bottom - margin);
+        const overBottom = er.bottom - (cr.bottom - margin);
         const overTop = (fr.top + margin) - er.top;
         if (overRight > 0) x -= overRight;
         if (overLeft > 0) x += overLeft;

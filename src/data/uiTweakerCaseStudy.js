@@ -74,7 +74,7 @@ export const uiTweakerCaseStudy = {
         title: '用 Figma 屬性面板邏輯降低學習成本',
         body: '設計師已經熟悉右側屬性欄、slider、數值輸入與狀態切換，所以 UI Tweaker 沿用這種操作語言，而不是做成一個需要重新理解的新工具。',
         slot: 'Control panel logic',
-        image: '/images/projects/UI Tweaker/Figma 屬性面板.png',
+        image: '/images/projects/UI Tweaker/figma-property-panel.png',
       },
       {
         title: '把調整拆成可命名的設計類別',
@@ -86,7 +86,7 @@ export const uiTweakerCaseStudy = {
         title: '輸出面向下一輪 AI 修改',
         body: '工具不只讓使用者看到 preview，也把調整結果整理成能貼回 Claude Code 或 prompt 的格式，讓微調可以被延續，而不是停在一次性的畫面操作。',
         slot: 'Structured handoff',
-        image: '/images/projects/UI Tweaker/輸出面向.png',
+        image: '/images/projects/UI Tweaker/output-oriented.png',
       },
     ],
     designSystem: {
@@ -213,7 +213,7 @@ export const uiTweakerCaseStudy = {
         title: 'Use familiar Figma-like property controls',
         body: 'Designers already understand side panels, sliders, value fields, and state controls, so UI Tweaker reuses that mental model instead of inventing a new interaction language.',
         slot: 'Control panel logic',
-        image: '/images/projects/UI Tweaker/Figma 屬性面板.png',
+        image: '/images/projects/UI Tweaker/figma-property-panel.png',
       },
       {
         title: 'Separate tuning into named design categories',
@@ -225,7 +225,7 @@ export const uiTweakerCaseStudy = {
         title: 'Optimize output for the next AI iteration',
         body: 'The tool is not just a preview. It turns adjustments into copyable, structured instructions for Claude Code or prompt workflows, so refinement can continue across iterations.',
         slot: 'Structured handoff',
-        image: '/images/projects/UI Tweaker/輸出面向.png',
+        image: '/images/projects/UI Tweaker/output-oriented.png',
       },
     ],
     designSystem: {

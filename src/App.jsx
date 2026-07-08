@@ -19,10 +19,10 @@ import Footer from './components/Footer.jsx';
 const HERO_CRITICAL_ASSETS = [
   '/images/hero-character.png',
   '/images/graphic/digital work/light.png',
-  '/images/graphic/digital work/左箭頭.png',
-  '/images/graphic/digital work/右箭頭.png',
-  '/images/graphic/digital work/燈罩.png',
-  '/images/graphic/digital work/燈線.png',
+  '/images/graphic/digital work/arrow-left.png',
+  '/images/graphic/digital work/arrow-right.png',
+  '/images/graphic/digital work/light-shade.png',
+  '/images/graphic/digital work/light-cord.png',
 ];
 
 // 進場結束後在 idle 背景預載（brand section、專案 poster、CV 照…），不搶首屏頻寬。

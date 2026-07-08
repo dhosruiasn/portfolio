@@ -194,6 +194,8 @@
 .resume-wireframe__cv-button--secondary {
   background: rgba(255, 255, 255, 0.42);
   color: #6b3415;
+  /* 框線用跟文字一樣的咖啡色（原本繼承 base 的深藍 #252936） */
+  border-color: #6b3415;
   box-shadow: none;
 }
 
