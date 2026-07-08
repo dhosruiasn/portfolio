@@ -1,6 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Ojuju:wght@700;800&family=Savate:wght@400;500;600&family=Mulish:wght@400;500;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Chiron+Hei+HK:wght@400;700;900&family=Chocolate+Classical+Sans&family=TASA+Explorer:wght@400..800&display=swap');
-
+/* 字型改在 index.html 用 <link>+preconnect 載入（見該檔註解），移除這裡的 render-blocking @import。 */
 @font-face {
   font-family: 'Dotrice';
   src: url('../assets/fonts/Dotrice-Regular.otf') format('opentype');

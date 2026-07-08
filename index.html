@@ -11,6 +11,14 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <title>Doris Kao — Digital Web Designer</title>
     <meta name="description" content="Doris Kao（高萱彤）— Brand × Visual × Interaction × VibeCoding" />
+    <!-- 字型改用 <link>+preconnect：原本在 global.css 用 @import 會 render-blocking 且序列化
+         （先抓 css 才發現 @import 再抓字型）。英文字型全站都用→正常載入；中文字型（TASA/Chiron/
+         Chocolate）只在 Pickmin 案例的多語字體示範用到，主站中文走系統字，故非阻斷延後載入。 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ojuju:wght@700;800&family=Savate:wght@400;500;600&family=Mulish:wght@400;500;600&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chiron+Hei+HK:wght@400;700;900&family=Chocolate+Classical+Sans&family=TASA+Explorer:wght@400..800&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chiron+Hei+HK:wght@400;700;900&family=Chocolate+Classical+Sans&family=TASA+Explorer:wght@400..800&display=swap" /></noscript>
   </head>
   <body>
     <div id="root"></div>
