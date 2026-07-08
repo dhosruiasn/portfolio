@@ -10,7 +10,7 @@ import '../styles/components/DigitalWorks.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const DIGITAL_ASSET_BASE = 'images/graphic/digital work';
+const DIGITAL_ASSET_BASE = 'images/graphic/digital-work';
 const ARROW_ORIGINS = {
   left: { x: 15.14, y: 84.22 },
   right: { x: 84.83, y: 84.22 },

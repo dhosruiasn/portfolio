@@ -18,11 +18,11 @@ import Footer from './components/Footer.jsx';
 // 幾十張圖＋所有專案影片會把首屏拖垮（連 43K 的燈罩都排隊），其餘一律延後背景載入。
 const HERO_CRITICAL_ASSETS = [
   '/images/hero-character.png',
-  '/images/graphic/digital work/light.png',
-  '/images/graphic/digital work/arrow-left.png',
-  '/images/graphic/digital work/arrow-right.png',
-  '/images/graphic/digital work/light-shade.png',
-  '/images/graphic/digital work/light-cord.png',
+  '/images/graphic/digital-work/light.png',
+  '/images/graphic/digital-work/arrow-left.png',
+  '/images/graphic/digital-work/arrow-right.png',
+  '/images/graphic/digital-work/light-shade.png',
+  '/images/graphic/digital-work/light-cord.png',
 ];
 
 // 進場結束後在 idle 背景預載（brand section、專案 poster、CV 照…），不搶首屏頻寬。
@@ -30,7 +30,7 @@ const DEFERRED_CRITICAL_ASSETS = [
   '/videos/projects/pickmin-hero-poster2.jpg',
   '/videos/projects/ui-tweaker-demo-poster2.jpg',
   '/images/projects/googoolii/product-shopping.jpg',
-  '/images/projects/Work-Order Sync Bot/work-order-cover-full.png',
+  '/images/projects/work-order-sync-bot/work-order-cover-full.png',
   '/images/graphic/brand-section/BG.png',
   '/images/graphic/brand-section/house-body.png',
   '/images/graphic/brand-section/chimney.png',
