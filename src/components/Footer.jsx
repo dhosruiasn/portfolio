@@ -121,8 +121,8 @@ function FooterShapeField({ play }) {
         {
           kind: 'pill',
           label: 'mail',
-          text: 'doris.kao20000619@gmail.com',
-          href: 'mailto:doris.kao20000619@gmail.com',
+          text: 'hi.doriskao@gmail.com',
+          href: 'mailto:hi.doriskao@gmail.com',
           color: FOOTER_PALETTE.orange,
           fg: '#fff',
           w: mailWidth,

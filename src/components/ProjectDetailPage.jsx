@@ -385,6 +385,10 @@ function LazyAutoVideo({ src, alt = '', className = '', poster }) {
     const video = videoRef.current;
     if (!video) return undefined;
 
+    // 手機自動播放要 muted 是「property」而不只是 attribute；React 的 muted attribute
+    // 不一定會設到 property，沒設的話 iOS/Android 會擋 play() → 影片停在灰底不播。
+    video.muted = true;
+
     const play = () => {
       if (document.visibilityState === 'visible') video.play().catch(() => {});
     };
@@ -612,6 +616,7 @@ function GoogooliiHeroMedia({ caseStudy }) {
       {hasVideo ? (
         <video
           className="googoolii-hero__screen"
+          ref={(el) => { if (el) el.muted = true; }}
           muted
           loop
           autoPlay

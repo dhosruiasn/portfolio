@@ -18,8 +18,8 @@ export const resumeData = {
     {
       id: 'email',
       label: { zh: 'Email', en: 'Email' },
-      value: 'doris.kao20000619@gmail.com',
-      href: 'mailto:doris.kao20000619@gmail.com',
+      value: 'hi.doriskao@gmail.com',
+      href: 'mailto:hi.doriskao@gmail.com',
     },
     {
       id: 'location',

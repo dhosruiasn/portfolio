@@ -47,6 +47,9 @@ function LazyPickminVideo({ src, alt = '' }) {
     const video = videoRef.current;
     if (!video) return undefined;
 
+    // 手機自動播放要 muted 是 property（見 LazyAutoVideo 註解）
+    video.muted = true;
+
     const play = () => {
       if (document.visibilityState === 'visible') video.play().catch(() => {});
     };
