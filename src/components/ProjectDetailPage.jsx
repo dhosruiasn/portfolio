@@ -396,7 +396,8 @@ function LazyAutoVideo({ src, alt = '', className = '', poster }) {
     );
 
     observer.observe(video);
-    video.load();
+    // 不呼叫 video.load()：元素一 render（src 已設）瀏覽器就開始載入＋autoplay，
+    // 再 load() 等於打掉重來、丟掉已預載的資料，反而拖慢第一次播放。
     play();
     video.addEventListener('loadeddata', play);
     video.addEventListener('canplay', play);
@@ -936,7 +937,7 @@ function GoogooliiCaseStudyPage({ project, content, caseStudy, title, tune, setT
                       muted
                       loop
                       playsInline
-                      preload="auto"
+                      preload="metadata"
                     />
                   ) : (
                     <img src={assetPath(item.image)} alt={`${item.title} screenshot`} loading="lazy" decoding="async" />
@@ -1089,7 +1090,7 @@ function CaseStudyPage({ project, content, caseStudy, caseStudyLang, title, visi
                 </a>
               )}
             </div>
-            {isPickmin && project.link ? (
+            {(isPickmin || project.id === 'ui-tweaker') && project.link ? (
               <a className="case-hero__media-link" href={project.link} target="_blank" rel="noreferrer" aria-label={heroVisitLabel}>
                 {heroMedia}
               </a>

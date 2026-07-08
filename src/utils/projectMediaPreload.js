@@ -37,13 +37,15 @@ function warmVideo(src) {
   const href = assetPath(src);
   if (!href || warmedVideos.has(href)) return;
 
+  // 只暖 metadata，不整支下載：先前用 preload='auto'+load() 會把該專案「所有」影片
+  // （hero + motion + flow）同時全量抓下來搶頻寬，把最該先播的 hero 拖慢。
+  // 真正的播放下載交給畫面上、進入視窗的 <video> 元件各自處理。
   const video = document.createElement('video');
-  video.preload = 'auto';
+  video.preload = 'metadata';
   video.muted = true;
   video.playsInline = true;
   video.src = href;
   warmedVideos.set(href, video);
-  video.load();
 }
 
 export function warmProjectMedia(project) {

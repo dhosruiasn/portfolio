@@ -61,7 +61,7 @@ function LazyPickminVideo({ src, alt = '' }) {
     );
 
     observer.observe(video);
-    video.load();
+    // 不呼叫 video.load()：會打掉瀏覽器已開始的預載、拖慢首次播放
     play();
     video.addEventListener('loadeddata', play);
     video.addEventListener('canplay', play);
@@ -83,7 +83,7 @@ function LazyPickminVideo({ src, alt = '' }) {
       loop
       autoPlay
       playsInline
-      preload="auto"
+      preload="metadata"
       aria-label={alt}
     />
   );

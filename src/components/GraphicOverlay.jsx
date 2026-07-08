@@ -271,6 +271,9 @@ export default function GraphicOverlay({ onClose }) {
           </DndContext>
         </div>
         <img className="graphic-overlay__taskbar" src={assetPath(`${BASE}/bg/go-taskbar.webp`)} alt="" />
+        {/* 均勻顆粒：放在 frame 尾端 → 畫在藍底 canvas 之後（蓋得到藍），
+            z-index:0 讓商品(z≥1)仍在其上。含版頭、藍底、工作列一致上顆粒。 */}
+        <div className="graphic-overlay__noise" aria-hidden="true" />
       </div>
       {showHint && (
         <div className="graphic-overlay__hint" aria-hidden="true">

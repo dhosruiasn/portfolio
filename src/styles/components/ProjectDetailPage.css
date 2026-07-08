@@ -553,7 +553,8 @@ body:has(.detail-page),
   height: 100%;
 }
 
-.detail-page--pickmin .case-hero__media-link {
+.detail-page--pickmin .case-hero__media-link,
+.detail-page--ui-tweaker .case-hero__media-link {
   overflow: hidden;
   border-radius: 16px;
 }

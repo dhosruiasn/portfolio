@@ -3,7 +3,7 @@ export const uiTweakerCaseStudy = {
     subtitle: 'Visual Tuning Tool for VibeCoding',
     summary:
       '為 VibeCoding 設計師打造的即時視覺微調工具，把字級、間距、尺寸、圓角、陰影、位置與狀態調整整理成接近 Figma 屬性面板的控制邏輯，讓設計師能在瀏覽器中快速試、比較，並輸出可交給 AI 或工程端理解的結構化調整值。',
-    heroVideo: '/videos/projects/ui-tweaker-skill%20-demo-vedio-1080.mp4',
+    heroVideo: '/videos/projects/ui-tweaker-demo-1080.mp4',
     heroAlt: 'UI Tweaker demo video showing live visual controls and preview updates',
     meta: [
       { label: 'PROJECT TYPE', value: 'Internal design tool / Claude Code Plugin' },
@@ -142,7 +142,7 @@ export const uiTweakerCaseStudy = {
     subtitle: 'Visual Tuning Tool for VibeCoding',
     summary:
       'A live visual tuning tool for VibeCoding designers. It turns common adjustments for type, spacing, size, radius, shadow, position, and states into a Figma-like control panel, then outputs structured values that can be handed back to AI or engineering workflows.',
-    heroVideo: '/videos/projects/ui-tweaker-skill%20-demo-vedio-1080.mp4',
+    heroVideo: '/videos/projects/ui-tweaker-demo-1080.mp4',
     heroAlt: 'UI Tweaker demo video showing live visual controls and preview updates',
     meta: [
       { label: 'PROJECT TYPE', value: 'Internal design tool / Claude Code Plugin' },
