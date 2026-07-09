@@ -43,45 +43,64 @@
 }
 
 .resume-wireframe__placeholder {
-  --resume-boundary-color: #b7ff00;
   position: relative;
   width: min(100%, 280px);
-  aspect-ratio: 0.82;
-  border-radius: 42% 55% 48% 50% / 12% 15% 14% 13%;
-  background: #ecebe5;
-  overflow: visible;
+  aspect-ratio: 0.72;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 18px;
+  padding: 22px 20px 20px;
+  border: 0;
+  border-radius: 0;
+  background: var(--accent);
+  color: #141414;
+  overflow: hidden;
   isolation: isolate;
+  box-shadow: 0 18px 36px rgba(37, 41, 54, 0.12);
+}
+
+.resume-wireframe__portrait-window {
+  position: relative;
+  z-index: 1;
+  align-self: start;
+  justify-self: center;
+  width: min(100%, 214px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #fff;
 }
 
 .resume-wireframe__placeholder img {
-  position: relative;
-  z-index: 1;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 42%;
-  border-radius: inherit;
-  box-shadow: 0 12px 30px rgba(37, 41, 54, 0.14);
+  object-position: 50% 36%;
 }
 
-.resume-wireframe__boundary {
-  position: absolute;
-  inset: -8px -10px -10px -9px;
-  z-index: 2;
-  width: calc(100% + 19px);
-  height: calc(100% + 18px);
-  overflow: visible;
-  pointer-events: none;
-  filter: drop-shadow(0 5px 0 rgba(37, 41, 54, 0.08));
+.resume-wireframe__portrait-copy {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 12px;
+  row-gap: 2px;
+  align-items: end;
+  font-family: var(--font-body-en), var(--font-body-zh);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.05;
 }
 
-.resume-wireframe__boundary path {
-  fill: none;
-  stroke: var(--resume-boundary-color);
-  stroke-width: 5.2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  vector-effect: non-scaling-stroke;
+.resume-wireframe__portrait-copy span {
+  grid-column: 1;
+}
+
+.resume-wireframe__portrait-copy i {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: end;
+  font-size: 24px;
+  font-style: normal;
+  line-height: 0.9;
 }
 
 .resume-wireframe__sticker {
