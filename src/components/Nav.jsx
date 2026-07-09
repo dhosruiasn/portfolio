@@ -21,9 +21,11 @@ export default function Nav({ heroRef, onNavigate }) {
     if (!target) return;
     const scrollNow = () => {
       const scroller = document.scrollingElement || document.documentElement;
-      const top = target.getBoundingClientRect().top + window.scrollY;
-      target.scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'auto' });
-      scroller.scrollTo?.({ top, behavior: 'auto' });
+      const currentTop = scroller.scrollTop || window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      const top = target.getBoundingClientRect().top + currentTop;
+      scroller.scrollTop = top;
+      document.documentElement.scrollTop = top;
+      document.body.scrollTop = top;
       window.scrollTo({ top, behavior: 'auto' });
     };
     const nextHash = `#${hash}`;
@@ -31,7 +33,7 @@ export default function Nav({ heroRef, onNavigate }) {
       window.history.pushState(null, '', nextHash);
     }
     scrollNow();
-    [0, 80, 240].forEach((delay) => window.setTimeout(scrollNow, delay));
+    [0, 80, 240, 520].forEach((delay) => window.setTimeout(scrollNow, delay));
   }, []);
 
   const handleNavClick = useCallback((event) => {

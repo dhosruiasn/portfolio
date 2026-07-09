@@ -112,20 +112,18 @@ export default function App() {
     if (!hash) return;
     const target = document.getElementById(decodeURIComponent(hash));
     if (!target) return;
-    const scroller = document.scrollingElement || document.documentElement;
-    const top = target.getBoundingClientRect().top + window.scrollY;
-    target.scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'auto' });
-    scroller.scrollTo?.({ top, behavior: 'auto' });
-    window.scrollTo({ top, behavior: 'auto' });
-    document.documentElement.scrollTo?.({ top, behavior: 'auto' });
-    requestAnimationFrame(() => {
-      const nextTop = target.getBoundingClientRect().top + window.scrollY;
-      target.scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'auto' });
-      scroller.scrollTo?.({ top: nextTop, behavior: 'auto' });
-      window.scrollTo({ top: nextTop, behavior: 'auto' });
-      document.documentElement.scrollTo?.({ top: nextTop, behavior: 'auto' });
-      ScrollTrigger.refresh();
-    });
+    ScrollTrigger.refresh();
+    const scrollNow = () => {
+      const scroller = document.scrollingElement || document.documentElement;
+      const currentTop = scroller.scrollTop || window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      const top = target.getBoundingClientRect().top + currentTop;
+      scroller.scrollTop = top;
+      document.documentElement.scrollTop = top;
+      document.body.scrollTop = top;
+      window.scrollTo({ top, behavior: 'auto' });
+    };
+    scrollNow();
+    requestAnimationFrame(scrollNow);
   }, []);
 
   const scrollToCurrentHash = useCallback(() => {
@@ -139,7 +137,7 @@ export default function App() {
     if (window.location.hash !== nextHash) {
       window.history.pushState(null, '', nextHash);
     }
-    [0, 80, 240].forEach((delay) => window.setTimeout(() => scrollToHash(hash), delay));
+    [0, 80, 240, 520].forEach((delay) => window.setTimeout(() => scrollToHash(hash), delay));
   }, [scrollToHash]);
 
   const handleIntroDone = useCallback(() => {
