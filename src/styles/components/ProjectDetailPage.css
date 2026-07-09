@@ -1728,7 +1728,7 @@ body:has(.detail-page),
 .googoolii-visual-card > span {
   font-family: var(--font-body-en), var(--font-body-zh);
   font-size: 12px;
-  font-weight: 900;
+  font-weight: 800;
   letter-spacing: 0;
   text-transform: uppercase;
 }
@@ -1791,7 +1791,7 @@ body:has(.detail-page),
   color: var(--case-ink);
   font-family: var(--font-body-en), var(--font-body-zh);
   font-size: 13px;
-  font-weight: 900;
+  font-weight: 800;
   line-height: 1.12;
   box-shadow: 3px 3px 0 var(--case-ink);
 }
@@ -1932,7 +1932,7 @@ body:has(.detail-page),
   margin: 0 0 12px;
   font-family: var(--font-body-en), var(--font-body-zh);
   font-size: clamp(22px, 2vw, 34px);
-  font-weight: 900;
+  font-weight: 800;
   line-height: 1.12;
   color: var(--case-ink);
 }
@@ -2063,6 +2063,14 @@ body:has(.detail-page),
   display: inline-block;
   margin-bottom: 10px;
   color: var(--case-orange);
+}
+
+.googoolii-token h3 {
+  font-weight: 700;
+}
+
+.googoolii-type-row > span {
+  font-weight: 700;
 }
 
 .googoolii-type-grid {
@@ -2360,6 +2368,7 @@ body:has(.detail-page),
 /* Token hex code → neutral gray (was orange) */
 .detail-page--googoolii-custom .googoolii-token code {
   color: #8e8e93;
+  font-weight: 600;
 }
 
 /* Flow card media: keep product screenshots, thin neutral frame */
@@ -2709,6 +2718,12 @@ body:has(.detail-page),
 .pickmin-token-card code,
 .pickmin-placeholder code {
   color: #8e8e93;
+  font-weight: 600;
+}
+
+.pickmin-token-card span,
+.pickmin-type-scale__row span {
+  font-weight: 700;
 }
 
 .pickmin-token-card h3,
@@ -2747,7 +2762,7 @@ body:has(.detail-page),
 .pickmin-type-scale__row span {
   color: var(--case-blue);
   font-size: 12px;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .pickmin-type-scale__row strong {
