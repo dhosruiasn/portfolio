@@ -11,8 +11,16 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <title>Doris Kao — Digital Web Designer</title>
     <meta name="description" content="Doris Kao（高萱彤）— Brand × Visual × Interaction × VibeCoding" />
-    <script type="module" crossorigin src="/portfolio/assets/index-DjREy9G2.js"></script>
-    <link rel="stylesheet" crossorigin href="/portfolio/assets/index-DWgbYN25.css">
+    <!-- 字型改用 <link>+preconnect：原本在 global.css 用 @import 會 render-blocking 且序列化
+         （先抓 css 才發現 @import 再抓字型）。英文字型全站都用→正常載入；中文字型（TASA/Chiron/
+         Chocolate）只在 Pickmin 案例的多語字體示範用到，主站中文走系統字，故非阻斷延後載入。 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ojuju:wght@700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chiron+Hei+HK:wght@400;700;900&family=Chocolate+Classical+Sans&family=TASA+Explorer:wght@400..800&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chiron+Hei+HK:wght@400;700;900&family=Chocolate+Classical+Sans&family=TASA+Explorer:wght@400..800&display=swap" /></noscript>
+    <script type="module" crossorigin src="/portfolio/assets/index-DEFlNLvR.js"></script>
+    <link rel="stylesheet" crossorigin href="/portfolio/assets/index-Cpq1nIqK.css">
   </head>
   <body>
     <div id="root"></div>
