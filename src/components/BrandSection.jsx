@@ -59,6 +59,31 @@ const SHOW_GRID = import.meta.env.DEV && !!params && params.has('grid');
 const SHOW_EDIT = import.meta.env.DEV && !!params && params.has('edit');
 const SHOW_OVERLAY = import.meta.env.DEV && !!params && params.has('overlay'); // dev：直接開門後拼貼頁預覽
 const DOOR_HINGE = '43.67% 74.05%';
+const COLLAGE_HASH = 'mybrand';
+const COLLAGE_HASH_ALIASES = new Set([COLLAGE_HASH, 'my-brand', 'brand-collage']);
+
+function getCurrentHashId() {
+  if (typeof window === 'undefined') return '';
+  return decodeURIComponent(window.location.hash.replace(/^#/, '')).toLowerCase();
+}
+
+function isCollageUrl() {
+  return COLLAGE_HASH_ALIASES.has(getCurrentHashId());
+}
+
+function setCollageHash() {
+  if (typeof window === 'undefined' || isCollageUrl()) return;
+  const url = new URL(window.location.href);
+  url.hash = COLLAGE_HASH;
+  window.history.pushState({ portfolioOverlay: 'collage' }, '', url);
+}
+
+function replaceBrandHash() {
+  if (typeof window === 'undefined') return;
+  const url = new URL(window.location.href);
+  url.hash = 'brand';
+  window.history.replaceState(null, '', url);
+}
 
 // 可調位置的預設值（編輯面板會即時覆寫；調好後把數值寫死回這裡）
 const DEFAULT_TUNE = {
@@ -105,6 +130,7 @@ const DEFAULT_TUNE = {
 
 export default function BrandSection() {
   const { lang } = useLanguage();
+  const openFromUrl = SHOW_OVERLAY || isCollageUrl();
   const brandCopy =
     lang === 'en'
       ? { line1: 'Original illustration IP — characters, apparel & merch', line2: 'Knock knock — come on in!', enterAlt: 'Knock to enter GOOGOOlii' }
@@ -113,10 +139,11 @@ export default function BrandSection() {
   const posterRef = useRef(null);
   const brandRef = useRef(null);
   const [tune, setTune] = useState(DEFAULT_TUNE);
-  const [lit, setLit] = useState(false); // 燈是否亮（招牌＋螢幕）
-  const [doorOpen, setDoorOpen] = useState(false);
-  const [overlayOpen, setOverlayOpen] = useState(SHOW_OVERLAY);
+  const [lit, setLit] = useState(openFromUrl); // 燈是否亮（招牌＋螢幕）
+  const [doorOpen, setDoorOpen] = useState(openFromUrl);
+  const [overlayOpen, setOverlayOpen] = useState(openFromUrl);
   const isEnteringRef = useRef(false);
+  const pushedCollageHashRef = useRef(false);
 
   // 入場：元件就定位，但招牌＋螢幕「先不亮」
   useEffect(() => {
@@ -184,6 +211,31 @@ export default function BrandSection() {
     return () => {
       if (idleId && 'cancelIdleCallback' in window) window.cancelIdleCallback(idleId);
       if (timeoutId) window.clearTimeout(timeoutId);
+    };
+  }, []);
+
+  useEffect(() => {
+    const syncCollageUrl = () => {
+      const shouldOpen = SHOW_OVERLAY || isCollageUrl();
+      if (shouldOpen) {
+        setLit(true);
+        setDoorOpen(true);
+        setOverlayOpen(true);
+        isEnteringRef.current = true;
+        return;
+      }
+      setOverlayOpen(false);
+      setDoorOpen(false);
+      isEnteringRef.current = false;
+      pushedCollageHashRef.current = false;
+    };
+
+    syncCollageUrl();
+    window.addEventListener('hashchange', syncCollageUrl);
+    window.addEventListener('popstate', syncCollageUrl);
+    return () => {
+      window.removeEventListener('hashchange', syncCollageUrl);
+      window.removeEventListener('popstate', syncCollageUrl);
     };
   }, []);
 
@@ -372,6 +424,10 @@ export default function BrandSection() {
   const handleEnterClick = () => {
     if (isEnteringRef.current) return;
     isEnteringRef.current = true;
+    if (!isCollageUrl()) {
+      pushedCollageHashRef.current = true;
+      setCollageHash();
+    }
     if (!lit) {
       setLit(true);
     }
@@ -379,6 +435,17 @@ export default function BrandSection() {
   };
 
   const handleOverlayClose = () => {
+    if (isCollageUrl()) {
+      if (pushedCollageHashRef.current) {
+        window.history.back();
+      } else {
+        replaceBrandHash();
+        isEnteringRef.current = false;
+        setOverlayOpen(false);
+        setDoorOpen(false);
+      }
+      return;
+    }
     isEnteringRef.current = false;
     setOverlayOpen(false);
     setDoorOpen(false);
@@ -420,6 +487,7 @@ export default function BrandSection() {
   return (
     <>
       <section className="brand-section" ref={rootRef} id="brand" style={sectionVars}>
+        <span className="brand-section__anchor" id={COLLAGE_HASH} aria-hidden="true" />
         <div className="brand-section__sticky">
           <div className="brand-section__stage">
           <img className="bs-layer bs-bg" src={assetPath(`${BASE}/BG.png`)} alt="" />
