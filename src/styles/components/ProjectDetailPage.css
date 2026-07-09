@@ -2609,7 +2609,7 @@ body:has(.detail-page),
   margin: 0;
   font-family: var(--font-body-en), var(--font-body-zh);
   font-size: clamp(22px, 2.2vw, 34px);
-  font-weight: 800;
+  font-weight: 500;
   line-height: 1.12;
   color: #6b3415;
 }
