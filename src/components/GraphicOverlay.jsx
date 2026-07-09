@@ -13,9 +13,6 @@ import '../styles/components/GraphicOverlay.css';
 
 const BASE = '/images/graphic/collage';
 
-// StrictMode 安全的 history 清理：cleanup 排程 back()，重掛載時取消（見下方 effect）
-let pendingCollageBack = null;
-
 // 底圖拆成三層（滿版方案）：上半部咕咕力橫幅 go-header、底部工作列 go-taskbar、
 // 中段為純藍底色（CSS）。商品散落在中段 canvas。
 // left/top/width 皆為中段 canvas 的百分比；rot 為旋轉角度。
@@ -131,35 +128,6 @@ export default function GraphicOverlay({ onClose }) {
   const [zMap, setZMap] = useState({}); // 拖過的商品浮到最上層
   const [canvasSize, setCanvasSize] = useState(null);
   const zCounter = useRef(ITEMS.length);
-  const onCloseRef = useRef(onClose);
-  onCloseRef.current = onClose;
-
-  // 手機返回手勢＝關閉拼貼頁（onClose 走 ref，避免父層 inline function 重跑 effect）。
-  // cleanup 的 back() 延遲執行、重掛載時取消：StrictMode 的「掛載→清理→再掛載」
-  // 會讓立即 back() 觸發 popstate 把剛開的 overlay 關掉（實機閃退）
-  useEffect(() => {
-    let closedByPop = false;
-    if (pendingCollageBack) {
-      clearTimeout(pendingCollageBack);
-      pendingCollageBack = null;
-    } else {
-      window.history.pushState({ portfolioOverlay: 'collage' }, '');
-    }
-    const onPop = () => {
-      closedByPop = true;
-      onCloseRef.current?.();
-    };
-    window.addEventListener('popstate', onPop);
-    return () => {
-      window.removeEventListener('popstate', onPop);
-      if (!closedByPop) {
-        pendingCollageBack = setTimeout(() => {
-          pendingCollageBack = null;
-          window.history.back();
-        }, 60);
-      }
-    };
-  }, []);
   // 開啟當下判斷一次即可（覆蓋層生命週期短）
   const isMobile = useMemo(() => window.matchMedia('(max-width: 768px)').matches, []);
 
