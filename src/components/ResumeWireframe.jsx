@@ -163,6 +163,10 @@ export default function ResumeWireframe() {
             <div className="resume-wireframe__portrait">
               <div className="resume-wireframe__placeholder">
                 <img src={assetPath(resumeData.portrait.src)} alt={content.portraitAlt} />
+                <svg className="resume-wireframe__boundary" viewBox="0 0 100 122" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                  <path d="M50 4C78 4 95 19 97 52C100 84 84 111 58 118C30 126 8 108 5 76C1 40 13 8 50 4Z" />
+                  <path d="M79 111L94 124" />
+                </svg>
               </div>
               <div className="resume-wireframe__caption">
                 <span>{content.role}</span>

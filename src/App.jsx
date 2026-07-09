@@ -107,18 +107,40 @@ export default function App() {
   const [introDone, setIntroDone] = useState(false);
   const [criticalAssetsReady, setCriticalAssetsReady] = useState(false);
 
-  const scrollToCurrentHash = useCallback(() => {
-    const hash = window.location.hash.replace(/^#/, '');
+  const scrollToHash = useCallback((rawHash) => {
+    const hash = rawHash.replace(/^#/, '');
     if (!hash) return;
     const target = document.getElementById(decodeURIComponent(hash));
     if (!target) return;
+    const scroller = document.scrollingElement || document.documentElement;
     const top = target.getBoundingClientRect().top + window.scrollY;
+    target.scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'auto' });
+    scroller.scrollTo?.({ top, behavior: 'auto' });
     window.scrollTo({ top, behavior: 'auto' });
+    document.documentElement.scrollTo?.({ top, behavior: 'auto' });
     requestAnimationFrame(() => {
-      window.scrollTo({ top, behavior: 'auto' });
+      const nextTop = target.getBoundingClientRect().top + window.scrollY;
+      target.scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'auto' });
+      scroller.scrollTo?.({ top: nextTop, behavior: 'auto' });
+      window.scrollTo({ top: nextTop, behavior: 'auto' });
+      document.documentElement.scrollTo?.({ top: nextTop, behavior: 'auto' });
       ScrollTrigger.refresh();
     });
   }, []);
+
+  const scrollToCurrentHash = useCallback(() => {
+    scrollToHash(window.location.hash);
+  }, [scrollToHash]);
+
+  const handleNavigate = useCallback((href) => {
+    const hash = href.replace(/^#/, '');
+    if (!hash) return;
+    const nextHash = `#${hash}`;
+    if (window.location.hash !== nextHash) {
+      window.history.pushState(null, '', nextHash);
+    }
+    [0, 80, 240].forEach((delay) => window.setTimeout(() => scrollToHash(hash), delay));
+  }, [scrollToHash]);
 
   const handleIntroDone = useCallback(() => {
     setIntroDone(true);
@@ -207,7 +229,7 @@ export default function App() {
       <LoadingBlinds ready={criticalAssetsReady} onDone={handleIntroDone} />
       <Marquee heroRef={heroRef} />
       <Hero ref={heroRef} started={introDone} />
-      <Nav heroRef={heroRef} />
+      <Nav heroRef={heroRef} onNavigate={handleNavigate} />
       <BrandNameTransition />
 
       <DigitalWorks />
