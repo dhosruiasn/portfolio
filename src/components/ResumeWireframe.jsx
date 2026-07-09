@@ -162,14 +162,11 @@ export default function ResumeWireframe() {
           <aside className="resume-wireframe__visual">
             <div className="resume-wireframe__portrait">
               <div className="resume-wireframe__placeholder">
-                <div className="resume-wireframe__portrait-window">
-                  <img src={assetPath(resumeData.portrait.src)} alt={content.portraitAlt} />
-                </div>
-                <div className="resume-wireframe__portrait-copy">
-                  <span>{content.role}</span>
-                  <span>{content.location}</span>
-                  <i aria-hidden="true">→</i>
-                </div>
+                <img src={assetPath(resumeData.portrait.src)} alt={content.portraitAlt} />
+              </div>
+              <div className="resume-wireframe__caption">
+                <span>{content.role}</span>
+                <span>{content.location}</span>
               </div>
             </div>
 

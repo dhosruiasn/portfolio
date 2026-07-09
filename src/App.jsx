@@ -48,7 +48,7 @@ const DEFERRED_CRITICAL_ASSETS = [
   '/images/graphic/brand-section/star-6.png',
   '/images/graphic/brand-section/star-7.png',
   '/images/graphic/brand-section/star-8.png',
-  '/images/about/cv Portrait.jpg',
+  '/images/about/cv Portrait.optimized.png',
 ];
 
 function addAsset(assets, src) {
