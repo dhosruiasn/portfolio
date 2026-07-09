@@ -166,7 +166,7 @@
 }
 
 .bs-brand__title {
-  font-family: var(--font-heading);
+  font-family: 'Ojuju', var(--font-heading);
   font-weight: 800;
   font-size: clamp(40px, var(--brand-size, 8vw), 130px); /* 字級由面板控制 */
   line-height: 1;

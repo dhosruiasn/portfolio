@@ -59,7 +59,7 @@
   flex-direction: column;
   align-items: center;
   gap: var(--digital-title-gap, 1.2vw);
-  font-family: var(--font-heading);
+  font-family: 'Ojuju', var(--font-heading);
   font-weight: 800;
   font-size: clamp(96px, var(--digital-title-size, 13vw), 310px);
   line-height: 0.84;

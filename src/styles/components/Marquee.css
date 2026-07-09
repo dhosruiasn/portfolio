@@ -24,7 +24,8 @@
 .marquee__item {
   color: #fff;
   font-family: var(--font-heading);
-  font-weight: 700;
+  font-style: italic;
+  font-weight: 600;
   font-size: 30px;
   letter-spacing: 1px;
   white-space: nowrap;
