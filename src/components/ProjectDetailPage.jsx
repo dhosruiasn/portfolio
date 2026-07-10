@@ -22,6 +22,7 @@ import {
 import ShopeeVisual from './projects/shopeeArchive/ShopeeArchiveVisuals.jsx';
 import UiTweakerVisual from './projects/uiTweaker/UiTweakerVisuals.jsx';
 import '../styles/components/ProjectDetailPage.css';
+import '../styles/components/ProjectDetailPalette.css';
 
 const params = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
 const SHOW_DETAIL_EDIT = import.meta.env.DEV && !!params && params.has('detailEdit');
@@ -533,6 +534,46 @@ function GoogooliiSection({ eyebrow, title, className = '', children }) {
   );
 }
 
+function GoogooliiColorPalette({ snapshot }) {
+  const colorMap = Object.fromEntries(snapshot.colors.map((color) => [color.name, color]));
+
+  return (
+    <div className="googoolii-palette">
+      {snapshot.colorGroups.map((group) => (
+        <article
+          className={`pickmin-palette-group googoolii-palette-group googoolii-palette-group--${group.id}`}
+          key={group.id}
+        >
+          <header className="pickmin-palette-group__header">
+            <span>{group.label}</span>
+            <p>{renderInfoText(group.description)}</p>
+          </header>
+          <div className="pickmin-palette-group__tokens googoolii-palette-group__tokens">
+            {group.tokenNames.map((tokenName) => {
+              const color = colorMap[tokenName];
+
+              return (
+                <div className="pickmin-palette-token" key={tokenName}>
+                  <span
+                    className="pickmin-palette-token__swatch"
+                    style={{ background: color.hex }}
+                    aria-hidden="true"
+                  />
+                  <div className="pickmin-palette-token__copy">
+                    <h3>{color.name}</h3>
+                    <code>{color.hex}</code>
+                    <p>{renderInfoText(color.use)}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </article>
+      ))}
+    </div>
+  );
+}
+
 function GoogooliiSystemPage({ caseStudy, onBack }) {
   const s = caseStudy.systemSnapshot;
   return (
@@ -548,18 +589,7 @@ function GoogooliiSystemPage({ caseStudy, onBack }) {
 
       <section className="googoolii-system-page__block">
         <h3>Color</h3>
-        <div className="googoolii-color-grid">
-          {s.colors.map((c) => (
-            <article className="googoolii-token" key={c.name}>
-              <span className="googoolii-token__swatch" style={{ '--token-color': c.hex }} />
-              <div>
-                <h3>{c.name}</h3>
-                <code>{c.hex}</code>
-                <p>{renderInfoText(c.use)}</p>
-              </div>
-            </article>
-          ))}
-        </div>
+        <GoogooliiColorPalette snapshot={s} />
       </section>
 
       <section className="googoolii-system-page__block">
@@ -897,18 +927,7 @@ function GoogooliiCaseStudyPage({ project, content, caseStudy, title, tune, setT
 
         <GoogooliiSection eyebrow="04" title="System Snapshot" className="googoolii-section--system-snapshot">
           <div className="googoolii-system">
-            <div className="googoolii-color-grid">
-              {caseStudy.systemSnapshot.colors.map((item) => (
-                <article className="googoolii-token" key={item.name}>
-                  <span className="googoolii-token__swatch" style={{ '--token-color': item.hex }} />
-                  <div>
-                    <h3>{item.name}</h3>
-                    <code>{item.hex}</code>
-                    <p>{renderInfoText(item.use)}</p>
-                  </div>
-                </article>
-              ))}
-            </div>
+            <GoogooliiColorPalette snapshot={caseStudy.systemSnapshot} />
             <div className="googoolii-type-grid">
               {caseStudy.systemSnapshot.typography.map((item) => (
                 <article className="googoolii-type-row" key={item.name}>
@@ -1480,7 +1499,7 @@ export default function ProjectDetailPage({ project, onClose }) {
       const compactViewport = window.matchMedia('(max-width: 900px)').matches;
       const fallingChipClouds = caseStudy ? Array.from(caseStudy.querySelectorAll('.case-chip-cloud--falling')) : [];
       if (caseStudy && !reduceMotion && !compactViewport) {
-        const revealGroups = Array.from(caseStudy.querySelectorAll('.case-card-grid, .case-flow, .case-decision-list, .case-design-system, .case-component-strip, .case-chip-cloud--stacked, .pickmin-complexity__grid, .pickmin-ds-intro__map, .pickmin-principles, .pickmin-foundations__colors, .pickmin-core-components, .pickmin-product-components, .pickmin-interaction-flow__controls, .pickmin-interaction-demo, .pickmin-motion__grid, .pickmin-localization__grid, .pickmin-system-product__screens, .pickmin-reflection__next, .googoolii-concept-grid, .googoolii-visual-list, .googoolii-color-grid, .googoolii-type-grid, .googoolii-flow-list, .googoolii-interaction-grid'));
+        const revealGroups = Array.from(caseStudy.querySelectorAll('.case-card-grid, .case-flow, .case-decision-list, .case-design-system, .case-component-strip, .case-chip-cloud--stacked, .pickmin-complexity__grid, .pickmin-ds-intro__map, .pickmin-principles, .pickmin-foundations__colors, .pickmin-core-components, .pickmin-product-components, .pickmin-interaction-flow__controls, .pickmin-interaction-demo, .pickmin-motion__grid, .pickmin-localization__grid, .pickmin-system-product__screens, .pickmin-reflection__next, .googoolii-concept-grid, .googoolii-visual-list, .googoolii-palette, .googoolii-type-grid, .googoolii-flow-list, .googoolii-interaction-grid'));
         revealGroups.forEach((group) => {
           const children = Array.from(group.children);
           if (children.length) gsap.set(children, { y: 32, opacity: 0 });

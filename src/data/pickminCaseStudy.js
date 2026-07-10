@@ -11,6 +11,32 @@ const pickminImages = {
 const motionVideoBase = '/videos/projects/';
 
 const sharedFoundations = {
+  colorGroups: [
+    {
+      id: 'core',
+      label: 'Core / Action',
+      description: 'Primary actions, selected states, and interaction feedback.',
+      tokenIds: ['primary-action', 'accent-blue'],
+    },
+    {
+      id: 'category',
+      label: 'Category',
+      description: 'Collection categories use a consistent family of recognizable accents.',
+      tokenIds: ['cat-flower', 'cat-mushroom', 'cat-seedling', 'cat-hidden'],
+    },
+    {
+      id: 'neutral',
+      label: 'Neutral Foundation',
+      description: 'Surfaces, text, and borders establish the product hierarchy.',
+      tokenIds: ['surface-base', 'surface-muted', 'text-primary', 'text-secondary', 'border-soft'],
+    },
+    {
+      id: 'feedback',
+      label: 'Feedback / Overlay',
+      description: 'System feedback and temporary layers remain distinct from content.',
+      tokenIds: ['status-error', 'overlay-scrim'],
+    },
+  ],
   colorTokens: [
     { id: 'primary-action', value: '#111111' },
     { id: 'accent-blue', value: '#0088FF' },

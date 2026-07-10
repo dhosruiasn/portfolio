@@ -129,6 +129,26 @@ export const projects = [
           },
         ],
         systemSnapshot: {
+          colorGroups: [
+            {
+              id: 'brand',
+              label: 'Brand Blues',
+              description: '建立品牌主視覺、商品舞台與深度層次。',
+              tokenNames: ['Goo Blue', 'Poster Blue', 'Deep Blue'],
+            },
+            {
+              id: 'accent',
+              label: 'Accent Colors',
+              description: '用於價格、促銷、角色配件與互動回饋。',
+              tokenNames: ['Goo Yellow', 'Goo Orange', 'Goo Pink'],
+            },
+            {
+              id: 'neutral',
+              label: 'Neutral Foundation',
+              description: '承載紙張感表面、主文字、描邊與陰影。',
+              tokenNames: ['Cream', 'Ink'],
+            },
+          ],
           colors: [
             { name: 'Goo Blue', hex: '#2B7FFF', use: '主品牌底色、互動主按鈕、Prototype hero' },
             { name: 'Poster Blue', hex: '#143DC4', use: '商品購物頁海報底、商品去背融合' },
@@ -271,6 +291,26 @@ export const projects = [
           },
         ],
         systemSnapshot: {
+          colorGroups: [
+            {
+              id: 'brand',
+              label: 'Brand Blues',
+              description: 'Builds the primary brand surface, product stage, and visual depth.',
+              tokenNames: ['Goo Blue', 'Poster Blue', 'Deep Blue'],
+            },
+            {
+              id: 'accent',
+              label: 'Accent Colors',
+              description: 'Supports prices, promotions, character details, and interaction feedback.',
+              tokenNames: ['Goo Yellow', 'Goo Orange', 'Goo Pink'],
+            },
+            {
+              id: 'neutral',
+              label: 'Neutral Foundation',
+              description: 'Defines paper-like surfaces, primary text, outlines, and shadows.',
+              tokenNames: ['Cream', 'Ink'],
+            },
+          ],
           colors: [
             { name: 'Goo Blue', hex: '#2B7FFF', use: 'Primary brand surface, primary interactive button, Prototype hero' },
             { name: 'Poster Blue', hex: '#143DC4', use: 'Shopping-page poster background, product cut-out blending' },
