@@ -190,19 +190,37 @@ export function DesignPrinciplesSection({ items }) {
 
 export function VisualFoundationsSection({ content }) {
   const tokenMap = Object.fromEntries(content.colorTokens.map((token) => [token.id, token.value]));
+  const colorMap = Object.fromEntries(content.colors.map((color) => [color.id, color]));
 
   return (
     <div className="pickmin-foundations">
       <SectionIntro>{content.intro}</SectionIntro>
       <div className="pickmin-foundations__colors">
-        {content.colors.map((item) => (
-          <article className="pickmin-token-card" key={item.id}>
-            <span className="pickmin-token-card__swatch" style={{ background: tokenMap[item.id] }} />
-            <div>
-              <span>{item.group}</span>
-              <h3>{item.name}</h3>
-              <code>{tokenMap[item.id]}</code>
-              <p>{item.usage}</p>
+        {content.colorGroups.map((group) => (
+          <article className={`pickmin-palette-group pickmin-palette-group--${group.id}`} key={group.id}>
+            <header className="pickmin-palette-group__header">
+              <span>{group.label}</span>
+              <p>{group.description}</p>
+            </header>
+            <div className="pickmin-palette-group__tokens">
+              {group.tokenIds.map((tokenId) => {
+                const item = colorMap[tokenId];
+
+                return (
+                  <div className="pickmin-palette-token" key={tokenId}>
+                    <span
+                      className="pickmin-palette-token__swatch"
+                      style={{ background: tokenMap[tokenId] }}
+                      aria-hidden="true"
+                    />
+                    <div className="pickmin-palette-token__copy">
+                      <h3>{item.name}</h3>
+                      <code>{tokenMap[tokenId]}</code>
+                      <p>{item.usage}</p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </article>
         ))}
