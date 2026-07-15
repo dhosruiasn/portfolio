@@ -27,19 +27,8 @@ const DEFAULT_DIGITAL_TUNE = {
   arcControlX: 850,
   flowOrbRx: 460,
   flowOrbRy: 300,
-  flowDuration: 24,
+  flowDuration: 14,
   flowOpacity: 0.9,
-  heroCornerOutX: 1740,
-  heroCornerControlY: 118,
-  heroCornerEndY: 178,
-  heroWallEndY: 930,
-  heroBottomRadius: 210,
-  projectDropY: -80,
-  projectTurnY: 64,
-  projectTurnX: 972,
-  projectArcCenterY: 162,
-  projectExitY: 54,
-  projectFlowHeight: 76,
 };
 
 const DEFAULT_PICKMIN_CARD_TUNE = {
@@ -79,17 +68,6 @@ function DigitalTunePanel({ tune, setTune }) {
     flowOrbRy: tune.flowOrbRy,
     flowDuration: tune.flowDuration,
     flowOpacity: tune.flowOpacity,
-    heroCornerOutX: tune.heroCornerOutX,
-    heroCornerControlY: tune.heroCornerControlY,
-    heroCornerEndY: tune.heroCornerEndY,
-    heroWallEndY: tune.heroWallEndY,
-    heroBottomRadius: tune.heroBottomRadius,
-    projectDropY: tune.projectDropY,
-    projectTurnY: tune.projectTurnY,
-    projectTurnX: tune.projectTurnX,
-    projectArcCenterY: tune.projectArcCenterY,
-    projectExitY: tune.projectExitY,
-    projectFlowHeight: tune.projectFlowHeight,
   };
   const pathPayload = JSON.stringify(arcTune, null, 2);
 
@@ -132,21 +110,8 @@ function DigitalTunePanel({ tune, setTune }) {
       <TuneRow label="控制X" value={tune.arcControlX} min={650} max={1020} step={1} unit="px" onChange={set('arcControlX')} />
       <TuneRow label="光寬" value={tune.flowOrbRx} min={120} max={460} step={2} unit="px" onChange={set('flowOrbRx')} />
       <TuneRow label="光高" value={tune.flowOrbRy} min={70} max={300} step={2} unit="px" onChange={set('flowOrbRy')} />
-      <TuneRow label="秒數" value={tune.flowDuration} min={8} max={48} step={1} unit="s" onChange={set('flowDuration')} />
+      <TuneRow label="單程秒數" value={tune.flowDuration} min={8} max={48} step={1} unit="s" onChange={set('flowDuration')} />
       <TuneRow label="流光" value={tune.flowOpacity} min={0.1} max={1} step={0.05} unit="" onChange={set('flowOpacity')} />
-      <span className="digital-tune__section">Hero 右牆轉角（1672×941）</span>
-      <TuneRow label="外繞X" value={tune.heroCornerOutX} min={1672} max={1840} step={2} unit="px" onChange={set('heroCornerOutX')} />
-      <TuneRow label="控點Y" value={tune.heroCornerControlY} min={50} max={240} step={2} unit="px" onChange={set('heroCornerControlY')} />
-      <TuneRow label="轉直Y" value={tune.heroCornerEndY} min={100} max={360} step={2} unit="px" onChange={set('heroCornerEndY')} />
-      <TuneRow label="牆底Y" value={tune.heroWallEndY} min={500} max={1040} step={5} unit="px" onChange={set('heroWallEndY')} />
-      <TuneRow label="底彎R" value={tune.heroBottomRadius} min={60} max={360} step={5} unit="px" onChange={set('heroBottomRadius')} />
-      <span className="digital-tune__section">作品區路徑（1000×720）</span>
-      <TuneRow label="下降Y" value={tune.projectDropY} min={-80} max={220} step={2} unit="px" onChange={set('projectDropY')} />
-      <TuneRow label="右端Y" value={tune.projectTurnY} min={-40} max={280} step={2} unit="px" onChange={set('projectTurnY')} />
-      <TuneRow label="右端X" value={tune.projectTurnX} min={700} max={980} step={2} unit="px" onChange={set('projectTurnX')} />
-      <TuneRow label="中央Y" value={tune.projectArcCenterY} min={-40} max={360} step={2} unit="px" onChange={set('projectArcCenterY')} />
-      <TuneRow label="左端Y" value={tune.projectExitY} min={-40} max={280} step={2} unit="px" onChange={set('projectExitY')} />
-      <TuneRow label="路徑高" value={tune.projectFlowHeight} min={60} max={150} step={1} unit="vh" onChange={set('projectFlowHeight')} />
       <button
         type="button"
         className="digital-tune__copy"
@@ -216,11 +181,7 @@ export default function DigitalWorks() {
   const raysRef = useRef(null);
   const finalFieldRef = useRef(null);
   const heroFlowRef = useRef(null);
-  const projectFlowRef = useRef(null);
   const heroMotionRef = useRef(null);
-  const projectMotionRef = useRef(null);
-  const projectFlowTimerRef = useRef(null);
-  const projectFlowEndTimerRef = useRef(null);
   const fixtureRef = useRef(null);
   const lampOffRef = useRef(null);
   const lampOnRef = useRef(null);
@@ -255,9 +216,7 @@ export default function DigitalWorks() {
       !raysRef.current ||
       !finalFieldRef.current ||
       !heroFlowRef.current ||
-      !projectFlowRef.current ||
       !heroMotionRef.current ||
-      !projectMotionRef.current ||
       !fixtureRef.current ||
       !lampOffRef.current ||
       !lampOnRef.current ||
@@ -276,37 +235,10 @@ export default function DigitalWorks() {
     }
 
     const ctx = gsap.context(() => {
-      const clearProjectFlowTimer = () => {
-        if (projectFlowTimerRef.current !== null) {
-          window.clearTimeout(projectFlowTimerRef.current);
-          projectFlowTimerRef.current = null;
-        }
-        if (projectFlowEndTimerRef.current !== null) {
-          window.clearTimeout(projectFlowEndTimerRef.current);
-          projectFlowEndTimerRef.current = null;
-        }
-      };
-
-      const startContinuousFlow = () => {
-        clearProjectFlowTimer();
-        heroMotionRef.current?.beginElement();
-
-        // 作品光由 Hero 路徑時間自動交棒，完全不依賴使用者捲動位置。
-        const handoffDelay = Math.max(0, tune.flowDuration * 1000 - 800);
-        projectFlowTimerRef.current = window.setTimeout(() => {
-          projectFlowTimerRef.current = null;
-          projectMotionRef.current?.beginElement();
-          gsap.to(heroFlowRef.current, { opacity: 0, duration: 0.8, ease: 'power2.inOut', overwrite: true });
-          gsap.to(projectFlowRef.current, { opacity: 1, duration: 0.8, ease: 'power2.inOut', overwrite: true });
-          projectFlowEndTimerRef.current = window.setTimeout(() => {
-            projectFlowEndTimerRef.current = null;
-            gsap.to(projectFlowRef.current, { opacity: 0, duration: 0.85, ease: 'power2.out', overwrite: true });
-          }, Math.max(0, tune.flowDuration * 1000 - 850));
-        }, handoffDelay);
-      };
+      const startArcFlow = () => heroMotionRef.current?.beginElement();
 
       rootRef.current.classList.remove('digital-works--lit');
-      gsap.set([lightRef.current, finalFieldRef.current, heroFlowRef.current, projectFlowRef.current, titleRef.current], {
+      gsap.set([lightRef.current, finalFieldRef.current, heroFlowRef.current, titleRef.current], {
         opacity: 0,
       });
       gsap.set(titleRevealRef.current, { WebkitMaskSize: '0% 125%', maskSize: '0% 125%' });
@@ -330,10 +262,9 @@ export default function DigitalWorks() {
         })
         .call(() => {
           lampInteractiveReadyRef.current = false;
-          clearProjectFlowTimer();
           rootRef.current?.classList.remove('digital-works--lit');
         }, null, 0)
-        .set([lightRef.current, finalFieldRef.current, heroFlowRef.current, projectFlowRef.current, titleRef.current], { opacity: 0 }, 0)
+        .set([lightRef.current, finalFieldRef.current, heroFlowRef.current, titleRef.current], { opacity: 0 }, 0)
         .set(titleRevealRef.current, { WebkitMaskSize: '0% 125%', maskSize: '0% 125%' }, 0)
         .set(titleSheenRef.current, { opacity: 0 }, 0)
         .set(fixtureRef.current, { opacity: 0, y: '-56vh', rotation: -8 }, 0)
@@ -356,7 +287,7 @@ export default function DigitalWorks() {
         // 燈亮後牆面空間浮現；整張字圖用單一斜向柔邊 mask 顯影。
         .to(finalFieldRef.current, { opacity: 1, duration: 0.6, ease: 'power2.out' }, 1.62)
         .call(() => rootRef.current?.classList.add('digital-works--lit'), null, 1.7)
-        .call(startContinuousFlow, null, 1.7)
+        .call(startArcFlow, null, 1.7)
         .to(heroFlowRef.current, { opacity: 1, duration: 1.15, ease: 'power2.out' }, 1.72)
         .fromTo(
           titleRef.current,
@@ -386,7 +317,6 @@ export default function DigitalWorks() {
             onEnter: restartIfUnlit,
             onEnterBack: restartIfUnlit,
             onLeaveBack: () => {
-              clearProjectFlowTimer();
               lampInteractiveReadyRef.current = false;
               rootRef.current?.classList.remove('digital-works--lit');
               switchTlRef.current?.pause(0);
@@ -396,13 +326,10 @@ export default function DigitalWorks() {
       // 對齊模式直接停在完整亮燈畫面，控制者不用先觸發捲動時間軸。
       if (SHOW_DIGITAL_EDIT) {
         switchTlRef.current.progress(1);
-        clearProjectFlowTimer();
         gsap.set(heroFlowRef.current, { opacity: 1 });
-        gsap.set(projectFlowRef.current, { opacity: 0 });
       }
 
       return () => {
-        clearProjectFlowTimer();
         rootRef.current?.classList.remove('digital-works--lit');
         trigger?.kill();
       };
@@ -591,30 +518,6 @@ export default function DigitalWorks() {
   const arcControlY = 2 * tune.arcCenterY - (tune.arcLeftY + tune.arcRightY) / 2;
   const arcMidX = tune.arcControlX / 2 + 418;
   const arcCurvePath = `M 0 ${tune.arcLeftY} Q ${tune.arcControlX} ${arcControlY} 1672 ${tune.arcRightY}`;
-  // 光沿弧形抵達右牆後先繞到畫面外側，再以圓角轉向貼牆向下。
-  const bottomRadius = Math.min(tune.heroBottomRadius, tune.heroWallEndY - tune.heroCornerEndY);
-  const bottomTurnStartY = tune.heroWallEndY - bottomRadius;
-  const bottomTurnEndX = 1672 - bottomRadius;
-  const circleBezier = bottomRadius * 0.55228475;
-  const heroFlowPath = `${arcCurvePath} C ${tune.heroCornerOutX} ${tune.arcRightY - 28} 1672 ${tune.heroCornerControlY} 1672 ${tune.heroCornerEndY} L 1672 ${bottomTurnStartY} C 1672 ${bottomTurnStartY + circleBezier} ${bottomTurnEndX + circleBezier} ${tune.heroWallEndY} ${bottomTurnEndX} ${tune.heroWallEndY}`;
-  const projectCornerWidth = 1000 - tune.projectTurnX;
-  const projectCornerHeight = tune.projectTurnY - tune.projectDropY;
-  const projectCornerBezier = 0.55228475;
-  const projectRightSpan = tune.projectTurnX - 500;
-  const projectLeftSpan = 530;
-  const projectArcHandle = 0.36;
-  const projectFlowPath = [
-    `M 1000 -120 L 1000 ${tune.projectDropY}`,
-    `C 1000 ${tune.projectDropY + projectCornerHeight * projectCornerBezier}`,
-    `${tune.projectTurnX + projectCornerWidth * projectCornerBezier} ${tune.projectTurnY}`,
-    `${tune.projectTurnX} ${tune.projectTurnY}`,
-    `C ${tune.projectTurnX - projectRightSpan * projectArcHandle} ${tune.projectTurnY}`,
-    `${500 + projectRightSpan * projectArcHandle} ${tune.projectArcCenterY}`,
-    `500 ${tune.projectArcCenterY}`,
-    `C ${500 - projectLeftSpan * projectArcHandle} ${tune.projectArcCenterY}`,
-    `${-30 + projectLeftSpan * projectArcHandle} ${tune.projectExitY}`,
-    `-30 ${tune.projectExitY}`,
-  ].join(' ');
 
   return (
     <section
@@ -635,7 +538,6 @@ export default function DigitalWorks() {
         '--work-order-card-image-scale': workOrderCardTune.imageScale,
         '--work-order-card-image-x': `${workOrderCardTune.imageX}px`,
         '--work-order-card-image-y': `${workOrderCardTune.imageY}px`,
-        '--project-flow-height': `${tune.projectFlowHeight}vh`,
       }}
     >
       <div className="digital-works__intro">
@@ -678,14 +580,14 @@ export default function DigitalWorks() {
                   <animateMotion
                     ref={heroMotionRef}
                     begin="indefinite"
-                    dur={`${tune.flowDuration}s`}
-                    repeatCount="1"
-                    fill="freeze"
-                    rotate="auto"
+                    dur={`${tune.flowDuration * 2}s`}
+                    repeatCount="indefinite"
+                    rotate="0"
                     calcMode="spline"
-                    keyTimes="0;1"
-                    keySplines="0.42 0 0.2 1"
-                    path={heroFlowPath}
+                    keyPoints="0;1;0"
+                    keyTimes="0;0.5;1"
+                    keySplines="0.45 0 0.55 1;0.45 0 0.55 1"
+                    path={arcCurvePath}
                   />
                 </g>
               </g>
@@ -698,13 +600,10 @@ export default function DigitalWorks() {
                 aria-hidden="true"
               >
                 <g className="digital-works__arc-guide">
-                  <path d={heroFlowPath} />
+                  <path d={arcCurvePath} />
                   <circle cx="0" cy={tune.arcLeftY} r="9" />
                   <circle cx={arcMidX} cy={tune.arcCenterY} r="9" />
                   <circle cx="1672" cy={tune.arcRightY} r="9" />
-                  <circle cx="1672" cy={tune.heroCornerEndY} r="9" />
-                  <circle cx="1672" cy={bottomTurnStartY} r="9" />
-                  <circle cx={bottomTurnEndX} cy={tune.heroWallEndY} r="9" />
                 </g>
               </svg>
             )}
@@ -777,68 +676,6 @@ export default function DigitalWorks() {
       {SHOW_CARD_EDIT && <WorkOrderCardTunePanel tune={workOrderCardTune} setTune={setWorkOrderCardTune} />}
 
       <div className="digital-works__projects">
-        <svg
-          ref={projectFlowRef}
-          className="digital-works__flow digital-works__flow--projects"
-          viewBox="0 0 1000 720"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-        >
-          <g
-            className="digital-works__project-stream"
-            fill="none"
-            strokeDasharray="260 2000"
-            strokeDashoffset="260"
-            opacity={tune.flowOpacity}
-          >
-            <animate
-              ref={projectMotionRef}
-              attributeName="stroke-dashoffset"
-              begin="indefinite"
-              dur={`${tune.flowDuration}s`}
-              from="260"
-              to="-1000"
-              fill="freeze"
-              calcMode="spline"
-              keyTimes="0;1"
-              keySplines="0.42 0 0.2 1"
-            />
-            <path
-              className="digital-works__project-stream-line digital-works__project-stream-line--outer"
-              d={projectFlowPath}
-              pathLength="1000"
-              vectorEffect="non-scaling-stroke"
-            />
-            <path
-              className="digital-works__project-stream-line digital-works__project-stream-line--middle"
-              d={projectFlowPath}
-              pathLength="1000"
-              vectorEffect="non-scaling-stroke"
-            />
-            <path
-              className="digital-works__project-stream-line digital-works__project-stream-line--core"
-              d={projectFlowPath}
-              pathLength="1000"
-              vectorEffect="non-scaling-stroke"
-            />
-          </g>
-        </svg>
-        {SHOW_DIGITAL_EDIT && (
-          <svg
-            className="digital-works__arc-editor digital-works__arc-editor--projects"
-            viewBox="0 0 1000 720"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-          >
-            <g className="digital-works__arc-guide">
-              <path d={projectFlowPath} />
-              <circle cx="1000" cy={tune.projectDropY} r="7" />
-              <circle cx={tune.projectTurnX} cy={tune.projectTurnY} r="7" />
-              <circle cx="500" cy={tune.projectArcCenterY} r="7" />
-              <circle cx="0" cy={tune.projectExitY} r="7" />
-            </g>
-          </svg>
-        )}
         <div className="container digital-works__grid" ref={gridRef}>
           {projects.map((project) => (
             <ProjectCard

@@ -108,11 +108,6 @@
   z-index: 4;
 }
 
-.digital-works__flow--projects {
-  z-index: 1;
-  height: var(--project-flow-height, 100vh);
-}
-
 .digital-works__arc-editor {
   position: absolute;
   inset: 0;
@@ -123,36 +118,8 @@
   pointer-events: none;
 }
 
-.digital-works__arc-editor--projects {
-  height: var(--project-flow-height, 100vh);
-}
-
 .digital-works__flow-orb {
   opacity: 0.9;
-}
-
-.digital-works__project-stream-line {
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  color-interpolation-filters: sRGB;
-}
-
-.digital-works__project-stream-line--outer {
-  stroke: rgba(255, 76, 0, 0.12);
-  stroke-width: 150px;
-  filter: blur(42px);
-}
-
-.digital-works__project-stream-line--middle {
-  stroke: rgba(255, 132, 0, 0.18);
-  stroke-width: 74px;
-  filter: blur(28px);
-}
-
-.digital-works__project-stream-line--core {
-  stroke: rgba(255, 196, 42, 0.19);
-  stroke-width: 30px;
-  filter: blur(18px);
 }
 
 .digital-works__arc-guide path {
@@ -257,9 +224,6 @@
     opacity: 0;
   }
 
-  .digital-works__project-stream {
-    opacity: 0;
-  }
 }
 
 /* 關燈狀態：以 CSS 建立橘紅顆粒玻璃燈罩、切片與攪拌棒，保留參考圖的
