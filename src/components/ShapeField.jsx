@@ -1,18 +1,16 @@
 import { useEffect, useRef } from 'react';
 import Matter from 'matter-js';
 import { useLanguage } from '../context/LanguageContext.jsx';
+import { SHAPE_MATERIALS } from '../data/shapeMaterials.js';
 import '../styles/components/ShapeField.css';
 
-// dusendusen 風配色（圖四參考）
-const PALETTE = {
-  yellow: '#E9C84A',
-  green: '#daef68',
-  red: '#D9533B',
-  blue: '#5B7FBF',
-  purple: '#B3A0D6',
-  pink: '#E89BB8',
-  orange: '#ec5b2b',
-};
+// 圖二材質：深色飽和核心 → 明亮中間色 → 柔亮外緣。
+// 四個配色保留原本藍／紫／橘／綠的識別，但共享同一種發光軟材質。
+const cssMaterial = ([core, deep, mid, edge, glow]) =>
+  `radial-gradient(ellipse at 50% 46%, ${core} 0%, ${deep} 30%, ${mid} 56%, ${edge} 82%, ${glow} 100%)`;
+
+const svgGradient = (id, [core, deep, mid, edge, glow]) =>
+  `<defs><radialGradient id="${id}" gradientUnits="userSpaceOnUse" cx="100" cy="92" r="136"><stop offset="0%" stop-color="${core}"/><stop offset="30%" stop-color="${deep}"/><stop offset="56%" stop-color="${mid}"/><stop offset="82%" stop-color="${edge}"/><stop offset="100%" stop-color="${glow}"/></radialGradient></defs>`;
 
 // 鋸齒星爆
 const starPoints = (spikes, outer, inner, cx, cy) => {
@@ -24,23 +22,23 @@ const starPoints = (spikes, outer, inner, cx, cy) => {
   }
   return pts.join(' ');
 };
-const STAR = (fill) =>
-  `<svg viewBox="0 0 200 200" width="100%" height="100%"><polygon fill="${fill}" points="${starPoints(20, 98, 74, 100, 100)}"/></svg>`;
+const STAR = (material) =>
+  `<svg viewBox="0 0 200 200" width="100%" height="100%">${svgGradient('star-material', material)}<polygon fill="url(#star-material)" points="${starPoints(20, 98, 74, 100, 100)}"/></svg>`;
 
 // 扇貝花形（多個同色圓重疊）
-const FLOWER = (fill) => {
+const FLOWER = (material) => {
   const n = 7;
   const R = 52;
   const pr = 46;
-  let circles = `<circle cx="100" cy="100" r="60" fill="${fill}"/>`;
+  let circles = '<circle cx="100" cy="100" r="60" fill="url(#flower-material)"/>';
   for (let i = 0; i < n; i++) {
     const a = i * ((2 * Math.PI) / n) - Math.PI / 2;
     circles += `<circle cx="${(100 + Math.cos(a) * R).toFixed(1)}" cy="${(
       100 +
       Math.sin(a) * R
-    ).toFixed(1)}" r="${pr}" fill="${fill}"/>`;
+    ).toFixed(1)}" r="${pr}" fill="url(#flower-material)"/>`;
   }
-  return `<svg viewBox="0 0 200 200" width="100%" height="100%">${circles}</svg>`;
+  return `<svg viewBox="0 0 200 200" width="100%" height="100%">${svgGradient('flower-material', material)}${circles}</svg>`;
 };
 
 export default function ShapeField({ floorRef, start = true }) {
@@ -83,10 +81,10 @@ export default function ShapeField({ floorRef, start = true }) {
 
     const defs = [
       // 只保留 4 個標籤 = 4 個大幾何圖形（字在圖形裡）
-      { kind: 'svglabel', className: 'shape--label shape--svglabel', size: 210, svg: STAR, color: PALETTE.blue, fg: '#fff', text: labels[0] }, // 品牌 → 藍星爆
-      { kind: 'rect', className: 'shape--label shape--pill', h: 104, color: PALETTE.purple, fg: '#fff', text: labels[1] }, // UI · 互動
-      { kind: 'rect', className: 'shape--label shape--rect', h: 108, color: PALETTE.orange, fg: '#fff', text: labels[2] }, // VibeCoding
-      { kind: 'svglabel', className: 'shape--label shape--svglabel', size: 210, svg: FLOWER, color: PALETTE.green, fg: '#1A1A1A', text: labels[3] }, // 平面設計 → 扇貝花形(亮綠底深字)
+      { kind: 'svglabel', className: 'shape--label shape--svglabel shape--material', size: 210, svg: STAR, material: SHAPE_MATERIALS.blue, fg: '#fff', text: labels[0] },
+      { kind: 'rect', className: 'shape--label shape--pill shape--material', h: 104, material: SHAPE_MATERIALS.purple, fg: '#f4eaff', text: labels[1] },
+      { kind: 'rect', className: 'shape--label shape--rect shape--material', h: 108, material: SHAPE_MATERIALS.orange, fg: '#fff1df', text: labels[2] },
+      { kind: 'svglabel', className: 'shape--label shape--svglabel shape--material', size: 210, svg: FLOWER, material: SHAPE_MATERIALS.green, fg: '#f0f6cf', text: labels[3] },
     ];
 
     const build = () => {
@@ -118,7 +116,7 @@ export default function ShapeField({ floorRef, start = true }) {
           el.style.width = Math.round(d.size * k) + 'px';
           el.style.height = Math.round(d.size * k) + 'px';
           el.innerHTML =
-            d.svg(d.color) +
+            d.svg(d.material) +
             (d.text ? `<span class="shape__text">${d.text}</span>` : '');
         } else {
           el = makeEl(d.className, d.html);
@@ -129,7 +127,7 @@ export default function ShapeField({ floorRef, start = true }) {
           }
           if (d.w) el.style.width = Math.round(d.w * k) + 'px';
           if (d.h) el.style.height = Math.round(d.h * k) + 'px';
-          if (d.color) el.style.background = d.color;
+          if (d.material) el.style.background = cssMaterial(d.material);
         }
         if (d.fg) el.style.color = d.fg;
 

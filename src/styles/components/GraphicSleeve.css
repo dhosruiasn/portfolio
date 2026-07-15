@@ -1,7 +1,22 @@
 .graphic-sleeve {
   position: relative;
   height: 180vh;
-  background: #6b3415;
+  --graphic-brown: #693413;
+  --graphic-brown-paper:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.1) 0,
+      rgba(255, 255, 255, 0.04) 0.8px,
+      transparent 1.8px,
+      rgba(24, 13, 7, 0.11) 3px,
+      transparent 4.2px
+    ),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1440' height='1440' viewBox='0 0 1440 1440'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.48 .82' numOctaves='3' seed='23'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)' opacity='.32'/%3E%3C/svg%3E");
+  background-color: var(--graphic-brown);
+  background-image: var(--graphic-brown-paper);
+  background-size: 100% 4.2px, cover;
+  background-repeat: repeat, no-repeat;
+  background-blend-mode: soft-light;
 }
 
 .graphic-sleeve__stage {
@@ -9,7 +24,11 @@
   top: 0;
   height: 100vh;
   overflow: hidden;
-  background: #6b3415;
+  background-color: var(--graphic-brown);
+  background-image: var(--graphic-brown-paper);
+  background-size: 100% 4.2px, cover;
+  background-repeat: repeat, no-repeat;
+  background-blend-mode: soft-light;
 }
 
 /* 抽卡後文字孔洞露出的淺色底，只覆蓋文字區，不延伸到卡片下方。 */
@@ -25,9 +44,35 @@
 .graphic-sleeve__card {
   position: absolute;
   inset: 0;
-  background: #6b3415;
+  background-color: var(--graphic-brown);
+  background-image: none;
   z-index: 1;
   clip-path: inset(0% 0% 0% 0%);
+}
+
+/* 抽出卡片是接到 MY BRAND 前最後一塊咖啡色；
+   這裡使用與 BrandSection 完全相同的紙紋合成，避免寬度改變後再出現色差。 */
+.graphic-sleeve__card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.2) 0,
+      rgba(255, 255, 255, 0.08) 0.8px,
+      transparent 1.8px,
+      rgba(32, 21, 12, 0.2) 3px,
+      transparent 4.2px
+    ),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1440' height='1440' viewBox='0 0 1440 1440'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.48 .82' numOctaves='3' seed='17'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)' opacity='.82'/%3E%3C/svg%3E");
+  background-size: 100% 4.2px, cover;
+  background-repeat: repeat, no-repeat;
+  background-blend-mode: soft-light;
+  mix-blend-mode: soft-light;
+  opacity: 0.42;
+  filter: contrast(1.32) brightness(1.06);
 }
 
 /* 橘色紙套（袋口 86vh，底部留一小段深色卡條） */

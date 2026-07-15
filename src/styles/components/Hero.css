@@ -1,15 +1,95 @@
 .hero {
   position: relative;
+  isolation: isolate;
   height: 100vh;
   /* 舊 iOS（<15.4，不認 svh）用 -webkit-fill-available 扣掉工具列 */
   height: -webkit-fill-available;
   /* iOS Safari 工具列會蓋住 100vh 底部（名字釘在 bottom），svh 以最小可視高度計 */
   height: 100svh;
-  background: #fff573;
+  /* WebGL 不可用時的 fallback，與 shader 的暖橘至深棕黑漸層一致 */
+  background: linear-gradient(180deg, #ffd19a 0%, #e8490a 46%, #4a120a 72%, #2a0d08 100%);
   overflow: hidden;
   padding: 76px 40px 28px;
   user-select: none;
   -webkit-user-select: none;
+}
+
+/* 動態液體背景（WebGL canvas，邏輯見 HeroFluid.jsx）：這裡只管定位鋪滿 hero 底層 */
+.hero__mesh {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* 真正的毛玻璃層：shader 下層做柱鏡折射，這一層一次性模糊整張背景，
+   16 個 column 只負責玻璃厚度、內側反光與髮絲接縫，避免重複 backdrop blur。 */
+.hero__glass {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(16, minmax(0, 1fr));
+  overflow: hidden;
+  pointer-events: none;
+  background: rgba(255, 126, 48, 0.018);
+  -webkit-backdrop-filter: blur(14px) saturate(0.94);
+  backdrop-filter: blur(14px) saturate(0.94);
+}
+
+.hero__glass-column {
+  position: relative;
+  min-width: 0;
+  border-left: 1px solid rgba(255, 149, 70, 0.18);
+  /* 光從左側掠過圓柱：左緣微亮、中央近乎透明、右側才慢慢轉暗。
+     不再在每柱中央放一條白色高光，避免條碼感。 */
+  background:
+    linear-gradient(
+      180deg,
+      transparent 0%,
+      transparent 86%,
+      rgba(255, 239, 220, 0.018) 94%,
+      rgba(255, 246, 232, 0.11) 99.4%,
+      rgba(255, 252, 243, 0.24) 100%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 160, 78, 0.100) 0%,
+      rgba(255, 116, 42, 0.030) 16%,
+      rgba(255, 92, 28, 0.004) 43%,
+      rgba(150, 42, 27, 0.020) 68%,
+      rgba(92, 24, 18, 0.080) 92%,
+      rgba(255, 119, 43, 0.040) 100%
+    );
+  box-shadow:
+    inset 6px 0 12px -10px rgba(255, 166, 82, 0.30),
+    inset -9px 0 14px -10px rgba(92, 24, 18, 0.16),
+    inset 0 0 16px rgba(255, 105, 34, 0.010),
+    inset 0 1px 0 rgba(255, 149, 70, 0.18),
+    inset 0 -1px 0 rgba(255, 239, 224, 0.32),
+    inset 0 -16px 24px -27px rgba(255, 247, 233, 0.5),
+    inset 0 -11px 18px -22px rgba(77, 25, 17, 0.36);
+}
+
+.hero__glass-column:last-child {
+  border-right: 1px solid rgba(255, 149, 70, 0.18);
+}
+
+/* 細顆粒只覆蓋背景與玻璃，不污染前景圖形／名字；SVG turbulence 會被瀏覽器
+   先光柵化成小 tile，比 shader 每幀重新算噪點穩定且省 GPU。 */
+.hero__glass::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.15;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.62'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 160px 160px;
 }
 
 .hero__pixel-mask {
@@ -53,10 +133,90 @@
   display: flex;
   align-items: flex-start;
   transform-origin: left bottom;
+  /* 退場 parallax（yPercent+scale scrub）每幀變 transform，先固定在合成層 */
+  will-change: transform;
 }
 
 .hero__name-text {
-  color: #1A1A1A;
+  color: #fff1d2;
+}
+
+/* 流體碰到名字的互動（clone + background-clip:text）：blob／游標液滴的熱點
+   radial-gradient 由 JS 每幀寫進 background-image（透明度＝熱度），只顯示在字形內
+   ＝「流體從字裡透出來」；drop-shadow 沿著實際亮起的局部字形發光。
+   char span 帶 inline 黑色 → 用 !important 蓋成透明。 */
+.hero__name-fluid {
+  position: absolute;
+  /* 盒子四周外擴 0.4em（負位移＋等量 padding，字形原位不動）：
+     mask 會被元素盒硬切，貼著字底的盒緣切線經 drop-shadow 暈開
+     就是「文字底下一條切線」的 bug */
+  left: -0.4em;
+  top: -0.4em;
+  padding: 0.4em;
+  opacity: 0;
+  pointer-events: none;
+  color: transparent !important;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  /* 多顆軟密度場以 source-over/add 疊加；交界 alpha 連續增強，視覺上會融合，
+     不會留下五個橢圓各自切出的硬角。 */
+  -webkit-mask-composite: source-over;
+  mask-composite: add;
+  /* 不可加 SVG displacement filter（曾用 #hero-fluid-warp）：位移發生在
+     background-clip:text 裁切之後，亮起的字形碎片會被推出白字輪廓外＝破圖 */
+  filter:
+    drop-shadow(0 0 0.012em rgba(255, 35, 10, 0.94))
+    drop-shadow(0 0 0.045em rgba(255, 76, 14, 0.68))
+    drop-shadow(0 0 0.09em rgba(255, 157, 39, 0.30));
+  will-change: opacity, background-image, filter;
+}
+
+.hero__name-fluid .hero__name-char {
+  color: transparent !important;
+}
+
+/* 斜光掃過 hero 時同步出現在字面上的鏡面反射。位置由 Hero.jsx 以 fluidSim
+   的同一個 8 秒時鐘更新；亮帶以斜角切過，而不是整個字一起變亮。 */
+.hero__name-light {
+  position: absolute;
+  inset: -0.4em;
+  padding: 0.4em;
+  z-index: 2;
+  pointer-events: none;
+  color: transparent !important;
+  background-image: linear-gradient(
+    108deg,
+    transparent 0%,
+    transparent 39%,
+    rgba(255, 123, 42, 0.08) 43%,
+    rgba(255, 205, 125, 0.56) 46.5%,
+    rgba(255, 250, 220, 0.98) 49.5%,
+    rgba(255, 171, 76, 0.68) 52%,
+    transparent 57%,
+    transparent 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 310% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  /* 不可加 mix-blend-mode（曾用 screen）：與底下 .hero__glass 的
+     backdrop-filter 疊加會在元素矩形邊界產生可見接縫 */
+  filter:
+    drop-shadow(0 0 0.025em rgba(255, 228, 164, 0.55))
+    drop-shadow(0 0 0.08em rgba(231, 87, 22, 0.28));
+  will-change: background-position;
+}
+
+.hero__name-light .hero__name-char {
+  color: transparent !important;
+}
+
+/* 手機版 .hero__name-text::after 會補 ®，clone 不要再畫一次 */
+.hero__name-fluid::after,
+.hero__name-light::after {
+  content: none !important;
 }
 
 .hero__name-char {
@@ -74,6 +234,15 @@
 @media (max-width: 768px) {
   .hero {
     padding: 60px 20px 24px;
+  }
+  .hero__glass {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+  .hero__glass-column:nth-child(n + 9) {
+    display: none;
+  }
+  .hero__glass-column:nth-child(8) {
+    border-right: 1px solid rgba(255, 149, 70, 0.18);
   }
   .hero__ascii {
     /* 滿版置中緊貼 marquee（60px）下緣：寬度撐滿螢幕（維持 640/820 比例）。

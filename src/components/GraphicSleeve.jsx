@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { assetPath } from '../utils/assetPath.js';
 import '../styles/components/GraphicSleeve.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -8,6 +9,8 @@ gsap.registerPlugin(ScrollTrigger);
 const NOTCH_R = 34;
 const BOLD_SWEEP_DURATION = 1500;
 const BOLD_SWEEP_PAUSE = 80;
+const PAPER_ORANGE = '#f36c3d';
+const GRAPHIC_PATTERN_SRC = '/images/graphic/graphic-pattern-paper-user.webp';
 
 export default function GraphicSleeve() {
   const sectionRef = useRef(null);
@@ -25,7 +28,17 @@ export default function GraphicSleeve() {
     let cancelled = false;
     let frameId = 0;
     let metrics = null;
+    let patternReady = false;
+    const patternImage = new Image();
     const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
+    const drawPatternImage = ({ W, H }) => {
+      if (!patternReady) return;
+      const scale = Math.max(W / patternImage.naturalWidth, H / patternImage.naturalHeight);
+      const width = patternImage.naturalWidth * scale;
+      const height = patternImage.naturalHeight * scale;
+      ctx.drawImage(patternImage, (W - width) / 2, (H - height) / 2, width, height);
+    };
 
     const drawTextMask = (layout, offsetX = 0, offsetY = 0) => {
       const { W, H, fs, portrait } = layout;
@@ -41,8 +54,9 @@ export default function GraphicSleeve() {
       if (!metrics) return;
       const { W, H, fs } = metrics;
       ctx.clearRect(0, 0, W, H);
-      ctx.fillStyle = '#ec5b2b';
+      ctx.fillStyle = PAPER_ORANGE;
       ctx.fillRect(0, 0, W, H);
+      drawPatternImage(metrics);
 
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
@@ -89,6 +103,13 @@ export default function GraphicSleeve() {
       if (!reduceMotion) frameId = window.requestAnimationFrame(animate);
     };
 
+    patternImage.onload = () => {
+      if (cancelled) return;
+      patternReady = true;
+      drawFrame(window.performance.now());
+    };
+    patternImage.src = assetPath(GRAPHIC_PATTERN_SRC);
+
     const setup = async () => {
       window.cancelAnimationFrame(frameId);
       const W = wrap.clientWidth;
@@ -110,7 +131,7 @@ export default function GraphicSleeve() {
       canvas.style.height = H + 'px';
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, W, H);
-      ctx.fillStyle = '#ec5b2b';
+      ctx.fillStyle = PAPER_ORANGE;
       ctx.fillRect(0, 0, W, H);
 
       // 盡量放大，但 GRAPHIC 若超寬就自動縮到剛好置中不裁切

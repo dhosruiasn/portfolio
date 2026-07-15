@@ -4,7 +4,6 @@ import { useLanguage } from './context/LanguageContext.jsx';
 import { assetPath } from './utils/assetPath.js';
 import { projects } from './data/projects.js';
 import LoadingBlinds from './components/LoadingBlinds.jsx';
-import Marquee from './components/Marquee.jsx';
 import Hero from './components/Hero.jsx';
 import Nav from './components/Nav.jsx';
 import BrandNameTransition from './components/BrandNameTransition.jsx';
@@ -18,11 +17,14 @@ import Footer from './components/Footer.jsx';
 // 幾十張圖＋所有專案影片會把首屏拖垮（連 43K 的燈罩都排隊），其餘一律延後背景載入。
 const HERO_CRITICAL_ASSETS = [
   '/images/hero-character.png',
-  '/images/graphic/digital-work/light.png',
   '/images/graphic/digital-work/arrow-left.png',
   '/images/graphic/digital-work/arrow-right.png',
-  '/images/graphic/digital-work/light-shade.png',
-  '/images/graphic/digital-work/light-cord.png',
+  '/images/graphic/digital-work/digital-lamp-off-nochain.png',
+  '/images/graphic/digital-work/digital-lamp-on-nochain.png',
+  '/images/graphic/digital-work/digital-lamp-chain-off.png',
+  '/images/graphic/digital-work/digital-lamp-chain-on.png',
+  '/images/graphic/digital-work/digital-works-title-white.png',
+  '/images/graphic/digital-work/digital-grain-v1.jpg',
 ];
 
 // 進場結束後在 idle 背景預載（brand section、專案 poster、CV 照…），不搶首屏頻寬。
@@ -48,7 +50,7 @@ const DEFERRED_CRITICAL_ASSETS = [
   '/images/graphic/brand-section/star-6.png',
   '/images/graphic/brand-section/star-7.png',
   '/images/graphic/brand-section/star-8.png',
-  '/images/about/cv Portrait.jpg',
+  '/images/about/cv Portrait.optimized.png',
 ];
 
 function addAsset(assets, src) {
@@ -107,18 +109,40 @@ export default function App() {
   const [introDone, setIntroDone] = useState(false);
   const [criticalAssetsReady, setCriticalAssetsReady] = useState(false);
 
-  const scrollToCurrentHash = useCallback(() => {
-    const hash = window.location.hash.replace(/^#/, '');
+  const scrollToHash = useCallback((rawHash) => {
+    const hash = rawHash.replace(/^#/, '');
     if (!hash) return;
     const target = document.getElementById(decodeURIComponent(hash));
     if (!target) return;
-    const top = target.getBoundingClientRect().top + window.scrollY;
-    window.scrollTo({ top, behavior: 'auto' });
-    requestAnimationFrame(() => {
+    ScrollTrigger.refresh();
+    const scrollNow = () => {
+      const scroller = document.scrollingElement || document.documentElement;
+      const currentTop = scroller.scrollTop || window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      const top = target.getBoundingClientRect().top + currentTop;
+      scroller.scrollTop = top;
+      document.documentElement.scrollTop = top;
+      document.body.scrollTop = top;
       window.scrollTo({ top, behavior: 'auto' });
-      ScrollTrigger.refresh();
+    };
+    scrollNow();
+    requestAnimationFrame(() => {
+      scrollNow();
     });
   }, []);
+
+  const scrollToCurrentHash = useCallback(() => {
+    scrollToHash(window.location.hash);
+  }, [scrollToHash]);
+
+  const handleNavigate = useCallback((href) => {
+    const hash = href.replace(/^#/, '');
+    if (!hash) return;
+    const nextHash = `#${hash}`;
+    if (window.location.hash !== nextHash) {
+      window.history.pushState(null, '', nextHash);
+    }
+    [0, 80, 240, 520].forEach((delay) => window.setTimeout(() => scrollToHash(hash), delay));
+  }, [scrollToHash]);
 
   const handleIntroDone = useCallback(() => {
     setIntroDone(true);
@@ -205,9 +229,8 @@ export default function App() {
   return (
     <div lang={htmlLang}>
       <LoadingBlinds ready={criticalAssetsReady} onDone={handleIntroDone} />
-      <Marquee heroRef={heroRef} />
       <Hero ref={heroRef} started={introDone} />
-      <Nav heroRef={heroRef} />
+      <Nav heroRef={heroRef} onNavigate={handleNavigate} />
       <BrandNameTransition />
 
       <DigitalWorks />

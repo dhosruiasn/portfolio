@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useLanguage } from '../context/LanguageContext.jsx';
 import '../styles/components/Nav.css';
 
@@ -10,10 +10,40 @@ const MENU_ITEMS = [
   { href: '#contact', label: 'CONTACT' },
 ];
 
-export default function Nav({ heroRef }) {
+export default function Nav({ heroRef, onNavigate }) {
   const { lang, setLang } = useLanguage();
   const [visible, setVisible] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const scrollToHref = useCallback((href) => {
+    const hash = href.replace(/^#/, '');
+    const target = hash ? document.getElementById(decodeURIComponent(hash)) : null;
+    if (!target) return;
+    const scrollNow = () => {
+      const scroller = document.scrollingElement || document.documentElement;
+      const currentTop = scroller.scrollTop || window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      const top = target.getBoundingClientRect().top + currentTop;
+      scroller.scrollTop = top;
+      document.documentElement.scrollTop = top;
+      document.body.scrollTop = top;
+      window.scrollTo({ top, behavior: 'auto' });
+    };
+    const nextHash = `#${hash}`;
+    if (window.location.hash !== nextHash) {
+      window.history.pushState(null, '', nextHash);
+    }
+    scrollNow();
+    [0, 80, 240, 520].forEach((delay) => window.setTimeout(scrollNow, delay));
+  }, []);
+
+  const handleNavClick = useCallback((event) => {
+    const href = event.currentTarget.getAttribute('href');
+    if (!href?.startsWith('#')) return;
+    event.preventDefault();
+    setMenuOpen(false);
+    scrollToHref(href);
+    onNavigate?.(href);
+  }, [onNavigate, scrollToHref]);
 
   useEffect(() => {
     const heroEl = heroRef?.current;
@@ -80,14 +110,14 @@ export default function Nav({ heroRef }) {
             </svg>
           )}
         </button>
-        <a href="#digital-works" className="nav__link">
+        <a href="#digital-works" className="nav__link" onClick={handleNavClick}>
           WORKS
         </a>
-        <a href="#hero" className="nav__brand" aria-label="Back to top">
+        <a href="#hero" className="nav__brand" aria-label="Back to top" onClick={handleNavClick}>
           DORIS KAO
         </a>
         <div className="nav__right">
-          <a href="#about" className="nav__link">
+          <a href="#about" className="nav__link" onClick={handleNavClick}>
             ABOUT
           </a>
           <div className="nav__language" aria-label="Language selection">
@@ -116,7 +146,7 @@ export default function Nav({ heroRef }) {
       {menuOpen && (
         <div className="nav__menu">
           {MENU_ITEMS.map((item) => (
-            <a key={item.href} href={item.href} className="nav__menu-link" onClick={() => setMenuOpen(false)}>
+            <a key={item.href} href={item.href} className="nav__menu-link" onClick={handleNavClick}>
               {item.label}
             </a>
           ))}

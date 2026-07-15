@@ -11,10 +11,55 @@ export default function ProjectCard({ project, onOpen, onPrepareOpen, isOpening 
   const isVideo = project.mediaType === 'video';
   const shouldPrimeVideo = isVideo && PRIORITY_CARD_VIDEO_IDS.has(project.id);
   const shouldPlayAhead = isVideo && AUTOPLAY_AHEAD_VIDEO_IDS.has(project.id);
+  const cardRef = useRef(null);
   const videoRef = useRef(null);
   const isInViewRef = useRef(shouldPlayAhead);
   const [shouldLoadVideo, setShouldLoadVideo] = useState(shouldPrimeVideo);
   const [videoReady, setVideoReady] = useState(false);
+
+  const hideCardGlow = (event) => {
+    event.currentTarget.style.setProperty('--project-card-glow-opacity', '0');
+  };
+
+  const showKeyboardGlow = (event) => {
+    const card = event.currentTarget;
+    if (!card.matches(':focus-visible')) return;
+
+    card.style.setProperty('--project-card-glow-x', '50%');
+    card.style.setProperty('--project-card-glow-y', '50%');
+    card.style.setProperty('--project-card-glow-opacity', '1');
+  };
+
+  useEffect(() => {
+    const syncPointer = (event) => {
+      if (!cardRef.current) return;
+
+      const card = cardRef.current;
+      if (event.pointerType === 'touch') {
+        card.style.setProperty('--project-card-glow-opacity', '0');
+        return;
+      }
+
+      const rect = card.getBoundingClientRect();
+
+      card.style.setProperty('--project-card-glow-x', `${event.clientX - rect.left}px`);
+      card.style.setProperty('--project-card-glow-y', `${event.clientY - rect.top}px`);
+      card.style.setProperty('--project-card-glow-opacity', '1');
+    };
+
+    const hidePointerGlow = () => {
+      cardRef.current?.style.setProperty('--project-card-glow-opacity', '0');
+    };
+
+    document.addEventListener('pointermove', syncPointer, { passive: true });
+    document.documentElement.addEventListener('pointerleave', hidePointerGlow);
+    window.addEventListener('blur', hidePointerGlow);
+    return () => {
+      document.removeEventListener('pointermove', syncPointer);
+      document.documentElement.removeEventListener('pointerleave', hidePointerGlow);
+      window.removeEventListener('blur', hidePointerGlow);
+    };
+  }, []);
 
   // 重要作品先掛 src；Pickmin 允許還沒滑到前先 muted play，避免進場時像沒載入。
   useEffect(() => {
@@ -70,10 +115,16 @@ export default function ProjectCard({ project, onOpen, onPrepareOpen, isOpening 
       }}
     >
       <button
+        ref={cardRef}
         className="project-card__media"
+        data-glow
+        onFocus={showKeyboardGlow}
+        onBlur={hideCardGlow}
         onPointerDown={() => onPrepareOpen?.(project)}
         onClick={() => onOpen(project)}
       >
+        <span className="project-card__glow" data-glow aria-hidden="true" />
+        <span className="project-card__spotlight" aria-hidden="true" />
         <div className="project-card__flip">
           {/* 預設背面：橘色 */}
           <div className="project-card__face project-card__back">

@@ -11,8 +11,25 @@ import '../styles/components/BrandSection.css';
 gsap.registerPlugin(ScrollTrigger);
 
 const BASE = 'images/graphic/brand-section';
+const GPU_CROP_BASE = `${BASE}/gpu-crops`;
+const DOT_DOG_V2_SPRITESHEET = `${BASE}/dot-dog-v2/spritesheet-row.png`;
+const DOT_DOG_V3_SPRITESHEET = `${BASE}/dot-dog-v3/spritesheet-row.png`;
 const POSTER_BASE = 'images/graphic/poster';
 const STARS = [1, 2, 3, 4, 5, 6, 7, 8];
+const STAGE_CANVAS = { width: 3840, height: 2160 };
+const STAR_BOUNDS = {
+  1: { x: 491, y: 817, w: 192, h: 181 },
+  2: { x: 143, y: 1101, w: 125, h: 129 },
+  3: { x: 210, y: 1524, w: 276, h: 262 },
+  4: { x: 2507, y: 145, w: 287, h: 273 },
+  5: { x: 3502, y: 244, w: 107, h: 111 },
+  6: { x: 3175, y: 544, w: 184, h: 191 },
+  7: { x: 3149, y: 1624, w: 187, h: 190 },
+  8: { x: 3586, y: 1173, w: 150, h: 145 },
+};
+const BUBBLE_BOUNDS = { x: 2445, y: 930, w: 945, h: 522 };
+const DOOR_BOUNDS = { x: 1677, y: 1214, w: 486, h: 771 };
+const SIGNAGE_BOUNDS = { x: 1336, y: 859, w: 1168, h: 260 };
 const POSTERS = [
   {
     id: 'mirror',
@@ -58,9 +75,18 @@ const params = typeof window !== 'undefined' ? new URLSearchParams(window.locati
 const SHOW_GRID = import.meta.env.DEV && !!params && params.has('grid');
 const SHOW_EDIT = import.meta.env.DEV && !!params && params.has('edit');
 const SHOW_OVERLAY = import.meta.env.DEV && !!params && params.has('overlay'); // dev：直接開門後拼貼頁預覽
-const DOOR_HINGE = '43.67% 74.05%';
+const DOOR_HINGE = 'left center';
 const COLLAGE_HASH = 'mybrand';
 const COLLAGE_HASH_ALIASES = new Set([COLLAGE_HASH, 'my-brand', 'brand-collage']);
+
+function cropStyle({ x, y, w, h }, offset = { x: 0, y: 0 }) {
+  return {
+    left: `calc(${(x / STAGE_CANVAS.width) * 100}% + ${offset.x || 0}%)`,
+    top: `calc(${(y / STAGE_CANVAS.height) * 100}% + ${offset.y || 0}%)`,
+    width: `${(w / STAGE_CANVAS.width) * 100}%`,
+    height: `${(h / STAGE_CANVAS.height) * 100}%`,
+  };
+}
 
 function getCurrentHashId() {
   if (typeof window === 'undefined') return '';
@@ -100,6 +126,9 @@ const DEFAULT_TUNE = {
   glowTop: 65,
   glowW: 12,
   glowH: 18,
+  dogX: 0.1,
+  dogY: -1.7,
+  dogSize: 10.5,
   mobileStageWidth: 248,
   mobileBrandLeft: 4,
   mobileBrandTop: 15, // 原 9.5 太貼 nav、下方留白過多（使用者回饋）
@@ -116,6 +145,9 @@ const DEFAULT_TUNE = {
   mobileSignX: 0,
   mobileSignY: 0,
   mobileSignScale: 1,
+  mobileDogX: 0.1,
+  mobileDogY: -5.8,
+  mobileDogSize: 31.8,
   stars: {
     1: { x: 0, y: 0 },
     2: { x: 0, y: 0 },
@@ -138,8 +170,10 @@ export default function BrandSection() {
   const rootRef = useRef(null);
   const posterRef = useRef(null);
   const brandRef = useRef(null);
+  const dogJumperRef = useRef(null);
   const [tune, setTune] = useState(DEFAULT_TUNE);
   const [lit, setLit] = useState(openFromUrl); // 燈是否亮（招牌＋螢幕）
+  const [dogActive, setDogActive] = useState(openFromUrl);
   const [doorOpen, setDoorOpen] = useState(openFromUrl);
   const [overlayOpen, setOverlayOpen] = useState(openFromUrl);
   const isEnteringRef = useRef(false);
@@ -158,26 +192,41 @@ export default function BrandSection() {
       const houseParts = setIf('.bs-house, .bs-chimney, .bs-door-inside, .bs-door-closed', { opacity: 0 });
       const awning = setIf('.bs-awning', { opacity: 0, y: '-4%' });
       const signCharacter = setIf('.bs-sign-character', { opacity: 0, x: '-5%' });
-      const signage = setIf('.bs-signage', { opacity: 0.3, filter: 'brightness(0.45)' });
+      const signage = setIf('.bs-signage', { opacity: 0.3 });
       const stars = setIf('.bs-star', { opacity: 0 });
       const desc = setIf('.bs-desc', { opacity: 0 });
       setIf('.bs-bg', { opacity: 1 });
-      setIf('.bs-door-solid', { opacity: 0, rotationY: 0, transformOrigin: 'left center' });
+      setIf('.bs-door-solid', { opacity: 0, rotationY: 0, transformPerspective: 900, transformOrigin: 'left center' });
       setIf('.bs-screen-glow', { opacity: 0 }); // 螢幕先暗
       setIf('.bs-brand__title', { opacity: 0 });
-      setIf('.bs-bubble', { opacity: 0, scale: 0, transformOrigin: 'center center' });
+      setIf('.bs-bubble-crop', { opacity: 0, scale: 0, transformOrigin: 'center center' });
 
       const tl = gsap.timeline({
         scrollTrigger: { trigger: rootRef.current, start: 'top 78%', once: true },
       });
+      tl.add(() => setDogActive(true), 0);
 
       if (houseParts.length) tl.to(houseParts, { opacity: 1, duration: 0.4 }, 0);
-      if (awning.length) tl.to(awning, { opacity: 1, y: '0%', duration: 0.3 }, 0.2);
-      if (signCharacter.length) tl.to(signCharacter, { opacity: 1, x: '0%', duration: 0.3 }, 0.3);
+      if (awning.length) {
+        tl.to(awning, {
+          opacity: 1,
+          y: '0%',
+          duration: 0.3,
+          onComplete: () => gsap.set(awning, { clearProps: 'transform' }),
+        }, 0.2);
+      }
+      if (signCharacter.length) {
+        tl.to(signCharacter, {
+          opacity: 1,
+          x: '0%',
+          duration: 0.3,
+          onComplete: () => gsap.set(signCharacter, { clearProps: 'transform' }),
+        }, 0.3);
+      }
       if (signage.length) {
         tl
         // 招牌只是「出現」，仍維持暗（不亮）
-          .to(signage, { opacity: 1, duration: 0.4 }, 0.4);
+          .to(signage, { opacity: 0.55, duration: 0.4 }, 0.4);
       }
       if (stars.length) tl.to(stars, { opacity: 1, duration: 0.3, stagger: 0.12 }, 0.5);
       tl.add(() => {
@@ -188,6 +237,7 @@ export default function BrandSection() {
         }
       }, 1.2);
       if (desc.length) tl.to(desc, { opacity: 1, duration: 0.4 }, 1.5);
+      tl.add(() => rootRef.current?.classList.add('is-static-scene-ready'), 1.9);
     }, rootRef.current);
     return () => ctx.revert();
   }, []);
@@ -258,20 +308,18 @@ export default function BrandSection() {
       const q = (selector) => Array.from(rootRef.current?.querySelectorAll(selector) || []);
       const signage = q('.bs-signage');
       const screenGlow = q('.bs-screen-glow');
-      const bubble = q('.bs-bubble');
+      const bubble = q('.bs-bubble-crop');
       const doorClosed = q('.bs-door-closed');
 
       if (signage.length) {
         gsap.to(signage, {
           opacity: 1,
-          filter: 'brightness(1.2) drop-shadow(0 0 10px rgba(255,165,0,0.6))',
           duration: 0.6,
         });
       }
       if (screenGlow.length) gsap.to(screenGlow, { opacity: 1, duration: 0.5 });
       if (bubble.length) {
         gsap.to(bubble, { opacity: 1, scale: 1, ease: 'back.out(1.7)', duration: 0.4, delay: 0.3 });
-        // 泡泡以中心為圓心、左右對稱擺盪（−3°↔+3°）
         gsap.fromTo(
           bubble,
           { rotation: -3 },
@@ -286,10 +334,10 @@ export default function BrandSection() {
           }
         );
       }
-      // 門「半開又合上」反覆示意，提示可點擊進入
       if (doorClosed.length) {
         gsap.to(doorClosed, {
           rotationY: -14,
+          transformPerspective: 900,
           transformOrigin: DOOR_HINGE,
           duration: 0.8,
           repeat: -1,
@@ -307,7 +355,7 @@ export default function BrandSection() {
     const ctx = gsap.context(() => {
       if (doorOpen) {
         const q = (selector) => Array.from(rootRef.current?.querySelectorAll(selector) || []);
-        const bubble = q('.bs-bubble');
+        const bubble = q('.bs-bubble-crop');
         const doorClosed = q('.bs-door-closed');
         const doorSolid = q('.bs-door-solid');
         const tl = gsap.timeline({
@@ -331,9 +379,10 @@ export default function BrandSection() {
         if (doorSolid.length) {
           tl.fromTo(
             doorSolid,
-            { opacity: 1, rotationY: 0 },
+            { opacity: 1, rotationY: 0, transformPerspective: 900 },
             {
               rotationY: -96,
+              transformPerspective: 900,
               opacity: 1,
               duration: 0.7,
               ease: 'power2.inOut',
@@ -434,6 +483,24 @@ export default function BrandSection() {
     setDoorOpen(true);
   };
 
+  const handleDogJump = () => {
+    const jumper = dogJumperRef.current;
+    if (!jumper || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const facing = jumper.querySelector('.bs-road-dog__facing');
+    const facingMatrix = facing ? new DOMMatrixReadOnly(getComputedStyle(facing).transform) : null;
+    const tailIsOnLeft = !facingMatrix || facingMatrix.a > 0;
+    const jumpPeak = Math.round((72 + Math.random() * 46) * 10) / 10;
+    const jumpReturnHeight = Math.round(jumpPeak * 0.82 * 10) / 10;
+    jumper.style.setProperty('--jump-peak', `${-jumpPeak}%`);
+    jumper.style.setProperty('--jump-return-height', `${-jumpReturnHeight}%`);
+    jumper.style.setProperty('--jump-rotate', tailIsOnLeft ? '30deg' : '-30deg');
+    jumper.style.setProperty('--jump-return-rotate', tailIsOnLeft ? '18deg' : '-18deg');
+    jumper.classList.remove('is-jumping');
+    // 只在點擊時強制重新計算，讓連續點擊也能從頭播放跳躍。
+    void jumper.offsetWidth;
+    jumper.classList.add('is-jumping');
+  };
+
   const handleOverlayClose = () => {
     if (isCollageUrl()) {
       if (pushedCollageHashRef.current) {
@@ -466,6 +533,10 @@ export default function BrandSection() {
     '--glow-top': `${tune.glowTop}%`,
     '--glow-w': `${tune.glowW}%`,
     '--glow-h': `${tune.glowH}%`,
+    '--dog-x': `${tune.dogX}%`,
+    '--dog-y': `${tune.dogY}%`,
+    '--dog-size': `${tune.dogSize}vw`,
+    '--static-scene': `url("${assetPath(`${GPU_CROP_BASE}/static-scene.png`)}")`,
     '--mobile-stage-width': `${tune.mobileStageWidth}vw`,
     '--mobile-brand-left': `${tune.mobileBrandLeft}%`,
     '--mobile-brand-top': `${tune.mobileBrandTop}%`,
@@ -482,6 +553,9 @@ export default function BrandSection() {
     '--mobile-sign-x': `${tune.mobileSignX}%`,
     '--mobile-sign-y': `${tune.mobileSignY}%`,
     '--mobile-sign-scale': tune.mobileSignScale,
+    '--mobile-dog-x': `${tune.mobileDogX}%`,
+    '--mobile-dog-y': `${tune.mobileDogY}%`,
+    '--mobile-dog-size': `${tune.mobileDogSize}vw`,
   };
 
   return (
@@ -490,39 +564,99 @@ export default function BrandSection() {
         <span className="brand-section__anchor" id={COLLAGE_HASH} aria-hidden="true" />
         <div className="brand-section__sticky">
           <div className="brand-section__stage">
-          <img className="bs-layer bs-bg" src={assetPath(`${BASE}/BG.png`)} alt="" />
-          <img className="bs-layer bs-house" src={assetPath(`${BASE}/house-body.png`)} alt="" />
-          <img className="bs-layer bs-chimney" src={assetPath(`${BASE}/chimney.png`)} alt="" />
-          <img className="bs-layer bs-door-inside" src={assetPath(`${BASE}/door-inside.png`)} alt="" />
+          <img className="bs-layer bs-static-part bs-bg" src={assetPath(`${BASE}/BG.png`)} alt="" />
+          <img className="bs-layer bs-static-part bs-house" src={assetPath(`${BASE}/house-body.png`)} alt="" />
+          <img className="bs-layer bs-static-part bs-chimney" src={assetPath(`${BASE}/chimney.png`)} alt="" />
+          <img className="bs-layer bs-static-part bs-door-inside" src={assetPath(`${BASE}/door-inside.png`)} alt="" />
           <div className="bs-door-solid" aria-hidden="true" />
-          <img
-            className="bs-layer bs-door-closed"
-            src={assetPath(`${BASE}/door-closed.png`)}
-            alt={brandCopy.enterAlt}
+          <button
+            type="button"
+            className="bs-door-closed"
+            style={cropStyle(DOOR_BOUNDS)}
+            aria-label={brandCopy.enterAlt}
             onClick={handleEnterClick}
-          />
-          <img className="bs-layer bs-awning" src={assetPath(`${BASE}/awning.png`)} alt="" />
-          <img className="bs-layer bs-signage" src={assetPath(`${BASE}/signage-googoolii.png`)} alt="GOOGOOlii" />
-          <img className="bs-layer bs-sign-character" src={assetPath(`${BASE}/sign-character.png`)} alt="" />
+          >
+            <img
+              className="bs-cropped-canvas-image"
+              src={assetPath(`${GPU_CROP_BASE}/door-closed.png`)}
+              alt=""
+            />
+          </button>
+          <img className="bs-layer bs-static-part bs-awning" src={assetPath(`${BASE}/awning.png`)} alt="" />
+          <div className={`bs-signage${lit ? ' is-lit' : ''}`} style={cropStyle(SIGNAGE_BOUNDS)} role="img" aria-label="GOOGOOlii">
+            <span className="bs-signage__crop">
+              <img
+                className="bs-cropped-canvas-image"
+                src={assetPath(`${GPU_CROP_BASE}/signage-googoolii.png`)}
+                alt=""
+              />
+            </span>
+          </div>
+          <img className="bs-layer bs-static-part bs-sign-character" src={assetPath(`${BASE}/sign-character.png`)} alt="" />
+          <div className={`bs-road-dog${dogActive ? ' is-animated' : ''}`}>
+            <button
+              type="button"
+              className="bs-road-dog__rider"
+              onClick={handleDogJump}
+              aria-label={lang === 'en' ? 'Make the skateboard dog jump' : '讓滑板狗跳躍'}
+            >
+              <span
+                ref={dogJumperRef}
+                className="bs-road-dog__jumper"
+                onAnimationEnd={(event) => {
+                  if (event.animationName === 'bs-road-dog-click-jump') {
+                    event.currentTarget.classList.remove('is-jumping');
+                  }
+                }}
+              >
+                <span className="bs-road-dog__facing">
+                  <span
+                    className="bs-road-dog__sprite bs-road-dog__sprite--v2"
+                    style={{ backgroundImage: `url("${assetPath(DOT_DOG_V2_SPRITESHEET)}")` }}
+                  />
+                  <span
+                    className="bs-road-dog__sprite bs-road-dog__sprite--v3"
+                    style={{ backgroundImage: `url("${assetPath(DOT_DOG_V3_SPRITESHEET)}")` }}
+                  />
+                </span>
+              </span>
+            </button>
+          </div>
           {/* 只亮螢幕框：halo 同時當「點螢幕點燈」熱區 + tint 把白點成淺黃 */}
           <div className="bs-screen-glow bs-screen-halo" onClick={() => setLit(true)} title={lang === 'en' ? 'Light up the sign' : '點亮招牌'} />
           <div className="bs-screen-glow bs-screen-tint" />
-          {STARS.map((n) => (
-            <div
-              className={`bs-layer bs-star bs-star--${n}`}
-              key={n}
-              style={{ transform: `translate(${tune.stars[n].x}%, ${tune.stars[n].y}%)` }}
-            >
-              <img src={assetPath(`${BASE}/star-${n}.png`)} alt="" />
-            </div>
-          ))}
+          {STARS.map((n) => {
+            const bounds = STAR_BOUNDS[n];
+            return (
+              <div
+                className={`bs-star bs-star--${n}`}
+                key={n}
+                style={cropStyle(bounds, tune.stars[n])}
+              >
+                <span className="bs-star__twinkle">
+                  <img
+                    className="bs-cropped-canvas-image"
+                    src={assetPath(`${GPU_CROP_BASE}/star-${n}.png`)}
+                    alt=""
+                  />
+                </span>
+              </div>
+            );
+          })}
           <div className="bs-layer bs-bubble-position">
-            <img
-              className="bs-layer bs-bubble"
-              src={assetPath(`${BASE}/bubble-knock.png`)}
-              alt="Knock knock"
+            <button
+              type="button"
+              className="bs-bubble-crop"
+              style={cropStyle(BUBBLE_BOUNDS)}
+              aria-label="Knock knock"
               onClick={handleEnterClick}
-            />
+            >
+              <img
+                className="bs-cropped-canvas-image"
+                src={assetPath(`${GPU_CROP_BASE}/bubble-knock.png`)}
+                alt=""
+              />
+            </button>
           </div>
 
           {/* 座標格線（?grid）— 讀出元件 left/top % */}

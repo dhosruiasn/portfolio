@@ -3,18 +3,10 @@ import Matter from 'matter-js';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLanguage } from '../context/LanguageContext.jsx';
+import { createFooterMaterial, FOOTER_COLORS } from '../data/shapeMaterials.js';
 import '../styles/components/Footer.css';
 
 gsap.registerPlugin(ScrollTrigger);
-
-const FOOTER_PALETTE = {
-  green: '#daef68',
-  blue: '#5B7FBF',
-  purple: '#B3A0D6',
-  orange: '#ec5b2b',
-  cream: '#EDE4D0',
-  dark: '#1A1A1A',
-};
 
 const starPoints = (spikes, outer, inner, cx, cy) => {
   const pts = [];
@@ -26,28 +18,60 @@ const starPoints = (spikes, outer, inner, cx, cy) => {
   return pts.join(' ');
 };
 
-const STAR = (fill) =>
-  `<svg viewBox="0 0 200 200" width="100%" height="100%"><polygon fill="${fill}" points="${starPoints(
-    18,
-    98,
-    72,
-    100,
-    100
-  )}"/></svg>`;
+const FOOTER_COLOR_PAIRS = {
+  mail: { shape: FOOTER_COLORS.orange, text: FOOTER_COLORS.cream },
+  flower: { shape: FOOTER_COLORS.blue, text: FOOTER_COLORS.orange },
+  rect: { shape: FOOTER_COLORS.brown, text: '#fff' },
+  star: { shape: FOOTER_COLORS.cream, text: FOOTER_COLORS.brown },
+};
 
-const FLOWER = (fill) => {
+const SHAPE_GRAIN_FILTER = (id, seed, material) => {
+  const [core, deep, mid, edge, glow] = material;
+  return `<defs>
+  <radialGradient id="${id}-fill" gradientUnits="userSpaceOnUse" cx="100" cy="100" r="100">
+    <stop offset="0%" stop-color="${glow}"/>
+    <stop offset="22%" stop-color="${glow}"/>
+    <stop offset="42%" stop-color="${edge}"/>
+    <stop offset="60%" stop-color="${mid}"/>
+    <stop offset="78%" stop-color="${deep}"/>
+    <stop offset="100%" stop-color="${core}"/>
+  </radialGradient>
+  <filter id="${id}" x="-12%" y="-12%" width="124%" height="124%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency=".72" numOctaves="3" seed="${seed}" stitchTiles="stitch" result="noise"/>
+    <feColorMatrix in="noise" type="saturate" values="0" result="mono"/>
+    <feComponentTransfer in="mono" result="grain">
+      <feFuncR type="linear" slope="1.65" intercept="-.32"/>
+      <feFuncG type="linear" slope="1.65" intercept="-.32"/>
+      <feFuncB type="linear" slope="1.65" intercept="-.32"/>
+    </feComponentTransfer>
+    <feComposite in="grain" in2="SourceAlpha" operator="in" result="clipped-grain"/>
+    <feBlend in="SourceGraphic" in2="clipped-grain" mode="soft-light"/>
+  </filter>
+</defs>`;
+};
+
+const STAR = (material) =>
+  `<svg viewBox="0 0 200 200" width="100%" height="100%">
+    ${SHAPE_GRAIN_FILTER('footer-star-grain', 19, material)}
+    <polygon fill="url(#footer-star-grain-fill)" filter="url(#footer-star-grain)" points="${starPoints(18, 98, 72, 100, 100)}"/>
+  </svg>`;
+
+const FLOWER = (material) => {
   const n = 7;
   const R = 52;
   const pr = 46;
-  let circles = `<circle cx="100" cy="100" r="60" fill="${fill}"/>`;
+  let circles = '<circle cx="100" cy="100" r="60"/>';
   for (let i = 0; i < n; i++) {
     const a = i * ((2 * Math.PI) / n) - Math.PI / 2;
     circles += `<circle cx="${(100 + Math.cos(a) * R).toFixed(1)}" cy="${(
       100 +
       Math.sin(a) * R
-    ).toFixed(1)}" r="${pr}" fill="${fill}"/>`;
+    ).toFixed(1)}" r="${pr}"/>`;
   }
-  return `<svg viewBox="0 0 200 200" width="100%" height="100%">${circles}</svg>`;
+  return `<svg viewBox="0 0 200 200" width="100%" height="100%">
+    ${SHAPE_GRAIN_FILTER('footer-flower-grain', 7, material)}
+    <g fill="url(#footer-flower-grain-fill)" filter="url(#footer-flower-grain)">${circles}</g>
+  </svg>`;
 };
 
 function FooterShapeField({ play }) {
@@ -75,21 +99,26 @@ function FooterShapeField({ play }) {
         el.rel = 'noreferrer';
       }
       if (def.svg) {
-        el.innerHTML = def.svg(def.color);
-        const span = document.createElement('span');
-        span.className = 'footer-shape__text';
-        span.textContent = def.text;
-        el.appendChild(span);
-      } else {
-        el.textContent = def.text;
+        el.innerHTML = def.svg(def.material);
       }
+      const span = document.createElement('span');
+      span.className = 'footer-shape__text';
+      span.textContent = def.text;
+      el.appendChild(span);
       if (def.w) el.style.width = `${def.w}px`;
       if (def.h) el.style.height = `${def.h}px`;
       if (def.size) {
         el.style.width = `${def.size}px`;
         el.style.height = `${def.size}px`;
       }
-      if (def.color && !def.svg) el.style.background = def.color;
+      if (def.material && !def.svg) {
+        const [core, deep, mid, edge, glow] = def.material;
+        el.style.setProperty('--footer-shape-core', core);
+        el.style.setProperty('--footer-shape-deep', deep);
+        el.style.setProperty('--footer-shape-mid', mid);
+        el.style.setProperty('--footer-shape-edge', edge);
+        el.style.setProperty('--footer-shape-glow', glow);
+      }
       if (def.fg) el.style.color = def.fg;
       container.appendChild(el);
       return el;
@@ -116,6 +145,12 @@ function FooterShapeField({ play }) {
       const badgeHeight = compact ? 58 : 72;
       const orbSize = compact ? 112 : 142;
       const starSize = compact ? 118 : 150;
+      const {
+        mail: mailColors,
+        flower: flowerColors,
+        rect: rectColors,
+        star: starColors,
+      } = FOOTER_COLOR_PAIRS;
 
       const defs = [
         {
@@ -123,8 +158,8 @@ function FooterShapeField({ play }) {
           label: 'mail',
           text: 'hi.doriskao@gmail.com',
           href: 'mailto:hi.doriskao@gmail.com',
-          color: FOOTER_PALETTE.orange,
-          fg: '#fff',
+          material: createFooterMaterial(mailColors.shape),
+          fg: mailColors.text,
           w: mailWidth,
           h: badgeHeight,
         },
@@ -135,8 +170,8 @@ function FooterShapeField({ play }) {
           svg: FLOWER,
           href: 'https://www.instagram.com/goo.goo.lii_/',
           target: '_blank',
-          color: FOOTER_PALETTE.purple,
-          fg: '#fff',
+          material: createFooterMaterial(flowerColors.shape),
+          fg: flowerColors.text,
           size: orbSize,
         },
         {
@@ -145,8 +180,8 @@ function FooterShapeField({ play }) {
           text: t.footer.wix,
           href: 'https://ning888ning3050.wixsite.com/dorisme/mybrand',
           target: '_blank',
-          color: FOOTER_PALETTE.dark,
-          fg: FOOTER_PALETTE.cream,
+          material: createFooterMaterial(rectColors.shape),
+          fg: rectColors.text,
           w: wixWidth,
           h: badgeHeight + 4,
         },
@@ -155,8 +190,8 @@ function FooterShapeField({ play }) {
           label: 'arrow',
           text: '→',
           svg: STAR,
-          color: FOOTER_PALETTE.blue,
-          fg: '#fff',
+          material: createFooterMaterial(starColors.shape),
+          fg: starColors.text,
           size: starSize,
         },
       ];

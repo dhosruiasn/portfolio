@@ -1,0 +1,163 @@
+{
+  "ok": true,
+  "source_atlas": "/Users/user/Documents/Codex/2026-07-11/hatch-pet-users-user-codex-skills/work/dot-dog-run/backup-pre-kickflip/spritesheet-extended.webp",
+  "source_sha256": "f33b83228b21a980b6fcaf137da309ab300b10d0299078abfc19127457fc1b01",
+  "policy": "Only the skateboard pixels in jumping row 4 are replaced. The dog is extracted from the approved source cell, remains on its existing jump path, and is composited unchanged above each board phase.",
+  "trick": "one complete longitudinal kickflip",
+  "angles_degrees": [
+    0,
+    90,
+    180,
+    270,
+    360
+  ],
+  "phase_sequence": [
+    "yellow-deck",
+    "edge-on",
+    "golden-underside",
+    "edge-on",
+    "yellow-deck"
+  ],
+  "jump_row": 4,
+  "jump_frame_count": 5,
+  "dog_body_redrawn": false,
+  "opaque_dog_pixel_mismatches": 0,
+  "unchanged_rows": [
+    0,
+    1,
+    2,
+    3,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "look_rows_unchanged_before_final_despill": true,
+  "look_head_and_eye_pixels_unchanged_after_final_despill": true,
+  "look_post_despill_difference_scope": "36 board-edge RGB pixels per look cell, all between local y=183 and y=200; alpha, dog, head, and eye pixels are unchanged.",
+  "source_row_shas": {
+    "0": "2fd82f98c623bdb29408adb6d59cce7a2f1cc548ae06798c530a204fb763bbbe",
+    "1": "69adb94295b6ae5d0b3291ed59b4adb254b6cf0bb4f75ab1c879513e6dddccda",
+    "2": "f9f01a7ef7272d2bb0f34a4a964d781d5e04339ec556fec5a981ad72ad5f2905",
+    "3": "1952f98b8eefe2f1087bedeef3af6aaad93a9857f8541e7b942586fe54d9c027",
+    "4": "92e21ec3cb48d5a93c7440c479cf6c37bcbec6f8e156bbb2973617dddb67be59",
+    "5": "46c21f1666950fa8d4e16cf83975a7717dc78dffab4ec0ae958c3c6dd34faa48",
+    "6": "9cb7c2f1a6fdaa21b4399de77b99d2d3be549590de4128dd18400ae3fb15c9a3",
+    "7": "71f193e17d01c523faf669eab0db49de05336afd5424344199926b0cae3477a1",
+    "8": "a5e1c4aa401cfe4bfe771bb09f840cb9c96bb450e39087a48d2dad3d51088a12",
+    "9": "a92f038b18db73ba3b25227eeb8cffb9ef9cc7f09be5efe6df7b3f1853aa0a1a",
+    "10": "c2120a1ae6f37cecf91c2c65042d48da4cefcc478952c6367473ef4b81289df4"
+  },
+  "output_row_shas": {
+    "0": "2fd82f98c623bdb29408adb6d59cce7a2f1cc548ae06798c530a204fb763bbbe",
+    "1": "69adb94295b6ae5d0b3291ed59b4adb254b6cf0bb4f75ab1c879513e6dddccda",
+    "2": "f9f01a7ef7272d2bb0f34a4a964d781d5e04339ec556fec5a981ad72ad5f2905",
+    "3": "1952f98b8eefe2f1087bedeef3af6aaad93a9857f8541e7b942586fe54d9c027",
+    "4": "84538f31cbeb73dc962884e4a8ae9a91961f100afd3aa711d65e806e331d8270",
+    "5": "46c21f1666950fa8d4e16cf83975a7717dc78dffab4ec0ae958c3c6dd34faa48",
+    "6": "9cb7c2f1a6fdaa21b4399de77b99d2d3be549590de4128dd18400ae3fb15c9a3",
+    "7": "71f193e17d01c523faf669eab0db49de05336afd5424344199926b0cae3477a1",
+    "8": "a5e1c4aa401cfe4bfe771bb09f840cb9c96bb450e39087a48d2dad3d51088a12",
+    "9": "a92f038b18db73ba3b25227eeb8cffb9ef9cc7f09be5efe6df7b3f1853aa0a1a",
+    "10": "c2120a1ae6f37cecf91c2c65042d48da4cefcc478952c6367473ef4b81289df4"
+  },
+  "frames": [
+    {
+      "cell": "r4c0",
+      "angle_degrees": 0,
+      "phase": "yellow-deck",
+      "board_x": 12,
+      "board_y": 185,
+      "board_width": 168,
+      "board_height": 22,
+      "dog_bbox": [
+        13,
+        11,
+        179,
+        186
+      ],
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0,
+      "cleared_board_pixels": 1713,
+      "preserved_contact_pixels": 1
+    },
+    {
+      "cell": "r4c1",
+      "angle_degrees": 90,
+      "phase": "edge-on",
+      "board_x": 13,
+      "board_y": 181,
+      "board_width": 168,
+      "board_height": 7,
+      "dog_bbox": [
+        13,
+        7,
+        179,
+        182
+      ],
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0,
+      "cleared_board_pixels": 1713,
+      "preserved_contact_pixels": 1
+    },
+    {
+      "cell": "r4c2",
+      "angle_degrees": 180,
+      "phase": "golden-underside",
+      "board_x": 16,
+      "board_y": 176,
+      "board_width": 168,
+      "board_height": 22,
+      "dog_bbox": [
+        13,
+        2,
+        179,
+        177
+      ],
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0,
+      "cleared_board_pixels": 1713,
+      "preserved_contact_pixels": 1
+    },
+    {
+      "cell": "r4c3",
+      "angle_degrees": 270,
+      "phase": "edge-on",
+      "board_x": 14,
+      "board_y": 181,
+      "board_width": 168,
+      "board_height": 7,
+      "dog_bbox": [
+        13,
+        7,
+        179,
+        182
+      ],
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0,
+      "cleared_board_pixels": 1713,
+      "preserved_contact_pixels": 1
+    },
+    {
+      "cell": "r4c4",
+      "angle_degrees": 360,
+      "phase": "yellow-deck",
+      "board_x": 12,
+      "board_y": 185,
+      "board_width": 168,
+      "board_height": 22,
+      "dog_bbox": [
+        13,
+        11,
+        179,
+        186
+      ],
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0,
+      "cleared_board_pixels": 1713,
+      "preserved_contact_pixels": 1
+    }
+  ]
+}

@@ -1,12 +1,12 @@
 .digital-works {
-  background: #fff573;
+  background: #190402;
   overflow: clip;
 }
 
 .digital-works__intro {
   position: relative;
   height: 180vh;
-  background: #6b3415;
+  background: #2a0d08;
   overflow: clip;
   contain: paint;
 }
@@ -17,101 +17,491 @@
   height: 100vh;
   overflow: clip;
   contain: paint;
-  background: transparent;
+  background: #2a0d08;
 }
 
 .digital-works__art {
   position: absolute;
-  left: 50%;
-  bottom: 0;
+  inset: 0;
   z-index: 1;
-  width: max(100vw, 175.63vh);
-  aspect-ratio: 3841 / 2187;
-  transform: translateX(-50%);
+  overflow: hidden;
+  isolation: isolate;
+  background: #2a0d08;
 }
 
-.digital-works__art::before {
+.digital-works__art::after {
   content: '';
   position: absolute;
   inset: 0;
-  z-index: 0;
-  background: #6b3415;
+  z-index: 20;
+  pointer-events: none;
+  background-image: url('/images/graphic/digital-work/digital-grain-v1.jpg');
+  background-repeat: repeat;
+  background-size: clamp(360px, 38vw, 620px) auto;
+  mix-blend-mode: soft-light;
+  opacity: 0.52;
+  filter: contrast(1.48) brightness(1.16);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 82%, rgba(0, 0, 0, 0.7) 91%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 82%, rgba(0, 0, 0, 0.7) 91%, transparent 100%);
 }
 
 .digital-works__light {
+  --lamp-light-shift: 0%;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+  transform-origin: 50% 30%;
+  background:
+    radial-gradient(ellipse 61% 63% at calc(50% + var(--lamp-light-shift)) 30%, rgba(255, 140, 31, 0.52) 0%, rgba(198, 57, 12, 0.3) 38%, rgba(88, 18, 6, 0.08) 70%, transparent 88%);
+}
+
+.digital-works__rays {
+  position: absolute;
+  inset: -12%;
+  z-index: 4;
+  overflow: hidden;
+  transform-origin: 50% 25%;
+  will-change: transform;
+  background:
+    radial-gradient(ellipse 34% 39% at calc(50% + var(--lamp-light-shift)) 29%, rgba(255, 218, 122, 0.38), rgba(255, 106, 19, 0.18) 48%, transparent 82%),
+    radial-gradient(ellipse 70% 76% at calc(50% + var(--lamp-light-shift)) 48%, rgba(238, 74, 12, 0.22), transparent 74%);
+}
+
+/* Hero 使用延伸長圖的上段；底部柔邊退場，接續作品區的下段地面圖。 */
+.digital-works__final-field {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 108% 96% at 50% 47%, transparent 48%, rgba(12, 2, 1, 0.42) 100%),
+    radial-gradient(ellipse 59% 66% at calc(50% + var(--lamp-light-shift)) 31%, rgba(219, 68, 13, 0.2), rgba(121, 27, 7, 0.1) 50%, transparent 82%),
+    url('/images/graphic/digital-work/digital-room-lit-v1.jpg') center center / cover no-repeat,
+    #190402;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 86%, rgba(0, 0, 0, 0.74) 93%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 86%, rgba(0, 0, 0, 0.74) 93%, transparent 100%);
+}
+
+.digital-works__final-field::before {
+  content: '';
+  position: absolute;
+  inset: -14%;
+  background:
+    radial-gradient(ellipse 29% 24% at calc(50% + var(--lamp-light-shift)) 21%, rgba(255, 215, 128, 0.44), rgba(255, 102, 18, 0.22) 48%, transparent 78%);
+  filter: blur(20px);
+}
+
+/* 獨立光流層：不拉動背景點陣圖，避免展廳牆面在動畫時失焦或出現壓縮接縫。 */
+.digital-works__flow {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  z-index: 1;
   pointer-events: none;
-  transform-origin: 50% 31.5%;
+  overflow: visible;
+  mix-blend-mode: screen;
 }
 
+.digital-works__flow--hero {
+  z-index: 4;
+}
+
+.digital-works__flow--projects {
+  z-index: 1;
+  height: var(--project-flow-height, 100vh);
+}
+
+.digital-works__arc-editor {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.digital-works__arc-editor--projects {
+  height: var(--project-flow-height, 100vh);
+}
+
+.digital-works__flow-orb {
+  opacity: 0.9;
+}
+
+.digital-works__project-stream-line {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  color-interpolation-filters: sRGB;
+}
+
+.digital-works__project-stream-line--outer {
+  stroke: rgba(255, 76, 0, 0.12);
+  stroke-width: 150px;
+  filter: blur(42px);
+}
+
+.digital-works__project-stream-line--middle {
+  stroke: rgba(255, 132, 0, 0.18);
+  stroke-width: 74px;
+  filter: blur(28px);
+}
+
+.digital-works__project-stream-line--core {
+  stroke: rgba(255, 196, 42, 0.19);
+  stroke-width: 30px;
+  filter: blur(18px);
+}
+
+.digital-works__arc-guide path {
+  fill: none;
+  stroke: #25a7ff;
+  stroke-width: 3;
+  stroke-dasharray: 14 10;
+  vector-effect: non-scaling-stroke;
+}
+
+.digital-works__arc-guide circle {
+  fill: #25a7ff;
+  stroke: #fff;
+  stroke-width: 3;
+  vector-effect: non-scaling-stroke;
+}
+
+/* 標題改用金色書法字圖（word.png 裁邊版 digital-works-title.png）。
+   容器只管定位置中；亮度過曝→沉澱由 GSAP 動 filter，所以不在容器掛 filter。 */
 .digital-works__headline {
   position: absolute;
-  left: 13%;
-  right: 13%;
-  bottom: var(--digital-title-bottom, 8.4%);
-  z-index: 2;
+  inset: auto 0 -0.5vh;
+  z-index: 5;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--digital-title-gap, 1.2vw);
-  font-family: 'Ojuju', var(--font-heading);
-  font-weight: 800;
-  font-size: clamp(96px, var(--digital-title-size, 13vw), 310px);
-  line-height: 0.84;
-  letter-spacing: 0;
-  color: #6b3415;
-  text-align: center;
+  justify-content: flex-start;
   pointer-events: none;
 }
 
-.digital-works__lamp,
-.digital-works__cord,
-.digital-works__arrow {
+.digital-works__headline-stack {
+  position: relative;
+  aspect-ratio: 1232 / 603;
+  /* 改以底部為定位基準：放大後仍貼近切版下緣，且上緣不會回頭撞燈罩。 */
+  width: min(96vw, 1760px, 118vh);
+}
+
+.digital-works__headline-reveal {
+  position: absolute;
+  inset: 0;
+  -webkit-mask-image: linear-gradient(102deg, #000 0%, #000 76%, rgba(0, 0, 0, 0.76) 86%, rgba(0, 0, 0, 0.28) 94%, transparent 100%);
+  mask-image: linear-gradient(102deg, #000 0%, #000 76%, rgba(0, 0, 0, 0.76) 86%, rgba(0, 0, 0, 0.28) 94%, transparent 100%);
+  -webkit-mask-position: left center;
+  mask-position: left center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  will-change: mask-size;
+}
+
+.digital-works__headline-art {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  /* 白熱字＋橘色暈光（不金）：近距白光定形，中距暖白，遠距橘色 halo（如圖一） */
+  filter:
+    drop-shadow(0 0 4px rgba(255, 253, 239, 0.62))
+    drop-shadow(0 0 16px rgba(255, 195, 116, 0.4))
+    drop-shadow(0 0 46px rgba(232, 79, 20, 0.34));
+}
+
+/* 光澤掃過：亮帶被字圖 mask 住，只沿筆畫掃過（mask url 由 JSX inline 帶入） */
+.digital-works__headline-sheen {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  background-image: linear-gradient(
+    112deg,
+    transparent 0%,
+    transparent 41%,
+    rgba(255, 236, 180, 0.35) 46%,
+    rgba(255, 252, 235, 0.95) 50%,
+    rgba(255, 236, 180, 0.35) 54%,
+    transparent 59%,
+    transparent 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 300% 100%;
+  background-position: 140% 0;
+  animation: digital-title-sheen 6.4s ease-in-out infinite;
+}
+
+@keyframes digital-title-sheen {
+  0% { background-position: 140% 0; }
+  58% { background-position: -170% 0; }
+  100% { background-position: -170% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .digital-works__headline-sheen {
+    animation: none;
+  }
+
+  .digital-works__flow-orb {
+    opacity: 0;
+  }
+
+  .digital-works__project-stream {
+    opacity: 0;
+  }
+}
+
+/* 關燈狀態：以 CSS 建立橘紅顆粒玻璃燈罩、切片與攪拌棒，保留參考圖的
+   高亮白色輪廓、厚實暗部與半透明容器感。 */
+.digital-works__fixture {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  z-index: 6;
+  width: min(44vh, 40vw, 560px);
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.digital-works__lamp-art {
+  display: block;
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;
   user-select: none;
+  filter:
+    drop-shadow(0 0 8px rgba(255, 244, 211, 0.16))
+    drop-shadow(0 20px 44px rgba(0, 0, 0, 0.28));
 }
 
-.digital-works__lamp {
-  z-index: 6;
+.digital-works__lamp-art--off {
+  z-index: 1;
+}
+
+.digital-works__lamp-art--on {
+  z-index: 2;
+}
+
+/* 珠珠鏈：從燈 PNG 拆出的獨立圖層，座標＝原圖 (875,904)–(1005,1220) / 1254 方形。
+   fixture 是 1:1、燈圖 object-fit:contain 滿版 → 百分比可與原圖像素一一對應。
+   transform-origin 釘在頂端，拉繩時 scaleY 往下伸長再彈回，頂端不會脫離燈罩。 */
+.digital-works__chain {
+  position: absolute;
+  left: 69.7767%;
+  top: 72.0893%;
+  width: 10.3668%;
+  height: 25.1994%;
+  /* 珠鏈位於燈罩本體與前緣反光之間，接點才像從罩內穿出。 */
+  z-index: 3;
+  transform-origin: 50% 0;
   pointer-events: none;
+}
+
+/* 拆鏈原圖把燈罩接點附近的底緣一起切進 chain PNG；該 10% 區塊其實是
+   燈罩缺口的補片。固定疊回 fixture，但不放進可旋轉的 chain 容器。 */
+.digital-works__lamp-chain-patch {
+  position: absolute;
+  left: 69.7767%;
+  top: 72.0893%;
+  /* 只留下燈罩前緣，蓋住珠鏈最頂端的一小段形成真實遮擋。 */
+  z-index: 4;
+  width: 10.3668%;
+  height: 25.1994%;
+  pointer-events: none;
+}
+
+.digital-works__lamp-chain-patch img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  clip-path: inset(0 0 92% 0);
+  filter:
+    drop-shadow(0 0 8px rgba(255, 244, 211, 0.16))
+    drop-shadow(0 20px 44px rgba(0, 0, 0, 0.28));
+}
+
+.digital-works__chain-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+  filter:
+    drop-shadow(0 0 8px rgba(255, 244, 211, 0.16))
+    drop-shadow(0 20px 44px rgba(0, 0, 0, 0.28));
+}
+
+/* 關燈鏈圖頂端約 8% 是燈罩底緣；從這個交界開始顯示珠鏈，避免舊版 10%
+   裁切誤吃第一顆珠子的上半部，造成珠子像被壓進燈罩後方。 */
+.digital-works__chain-art--off {
+  clip-path: inset(8% 0 0);
+}
+
+.digital-works__shade {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  top: 18%;
+  height: 43%;
+  z-index: 2;
+  overflow: visible;
+  border: clamp(5px, 0.55vw, 9px) solid rgba(255, 250, 230, 0.94);
+  border-top-width: clamp(4px, 0.42vw, 7px);
+  border-radius: 5% 5% 16% 16% / 9% 9% 28% 28%;
+  background:
+    radial-gradient(ellipse 72% 52% at 38% 48%, rgba(255, 192, 58, 0.76), transparent 62%),
+    linear-gradient(100deg, #ff2f12 0%, #f36b1f 28%, #46150d 62%, #fb3d17 100%);
+  box-shadow:
+    inset 0 0 25px rgba(255, 246, 211, 0.76),
+    inset 0 -42px 55px rgba(76, 17, 9, 0.70),
+    0 0 11px rgba(255, 245, 218, 0.94),
+    0 0 46px rgba(236, 75, 20, 0.54);
+}
+
+.digital-works__shade::before {
+  content: '';
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  top: 1%;
+  height: 3px;
+  z-index: 8;
+  border-radius: 999px;
+  background: #fffce9;
+  box-shadow: 0 0 14px #fff7d6, 0 0 28px rgba(255, 136, 39, 0.8);
+}
+
+.digital-works__shade::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 9;
+  border-radius: inherit;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.96' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 118px 118px;
+  mix-blend-mode: overlay;
+  opacity: 0.46;
+}
+
+.digital-works__orange-slice {
+  position: absolute;
+  left: 12%;
+  top: -57%;
+  z-index: -1;
+  width: 48%;
+  aspect-ratio: 1;
+  border: clamp(4px, 0.45vw, 7px) solid #ff7d18;
+  border-radius: 50%;
+  background:
+    repeating-conic-gradient(from 3deg, rgba(255, 234, 146, 0.68) 0 3deg, transparent 3deg 38deg),
+    radial-gradient(circle, #ffc35d 0 9%, #ff6a13 10% 58%, #a72b0d 75% 100%);
+  box-shadow: inset 0 0 25px #ffca62, 0 0 18px rgba(255, 94, 12, 0.72);
+}
+
+.digital-works__stirrer {
+  position: absolute;
+  z-index: -2;
+  bottom: 62%;
+  width: 12%;
+  height: 102%;
+  border: 2px solid rgba(255, 92, 26, 0.8);
+  border-radius: 999px 999px 8px 8px;
+  background: linear-gradient(90deg, #371008, #8a250e 48%, #ff5317);
+  box-shadow: 0 0 20px rgba(255, 68, 15, 0.38);
+}
+
+.digital-works__stirrer--one {
+  right: 31%;
+  transform: rotate(13deg);
+}
+
+.digital-works__stirrer--two {
+  right: 12%;
+  height: 117%;
+  transform: rotate(19deg);
+}
+
+.digital-works__shade-liquid {
+  position: absolute;
+  inset: 5% 3% 4%;
+  border-radius: 3% 3% 17% 17% / 8% 8% 26% 26%;
+  background:
+    radial-gradient(ellipse 68% 25% at 38% 68%, rgba(255, 205, 72, 0.62), transparent 70%),
+    linear-gradient(90deg, rgba(255, 70, 20, 0.68), rgba(55, 14, 8, 0.66));
+  filter: saturate(1.2);
+}
+
+.digital-works__stem {
+  position: absolute;
+  left: 38%;
+  top: 61%;
+  z-index: 1;
+  width: 24%;
+  height: 26%;
+  clip-path: polygon(38% 0, 62% 0, 66% 63%, 96% 100%, 4% 100%, 34% 63%);
+  background: linear-gradient(90deg, #fffceb 0 22%, #4a352d 43% 57%, #fffceb 78% 100%);
+  filter: drop-shadow(0 0 7px rgba(255, 250, 228, 0.86));
+}
+
+.digital-works__base {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 6%;
+  z-index: 2;
+  height: 4.2%;
+  border-radius: 50% 50% 24% 24%;
+  background: #fffcec;
+  box-shadow: 0 0 12px #fff8de, 0 6px 18px rgba(0, 0, 0, 0.72);
 }
 
 .digital-works__cord {
-  z-index: 5;
+  position: absolute;
+  left: 68%;
+  top: 72%;
+  z-index: 4;
+  width: 17%;
+  height: 28%;
+  padding: 0;
+  overflow: visible;
   cursor: pointer;
-  transform-origin: 56.1% 31.1%;
+  appearance: none;
+  border: 0;
+  background: transparent;
+  transform-origin: 50% 0;
+  pointer-events: auto;
 }
 
-.digital-works__arrow {
-  z-index: 3;
-  pointer-events: none;
-  will-change: transform;
+.digital-works__cord:focus {
+  outline: none;
 }
 
-.digital-works__arrow--left {
-  transform-origin: 15.14% 84.22%;
-}
-
-.digital-works__arrow--right {
-  transform-origin: 84.83% 84.22%;
+.digital-works__cord:focus-visible {
+  filter: drop-shadow(0 0 8px rgba(255, 225, 147, 0.8));
 }
 
 .digital-works__projects {
   position: relative;
   z-index: 1;
-  margin-top: 0;
+  margin-top: -18vh;
   min-height: 170vh;
-  padding: clamp(72px, 9vh, 120px) 0 100px;
-  background: #fff573;
+  padding: calc(18vh + clamp(36px, 4.5vh, 64px)) 0 100px;
+  isolation: isolate;
+  background: transparent;
 }
 
 .digital-works__projects::before {
@@ -119,15 +509,30 @@
   position: absolute;
   left: 0;
   right: 0;
-  top: -2px;
-  height: 3px;
-  background: #fff573;
+  top: 0;
+  bottom: 0;
+  z-index: 0;
   pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(25, 4, 2, 0), rgba(25, 4, 2, 0.12) 46%, #190402 100%),
+    url('/images/graphic/digital-work/digital-room-floor-extension-v5.png') center -11vh / 100% auto no-repeat,
+    #190402;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, rgba(0, 0, 0, 0.38) 6vh, #000 18vh, #000 100%);
+  mask-image: linear-gradient(180deg, transparent 0, rgba(0, 0, 0, 0.38) 6vh, #000 18vh, #000 100%);
+}
+
+.digital-works__projects .project-card__name {
+  color: #fff8ef;
+}
+
+.digital-works__projects .project-card__category {
+  color: rgba(255, 226, 211, 0.62);
 }
 
 .digital-works__grid {
   position: sticky;
   top: calc(var(--nav-height) + 12vh);
+  z-index: 2;
   display: flex;
   gap: 16px;
   align-items: flex-start;
@@ -152,19 +557,27 @@
   .digital-works__scene {
     height: 100lvh;
     min-height: 100dvh;
-    background: transparent;
-  }
-
-  .digital-works__art {
-    width: max(190vw, 175.63lvh);
+    background: #2a0d08;
   }
 
   .digital-works__headline {
-    left: 10%;
-    right: 10%;
-    bottom: var(--digital-mobile-title-bottom, var(--digital-title-bottom, 8.4%));
-    gap: var(--digital-mobile-title-gap, var(--digital-title-gap, 1.2vw));
-    font-size: clamp(60px, var(--digital-mobile-title-size, 17vw), 160px);
+    inset: auto 0 4%;
+  }
+
+  .digital-works__headline-stack {
+    width: min(108vw, 146vh);
+  }
+
+  .digital-works__fixture {
+    top: 0;
+    width: min(64vw, 44vh, 380px);
+  }
+
+  .digital-works__cord {
+    left: 68%;
+    top: 72%;
+    width: 17%;
+    height: 28%;
   }
 
   .digital-works__grid {
@@ -181,10 +594,20 @@
   }
 
   .digital-works__projects {
-    margin-top: -2px;
+    margin-top: -14vh;
     min-height: 0;
-    padding-top: 102px;
-    background: #fff573;
+    padding-top: calc(14vh + 56px);
+    background: transparent;
+  }
+
+  .digital-works__projects::before {
+    top: 0;
+    background:
+      linear-gradient(180deg, rgba(25, 4, 2, 0), #190402 86%),
+      url('/images/graphic/digital-work/digital-room-floor-extension-v5.png') center -19vh / auto 115vh no-repeat,
+      #190402;
+    -webkit-mask-image: linear-gradient(180deg, transparent 0, rgba(0, 0, 0, 0.38) 5vh, #000 14vh, #000 100%);
+    mask-image: linear-gradient(180deg, transparent 0, rgba(0, 0, 0, 0.38) 5vh, #000 14vh, #000 100%);
   }
 }
 
@@ -217,6 +640,16 @@
   display: block;
   margin-bottom: 8px;
   font-size: 13px;
+}
+
+.digital-tune__section {
+  display: block;
+  margin: 12px -4px 6px;
+  padding: 7px 6px 5px;
+  color: #9ddcff;
+  border-top: 1px solid rgba(157, 220, 255, 0.32);
+  font-size: 11px;
+  font-weight: 700;
 }
 
 .digital-tune__row {
@@ -257,6 +690,18 @@
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 4px;
   font: 10px/1.4 monospace;
+}
+
+.digital-tune__copy {
+  width: 100%;
+  margin-top: 8px;
+  padding: 7px 9px;
+  color: #14212a;
+  background: #9ddcff;
+  border: 0;
+  border-radius: 5px;
+  font: 700 11px/1 system-ui, sans-serif;
+  cursor: pointer;
 }
 
 @media (max-width: 900px) {

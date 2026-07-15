@@ -12,7 +12,7 @@ export const resumeData = {
     },
   },
   portrait: {
-    src: '/images/about/cv Portrait.jpg',
+    src: '/images/about/cv Portrait.optimized.png',
   },
   contact: [
     {

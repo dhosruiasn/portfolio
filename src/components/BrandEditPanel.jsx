@@ -64,6 +64,13 @@ export default function BrandEditPanel({ tune, setTune }) {
       </fieldset>
 
       <fieldset>
+        <legend>地板滑板狗：桌面版</legend>
+        <Row label="狗 X" value={tune.dogX} min={-5} max={5} step={0.1} onChange={set('dogX')} />
+        <Row label="狗 Y" value={tune.dogY} min={-5} max={5} step={0.1} onChange={set('dogY')} />
+        <Row label="狗大小" value={tune.dogSize} min={4} max={16} step={0.1} unit="vw" onChange={set('dogSize')} />
+      </fieldset>
+
+      <fieldset>
         <legend>星星位移</legend>
         <label className="bep-row">
           <span className="bep-label">選星星</span>
@@ -222,6 +229,21 @@ export default function BrandEditPanel({ tune, setTune }) {
           step={0.05}
           unit=""
           onChange={set('mobileSignScale')}
+        />
+      </fieldset>
+
+      <fieldset>
+        <legend>手機版：滑板狗</legend>
+        <Row label="狗 X" value={tune.mobileDogX} min={-10} max={10} step={0.1} onChange={set('mobileDogX')} />
+        <Row label="狗 Y" value={tune.mobileDogY} min={-10} max={10} step={0.1} onChange={set('mobileDogY')} />
+        <Row
+          label="狗大小"
+          value={tune.mobileDogSize}
+          min={10}
+          max={40}
+          step={0.1}
+          unit="vw"
+          onChange={set('mobileDogSize')}
         />
       </fieldset>
 

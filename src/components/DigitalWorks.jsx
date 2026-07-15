@@ -10,13 +10,9 @@ import '../styles/components/DigitalWorks.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const DIGITAL_ASSET_BASE = 'images/graphic/digital-work';
-const ARROW_ORIGINS = {
-  left: { x: 15.14, y: 84.22 },
-  right: { x: 84.83, y: 84.22 },
-};
 const params = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
 const SHOW_DIGITAL_EDIT = import.meta.env.DEV && !!params && params.has('digitalEdit');
+const SHOW_CARD_EDIT = import.meta.env.DEV && !!params && params.has('cardEdit');
 const DEFAULT_DIGITAL_TUNE = {
   titleBottom: 5.8,
   titleSize: 14.2,
@@ -25,7 +21,25 @@ const DEFAULT_DIGITAL_TUNE = {
   mobileTitleSize: 23,
   mobileTitleGap: 4.7,
   lightOpacity: 1,
-  arrowOpacity: 1,
+  arcLeftY: 35,
+  arcCenterY: 211,
+  arcRightY: 36,
+  arcControlX: 850,
+  flowOrbRx: 460,
+  flowOrbRy: 300,
+  flowDuration: 24,
+  flowOpacity: 0.9,
+  heroCornerOutX: 1740,
+  heroCornerControlY: 118,
+  heroCornerEndY: 178,
+  heroWallEndY: 930,
+  heroBottomRadius: 210,
+  projectDropY: -80,
+  projectTurnY: 64,
+  projectTurnX: 972,
+  projectArcCenterY: 162,
+  projectExitY: 54,
+  projectFlowHeight: 76,
 };
 
 const DEFAULT_PICKMIN_CARD_TUNE = {
@@ -54,6 +68,53 @@ function TuneRow({ label, value, min, max, step = 0.1, unit = '%', onChange }) {
 
 function DigitalTunePanel({ tune, setTune }) {
   const set = (key) => (value) => setTune((current) => ({ ...current, [key]: value }));
+  const copyRef = useRef(null);
+  const [copyStatus, setCopyStatus] = useState('');
+  const arcTune = {
+    arcLeftY: tune.arcLeftY,
+    arcCenterY: tune.arcCenterY,
+    arcRightY: tune.arcRightY,
+    arcControlX: tune.arcControlX,
+    flowOrbRx: tune.flowOrbRx,
+    flowOrbRy: tune.flowOrbRy,
+    flowDuration: tune.flowDuration,
+    flowOpacity: tune.flowOpacity,
+    heroCornerOutX: tune.heroCornerOutX,
+    heroCornerControlY: tune.heroCornerControlY,
+    heroCornerEndY: tune.heroCornerEndY,
+    heroWallEndY: tune.heroWallEndY,
+    heroBottomRadius: tune.heroBottomRadius,
+    projectDropY: tune.projectDropY,
+    projectTurnY: tune.projectTurnY,
+    projectTurnX: tune.projectTurnX,
+    projectArcCenterY: tune.projectArcCenterY,
+    projectExitY: tune.projectExitY,
+    projectFlowHeight: tune.projectFlowHeight,
+  };
+  const pathPayload = JSON.stringify(arcTune, null, 2);
+
+  const copyPathPayload = () => {
+    copyRef.current?.focus();
+    copyRef.current?.select();
+    setCopyStatus('已選取數值，請按 ⌘C');
+    let copied = false;
+
+    try {
+      // 先在使用者點擊事件內同步複製；in-app browser 對此通常比 Clipboard API 穩定。
+      copied = document.execCommand('copy');
+    } catch {
+      copied = false;
+    }
+
+    if (copied) {
+      setCopyStatus('已複製光源路徑參數');
+      return;
+    }
+
+    navigator.clipboard?.writeText(pathPayload)
+      .then(() => setCopyStatus('已複製光源路徑參數'))
+      .catch(() => {});
+  };
   return (
     <div className="digital-tune">
       <strong>Digital 調整</strong>
@@ -64,8 +125,42 @@ function DigitalTunePanel({ tune, setTune }) {
       <TuneRow label="手機字" value={tune.mobileTitleSize} min={10} max={28} step={0.2} unit="vw" onChange={set('mobileTitleSize')} />
       <TuneRow label="手機距" value={tune.mobileTitleGap} min={0} max={6} step={0.1} unit="vw" onChange={set('mobileTitleGap')} />
       <TuneRow label="光" value={tune.lightOpacity} min={0.4} max={1} step={0.05} unit="" onChange={set('lightOpacity')} />
-      <TuneRow label="箭頭" value={tune.arrowOpacity} min={0.4} max={1} step={0.05} unit="" onChange={set('arrowOpacity')} />
-      <textarea readOnly value={JSON.stringify(tune)} />
+      <span className="digital-tune__section">弧形光線（原圖座標 1672×941）</span>
+      <TuneRow label="左端Y" value={tune.arcLeftY} min={0} max={100} step={1} unit="px" onChange={set('arcLeftY')} />
+      <TuneRow label="中央Y" value={tune.arcCenterY} min={140} max={280} step={1} unit="px" onChange={set('arcCenterY')} />
+      <TuneRow label="右端Y" value={tune.arcRightY} min={0} max={100} step={1} unit="px" onChange={set('arcRightY')} />
+      <TuneRow label="控制X" value={tune.arcControlX} min={650} max={1020} step={1} unit="px" onChange={set('arcControlX')} />
+      <TuneRow label="光寬" value={tune.flowOrbRx} min={120} max={460} step={2} unit="px" onChange={set('flowOrbRx')} />
+      <TuneRow label="光高" value={tune.flowOrbRy} min={70} max={300} step={2} unit="px" onChange={set('flowOrbRy')} />
+      <TuneRow label="秒數" value={tune.flowDuration} min={8} max={48} step={1} unit="s" onChange={set('flowDuration')} />
+      <TuneRow label="流光" value={tune.flowOpacity} min={0.1} max={1} step={0.05} unit="" onChange={set('flowOpacity')} />
+      <span className="digital-tune__section">Hero 右牆轉角（1672×941）</span>
+      <TuneRow label="外繞X" value={tune.heroCornerOutX} min={1672} max={1840} step={2} unit="px" onChange={set('heroCornerOutX')} />
+      <TuneRow label="控點Y" value={tune.heroCornerControlY} min={50} max={240} step={2} unit="px" onChange={set('heroCornerControlY')} />
+      <TuneRow label="轉直Y" value={tune.heroCornerEndY} min={100} max={360} step={2} unit="px" onChange={set('heroCornerEndY')} />
+      <TuneRow label="牆底Y" value={tune.heroWallEndY} min={500} max={1040} step={5} unit="px" onChange={set('heroWallEndY')} />
+      <TuneRow label="底彎R" value={tune.heroBottomRadius} min={60} max={360} step={5} unit="px" onChange={set('heroBottomRadius')} />
+      <span className="digital-tune__section">作品區路徑（1000×720）</span>
+      <TuneRow label="下降Y" value={tune.projectDropY} min={-80} max={220} step={2} unit="px" onChange={set('projectDropY')} />
+      <TuneRow label="右端Y" value={tune.projectTurnY} min={-40} max={280} step={2} unit="px" onChange={set('projectTurnY')} />
+      <TuneRow label="右端X" value={tune.projectTurnX} min={700} max={980} step={2} unit="px" onChange={set('projectTurnX')} />
+      <TuneRow label="中央Y" value={tune.projectArcCenterY} min={-40} max={360} step={2} unit="px" onChange={set('projectArcCenterY')} />
+      <TuneRow label="左端Y" value={tune.projectExitY} min={-40} max={280} step={2} unit="px" onChange={set('projectExitY')} />
+      <TuneRow label="路徑高" value={tune.projectFlowHeight} min={60} max={150} step={1} unit="vh" onChange={set('projectFlowHeight')} />
+      <button
+        type="button"
+        className="digital-tune__copy"
+        onClick={copyPathPayload}
+      >
+        {copyStatus || '複製光源路徑參數'}
+      </button>
+      <textarea
+        ref={copyRef}
+        readOnly
+        value={pathPayload}
+        aria-label="光源路徑參數；點一下會選取全部"
+        onClick={(event) => event.currentTarget.select()}
+      />
     </div>
   );
 }
@@ -118,11 +213,27 @@ export default function DigitalWorks() {
   const rootRef = useRef(null);
   const sceneRef = useRef(null);
   const lightRef = useRef(null);
+  const raysRef = useRef(null);
+  const finalFieldRef = useRef(null);
+  const heroFlowRef = useRef(null);
+  const projectFlowRef = useRef(null);
+  const heroMotionRef = useRef(null);
+  const projectMotionRef = useRef(null);
+  const projectFlowTimerRef = useRef(null);
+  const projectFlowEndTimerRef = useRef(null);
+  const fixtureRef = useRef(null);
+  const lampOffRef = useRef(null);
+  const lampOnRef = useRef(null);
+  const chainRef = useRef(null); // 珠珠鏈（已從燈 PNG 拆成獨立圖層，可拉伸回彈）
+  const chainOffRef = useRef(null); // 關燈珠鏈；開燈時需完整退場，避免與亮燈珠鏈重影
+  const chainOnRef = useRef(null); // 開燈狀態的鏈子（吃到暖光），與 lampOn 同步淡入
+  const chainPatchRef = useRef(null); // 只修補關燈素材的燈罩缺口，亮燈時必須同步退場
   const titleRef = useRef(null);
+  const titleRevealRef = useRef(null);
+  const titleSheenRef = useRef(null);
   const cordRef = useRef(null);
-  const leftArrowRef = useRef(null);
-  const rightArrowRef = useRef(null);
   const switchTlRef = useRef(null);
+  const lampInteractiveReadyRef = useRef(false);
   const gridRef = useRef(null);
 
   useEffect(() => {
@@ -141,9 +252,22 @@ export default function DigitalWorks() {
   useEffect(() => {
     if (
       !lightRef.current ||
+      !raysRef.current ||
+      !finalFieldRef.current ||
+      !heroFlowRef.current ||
+      !projectFlowRef.current ||
+      !heroMotionRef.current ||
+      !projectMotionRef.current ||
+      !fixtureRef.current ||
+      !lampOffRef.current ||
+      !lampOnRef.current ||
+      !chainRef.current ||
+      !chainOffRef.current ||
+      !chainOnRef.current ||
+      !chainPatchRef.current ||
       !titleRef.current ||
-      !leftArrowRef.current ||
-      !rightArrowRef.current ||
+      !titleRevealRef.current ||
+      !titleSheenRef.current ||
       !cordRef.current ||
       !rootRef.current ||
       !gridRef.current
@@ -152,77 +276,292 @@ export default function DigitalWorks() {
     }
 
     const ctx = gsap.context(() => {
-      gsap.set([lightRef.current, titleRef.current, leftArrowRef.current, rightArrowRef.current], {
+      const clearProjectFlowTimer = () => {
+        if (projectFlowTimerRef.current !== null) {
+          window.clearTimeout(projectFlowTimerRef.current);
+          projectFlowTimerRef.current = null;
+        }
+        if (projectFlowEndTimerRef.current !== null) {
+          window.clearTimeout(projectFlowEndTimerRef.current);
+          projectFlowEndTimerRef.current = null;
+        }
+      };
+
+      const startContinuousFlow = () => {
+        clearProjectFlowTimer();
+        heroMotionRef.current?.beginElement();
+
+        // 作品光由 Hero 路徑時間自動交棒，完全不依賴使用者捲動位置。
+        const handoffDelay = Math.max(0, tune.flowDuration * 1000 - 800);
+        projectFlowTimerRef.current = window.setTimeout(() => {
+          projectFlowTimerRef.current = null;
+          projectMotionRef.current?.beginElement();
+          gsap.to(heroFlowRef.current, { opacity: 0, duration: 0.8, ease: 'power2.inOut', overwrite: true });
+          gsap.to(projectFlowRef.current, { opacity: 1, duration: 0.8, ease: 'power2.inOut', overwrite: true });
+          projectFlowEndTimerRef.current = window.setTimeout(() => {
+            projectFlowEndTimerRef.current = null;
+            gsap.to(projectFlowRef.current, { opacity: 0, duration: 0.85, ease: 'power2.out', overwrite: true });
+          }, Math.max(0, tune.flowDuration * 1000 - 850));
+        }, handoffDelay);
+      };
+
+      rootRef.current.classList.remove('digital-works--lit');
+      gsap.set([lightRef.current, finalFieldRef.current, heroFlowRef.current, projectFlowRef.current, titleRef.current], {
         opacity: 0,
       });
-      gsap.set(titleRef.current, { y: 20 });
-      gsap.set([leftArrowRef.current, rightArrowRef.current], { scale: 0.94 });
+      gsap.set(titleRevealRef.current, { WebkitMaskSize: '0% 125%', maskSize: '0% 125%' });
+      gsap.set(titleSheenRef.current, { opacity: 0 });
+      gsap.set(fixtureRef.current, {
+        opacity: 0,
+        y: '-56vh',
+        rotation: -8,
+        transformOrigin: '50% 0%',
+      });
+      gsap.set([lampOffRef.current, chainOffRef.current, chainPatchRef.current], { opacity: 1 });
+      gsap.set([lampOnRef.current, chainOnRef.current], { opacity: 0 });
+      gsap.set(chainRef.current, { scaleY: 1, transformOrigin: '50% 0%' });
 
       switchTlRef.current = gsap
-        .timeline({ paused: true })
-        .to(cordRef.current, { y: 44, duration: 0.18, ease: 'power2.out' }, 0)
-        .to(cordRef.current, { y: 0, duration: 0.5, ease: 'elastic.out(1, 0.35)' }, 0.18)
-        .to(lightRef.current, { opacity: 1, duration: 0.12, ease: 'none' }, 0.22)
-        .fromTo(lightRef.current, { filter: 'brightness(1.25)' }, { filter: 'brightness(1)', duration: 0.35 }, 0.26)
-        .to(titleRef.current, { opacity: 1, y: 0, duration: 0.38, ease: 'power2.out' }, 0.3)
-        .to(
-          [leftArrowRef.current, rightArrowRef.current],
-          { opacity: 1, scale: 1, duration: 0.34, stagger: 0.05, ease: 'back.out(1.5)' },
-          0.4
-        );
+        .timeline({
+          paused: true,
+          onComplete: () => {
+            lampInteractiveReadyRef.current = true;
+          },
+        })
+        .call(() => {
+          lampInteractiveReadyRef.current = false;
+          clearProjectFlowTimer();
+          rootRef.current?.classList.remove('digital-works--lit');
+        }, null, 0)
+        .set([lightRef.current, finalFieldRef.current, heroFlowRef.current, projectFlowRef.current, titleRef.current], { opacity: 0 }, 0)
+        .set(titleRevealRef.current, { WebkitMaskSize: '0% 125%', maskSize: '0% 125%' }, 0)
+        .set(titleSheenRef.current, { opacity: 0 }, 0)
+        .set(fixtureRef.current, { opacity: 0, y: '-56vh', rotation: -8 }, 0)
+        .set([lampOffRef.current, chainOffRef.current, chainPatchRef.current], { opacity: 1 }, 0)
+        .set([lampOnRef.current, chainOnRef.current], { opacity: 0 }, 0)
+        .set(chainRef.current, { scaleY: 1 }, 0)
+        // 整組燈具從上方落下：先越過定位點，再以逐次縮小的角度阻尼擺動。
+        .to(fixtureRef.current, { opacity: 1, y: 18, rotation: -4, duration: 0.72, ease: 'power2.in' }, 0)
+        .to(fixtureRef.current, { y: -8, rotation: 7, duration: 0.28, ease: 'power2.out' }, 0.72)
+        .to(fixtureRef.current, { y: 4, rotation: -3.5, duration: 0.3, ease: 'power1.inOut' }, 1)
+        .to(fixtureRef.current, { y: 0, rotation: 1.5, duration: 0.3, ease: 'power1.inOut' }, 1.3)
+        .to(fixtureRef.current, { rotation: 0, duration: 0.42, ease: 'power2.out' }, 1.6)
+        // 拉珠珠鏈：頂端固定在燈罩、往下拉伸再彈回（鏈子已拆成獨立圖層）
+        .to(chainRef.current, { scaleY: 1.3, duration: 0.16, ease: 'power2.out' }, 1.24)
+        .to(chainRef.current, { scaleY: 1, duration: 0.95, ease: 'elastic.out(1.2, 0.24)' }, 1.4)
+        // 關／開燈素材的珠鏈起點不同，必須整組交叉淡化，不能讓兩條鏈與關燈補片同時存在。
+        .to([lampOffRef.current, chainOffRef.current, chainPatchRef.current], { opacity: 0, duration: 0.16, ease: 'none' }, 1.45)
+        .to([lampOnRef.current, chainOnRef.current], { opacity: 1, duration: 0.16, ease: 'none' }, 1.45)
+        .to(lightRef.current, { opacity: tune.lightOpacity, duration: 0.14, ease: 'none' }, 1.46)
+        // 燈亮後牆面空間浮現；整張字圖用單一斜向柔邊 mask 顯影。
+        .to(finalFieldRef.current, { opacity: 1, duration: 0.6, ease: 'power2.out' }, 1.62)
+        .call(() => rootRef.current?.classList.add('digital-works--lit'), null, 1.7)
+        .call(startContinuousFlow, null, 1.7)
+        .to(heroFlowRef.current, { opacity: 1, duration: 1.15, ease: 'power2.out' }, 1.72)
+        .fromTo(
+          titleRef.current,
+          { opacity: 0, y: 18 },
+          { opacity: 1, y: 0, duration: 0.28, ease: 'power2.out' },
+          1.7
+        )
+        .fromTo(
+          titleRevealRef.current,
+          { WebkitMaskSize: '0% 125%', maskSize: '0% 125%' },
+          { WebkitMaskSize: '126% 125%', maskSize: '126% 125%', duration: 1.15, ease: 'power2.inOut' },
+          1.72
+        )
+        .to(titleSheenRef.current, { opacity: 1, duration: 0.32, ease: 'power1.out' }, 2.62);
 
-      const trigger = ScrollTrigger.create({
-        trigger: rootRef.current,
-        start: 'top top',
-        end: '+=80%',
-        onEnter: () => switchTlRef.current?.restart(),
-        onEnterBack: () => switchTlRef.current?.restart(),
-        onLeaveBack: () => switchTlRef.current?.pause(0),
-      });
+      const restartIfUnlit = () => {
+        if (rootRef.current?.classList.contains('digital-works--lit')) return;
+        switchTlRef.current?.restart();
+      };
 
-      return () => trigger.kill();
+      const trigger = SHOW_DIGITAL_EDIT
+        ? null
+        : ScrollTrigger.create({
+            trigger: rootRef.current,
+            start: 'top top',
+            end: '+=80%',
+            onEnter: restartIfUnlit,
+            onEnterBack: restartIfUnlit,
+            onLeaveBack: () => {
+              clearProjectFlowTimer();
+              lampInteractiveReadyRef.current = false;
+              rootRef.current?.classList.remove('digital-works--lit');
+              switchTlRef.current?.pause(0);
+            },
+          });
+
+      // 對齊模式直接停在完整亮燈畫面，控制者不用先觸發捲動時間軸。
+      if (SHOW_DIGITAL_EDIT) {
+        switchTlRef.current.progress(1);
+        clearProjectFlowTimer();
+        gsap.set(heroFlowRef.current, { opacity: 1 });
+        gsap.set(projectFlowRef.current, { opacity: 0 });
+      }
+
+      return () => {
+        clearProjectFlowTimer();
+        rootRef.current?.classList.remove('digital-works--lit');
+        trigger?.kill();
+      };
     }, rootRef.current);
 
     return () => ctx.revert();
+  }, [tune.flowDuration, tune.lightOpacity]);
+
+  // 精細游標碰到燈罩時，將移動方向／速度轉成角速度；彈簧與阻尼讓燈具自由回正。
+  // 光束旋轉、中央光池位移使用同一個 angle，避免燈罩與光線各自運動。
+  useEffect(() => {
+    const scene = sceneRef.current;
+    const fixture = fixtureRef.current;
+    const rays = raysRef.current;
+    const light = lightRef.current;
+    if (!scene || !fixture || !rays || !light) return undefined;
+
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (!finePointer.matches || reduceMotion.matches) return undefined;
+
+    let raf = 0;
+    let angle = 0;
+    let velocity = 0;
+    let chainAngle = 0;
+    let chainVelocity = 0;
+    let touchingShade = false;
+    let touchingChain = false;
+    let previousX = null;
+
+    const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+
+    const onPointerMove = (event) => {
+      const rect = fixture.getBoundingClientRect();
+      const chainRect = chainRef.current?.getBoundingClientRect();
+      const dx = previousX === null ? 0 : event.clientX - previousX;
+      previousX = event.clientX;
+
+      // PNG 是方形透明畫布；只把實際可見燈罩範圍視為碰撞區。
+      const inShade =
+        event.clientX >= rect.left + rect.width * 0.1 &&
+        event.clientX <= rect.right - rect.width * 0.1 &&
+        event.clientY >= rect.top + rect.height * 0.28 &&
+        event.clientY <= rect.top + rect.height * 0.74;
+
+      const inChain = !!chainRect &&
+        event.clientX >= chainRect.left - 12 &&
+        event.clientX <= chainRect.right + 12 &&
+        event.clientY >= chainRect.top - 8 &&
+        event.clientY <= chainRect.bottom + 10;
+
+      if (!lampInteractiveReadyRef.current) {
+        touchingShade = false;
+        touchingChain = false;
+        return;
+      }
+
+      if (inShade) {
+        const side = (event.clientX - (rect.left + rect.width / 2)) / (rect.width / 2);
+        const entryImpulse = touchingShade ? 0 : (Math.abs(side) > 0.12 ? side : (dx >= 0 ? 0.8 : -0.8)) * 1.35;
+        velocity = clamp(velocity + dx * 0.055 + side * 0.16 + entryImpulse, -4.8, 4.8);
+        touchingShade = true;
+      } else {
+        touchingShade = false;
+      }
+
+      if (inChain) {
+        const direction = dx === 0 ? (event.clientX < chainRect.left + chainRect.width / 2 ? -1 : 1) : Math.sign(dx);
+        const entryImpulse = touchingChain ? 0 : direction * 2.1;
+        chainVelocity = clamp(chainVelocity + dx * 0.095 + entryImpulse, -7.2, 7.2);
+        // 拉動鏈子會把一小部分動量傳回燈罩，但不會像直接推燈罩那麼大。
+        velocity = clamp(velocity + dx * 0.014 + direction * 0.08, -4.8, 4.8);
+        touchingChain = true;
+      } else {
+        touchingChain = false;
+      }
+    };
+
+    const onPointerLeave = () => {
+      previousX = null;
+      touchingShade = false;
+      touchingChain = false;
+    };
+
+    const frame = () => {
+      raf = requestAnimationFrame(frame);
+      if (!lampInteractiveReadyRef.current) {
+        angle = 0;
+        velocity = 0;
+        chainAngle = 0;
+        chainVelocity = 0;
+        gsap.set(chainRef.current, { rotation: 0 });
+        return;
+      }
+
+      const previousAngle = angle;
+      velocity += -angle * 0.022;
+      velocity *= 0.944;
+      angle += velocity;
+
+      // 鏈子是燈罩上的第二個鐘擺：燈罩加速時因慣性反向延遲，之後自行回正。
+      const lampDelta = angle - previousAngle;
+      chainVelocity += -chainAngle * 0.034 - lampDelta * 0.46;
+      chainVelocity *= 0.938;
+      chainAngle += chainVelocity;
+
+      if (Math.abs(angle) < 0.015 && Math.abs(velocity) < 0.015) {
+        angle = 0;
+        velocity = 0;
+      }
+      if (Math.abs(chainAngle) < 0.02 && Math.abs(chainVelocity) < 0.02) {
+        chainAngle = 0;
+        chainVelocity = 0;
+      }
+
+      if (angle > 12) {
+        angle = 12;
+        velocity *= -0.28;
+      } else if (angle < -12) {
+        angle = -12;
+        velocity *= -0.28;
+      }
+      if (chainAngle > 20) {
+        chainAngle = 20;
+        chainVelocity *= -0.24;
+      } else if (chainAngle < -20) {
+        chainAngle = -20;
+        chainVelocity *= -0.24;
+      }
+
+      gsap.set(fixture, { rotation: angle, transformOrigin: '50% 0%' });
+      gsap.set(chainRef.current, { rotation: chainAngle, transformOrigin: '50% 0%' });
+      gsap.set(rays, { rotation: angle * 0.72, xPercent: angle * -0.1 });
+      // 正角度＝燈罩順時針；開口法線與地面光池會往左，所以位移符號必須相反。
+      light.style.setProperty('--lamp-light-shift', `${angle * -0.48}%`);
+    };
+
+    scene.addEventListener('pointermove', onPointerMove, { passive: true });
+    scene.addEventListener('pointerleave', onPointerLeave);
+    raf = requestAnimationFrame(frame);
+
+    return () => {
+      scene.removeEventListener('pointermove', onPointerMove);
+      scene.removeEventListener('pointerleave', onPointerLeave);
+      cancelAnimationFrame(raf);
+      light.style.removeProperty('--lamp-light-shift');
+      gsap.set(rays, { clearProps: 'transform' });
+    };
   }, []);
 
   useEffect(() => {
-    if (!lightRef.current || !leftArrowRef.current || !rightArrowRef.current) return;
+    if (!lightRef.current) return;
     if (parseFloat(gsap.getProperty(lightRef.current, 'opacity')) > 0) {
       gsap.set(lightRef.current, { opacity: tune.lightOpacity });
     }
-    if (parseFloat(gsap.getProperty(leftArrowRef.current, 'opacity')) > 0) {
-      gsap.set([leftArrowRef.current, rightArrowRef.current], { opacity: tune.arrowOpacity });
-    }
-  }, [tune.lightOpacity, tune.arrowOpacity]);
-
-  const handleSceneMove = useCallback((event) => {
-    const scene = sceneRef.current;
-    if (!scene || !leftArrowRef.current || !rightArrowRef.current) return;
-
-    const rect = scene.getBoundingClientRect();
-    const px = ((event.clientX - rect.left) / rect.width) * 100;
-    const py = ((event.clientY - rect.top) / rect.height) * 100;
-    const rotateTowardPointer = (origin, baseOffset = 0) => {
-      const angle = Math.atan2(py - origin.y, px - origin.x) * (180 / Math.PI);
-      return Math.max(-16, Math.min(16, angle + baseOffset));
-    };
-
-    gsap.to(leftArrowRef.current, {
-      rotation: rotateTowardPointer(ARROW_ORIGINS.left, 48),
-      duration: 0.35,
-      ease: 'power2.out',
-      transformOrigin: `${ARROW_ORIGINS.left.x}% ${ARROW_ORIGINS.left.y}%`,
-    });
-    gsap.to(rightArrowRef.current, {
-      rotation: rotateTowardPointer(ARROW_ORIGINS.right, 132),
-      duration: 0.35,
-      ease: 'power2.out',
-      transformOrigin: `${ARROW_ORIGINS.right.x}% ${ARROW_ORIGINS.right.y}%`,
-    });
-  }, []);
+  }, [tune.lightOpacity]);
 
   const replaySwitch = useCallback(() => {
+    lampInteractiveReadyRef.current = false;
     switchTlRef.current?.restart();
   }, []);
 
@@ -249,6 +588,34 @@ export default function DigitalWorks() {
     return () => ctx.revert();
   }, []);
 
+  const arcControlY = 2 * tune.arcCenterY - (tune.arcLeftY + tune.arcRightY) / 2;
+  const arcMidX = tune.arcControlX / 2 + 418;
+  const arcCurvePath = `M 0 ${tune.arcLeftY} Q ${tune.arcControlX} ${arcControlY} 1672 ${tune.arcRightY}`;
+  // 光沿弧形抵達右牆後先繞到畫面外側，再以圓角轉向貼牆向下。
+  const bottomRadius = Math.min(tune.heroBottomRadius, tune.heroWallEndY - tune.heroCornerEndY);
+  const bottomTurnStartY = tune.heroWallEndY - bottomRadius;
+  const bottomTurnEndX = 1672 - bottomRadius;
+  const circleBezier = bottomRadius * 0.55228475;
+  const heroFlowPath = `${arcCurvePath} C ${tune.heroCornerOutX} ${tune.arcRightY - 28} 1672 ${tune.heroCornerControlY} 1672 ${tune.heroCornerEndY} L 1672 ${bottomTurnStartY} C 1672 ${bottomTurnStartY + circleBezier} ${bottomTurnEndX + circleBezier} ${tune.heroWallEndY} ${bottomTurnEndX} ${tune.heroWallEndY}`;
+  const projectCornerWidth = 1000 - tune.projectTurnX;
+  const projectCornerHeight = tune.projectTurnY - tune.projectDropY;
+  const projectCornerBezier = 0.55228475;
+  const projectRightSpan = tune.projectTurnX - 500;
+  const projectLeftSpan = 530;
+  const projectArcHandle = 0.36;
+  const projectFlowPath = [
+    `M 1000 -120 L 1000 ${tune.projectDropY}`,
+    `C 1000 ${tune.projectDropY + projectCornerHeight * projectCornerBezier}`,
+    `${tune.projectTurnX + projectCornerWidth * projectCornerBezier} ${tune.projectTurnY}`,
+    `${tune.projectTurnX} ${tune.projectTurnY}`,
+    `C ${tune.projectTurnX - projectRightSpan * projectArcHandle} ${tune.projectTurnY}`,
+    `${500 + projectRightSpan * projectArcHandle} ${tune.projectArcCenterY}`,
+    `500 ${tune.projectArcCenterY}`,
+    `C ${500 - projectLeftSpan * projectArcHandle} ${tune.projectArcCenterY}`,
+    `${-30 + projectLeftSpan * projectArcHandle} ${tune.projectExitY}`,
+    `-30 ${tune.projectExitY}`,
+  ].join(' ');
+
   return (
     <section
       className="digital-works"
@@ -262,51 +629,216 @@ export default function DigitalWorks() {
         '--digital-mobile-title-size': `${tune.mobileTitleSize}vw`,
         '--digital-mobile-title-gap': `${tune.mobileTitleGap}vw`,
         '--digital-light-opacity': tune.lightOpacity,
-        '--digital-arrow-opacity': tune.arrowOpacity,
         '--pickmin-card-video-scale': pickminCardTune.videoScale,
         '--pickmin-card-video-x': `${pickminCardTune.videoX}px`,
         '--pickmin-card-video-y': `${pickminCardTune.videoY}px`,
         '--work-order-card-image-scale': workOrderCardTune.imageScale,
         '--work-order-card-image-x': `${workOrderCardTune.imageX}px`,
         '--work-order-card-image-y': `${workOrderCardTune.imageY}px`,
+        '--project-flow-height': `${tune.projectFlowHeight}vh`,
       }}
     >
       <div className="digital-works__intro">
-        <div className="digital-works__scene" ref={sceneRef} onMouseMove={handleSceneMove}>
+        <div className="digital-works__scene" ref={sceneRef}>
           <div className="digital-works__art">
-            <img className="digital-works__light" ref={lightRef} src={assetPath(`${DIGITAL_ASSET_BASE}/light.png`)} alt="" />
-            <div className="digital-works__headline" ref={titleRef} aria-label="Digital works">
-              <span>DIGITAL</span>
-              <span>WORKS</span>
+            <div className="digital-works__light" ref={lightRef} aria-hidden="true">
+              <div className="digital-works__rays" ref={raysRef} />
+              <div className="digital-works__final-field" ref={finalFieldRef} />
             </div>
-            <img
-              className="digital-works__arrow digital-works__arrow--left"
-              ref={leftArrowRef}
-              src={assetPath(`${DIGITAL_ASSET_BASE}/arrow-left.png`)}
-              alt=""
-            />
-            <img
-              className="digital-works__arrow digital-works__arrow--right"
-              ref={rightArrowRef}
-              src={assetPath(`${DIGITAL_ASSET_BASE}/arrow-right.png`)}
-              alt=""
-            />
-            <img className="digital-works__lamp" src={assetPath(`${DIGITAL_ASSET_BASE}/light-shade.png`)} alt="" />
-            <img
-              className="digital-works__cord"
-              ref={cordRef}
-              src={assetPath(`${DIGITAL_ASSET_BASE}/light-cord.png`)}
-              alt="拉燈線"
-              onClick={replaySwitch}
-            />
+            <svg
+              ref={heroFlowRef}
+              className="digital-works__flow digital-works__flow--hero"
+              viewBox="0 0 1672 941"
+              preserveAspectRatio="xMidYMid slice"
+              aria-hidden="true"
+            >
+              <defs>
+                <clipPath id="digital-flow-below-arc">
+                  <path d={`${arcCurvePath} L 1672 1100 L 0 1100 Z`} />
+                </clipPath>
+                <radialGradient id="digital-flow-hero-orb" cx="50%" cy="50%" r="40%">
+                  <stop offset="0" stopColor="#ffd23b" stopOpacity="0.96" />
+                  <stop offset="0.22" stopColor="#ffb018" stopOpacity="0.84" />
+                  <stop offset="0.48" stopColor="#ff7a00" stopOpacity="0.5" />
+                  <stop offset="0.68" stopColor="#ff5a00" stopOpacity="0.14" />
+                  <stop offset="0.82" stopColor="#ff4a00" stopOpacity="0" />
+                  <stop offset="1" stopColor="#ff4a00" stopOpacity="0" />
+                </radialGradient>
+              </defs>
+              <g clipPath="url(#digital-flow-below-arc)">
+                <g className="digital-works__flow-orb digital-works__flow-orb--hero">
+                  <ellipse
+                    cx="0"
+                    cy="0"
+                    rx={tune.flowOrbRx}
+                    ry={tune.flowOrbRy}
+                    fill="url(#digital-flow-hero-orb)"
+                    opacity={tune.flowOpacity}
+                  />
+                  <animateMotion
+                    ref={heroMotionRef}
+                    begin="indefinite"
+                    dur={`${tune.flowDuration}s`}
+                    repeatCount="1"
+                    fill="freeze"
+                    rotate="auto"
+                    calcMode="spline"
+                    keyTimes="0;1"
+                    keySplines="0.42 0 0.2 1"
+                    path={heroFlowPath}
+                  />
+                </g>
+              </g>
+            </svg>
+            {SHOW_DIGITAL_EDIT && (
+              <svg
+                className="digital-works__arc-editor"
+                viewBox="0 0 1672 941"
+                preserveAspectRatio="xMidYMid slice"
+                aria-hidden="true"
+              >
+                <g className="digital-works__arc-guide">
+                  <path d={heroFlowPath} />
+                  <circle cx="0" cy={tune.arcLeftY} r="9" />
+                  <circle cx={arcMidX} cy={tune.arcCenterY} r="9" />
+                  <circle cx="1672" cy={tune.arcRightY} r="9" />
+                  <circle cx="1672" cy={tune.heroCornerEndY} r="9" />
+                  <circle cx="1672" cy={bottomTurnStartY} r="9" />
+                  <circle cx={bottomTurnEndX} cy={tune.heroWallEndY} r="9" />
+                </g>
+              </svg>
+            )}
+            <div className="digital-works__headline" ref={titleRef} role="img" aria-label="Digital works">
+              <div className="digital-works__headline-stack">
+                <div className="digital-works__headline-reveal" ref={titleRevealRef}>
+                  <img
+                    className="digital-works__headline-art"
+                    src={assetPath('images/graphic/digital-work/digital-works-title-white.png')}
+                    alt=""
+                    aria-hidden="true"
+                  />
+                </div>
+                {/* 光澤掃過：拿字圖自身當遮罩，亮帶只在筆畫裡跑 */}
+                <span
+                  className="digital-works__headline-sheen"
+                  ref={titleSheenRef}
+                  style={{
+                    WebkitMaskImage: `url(${assetPath('images/graphic/digital-work/digital-works-title-white.png')})`,
+                    maskImage: `url(${assetPath('images/graphic/digital-work/digital-works-title-white.png')})`,
+                  }}
+                  aria-hidden="true"
+                />
+              </div>
+            </div>
+            <div className="digital-works__fixture" ref={fixtureRef}>
+              <img
+                className="digital-works__lamp-art digital-works__lamp-art--off"
+                ref={lampOffRef}
+                src={assetPath('images/graphic/digital-work/digital-lamp-off-nochain.png')}
+                alt=""
+              />
+              <img
+                className="digital-works__lamp-art digital-works__lamp-art--on"
+                ref={lampOnRef}
+                src={assetPath('images/graphic/digital-work/digital-lamp-on-nochain.png')}
+                alt=""
+              />
+              <div className="digital-works__lamp-chain-patch" ref={chainPatchRef} aria-hidden="true">
+                <img src={assetPath('images/graphic/digital-work/digital-lamp-chain-off.png')} alt="" />
+              </div>
+              <div className="digital-works__chain" ref={chainRef} aria-hidden="true">
+                <img
+                  className="digital-works__chain-art digital-works__chain-art--off"
+                  ref={chainOffRef}
+                  src={assetPath('images/graphic/digital-work/digital-lamp-chain-off.png')}
+                  alt=""
+                />
+                <img
+                  className="digital-works__chain-art digital-works__chain-art--on"
+                  ref={chainOnRef}
+                  src={assetPath('images/graphic/digital-work/digital-lamp-chain-on.png')}
+                  alt=""
+                />
+              </div>
+              <button
+                type="button"
+                className="digital-works__cord"
+                ref={cordRef}
+                onClick={replaySwitch}
+                aria-label="拉下燈繩，重新播放開燈效果"
+              >
+              </button>
+            </div>
           </div>
           {SHOW_DIGITAL_EDIT && <DigitalTunePanel tune={tune} setTune={setTune} />}
         </div>
       </div>
-      {SHOW_DIGITAL_EDIT && <PickminCardTunePanel tune={pickminCardTune} setTune={setPickminCardTune} />}
-      {SHOW_DIGITAL_EDIT && <WorkOrderCardTunePanel tune={workOrderCardTune} setTune={setWorkOrderCardTune} />}
+      {SHOW_CARD_EDIT && <PickminCardTunePanel tune={pickminCardTune} setTune={setPickminCardTune} />}
+      {SHOW_CARD_EDIT && <WorkOrderCardTunePanel tune={workOrderCardTune} setTune={setWorkOrderCardTune} />}
 
       <div className="digital-works__projects">
+        <svg
+          ref={projectFlowRef}
+          className="digital-works__flow digital-works__flow--projects"
+          viewBox="0 0 1000 720"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <g
+            className="digital-works__project-stream"
+            fill="none"
+            strokeDasharray="260 2000"
+            strokeDashoffset="260"
+            opacity={tune.flowOpacity}
+          >
+            <animate
+              ref={projectMotionRef}
+              attributeName="stroke-dashoffset"
+              begin="indefinite"
+              dur={`${tune.flowDuration}s`}
+              from="260"
+              to="-1000"
+              fill="freeze"
+              calcMode="spline"
+              keyTimes="0;1"
+              keySplines="0.42 0 0.2 1"
+            />
+            <path
+              className="digital-works__project-stream-line digital-works__project-stream-line--outer"
+              d={projectFlowPath}
+              pathLength="1000"
+              vectorEffect="non-scaling-stroke"
+            />
+            <path
+              className="digital-works__project-stream-line digital-works__project-stream-line--middle"
+              d={projectFlowPath}
+              pathLength="1000"
+              vectorEffect="non-scaling-stroke"
+            />
+            <path
+              className="digital-works__project-stream-line digital-works__project-stream-line--core"
+              d={projectFlowPath}
+              pathLength="1000"
+              vectorEffect="non-scaling-stroke"
+            />
+          </g>
+        </svg>
+        {SHOW_DIGITAL_EDIT && (
+          <svg
+            className="digital-works__arc-editor digital-works__arc-editor--projects"
+            viewBox="0 0 1000 720"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <g className="digital-works__arc-guide">
+              <path d={projectFlowPath} />
+              <circle cx="1000" cy={tune.projectDropY} r="7" />
+              <circle cx={tune.projectTurnX} cy={tune.projectTurnY} r="7" />
+              <circle cx="500" cy={tune.projectArcCenterY} r="7" />
+              <circle cx="0" cy={tune.projectExitY} r="7" />
+            </g>
+          </svg>
+        )}
         <div className="container digital-works__grid" ref={gridRef}>
           {projects.map((project) => (
             <ProjectCard

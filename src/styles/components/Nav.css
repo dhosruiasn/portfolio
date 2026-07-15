@@ -4,12 +4,49 @@
   left: 0;
   width: 100%;
   z-index: 90;
-  background: rgba(250, 250, 247, 0.85);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--border);
+  isolation: isolate;
+  overflow: hidden;
+  background: rgba(246, 237, 232, 0.62);
+  backdrop-filter: blur(18px) saturate(0.92);
+  -webkit-backdrop-filter: blur(18px) saturate(0.92);
+  border-bottom: 1px solid rgba(255, 250, 242, 0.62);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -10px 18px -18px rgba(91, 29, 17, 0.42),
+    0 8px 24px rgba(45, 10, 5, 0.08);
   transform: translateY(-100%);
   transition: transform 0.3s ease;
+}
+
+/* 延續 Hero 16 片柱狀毛玻璃的微弱折射；只保留反光，不做硬格線。 */
+.nav::before,
+.nav::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.nav::before {
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.12) 0,
+      rgba(255, 255, 255, 0.025) 4.5%,
+      rgba(93, 31, 19, 0.05) 6.15%,
+      rgba(255, 255, 255, 0.14) 6.25%
+    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 244, 237, 0.025));
+  opacity: 0.42;
+}
+
+.nav::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='144' height='144' viewBox='0 0 144 144'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.86' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 144px 144px;
+  mix-blend-mode: soft-light;
+  opacity: 0.1;
 }
 
 .nav--visible {
@@ -17,6 +54,8 @@
 }
 
 .nav__inner {
+  position: relative;
+  z-index: 1;
   height: var(--nav-height);
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -126,6 +165,19 @@
 }
 
 @media (max-width: 900px) {
+  /* 手機版將 Nav 玻璃柱體由 16 根減為 8 根。 */
+  .nav::before {
+    background:
+      repeating-linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.12) 0,
+        rgba(255, 255, 255, 0.025) 9%,
+        rgba(93, 31, 19, 0.05) 12.3%,
+        rgba(255, 255, 255, 0.14) 12.5%
+      ),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 244, 237, 0.025));
+  }
+
   .nav__inner {
     padding: 0 14px;
     /* 桌面的 1fr auto 1fr 在窄螢幕會讓右欄擠進中央、貼住品牌字，
@@ -153,11 +205,15 @@
   }
 
   .nav__menu {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     padding: 6px 14px 16px;
-    background: rgba(250, 250, 247, 0.97);
-    border-top: 1px solid var(--border);
+    background: rgba(246, 237, 232, 0.76);
+    -webkit-backdrop-filter: blur(18px) saturate(0.92);
+    backdrop-filter: blur(18px) saturate(0.92);
+    border-top: 1px solid rgba(255, 250, 242, 0.55);
   }
 
   .nav__menu-link {

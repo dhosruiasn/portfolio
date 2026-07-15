@@ -60,6 +60,11 @@
   font-size: 14px;
 }
 
+/* Pickmin 淺色內頁不使用冰霧藍當文字色，群組標題回到咖啡色。 */
+.detail-page--pickmin .pickmin-palette-group__header > span {
+  color: #6b3415;
+}
+
 .pickmin-palette-group__header p {
   justify-self: end;
   max-width: 420px;

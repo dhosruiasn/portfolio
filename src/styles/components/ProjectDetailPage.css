@@ -2,7 +2,7 @@
   position: fixed;
   inset: 0;
   z-index: 200;
-  background: #e5e5e5;
+  background: #eeece7;
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-width: none;
@@ -19,7 +19,7 @@ body:has(.detail-page),
 #root:has(.detail-page),
 .app:has(.detail-page),
 .digital-works:has(.detail-page) {
-  background: #e5e5e5;
+  background: #eeece7;
   max-width: 100vw;
   overflow-x: clip;
 }
@@ -35,8 +35,8 @@ body:has(.detail-page),
   width: 58px;
   height: 58px;
   border-radius: 50%;
-  background: #c8c8c8;
-  color: #fff;
+  background: #e4e3df;
+  color: #393532;
   font-family: var(--font-body-en);
   font-size: 32px;
   line-height: 1;
@@ -48,7 +48,7 @@ body:has(.detail-page),
 
 .detail-page__close:hover {
   transform: rotate(8deg) scale(1.04);
-  background: var(--accent);
+  background: #caefff;
 }
 
 .detail-page__close:focus-visible,
@@ -56,7 +56,7 @@ body:has(.detail-page),
 .pickmin-cta__button:focus-visible,
 .pickmin-locale-card button:focus-visible,
 .pickmin-sheet-demo button:focus-visible {
-  outline: 4px solid #ffcf25;
+  outline: 4px solid #caefff;
   outline-offset: 4px;
 }
 
@@ -80,7 +80,7 @@ body:has(.detail-page),
   display: block;
   margin: 0;
   font-family: var(--font-heading);
-  font-weight: 800;
+  font-weight: 600;
   font-size: clamp(60px, var(--detail-title-size, 7.4vw), var(--detail-title-max, 128px));
   line-height: var(--detail-title-line, 0.82);
   color: #6b3415;
@@ -1728,7 +1728,7 @@ body:has(.detail-page),
 .googoolii-visual-card > span {
   font-family: var(--font-body-en), var(--font-body-zh);
   font-size: 12px;
-  font-weight: 900;
+  font-weight: 800;
   letter-spacing: 0;
   text-transform: uppercase;
 }
@@ -1791,7 +1791,7 @@ body:has(.detail-page),
   color: var(--case-ink);
   font-family: var(--font-body-en), var(--font-body-zh);
   font-size: 13px;
-  font-weight: 900;
+  font-weight: 800;
   line-height: 1.12;
   box-shadow: 3px 3px 0 var(--case-ink);
 }
@@ -1932,7 +1932,7 @@ body:has(.detail-page),
   margin: 0 0 12px;
   font-family: var(--font-body-en), var(--font-body-zh);
   font-size: clamp(22px, 2vw, 34px);
-  font-weight: 900;
+  font-weight: 800;
   line-height: 1.12;
   color: var(--case-ink);
 }
@@ -2065,6 +2065,14 @@ body:has(.detail-page),
   color: var(--case-orange);
 }
 
+.googoolii-token h3 {
+  font-weight: 700;
+}
+
+.googoolii-type-row > span {
+  font-weight: 700;
+}
+
 .googoolii-type-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -2192,12 +2200,14 @@ body:has(.detail-page),
 
 /* Neutral page background */
 .detail-page--googoolii-custom {
-  background: #ececec;
+  --accent: #ff6f43;
+  background: #eeece7;
+  color: #393532;
 }
 
-/* Masthead title: ink, sane size, no stroke/clipping */
+/* Masthead title: coffee ink, sane size, no stroke/clipping */
 .detail-page--googoolii-custom .detail-page__name {
-  color: #141414;
+  color: #6b3415;
   font-size: clamp(36px, 5vw, 76px);
   line-height: 1.02;
   text-shadow: none;
@@ -2226,12 +2236,12 @@ body:has(.detail-page),
 
 /* Hero copy: white panel, ink text (blue demoted to accent) */
 .detail-page--googoolii-custom .googoolii-hero__copy {
-  background: #ffffff;
-  color: #141414;
+  background: #f8f6f2;
+  color: #393532;
 }
 .detail-page--googoolii-custom .googoolii-hero__subtitle,
 .detail-page--googoolii-custom .googoolii-hero__summary {
-  color: #141414;
+  color: #393532;
 }
 .detail-page--googoolii-custom .googoolii-hero__logo {
   padding: 0;
@@ -2360,6 +2370,7 @@ body:has(.detail-page),
 /* Token hex code → neutral gray (was orange) */
 .detail-page--googoolii-custom .googoolii-token code {
   color: #8e8e93;
+  font-weight: 600;
 }
 
 /* Flow card media: keep product screenshots, thin neutral frame */
@@ -2407,7 +2418,7 @@ body:has(.detail-page),
 .googoolii-takeaway .googoolii-panel--yellow p {
   font-size: clamp(22px, 2.2vw, 36px);
   line-height: 1.3;
-  font-weight: 900;
+  font-weight: 400;
 }
 
 .detail-page--pickmin .case-section--problem {
@@ -2609,7 +2620,7 @@ body:has(.detail-page),
   margin: 0;
   font-family: var(--font-body-en), var(--font-body-zh);
   font-size: clamp(22px, 2.2vw, 34px);
-  font-weight: 800;
+  font-weight: 500;
   line-height: 1.12;
   color: #6b3415;
 }
@@ -2709,6 +2720,12 @@ body:has(.detail-page),
 .pickmin-token-card code,
 .pickmin-placeholder code {
   color: #8e8e93;
+  font-weight: 600;
+}
+
+.pickmin-token-card span,
+.pickmin-type-scale__row span {
+  font-weight: 700;
 }
 
 .pickmin-token-card h3,
@@ -2747,7 +2764,7 @@ body:has(.detail-page),
 .pickmin-type-scale__row span {
   color: var(--case-blue);
   font-size: 12px;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .pickmin-type-scale__row strong {
@@ -4716,4 +4733,762 @@ body:has(.detail-page),
   .googoolii-token p {
     display: none;
   }
+}
+
+/* ---------- 其他共用 case study 內頁色票 ----------
+   UI Tweaker 與 Work-Order 使用同一組淺色展示框架；專案媒體內容不變色。 */
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) {
+  --accent: #ff6f43;
+  --detail-accent-text: #b94728;
+  color: #393532;
+}
+
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-study {
+  --case-ink: #393532;
+  --case-blue: #caefff;
+  --case-yellow: #f4c8b5;
+  --case-orange: #ff6f43;
+  --case-paper: #f8f6f2;
+  --case-soft: #e4e3df;
+  --detail-preview-yellow: #fff1b8;
+}
+
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-hero__copy,
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-meta {
+  background: var(--case-paper);
+  color: var(--case-ink);
+}
+
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-hero__subtitle {
+  color: var(--detail-accent-text);
+}
+
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section--overview .case-panel h3 {
+  color: var(--detail-accent-text) !important;
+}
+
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section--trust .case-panel:first-child h3 {
+  color: var(--detail-accent-text);
+}
+
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-hero__summary {
+  color: var(--case-ink);
+}
+
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section__heading h2 {
+  color: #6b3415;
+}
+
+/* PROBLEM 保留已確認的原版黑底白卡。 */
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section.case-section--problem {
+  background: #141414;
+}
+
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section--problem .case-section__heading h2 {
+  color: #fff;
+}
+
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section--problem .case-panel,
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section--problem .case-panel--neutral {
+  background: #fff !important;
+  color: #050505;
+}
+
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section--system {
+  background: var(--case-soft);
+}
+
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section--system .case-section__heading h2 {
+  color: #6b3415;
+}
+
+/* TOOL STRUCTURE 使用自己的區段名稱，明確鎖定新色票，避免回吃原本品牌藍。 */
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section--architecture .case-chip-cloud {
+  background: var(--case-blue) !important;
+}
+
+/* 第四張 Workflow States 原本與區段同為灰底，改成淡黃以恢復卡片邊界。 */
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section--system .case-panel:nth-child(4) {
+  background: var(--detail-preview-yellow) !important;
+  color: var(--case-ink);
+}
+
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section--system .case-panel:nth-child(4) h3,
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section--system .case-panel:nth-child(4) p {
+  color: var(--case-ink) !important;
+}
+
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section--users .case-split > .case-panel,
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section--architecture .case-chip-cloud,
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section--decisions .case-decision:nth-child(1) .case-decision__copy,
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section--system .case-panel:nth-child(3),
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section--outcome > .case-split > .case-panel {
+  background: var(--case-blue);
+}
+
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section--users .case-split > .case-panel h3,
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section--users .case-split > .case-panel li,
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section--decisions .case-decision:nth-child(1) .case-decision__copy h3,
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section--decisions .case-decision:nth-child(1) .case-decision__copy p,
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section--system .case-panel:nth-child(3) h3,
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section--system .case-panel:nth-child(3) p,
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section--outcome > .case-split > .case-panel p {
+  color: var(--case-ink);
+}
+
+/* 冰霧藍是淺底：原本 discovery tone 的白字必須改為炭灰。 */
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-tone--discovery h3,
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-tone--discovery p,
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-tone--discovery li,
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-tone--discovery span,
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-tone--discovery strong {
+  color: var(--case-ink) !important;
+}
+
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-metric:nth-child(3n + 2) strong,
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-metric:nth-child(3n + 2) > span,
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-metric:nth-child(3n + 3) strong,
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-metric:nth-child(3n + 3) > span,
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-metric:nth-child(4n) strong,
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-metric:nth-child(4n) > span {
+  color: var(--case-ink);
+}
+
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-metric:nth-child(4n) {
+  background: var(--case-paper);
+}
+
+/* 只有 Information Architecture 浮動 pill 使用新色票混色。 */
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section--architecture .case-chip-cloud > span {
+  color: var(--case-ink);
+}
+
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section--architecture .case-chip-cloud > span:nth-child(4n + 1) {
+  background: var(--case-yellow);
+}
+
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section--architecture .case-chip-cloud > span:nth-child(4n + 2) {
+  background: var(--detail-preview-yellow);
+}
+
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section--architecture .case-chip-cloud > span:nth-child(4n + 3) {
+  background: var(--case-orange);
+  color: #fff;
+}
+
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section--architecture .case-chip-cloud > span:nth-child(4n) {
+  background: var(--case-paper);
+}
+
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section--system .case-component-strip {
+  background: var(--case-ink);
+}
+
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-section--system .case-component-strip__label {
+  color: #6b3415;
+}
+
+/* 橘色實心底依設計規則保留白字。 */
+.detail-page:is(.detail-page--pickmin, .detail-page--ui-tweaker, .detail-page--shopee-archive) .case-tone--trust h3,
+.detail-page:is(.detail-page--pickmin, .detail-page--ui-tweaker, .detail-page--shopee-archive) .case-tone--trust p,
+.detail-page:is(.detail-page--pickmin, .detail-page--ui-tweaker, .detail-page--shopee-archive) .case-tone--trust li,
+.detail-page:is(.detail-page--pickmin, .detail-page--ui-tweaker, .detail-page--shopee-archive) .case-tone--trust span,
+.detail-page:is(.detail-page--pickmin, .detail-page--ui-tweaker, .detail-page--shopee-archive) .case-tone--trust strong,
+.detail-page:is(.detail-page--pickmin, .detail-page--ui-tweaker, .detail-page--shopee-archive) .case-flow__item:first-child strong,
+.detail-page:is(.detail-page--pickmin, .detail-page--ui-tweaker, .detail-page--shopee-archive) .case-flow__item:last-child strong,
+.detail-page:is(.detail-page--pickmin, .detail-page--ui-tweaker, .detail-page--shopee-archive) .case-metric:nth-child(3n + 1) strong,
+.detail-page:is(.detail-page--pickmin, .detail-page--ui-tweaker, .detail-page--shopee-archive) .case-metric:nth-child(3n + 1) > span {
+  color: #fff !important;
+}
+
+/* 4n 白卡可能同時命中 3n+1，白卡必須最後改回深色字。 */
+.detail-page:is(.detail-page--pickmin, .detail-page--ui-tweaker, .detail-page--shopee-archive) .case-metric:nth-child(4n) strong,
+.detail-page:is(.detail-page--pickmin, .detail-page--ui-tweaker, .detail-page--shopee-archive) .case-metric:nth-child(4n) > span {
+  color: #393532 !important;
+}
+
+/* Flow 第 4／7 格是淡色底，即使剛好是首尾格也不使用白字。 */
+.detail-page:is(.detail-page--pickmin, .detail-page--ui-tweaker, .detail-page--shopee-archive) .case-flow__item:nth-child(4) strong,
+.detail-page:is(.detail-page--pickmin, .detail-page--ui-tweaker, .detail-page--shopee-archive) .case-flow__item:nth-child(7) strong {
+  color: #6b3415 !important;
+}
+
+.detail-page:is(.detail-page--pickmin, .detail-page--ui-tweaker, .detail-page--shopee-archive) .case-hero__visit,
+.detail-page:is(.detail-page--pickmin, .detail-page--ui-tweaker, .detail-page--shopee-archive) .pickmin-cta__button,
+.detail-page:is(.detail-page--pickmin, .detail-page--ui-tweaker, .detail-page--shopee-archive) .case-end-cta {
+  color: #fff;
+}
+
+.detail-page:is(.detail-page--pickmin, .detail-page--ui-tweaker, .detail-page--shopee-archive) .case-meta > span,
+.detail-page:is(.detail-page--pickmin, .detail-page--ui-tweaker, .detail-page--shopee-archive) .case-next__label {
+  color: var(--detail-accent-text);
+}
+
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-hero__visit:hover,
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-end-cta:hover,
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-next:hover,
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-chapters__link:hover,
+.detail-page:is(.detail-page--ui-tweaker, .detail-page--shopee-archive) .case-chapters__link:focus-visible,
+.detail-page--googoolii-custom .case-next:hover,
+.detail-page--googoolii-custom .case-chapters__link:hover,
+.detail-page--googoolii-custom .case-chapters__link:focus-visible {
+  background: #caefff;
+  color: #393532;
+}
+
+/* ---------- Pickmin 內頁淺色新色票預覽 ----------
+   只作用於 Pickmin case study；Digital Works 外層與其他專案不繼承這組變數。 */
+html:has(.detail-page--pickmin),
+body:has(.detail-page--pickmin),
+#root:has(.detail-page--pickmin),
+.app:has(.detail-page--pickmin),
+.digital-works:has(.detail-page--pickmin) {
+  background: #eeece7;
+}
+
+.detail-page--pickmin {
+  --accent: #ff6f43;
+  --detail-accent-text: #b94728;
+  --pickmin-preview-bg: #eeece7;
+  --pickmin-preview-paper: #f8f6f2;
+  --pickmin-preview-soft: #e4e3df;
+  --pickmin-preview-ink: #393532;
+  --pickmin-preview-coral: #ff6f43;
+  --pickmin-preview-coral-soft: #f4c8b5;
+  --pickmin-preview-blue: #caefff;
+  --pickmin-preview-blue-muted: #abd9dd;
+  --pickmin-preview-yellow: #fff1b8;
+  background: var(--pickmin-preview-bg);
+  color: var(--pickmin-preview-ink);
+}
+
+.detail-page--pickmin .case-study {
+  --case-ink: var(--pickmin-preview-ink);
+  --case-blue: var(--pickmin-preview-blue);
+  --case-yellow: var(--pickmin-preview-coral-soft);
+  --case-orange: var(--pickmin-preview-coral);
+  --case-paper: var(--pickmin-preview-paper);
+  --case-soft: var(--pickmin-preview-soft);
+}
+
+.detail-page--pickmin .detail-page__close {
+  background: var(--pickmin-preview-soft);
+  color: var(--pickmin-preview-ink);
+}
+
+.detail-page--pickmin .detail-page__close:hover {
+  background: var(--pickmin-preview-blue);
+}
+
+.detail-page--pickmin .case-hero__subtitle,
+.detail-page--pickmin .case-section--overview .case-panel h3 {
+  color: var(--pickmin-preview-coral);
+}
+
+/* 保留原本內頁的咖啡色標題；作品名稱字重由 800 降為 600。 */
+.detail-page--pickmin .detail-page__name {
+  color: #6b3415;
+  font-weight: 600;
+}
+
+.detail-page--pickmin .case-section__heading h2,
+.detail-page--pickmin .case-panel h3,
+.detail-page--pickmin .case-decision__copy h3,
+.detail-page--pickmin .pickmin-ds-intro__map h3,
+.detail-page--pickmin .pickmin-component-family__copy h3,
+.detail-page--pickmin .pickmin-core-component h3,
+.detail-page--pickmin .pickmin-motion-card__copy h3,
+.detail-page--pickmin .pickmin-principle-card__copy h3,
+.detail-page--pickmin .pickmin-placeholder strong,
+.detail-page--pickmin .pickmin-flow-step h3 {
+  color: #6b3415;
+}
+
+.detail-page--pickmin .case-hero__summary,
+.detail-page--pickmin .case-panel,
+.detail-page--pickmin .case-panel p,
+.detail-page--pickmin .case-decision__copy p,
+.detail-page--pickmin .pickmin-section-intro,
+.detail-page--pickmin .pickmin-component-family__copy p,
+.detail-page--pickmin .pickmin-principle-card__copy p,
+.detail-page--pickmin .pickmin-locale-card h3,
+.detail-page--pickmin .pickmin-locale-card p {
+  color: var(--pickmin-preview-ink);
+}
+
+.detail-page--pickmin .case-hero__copy,
+.detail-page--pickmin .case-meta,
+.detail-page--pickmin .case-panel,
+.detail-page--pickmin .pickmin-ds-intro__copy,
+.detail-page--pickmin .pickmin-principle-card,
+.detail-page--pickmin .pickmin-token-card,
+.detail-page--pickmin .pickmin-core-component,
+.detail-page--pickmin .pickmin-component-family__copy,
+.detail-page--pickmin .pickmin-postcard-demo,
+.detail-page--pickmin .pickmin-folder-demo,
+.detail-page--pickmin .pickmin-sheet-demo,
+.detail-page--pickmin .pickmin-motion-card__copy,
+.detail-page--pickmin .pickmin-locale-card,
+.detail-page--pickmin .pickmin-reflection .case-panel {
+  background: var(--pickmin-preview-paper);
+}
+
+/* 只有 Information Architecture 的浮動 pill 使用混色。 */
+.detail-page--pickmin .case-section--architecture .case-chip-cloud > span {
+  color: var(--pickmin-preview-ink);
+}
+
+.detail-page--pickmin .case-section--architecture .case-chip-cloud > span:nth-child(4n + 1) {
+  background: var(--pickmin-preview-coral-soft);
+}
+
+.detail-page--pickmin .case-section--architecture .case-chip-cloud > span:nth-child(4n + 2) {
+  background: var(--pickmin-preview-yellow);
+}
+
+.detail-page--pickmin .case-section--architecture .case-chip-cloud > span:nth-child(4n + 3) {
+  background: var(--pickmin-preview-coral);
+  color: #fff;
+}
+
+.detail-page--pickmin .case-section--architecture .case-chip-cloud > span:nth-child(4n) {
+  background: var(--pickmin-preview-paper);
+}
+
+.detail-page--pickmin .case-section:nth-of-type(even) {
+  background: var(--pickmin-preview-soft);
+}
+
+.detail-page--pickmin .case-section--system {
+  background: var(--pickmin-preview-soft);
+}
+
+.detail-page--pickmin .case-section--system .case-section__heading h2 {
+  color: #6b3415;
+}
+
+/* PROBLEM 恢復原本的深色展示區＋白色卡片。 */
+.detail-page--pickmin .case-section.case-section--problem {
+  background: #141414;
+}
+
+.detail-page--pickmin .case-section--problem .case-section__heading h2 {
+  color: #fff;
+}
+
+.detail-page--pickmin .case-section--problem .case-panel,
+.detail-page--pickmin .case-section--problem .case-panel--neutral {
+  background: #fff !important;
+  color: #050505;
+  box-shadow: inset 0 0 0 2px rgba(20, 20, 20, 0.08);
+}
+
+.detail-page--pickmin .case-section--users .case-split > .case-panel,
+.detail-page--pickmin .case-section--architecture .case-chip-cloud,
+.detail-page--pickmin .case-section--decisions .case-decision:nth-child(1) .case-decision__copy,
+.detail-page--pickmin .case-section--system .case-panel:nth-child(3) {
+  background: var(--pickmin-preview-blue);
+}
+
+.detail-page--pickmin .case-section--users .case-split > .case-panel h3,
+.detail-page--pickmin .case-section--users .case-split > .case-panel li,
+.detail-page--pickmin .case-section--decisions .case-decision:nth-child(1) .case-decision__copy h3,
+.detail-page--pickmin .case-section--decisions .case-decision:nth-child(1) .case-decision__copy p,
+.detail-page--pickmin .case-section--system .case-panel:nth-child(3) h3,
+.detail-page--pickmin .case-section--system .case-panel:nth-child(3) p {
+  color: var(--pickmin-preview-ink);
+}
+
+.detail-page--pickmin .case-section--users .case-split > .case-panel .case-list li::before {
+  background: var(--pickmin-preview-coral);
+}
+
+/* Outcome 主文案卡使用冰霧藍底，文字保持炭灰。 */
+.detail-page--pickmin .case-section--outcome > .case-split > .case-panel {
+  background: var(--pickmin-preview-blue);
+  color: var(--pickmin-preview-ink);
+}
+
+.detail-page--pickmin .case-metric:nth-child(3n + 1) strong,
+.detail-page--pickmin .case-metric:nth-child(3n + 1) > span {
+  color: #fff;
+}
+
+.detail-page--pickmin .case-metric:nth-child(3n + 2) strong,
+.detail-page--pickmin .case-metric:nth-child(3n + 2) > span,
+.detail-page--pickmin .case-metric:nth-child(3n + 3) strong,
+.detail-page--pickmin .case-metric:nth-child(3n + 3) > span,
+.detail-page--pickmin .case-metric:nth-child(4n) strong,
+.detail-page--pickmin .case-metric:nth-child(4n) > span {
+  color: var(--pickmin-preview-ink);
+}
+
+.detail-page--pickmin .case-metric:nth-child(4n),
+.detail-page--pickmin .pickmin-type-scale__row,
+.detail-page--pickmin .pickmin-spacing-model__surface {
+  background: var(--pickmin-preview-paper);
+}
+
+.detail-page--pickmin .pickmin-spacing-model,
+.detail-page--pickmin .pickmin-flow-step:nth-child(odd),
+.detail-page--pickmin .pickmin-flow-step--active,
+.detail-page--pickmin .case-section--decisions .case-decision:nth-child(2) .case-decision__copy {
+  background: var(--pickmin-preview-coral-soft);
+}
+
+.detail-page--pickmin .pickmin-component-family__states,
+.detail-page--pickmin .pickmin-product-screen__labels,
+.detail-page--pickmin .pickmin-reflection__next,
+.detail-page--pickmin .case-section--system .case-component-strip {
+  background: var(--pickmin-preview-ink);
+}
+
+.detail-page--pickmin .pickmin-postcard-demo__media,
+.detail-page--pickmin .pickmin-demo-card__image {
+  background: linear-gradient(150deg, var(--pickmin-preview-coral-soft) 0 44%, var(--pickmin-preview-blue) 44% 100%);
+}
+
+.detail-page--pickmin .pickmin-postcard-demo__tower,
+.detail-page--pickmin .pickmin-demo-card__image::after {
+  background: var(--pickmin-preview-ink);
+}
+
+.detail-page--pickmin .pickmin-interaction-flow__controls button,
+.detail-page--pickmin .pickmin-demo-card,
+.detail-page--pickmin .pickmin-demo-sheet,
+.detail-page--pickmin .pickmin-flow-step {
+  background: var(--pickmin-preview-paper);
+  color: var(--pickmin-preview-ink);
+}
+
+.detail-page--pickmin .pickmin-interaction-flow__controls button.is-active,
+.detail-page--pickmin .pickmin-core-state--pressed,
+.detail-page--pickmin .pickmin-core-state--selected,
+.detail-page--pickmin .pickmin-core-state--focus-visible,
+.detail-page--pickmin .pickmin-core-state--success {
+  background: var(--pickmin-preview-blue);
+  color: var(--pickmin-preview-ink);
+}
+
+.detail-page--pickmin .pickmin-interaction-flow__controls button.is-active .pickmin-step-label__number {
+  background: rgba(57, 53, 50, 0.1);
+  color: var(--pickmin-preview-ink);
+}
+
+.detail-page--pickmin .pickmin-core-state--loading,
+.detail-page--pickmin .pickmin-core-state--error,
+.detail-page--pickmin .pickmin-postcard-demo__failed {
+  background: var(--pickmin-preview-coral);
+  color: #fff;
+}
+
+.detail-page--pickmin .pickmin-interaction-demo__stage {
+  background:
+    radial-gradient(circle at 16% 18%, rgba(255, 111, 67, 0.32), transparent 28%),
+    linear-gradient(135deg, var(--pickmin-preview-blue), var(--pickmin-preview-bg) 64%, var(--pickmin-preview-paper));
+}
+
+.detail-page--pickmin .pickmin-demo-screen {
+  background: var(--pickmin-preview-bg);
+}
+
+.detail-page--pickmin .pickmin-demo-phone,
+.detail-page--pickmin .pickmin-demo-toast {
+  background: var(--pickmin-preview-ink);
+}
+
+.detail-page--pickmin .pickmin-step-label__number {
+  background: rgba(255, 111, 67, 0.12);
+  color: var(--detail-accent-text);
+}
+
+.detail-page--pickmin .pickmin-principle-card__copy > span,
+.detail-page--pickmin .pickmin-component-family__copy > span,
+.detail-page--pickmin .pickmin-postcard-demo__label,
+.detail-page--pickmin .pickmin-folder-demo__body > span,
+.detail-page--pickmin .pickmin-sheet-demo header span,
+.detail-page--pickmin .pickmin-locale-card > span,
+.detail-page--pickmin .pickmin-token-card span,
+.detail-page--pickmin .pickmin-placeholder span,
+.detail-page--pickmin .pickmin-type-scale__row span,
+.detail-page--pickmin .pickmin-flow-step dt,
+.detail-page--pickmin .pickmin-motion-card__copy li,
+.detail-page--pickmin .pickmin-postcard-demo--favorite .pickmin-postcard-demo__label,
+.detail-page--pickmin .pickmin-folder-demo--new-items em,
+.detail-page--pickmin .pickmin-sheet-demo--saving footer span,
+.detail-page--pickmin .pickmin-demo-screen__top span,
+.detail-page--pickmin .pickmin-demo-card em,
+.detail-page--pickmin .pickmin-demo-sheet__head span,
+.detail-page--pickmin .pickmin-demo-folders span {
+  color: var(--detail-accent-text);
+}
+
+/* Pickmin Hero 媒體框的細顆粒玻璃層；不影響影片點擊。 */
+.detail-page--pickmin .case-hero__media-link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  border-radius: inherit;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='144' height='144' viewBox='0 0 144 144'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.48'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 144px 144px;
+  mix-blend-mode: soft-light;
+  opacity: 0.14;
+}
+
+.detail-page--pickmin .case-hero__visit,
+.detail-page--pickmin .pickmin-cta__button,
+.detail-page--pickmin .case-end-cta {
+  background: var(--pickmin-preview-coral);
+  color: #fff;
+}
+
+.detail-page--pickmin .case-hero__visit:hover,
+.detail-page--pickmin .pickmin-cta__button:hover,
+.detail-page--pickmin .case-end-cta:hover {
+  background: var(--pickmin-preview-blue);
+  color: var(--pickmin-preview-ink);
+}
+
+.detail-page--pickmin .pickmin-interaction-flow__controls button:hover,
+.detail-page--pickmin .case-next:hover,
+.detail-page--pickmin .case-chapters__link:hover,
+.detail-page--pickmin .case-chapters__link:focus-visible {
+  background: var(--pickmin-preview-blue);
+  color: var(--pickmin-preview-ink);
+}
+
+.detail-page--pickmin .detail-page__close:focus-visible,
+.detail-page--pickmin .case-hero__visit:focus-visible,
+.detail-page--pickmin .pickmin-cta__button:focus-visible,
+.detail-page--pickmin .pickmin-locale-card button:focus-visible,
+.detail-page--pickmin .pickmin-sheet-demo button:focus-visible,
+.detail-page--pickmin .case-end-cta:focus-visible {
+  outline-color: var(--pickmin-preview-blue);
+}
+
+/* ---------- GOOGOOLii 內頁淺色展示框架 ----------
+   保留作品截圖、影片與品牌色票 swatch；其餘展示卡片套用共用新色票。 */
+.detail-page--googoolii-custom {
+  --googoolii-preview-paper: #f8f6f2;
+  --googoolii-preview-soft: #e4e3df;
+  --googoolii-preview-ink: #393532;
+  --googoolii-preview-coffee: #6b3415;
+  --googoolii-preview-coral: #ff6f43;
+  --googoolii-preview-coral-text: #b94728;
+  --googoolii-preview-coral-soft: #f4c8b5;
+  --googoolii-preview-blue: #caefff;
+  --googoolii-preview-yellow: #fff1b8;
+}
+
+.detail-page--googoolii-custom .googoolii-section__heading h2,
+.detail-page--googoolii-custom .googoolii-panel h3,
+.detail-page--googoolii-custom .googoolii-visual-card h3,
+.detail-page--googoolii-custom .googoolii-flow-card__copy h3 {
+  color: var(--googoolii-preview-coffee);
+}
+
+.detail-page--googoolii-custom .googoolii-hero__subtitle,
+.detail-page--googoolii-custom .googoolii-section__heading > span,
+.detail-page--googoolii-custom .googoolii-flow-card__copy > span {
+  color: var(--googoolii-preview-coral-text);
+}
+
+.detail-page--googoolii-custom .googoolii-section:nth-of-type(even) {
+  background: var(--googoolii-preview-paper);
+}
+
+.detail-page--googoolii-custom .googoolii-concept-grid .googoolii-panel--ink {
+  background: var(--googoolii-preview-paper);
+  color: var(--googoolii-preview-ink);
+}
+
+.detail-page--googoolii-custom .googoolii-concept-grid .googoolii-panel--ink p,
+.detail-page--googoolii-custom .googoolii-concept-grid .googoolii-panel--ink span {
+  color: var(--googoolii-preview-ink);
+}
+
+.detail-page--googoolii-custom .googoolii-concept-grid .googoolii-panel--yellow {
+  background: var(--googoolii-preview-coral-soft);
+  color: var(--googoolii-preview-ink);
+}
+
+.detail-page--googoolii-custom .googoolii-focus-list {
+  background: var(--googoolii-preview-blue);
+}
+
+.detail-page--googoolii-custom .googoolii-focus-list > span:nth-child(4n + 1) {
+  background: var(--googoolii-preview-coral-soft);
+}
+
+.detail-page--googoolii-custom .googoolii-focus-list > span:nth-child(4n + 2) {
+  background: var(--googoolii-preview-yellow);
+}
+
+.detail-page--googoolii-custom .googoolii-focus-list > span:nth-child(4n + 3) {
+  background: var(--googoolii-preview-coral);
+  color: #fff;
+}
+
+.detail-page--googoolii-custom .googoolii-focus-list > span:nth-child(4n) {
+  background: var(--googoolii-preview-paper);
+}
+
+.detail-page--googoolii-custom .googoolii-visual-card:nth-child(1) {
+  background: var(--googoolii-preview-paper);
+}
+
+.detail-page--googoolii-custom .googoolii-visual-card:nth-child(2) {
+  background: var(--googoolii-preview-coral-soft);
+}
+
+.detail-page--googoolii-custom .googoolii-visual-card:nth-child(3) {
+  background: var(--googoolii-preview-blue);
+  color: var(--googoolii-preview-ink);
+}
+
+.detail-page--googoolii-custom .googoolii-visual-card:nth-child(4) {
+  background: var(--googoolii-preview-yellow);
+}
+
+.detail-page--googoolii-custom .googoolii-visual-card:nth-child(5) {
+  background: var(--googoolii-preview-coral);
+  color: #fff;
+}
+
+.detail-page--googoolii-custom .googoolii-visual-card:nth-child(3) h3,
+.detail-page--googoolii-custom .googoolii-visual-card:nth-child(3) p {
+  color: var(--googoolii-preview-ink);
+}
+
+.detail-page--googoolii-custom .googoolii-visual-card:nth-child(5) h3,
+.detail-page--googoolii-custom .googoolii-visual-card:nth-child(5) p {
+  color: #fff;
+}
+
+.detail-page--googoolii-custom .googoolii-token {
+  background: var(--googoolii-preview-paper);
+  color: var(--googoolii-preview-ink);
+}
+
+.detail-page--googoolii-custom .googoolii-type-row:nth-child(4n + 1) {
+  background: var(--googoolii-preview-paper);
+}
+
+.detail-page--googoolii-custom .googoolii-type-row:nth-child(4n + 2) {
+  background: var(--googoolii-preview-coral-soft);
+}
+
+.detail-page--googoolii-custom .googoolii-type-row:nth-child(4n + 3) {
+  background: var(--googoolii-preview-blue);
+}
+
+.detail-page--googoolii-custom .googoolii-type-row:nth-child(4n) {
+  background: var(--googoolii-preview-yellow);
+}
+
+.detail-page--googoolii-custom .googoolii-system-strip {
+  background: var(--googoolii-preview-ink);
+}
+
+.detail-page--googoolii-custom .googoolii-component-grid {
+  background: var(--googoolii-preview-blue);
+}
+
+.detail-page--googoolii-custom .googoolii-system-strip > span,
+.detail-page--googoolii-custom .googoolii-component-grid > span {
+  background: var(--googoolii-preview-paper);
+  color: var(--googoolii-preview-ink);
+}
+
+.detail-page--googoolii-custom .googoolii-component-grid > span:nth-child(3n + 1) {
+  background: var(--googoolii-preview-coral-soft);
+}
+
+.detail-page--googoolii-custom .googoolii-component-grid > span:nth-child(3n + 2) {
+  background: var(--googoolii-preview-yellow);
+}
+
+.detail-page--googoolii-custom .googoolii-component-grid > span:nth-child(3n) {
+  background: var(--googoolii-preview-coral);
+  color: #fff;
+}
+
+.detail-page--googoolii-custom .googoolii-flow-card__copy {
+  background: var(--googoolii-preview-paper);
+  color: var(--googoolii-preview-ink);
+}
+
+.detail-page--googoolii-custom .googoolii-flow-card:nth-child(even) .googoolii-flow-card__copy {
+  background: var(--googoolii-preview-coral-soft);
+}
+
+.detail-page--googoolii-custom .googoolii-flow-card__copy > span {
+  background: var(--googoolii-preview-coral);
+  color: #fff;
+}
+
+.detail-page--googoolii-custom .googoolii-flow-card__copy div > span:nth-child(3n + 1) {
+  background: var(--googoolii-preview-blue);
+}
+
+.detail-page--googoolii-custom .googoolii-flow-card__copy div > span:nth-child(3n + 2) {
+  background: var(--googoolii-preview-yellow);
+}
+
+.detail-page--googoolii-custom .googoolii-flow-card__copy div > span:nth-child(3n) {
+  background: var(--googoolii-preview-paper);
+}
+
+.detail-page--googoolii-custom .googoolii-interaction-grid .googoolii-panel:nth-child(1) {
+  background: var(--googoolii-preview-paper);
+}
+
+.detail-page--googoolii-custom .googoolii-interaction-grid .googoolii-panel:nth-child(2) {
+  background: var(--googoolii-preview-coral-soft);
+}
+
+.detail-page--googoolii-custom .googoolii-interaction-grid .googoolii-panel:nth-child(3) {
+  background: var(--googoolii-preview-coral);
+  color: #fff;
+}
+
+.detail-page--googoolii-custom .googoolii-interaction-grid .googoolii-panel:nth-child(4) {
+  background: var(--googoolii-preview-blue);
+}
+
+.detail-page--googoolii-custom .googoolii-interaction-grid .googoolii-panel:nth-child(3) h3,
+.detail-page--googoolii-custom .googoolii-interaction-grid .googoolii-panel:nth-child(3) p {
+  color: #fff;
+}
+
+.detail-page--googoolii-custom .googoolii-takeaway .googoolii-panel--blue {
+  background: var(--googoolii-preview-blue);
+  color: var(--googoolii-preview-ink);
+}
+
+.detail-page--googoolii-custom .googoolii-takeaway .googoolii-panel--blue p,
+.detail-page--googoolii-custom .googoolii-takeaway .googoolii-panel--blue li {
+  color: var(--googoolii-preview-ink);
+}
+
+.detail-page--googoolii-custom .googoolii-takeaway .googoolii-panel--yellow {
+  background: var(--googoolii-preview-coral-soft);
+  color: var(--googoolii-preview-ink);
+}
+
+.detail-page--googoolii-custom .googoolii-meta-grid .case-meta > span,
+.detail-page--googoolii-custom .case-next__label {
+  color: var(--googoolii-preview-coral-text);
+}
+
+.detail-page--googoolii-custom .googoolii-palette-group .pickmin-palette-group__header > span {
+  color: var(--googoolii-preview-coffee);
+}
+
+.detail-page--googoolii-custom .googoolii-palette-group .pickmin-palette-token code,
+.detail-page--googoolii-custom .googoolii-token code {
+  color: #5f5a56;
 }

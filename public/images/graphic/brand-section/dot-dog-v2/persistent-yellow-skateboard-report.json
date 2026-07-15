@@ -1,0 +1,1060 @@
+{
+  "ok": true,
+  "source_atlas": "/Users/user/Documents/Codex/2026-07-11/hatch-pet-users-user-codex-skills/work/dot-dog-run/backup-pre-yellow-skateboard/spritesheet-extended.webp",
+  "source_sha256": "4462a54e829b910d6f2e6e014cdb48ac7e9a9059d373cc90de1b6503e57c4617",
+  "yellow_board_asset": "/Users/user/Documents/Codex/2026-07-11/hatch-pet-users-user-codex-skills/work/dot-dog-run/assets/skateboard-yellow.png",
+  "yellow_board_sha256": "1e9afb83ad5e004955a3fcf69f5ca27be94e44c214af2afcde5bbb7befb44873",
+  "yellow_deck_recolored_pixels": 1087,
+  "policy": "The dog's body and original feet are never redrawn. Existing directional skateboard cells replace only the prior board mask; all other populated cells translate the intact dog upward and composite the same yellow skateboard beneath it. In the two look rows only, the user's authorized original black pixel-eye marks move farther inside the unchanged orange head so cardinal gaze remains readable at pet size.",
+  "persistent_across_all_populated_cells": true,
+  "jump_action": "The approved jumping row carries the dog and board together; the board tucks upward and moves forward slightly at the peak to read as a compact ollie.",
+  "enhanced_look_eyes": true,
+  "eye_cells": {
+    "r9c0": {
+      "direction_index": 0,
+      "eye_shift": [
+        0,
+        -8
+      ],
+      "eye_boxes": [
+        [
+          80,
+          35,
+          85,
+          44
+        ],
+        [
+          89,
+          35,
+          94,
+          44
+        ]
+      ],
+      "source_eye_components": 2
+    },
+    "r9c1": {
+      "direction_index": 1,
+      "eye_shift": [
+        4,
+        -7
+      ],
+      "eye_boxes": [
+        [
+          84,
+          36,
+          89,
+          45
+        ],
+        [
+          93,
+          36,
+          98,
+          45
+        ]
+      ],
+      "source_eye_components": 2
+    },
+    "r9c2": {
+      "direction_index": 2,
+      "eye_shift": [
+        7,
+        -6
+      ],
+      "eye_boxes": [
+        [
+          87,
+          37,
+          92,
+          46
+        ],
+        [
+          96,
+          37,
+          101,
+          46
+        ]
+      ],
+      "source_eye_components": 2
+    },
+    "r9c3": {
+      "direction_index": 3,
+      "eye_shift": [
+        9,
+        -3
+      ],
+      "eye_boxes": [
+        [
+          89,
+          40,
+          94,
+          49
+        ],
+        [
+          98,
+          40,
+          103,
+          49
+        ]
+      ],
+      "source_eye_components": 2
+    },
+    "r9c4": {
+      "direction_index": 4,
+      "eye_shift": [
+        10,
+        0
+      ],
+      "eye_boxes": [
+        [
+          90,
+          43,
+          95,
+          52
+        ],
+        [
+          99,
+          43,
+          104,
+          52
+        ]
+      ],
+      "source_eye_components": 2
+    },
+    "r9c5": {
+      "direction_index": 5,
+      "eye_shift": [
+        9,
+        3
+      ],
+      "eye_boxes": [
+        [
+          89,
+          46,
+          94,
+          55
+        ],
+        [
+          98,
+          46,
+          103,
+          55
+        ]
+      ],
+      "source_eye_components": 2
+    },
+    "r9c6": {
+      "direction_index": 6,
+      "eye_shift": [
+        7,
+        6
+      ],
+      "eye_boxes": [
+        [
+          87,
+          49,
+          92,
+          58
+        ],
+        [
+          96,
+          49,
+          101,
+          58
+        ]
+      ],
+      "source_eye_components": 2
+    },
+    "r9c7": {
+      "direction_index": 7,
+      "eye_shift": [
+        4,
+        7
+      ],
+      "eye_boxes": [
+        [
+          84,
+          50,
+          89,
+          59
+        ],
+        [
+          93,
+          50,
+          98,
+          59
+        ]
+      ],
+      "source_eye_components": 2
+    },
+    "r10c0": {
+      "direction_index": 8,
+      "eye_shift": [
+        0,
+        8
+      ],
+      "eye_boxes": [
+        [
+          80,
+          51,
+          85,
+          60
+        ],
+        [
+          89,
+          51,
+          94,
+          60
+        ]
+      ],
+      "source_eye_components": 2
+    },
+    "r10c1": {
+      "direction_index": 9,
+      "eye_shift": [
+        -4,
+        7
+      ],
+      "eye_boxes": [
+        [
+          76,
+          50,
+          81,
+          59
+        ],
+        [
+          85,
+          50,
+          90,
+          59
+        ]
+      ],
+      "source_eye_components": 2
+    },
+    "r10c2": {
+      "direction_index": 10,
+      "eye_shift": [
+        -7,
+        6
+      ],
+      "eye_boxes": [
+        [
+          73,
+          49,
+          78,
+          58
+        ],
+        [
+          82,
+          49,
+          87,
+          58
+        ]
+      ],
+      "source_eye_components": 2
+    },
+    "r10c3": {
+      "direction_index": 11,
+      "eye_shift": [
+        -9,
+        3
+      ],
+      "eye_boxes": [
+        [
+          71,
+          46,
+          76,
+          55
+        ],
+        [
+          80,
+          46,
+          85,
+          55
+        ]
+      ],
+      "source_eye_components": 2
+    },
+    "r10c4": {
+      "direction_index": 12,
+      "eye_shift": [
+        -10,
+        0
+      ],
+      "eye_boxes": [
+        [
+          70,
+          43,
+          75,
+          52
+        ],
+        [
+          79,
+          43,
+          84,
+          52
+        ]
+      ],
+      "source_eye_components": 2
+    },
+    "r10c5": {
+      "direction_index": 13,
+      "eye_shift": [
+        -9,
+        -3
+      ],
+      "eye_boxes": [
+        [
+          71,
+          40,
+          76,
+          49
+        ],
+        [
+          80,
+          40,
+          85,
+          49
+        ]
+      ],
+      "source_eye_components": 2
+    },
+    "r10c6": {
+      "direction_index": 14,
+      "eye_shift": [
+        -7,
+        -6
+      ],
+      "eye_boxes": [
+        [
+          73,
+          37,
+          78,
+          46
+        ],
+        [
+          82,
+          37,
+          87,
+          46
+        ]
+      ],
+      "source_eye_components": 2
+    },
+    "r10c7": {
+      "direction_index": 15,
+      "eye_shift": [
+        -4,
+        -7
+      ],
+      "eye_boxes": [
+        [
+          76,
+          36,
+          81,
+          45
+        ],
+        [
+          85,
+          36,
+          90,
+          45
+        ]
+      ],
+      "source_eye_components": 2
+    }
+  },
+  "processed_cell_count": 74,
+  "processed_cells": [
+    "r0c0",
+    "r0c1",
+    "r0c2",
+    "r0c3",
+    "r0c4",
+    "r0c5",
+    "r0c6",
+    "r1c0",
+    "r1c1",
+    "r1c2",
+    "r1c3",
+    "r1c4",
+    "r1c5",
+    "r1c6",
+    "r1c7",
+    "r2c0",
+    "r2c1",
+    "r2c2",
+    "r2c3",
+    "r2c4",
+    "r2c5",
+    "r2c6",
+    "r2c7",
+    "r3c0",
+    "r3c1",
+    "r3c2",
+    "r3c3",
+    "r4c0",
+    "r4c1",
+    "r4c2",
+    "r4c3",
+    "r4c4",
+    "r5c0",
+    "r5c1",
+    "r5c2",
+    "r5c3",
+    "r5c4",
+    "r5c5",
+    "r5c6",
+    "r5c7",
+    "r6c0",
+    "r6c1",
+    "r6c2",
+    "r6c3",
+    "r6c4",
+    "r6c5",
+    "r7c0",
+    "r7c1",
+    "r7c2",
+    "r7c3",
+    "r7c4",
+    "r7c5",
+    "r8c0",
+    "r8c1",
+    "r8c2",
+    "r8c3",
+    "r8c4",
+    "r8c5",
+    "r9c0",
+    "r9c1",
+    "r9c2",
+    "r9c3",
+    "r9c4",
+    "r9c5",
+    "r9c6",
+    "r9c7",
+    "r10c0",
+    "r10c1",
+    "r10c2",
+    "r10c3",
+    "r10c4",
+    "r10c5",
+    "r10c6",
+    "r10c7"
+  ],
+  "jump_cells": [
+    "r4c0",
+    "r4c1",
+    "r4c2",
+    "r4c3",
+    "r4c4"
+  ],
+  "cells": {
+    "r0c0": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 184,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r0c1": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 183,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r0c2": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 184,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r0c3": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 185,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r0c4": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 184,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r0c5": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 183,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r0c6": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 180,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r1c0": {
+      "mode": "replace-existing-board",
+      "board_x": 12,
+      "board_y": 184,
+      "old_board_y": 177,
+      "dog_shift_y": 7,
+      "cleared_old_board_pixels": 2392,
+      "preserved_contact_pixels": 0
+    },
+    "r1c1": {
+      "mode": "replace-existing-board",
+      "board_x": 14,
+      "board_y": 182,
+      "old_board_y": 175,
+      "dog_shift_y": 7,
+      "cleared_old_board_pixels": 2392,
+      "preserved_contact_pixels": 0
+    },
+    "r1c2": {
+      "mode": "replace-existing-board",
+      "board_x": 16,
+      "board_y": 183,
+      "old_board_y": 176,
+      "dog_shift_y": 7,
+      "cleared_old_board_pixels": 2392,
+      "preserved_contact_pixels": 0
+    },
+    "r1c3": {
+      "mode": "replace-existing-board",
+      "board_x": 14,
+      "board_y": 184,
+      "old_board_y": 177,
+      "dog_shift_y": 7,
+      "cleared_old_board_pixels": 2392,
+      "preserved_contact_pixels": 0
+    },
+    "r1c4": {
+      "mode": "replace-existing-board",
+      "board_x": 12,
+      "board_y": 182,
+      "old_board_y": 175,
+      "dog_shift_y": 7,
+      "cleared_old_board_pixels": 2392,
+      "preserved_contact_pixels": 0
+    },
+    "r1c5": {
+      "mode": "replace-existing-board",
+      "board_x": 10,
+      "board_y": 183,
+      "old_board_y": 176,
+      "dog_shift_y": 7,
+      "cleared_old_board_pixels": 2392,
+      "preserved_contact_pixels": 0
+    },
+    "r1c6": {
+      "mode": "replace-existing-board",
+      "board_x": 8,
+      "board_y": 184,
+      "old_board_y": 177,
+      "dog_shift_y": 7,
+      "cleared_old_board_pixels": 2392,
+      "preserved_contact_pixels": 0
+    },
+    "r1c7": {
+      "mode": "replace-existing-board",
+      "board_x": 10,
+      "board_y": 183,
+      "old_board_y": 176,
+      "dog_shift_y": 7,
+      "cleared_old_board_pixels": 2392,
+      "preserved_contact_pixels": 0
+    },
+    "r2c0": {
+      "mode": "replace-existing-board",
+      "board_x": 12,
+      "board_y": 184,
+      "old_board_y": 177,
+      "dog_shift_y": 7,
+      "cleared_old_board_pixels": 2392,
+      "preserved_contact_pixels": 0
+    },
+    "r2c1": {
+      "mode": "replace-existing-board",
+      "board_x": 10,
+      "board_y": 182,
+      "old_board_y": 175,
+      "dog_shift_y": 7,
+      "cleared_old_board_pixels": 2392,
+      "preserved_contact_pixels": 0
+    },
+    "r2c2": {
+      "mode": "replace-existing-board",
+      "board_x": 8,
+      "board_y": 183,
+      "old_board_y": 176,
+      "dog_shift_y": 7,
+      "cleared_old_board_pixels": 2392,
+      "preserved_contact_pixels": 0
+    },
+    "r2c3": {
+      "mode": "replace-existing-board",
+      "board_x": 10,
+      "board_y": 184,
+      "old_board_y": 177,
+      "dog_shift_y": 7,
+      "cleared_old_board_pixels": 2392,
+      "preserved_contact_pixels": 0
+    },
+    "r2c4": {
+      "mode": "replace-existing-board",
+      "board_x": 12,
+      "board_y": 182,
+      "old_board_y": 175,
+      "dog_shift_y": 7,
+      "cleared_old_board_pixels": 2392,
+      "preserved_contact_pixels": 0
+    },
+    "r2c5": {
+      "mode": "replace-existing-board",
+      "board_x": 14,
+      "board_y": 183,
+      "old_board_y": 176,
+      "dog_shift_y": 7,
+      "cleared_old_board_pixels": 2392,
+      "preserved_contact_pixels": 0
+    },
+    "r2c6": {
+      "mode": "replace-existing-board",
+      "board_x": 16,
+      "board_y": 184,
+      "old_board_y": 177,
+      "dog_shift_y": 7,
+      "cleared_old_board_pixels": 2392,
+      "preserved_contact_pixels": 0
+    },
+    "r2c7": {
+      "mode": "replace-existing-board",
+      "board_x": 14,
+      "board_y": 183,
+      "old_board_y": 176,
+      "dog_shift_y": 7,
+      "cleared_old_board_pixels": 2392,
+      "preserved_contact_pixels": 0
+    },
+    "r3c0": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 184,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r3c1": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 184,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r3c2": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 184,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r3c3": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 184,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r4c0": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -13,
+      "board_x": 12,
+      "board_y": 185,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r4c1": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -13,
+      "board_x": 13,
+      "board_y": 181,
+      "trick_x": 1,
+      "lift_y": -4
+    },
+    "r4c2": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 16,
+      "board_y": 176,
+      "trick_x": 4,
+      "lift_y": -9
+    },
+    "r4c3": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 14,
+      "board_y": 181,
+      "trick_x": 2,
+      "lift_y": -4
+    },
+    "r4c4": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -13,
+      "board_x": 12,
+      "board_y": 185,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r5c0": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 184,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r5c1": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 185,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r5c2": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 186,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r5c3": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 185,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r5c4": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 186,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r5c5": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 185,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r5c6": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 184,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r5c7": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 184,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r6c0": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 184,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r6c1": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 184,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r6c2": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 184,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r6c3": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 184,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r6c4": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 184,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r6c5": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 184,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r7c0": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 184,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r7c1": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 184,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r7c2": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 184,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r7c3": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 184,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r7c4": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 184,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r7c5": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 184,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r8c0": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 184,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r8c1": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 184,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r8c2": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 184,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r8c3": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 184,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r8c4": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 184,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r8c5": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 184,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r9c0": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 180,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r9c1": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 180,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r9c2": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 180,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r9c3": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 180,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r9c4": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 180,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r9c5": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 180,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r9c6": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 180,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r9c7": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 180,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r10c0": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 180,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r10c1": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 180,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r10c2": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 180,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r10c3": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 180,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r10c4": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 180,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r10c5": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 180,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r10c6": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 180,
+      "trick_x": 0,
+      "lift_y": 0
+    },
+    "r10c7": {
+      "mode": "add-persistent-board",
+      "dog_shift_y": -10,
+      "board_x": 12,
+      "board_y": 180,
+      "trick_x": 0,
+      "lift_y": 0
+    }
+  }
+}

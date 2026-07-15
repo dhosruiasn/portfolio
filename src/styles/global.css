@@ -50,8 +50,8 @@ html {
   scroll-behavior: smooth;
   overflow-x: clip;
   /* iOS Safari 網址列／橡皮筋回彈區的底色：
-     頂端接 marquee 橘紅、底端接 footer 深棕，讓瀏覽器介面後方像頁面的延伸 */
-  background: linear-gradient(to bottom, var(--accent) 0%, var(--accent) 50%, #6b3415 50%, #6b3415 100%) fixed;
+     頂端接 marquee 橘紅、底端接 footer 的 hero 橘，讓瀏覽器介面後方像頁面的延伸 */
+  background: linear-gradient(to bottom, var(--accent) 0%, var(--accent) 50%, #e8490a 50%, #e8490a 100%) fixed;
 }
 
 body {

@@ -5,16 +5,145 @@
 }
 
 .project-card__media {
+  --project-card-glow-x: 50%;
+  --project-card-glow-y: 50%;
+  --project-card-glow-opacity: 0;
   position: relative;
   width: 100%;
   height: var(--project-card-height, var(--project-card-default-height, 360px));
   display: block;
-  overflow: hidden;
+  overflow: visible;
   border-radius: var(--radius-card);
   background: var(--card-bg);
   perspective: 1600px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   isolation: isolate;
+}
+
+.project-card__media::before,
+.project-card__media::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  z-index: 3;
+  padding: 3px;
+  pointer-events: none;
+  border-radius: calc(var(--radius-card) + 3px);
+  opacity: var(--project-card-glow-opacity);
+  background-repeat: no-repeat;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  transition: opacity 0.22s ease;
+}
+
+.project-card__media::before {
+  background-image: radial-gradient(
+    150px 150px at
+    calc(var(--project-card-glow-x) + 3px)
+    calc(var(--project-card-glow-y) + 3px),
+    #ffdc73 0%,
+    #ffad20 34%,
+    #ff6500 68%,
+    transparent 100%
+  );
+  filter: brightness(1.45);
+}
+
+.project-card__media::after {
+  background-image: radial-gradient(
+    100px 100px at
+    calc(var(--project-card-glow-x) + 3px)
+    calc(var(--project-card-glow-y) + 3px),
+    #fff0c2 0%,
+    #ffc247 52%,
+    transparent 100%
+  );
+}
+
+.project-card__glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: var(--radius-card);
+  opacity: var(--project-card-glow-opacity);
+  background: none;
+  filter: blur(30px);
+  transition: opacity 0.3s ease;
+  will-change: filter;
+}
+
+.project-card__glow::before,
+.project-card__glow::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  opacity: 1;
+  background-repeat: no-repeat;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.project-card__glow::before {
+  inset: -10px;
+  padding: 10px;
+  border-radius: calc(var(--radius-card) + 10px);
+  background-image: radial-gradient(
+    150px 150px at
+    calc(var(--project-card-glow-x) + 10px)
+    calc(var(--project-card-glow-y) + 10px),
+    #ffdc73 0%,
+    #ffad20 34%,
+    #ff6500 68%,
+    transparent 100%
+  );
+  filter: brightness(1.45);
+}
+
+.project-card__glow::after {
+  inset: -3px;
+  padding: 3px;
+  border-radius: calc(var(--radius-card) + 3px);
+  background-image: radial-gradient(
+    100px 100px at
+    calc(var(--project-card-glow-x) + 3px)
+    calc(var(--project-card-glow-y) + 3px),
+    #fff0c2 0%,
+    #ffc247 52%,
+    transparent 100%
+  );
+}
+
+.project-card__spotlight {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: var(--project-card-glow-opacity);
+  background: radial-gradient(
+    200px 200px at
+    var(--project-card-glow-x)
+    var(--project-card-glow-y),
+    rgba(255, 181, 47, 0.16) 0%,
+    rgba(255, 101, 0, 0.1) 48%,
+    transparent 100%
+  );
+  transition: opacity 0.24s ease;
+  will-change: opacity;
 }
 
 .project-card__media:hover {
@@ -28,6 +157,7 @@
 
 .project-card__flip {
   position: relative;
+  z-index: 1;
   width: 100%;
   height: 100%;
   border-radius: inherit;
@@ -105,6 +235,70 @@
   transform-origin: center;
 }
 
+/* Pickmin 材質樣板：玻璃質感只留在邊緣，影片內容本身保持清晰。 */
+.project-card--pickmin .project-card__media {
+  background: #e8e4e0;
+  box-shadow:
+    0 0 0 1px rgba(255, 252, 247, 0.72),
+    0 0 32px rgba(255, 239, 224, 0.3),
+    0 24px 46px rgba(5, 0, 0, 0.46);
+}
+
+.project-card--pickmin .project-card__front::before,
+.project-card--pickmin .project-card__front::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.project-card--pickmin .project-card__front::before {
+  z-index: 2;
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.014) 0 1px, transparent 1px 3px),
+    radial-gradient(ellipse 72% 66% at 48% 45%, transparent 24%, rgba(255, 250, 245, 0.045) 70%, rgba(255, 255, 255, 0.28) 100%),
+    linear-gradient(136deg, rgba(255, 255, 255, 0.1), rgba(255, 246, 239, 0.018) 44%, rgba(255, 255, 255, 0.1));
+  transition: opacity 0.3s ease;
+}
+
+.project-card--pickmin .project-card__poster,
+.project-card--pickmin .project-card__front video {
+  filter: contrast(1.045) saturate(1.025);
+}
+
+.project-card--pickmin .project-card__front::after {
+  z-index: 3;
+  border: 1px solid rgba(255, 255, 255, 0.86);
+  border-radius: inherit;
+  box-shadow:
+    inset 10px 8px 22px rgba(255, 255, 255, 0.28),
+    inset -18px -22px 34px rgba(255, 247, 241, 0.32),
+    inset 0 0 22px rgba(255, 255, 255, 0.24);
+  transition: box-shadow 0.3s ease;
+}
+
+.project-card--pickmin .project-card__pill {
+  z-index: 4;
+}
+
+.project-card--pickmin .project-card__media:hover {
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.9),
+    0 0 46px rgba(255, 239, 224, 0.46),
+    0 30px 54px rgba(5, 0, 0, 0.54);
+}
+
+.project-card--pickmin .project-card__media:hover .project-card__front::before {
+  opacity: 0.82;
+}
+
+.project-card--pickmin .project-card__media:hover .project-card__front::after {
+  box-shadow:
+    inset 12px 10px 26px rgba(255, 255, 255, 0.34),
+    inset -20px -24px 38px rgba(255, 247, 241, 0.38),
+    inset 0 0 26px rgba(255, 255, 255, 0.3);
+}
+
 .project-card--shopee-archive .project-card__front img {
   object-fit: contain;
   object-position: center;
@@ -158,5 +352,14 @@
   /* 觸控裝置沒有 hover：可點提示 pill 常駐顯示 */
   .project-card__pill {
     opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card__media::before,
+  .project-card__media::after,
+  .project-card__glow,
+  .project-card__spotlight {
+    transition: none;
   }
 }

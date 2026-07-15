@@ -1,0 +1,7 @@
+{
+  "id": "dot-dog",
+  "displayName": "點陣狗",
+  "description": "一隻踩著黃色滑板的橘色像素狗，會吐舌頭、滑行、跳躍與翻板，並有醒目的白色尾尖。",
+  "spriteVersionNumber": 2,
+  "spritesheetPath": "spritesheet.webp"
+}
