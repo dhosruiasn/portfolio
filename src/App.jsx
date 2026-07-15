@@ -125,9 +125,7 @@ export default function App() {
       window.scrollTo({ top, behavior: 'auto' });
     };
     scrollNow();
-    requestAnimationFrame(() => {
-      scrollNow();
-    });
+    requestAnimationFrame(scrollNow);
   }, []);
 
   const scrollToCurrentHash = useCallback(() => {
