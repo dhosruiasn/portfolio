@@ -1,0 +1,166 @@
+{
+  "ok": true,
+  "source": "/Users/user/.codex/pets/\u9ede\u9663\u72d7.png",
+  "source_sha256": "4a265255ab8f982813e5ae7f9d74fde25d99dfb145e8a6ce89eb7ea5446f66dd",
+  "policy": "All source pixels outside the two original eye boxes are unchanged before nearest-neighbor normalization. Standard directional rows may translate or mirror the intact sprite without redrawing it.",
+  "eye_boxes": [
+    [
+      361,
+      145,
+      385,
+      193
+    ],
+    [
+      409,
+      145,
+      433,
+      193
+    ]
+  ],
+  "look_directions": [
+    {
+      "direction": "000",
+      "source_eye_shift": [
+        0,
+        -18
+      ],
+      "source_pixels_changed": 1725,
+      "body_and_lower_half_changed": false
+    },
+    {
+      "direction": "022.5",
+      "source_eye_shift": [
+        7,
+        -17
+      ],
+      "source_pixels_changed": 2476,
+      "body_and_lower_half_changed": false
+    },
+    {
+      "direction": "045",
+      "source_eye_shift": [
+        13,
+        -13
+      ],
+      "source_pixels_changed": 3052,
+      "body_and_lower_half_changed": false
+    },
+    {
+      "direction": "067.5",
+      "source_eye_shift": [
+        17,
+        -7
+      ],
+      "source_pixels_changed": 3455,
+      "body_and_lower_half_changed": false
+    },
+    {
+      "direction": "090",
+      "source_eye_shift": [
+        18,
+        0
+      ],
+      "source_pixels_changed": 3466,
+      "body_and_lower_half_changed": false
+    },
+    {
+      "direction": "112.5",
+      "source_eye_shift": [
+        17,
+        7
+      ],
+      "source_pixels_changed": 3454,
+      "body_and_lower_half_changed": false
+    },
+    {
+      "direction": "135",
+      "source_eye_shift": [
+        13,
+        13
+      ],
+      "source_pixels_changed": 3053,
+      "body_and_lower_half_changed": false
+    },
+    {
+      "direction": "157.5",
+      "source_eye_shift": [
+        7,
+        17
+      ],
+      "source_pixels_changed": 2477,
+      "body_and_lower_half_changed": false
+    },
+    {
+      "direction": "180",
+      "source_eye_shift": [
+        0,
+        18
+      ],
+      "source_pixels_changed": 1725,
+      "body_and_lower_half_changed": false
+    },
+    {
+      "direction": "202.5",
+      "source_eye_shift": [
+        -7,
+        17
+      ],
+      "source_pixels_changed": 2476,
+      "body_and_lower_half_changed": false
+    },
+    {
+      "direction": "225",
+      "source_eye_shift": [
+        -13,
+        13
+      ],
+      "source_pixels_changed": 3052,
+      "body_and_lower_half_changed": false
+    },
+    {
+      "direction": "247.5",
+      "source_eye_shift": [
+        -17,
+        7
+      ],
+      "source_pixels_changed": 3455,
+      "body_and_lower_half_changed": false
+    },
+    {
+      "direction": "270",
+      "source_eye_shift": [
+        -18,
+        0
+      ],
+      "source_pixels_changed": 3466,
+      "body_and_lower_half_changed": false
+    },
+    {
+      "direction": "292.5",
+      "source_eye_shift": [
+        -17,
+        -7
+      ],
+      "source_pixels_changed": 3454,
+      "body_and_lower_half_changed": false
+    },
+    {
+      "direction": "315",
+      "source_eye_shift": [
+        -13,
+        -13
+      ],
+      "source_pixels_changed": 3053,
+      "body_and_lower_half_changed": false
+    },
+    {
+      "direction": "337.5",
+      "source_eye_shift": [
+        -7,
+        -17
+      ],
+      "source_pixels_changed": 2477,
+      "body_and_lower_half_changed": false
+    }
+  ]
+}

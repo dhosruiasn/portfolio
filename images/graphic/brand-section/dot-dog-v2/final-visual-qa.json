@@ -1,0 +1,8 @@
+{
+  "visual_qa": "pass",
+  "qa_note": "Updated takeoff and landing frames 00 and 04 show the dog and thick yellow board shifted upward together with visible bottom clearance and no clipping; all five jump poses preserve the 0/4/8/4/0 gaps, intact dog lower bodies, and clean 0/90/180/270/360 trick sequence. Post-despill verification confirms 1,167,152 dog pixels checked with 0 mismatches.",
+  "direction_semantics": "unchanged; blind validation passed with three independent reviewers",
+  "review_warnings": [],
+  "repair_rows": [],
+  "repair_notes": []
+}

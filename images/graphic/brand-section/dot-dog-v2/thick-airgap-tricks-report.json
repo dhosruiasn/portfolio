@@ -1,0 +1,2337 @@
+{
+  "ok": true,
+  "source_atlas": "/Users/user/Documents/Codex/2026-07-11/hatch-pet-users-user-codex-skills/work/dot-dog-run/backup-pre-thick-tricks/spritesheet-extended.webp",
+  "source_sha256": "f527c030e97520834bafee9f887614495e6010fc0e8d1f6b845bc2fd21230412",
+  "thick_board_asset": "/Users/user/Documents/Codex/2026-07-11/hatch-pet-users-user-codex-skills/work/dot-dog-run/assets/skateboard-yellow-thick.png",
+  "thick_board_sha256": "fd5a2da149b6a8b77c46abb6ccdfd5feed0bec87ac76b071c2396007238f69a0",
+  "policy": "All dog pixels are extracted from the approved atlas and composited unchanged. Only the skateboard is thickened or transformed, and only the jumping row introduces an explicit air gap.",
+  "persistent_thick_board": true,
+  "processed_cell_count": 74,
+  "jump_gap_pixels": [
+    0,
+    4,
+    8,
+    4,
+    0
+  ],
+  "jump_dog_board_translation_y": [
+    -2,
+    0,
+    0,
+    0,
+    -2
+  ],
+  "angles_degrees": [
+    0,
+    90,
+    180,
+    270,
+    360
+  ],
+  "trick_combo": "tail-pop, full longitudinal kickflip, forward float, nose-down catch, landing",
+  "dog_body_redrawn": false,
+  "opaque_dog_pixel_mismatches": 0,
+  "post_despill_dog_pixel_verification": {
+    "ok": true,
+    "cells_checked": 74,
+    "opaque_dog_pixels_checked": 1167152,
+    "opaque_dog_pixel_mismatches": 0,
+    "jump_translation_y": [-2, 0, 0, 0, -2]
+  },
+  "cells": {
+    "r0c0": {
+      "row": 0,
+      "column": 0,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        10,
+        179,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r0c1": {
+      "row": 0,
+      "column": 1,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 183,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 183,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        9,
+        179,
+        184
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r0c2": {
+      "row": 0,
+      "column": 2,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        10,
+        179,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r0c3": {
+      "row": 0,
+      "column": 3,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 185,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 185,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        11,
+        179,
+        186
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r0c4": {
+      "row": 0,
+      "column": 4,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        10,
+        179,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r0c5": {
+      "row": 0,
+      "column": 5,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 183,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 183,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        9,
+        179,
+        184
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r0c6": {
+      "row": 0,
+      "column": 6,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        6,
+        179,
+        181
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15729,
+      "opaque_dog_mismatches": 0
+    },
+    "r1c0": {
+      "row": 1,
+      "column": 0,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        10,
+        179,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r1c1": {
+      "row": 1,
+      "column": 1,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 14,
+        "y": 182,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 14,
+        "y": 182,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        15,
+        8,
+        181,
+        183
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r1c2": {
+      "row": 1,
+      "column": 2,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 16,
+        "y": 183,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 16,
+        "y": 183,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        17,
+        9,
+        183,
+        184
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r1c3": {
+      "row": 1,
+      "column": 3,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 14,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 14,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        15,
+        10,
+        181,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r1c4": {
+      "row": 1,
+      "column": 4,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 182,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 182,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        8,
+        179,
+        183
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r1c5": {
+      "row": 1,
+      "column": 5,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 10,
+        "y": 183,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 10,
+        "y": 183,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        11,
+        9,
+        177,
+        184
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r1c6": {
+      "row": 1,
+      "column": 6,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 8,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 8,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        9,
+        10,
+        175,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r1c7": {
+      "row": 1,
+      "column": 7,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 10,
+        "y": 183,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 10,
+        "y": 183,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        11,
+        9,
+        177,
+        184
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r2c0": {
+      "row": 2,
+      "column": 0,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        10,
+        179,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r2c1": {
+      "row": 2,
+      "column": 1,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 10,
+        "y": 182,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 10,
+        "y": 182,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        11,
+        8,
+        177,
+        183
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r2c2": {
+      "row": 2,
+      "column": 2,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 8,
+        "y": 183,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 8,
+        "y": 183,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        9,
+        9,
+        175,
+        184
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r2c3": {
+      "row": 2,
+      "column": 3,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 10,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 10,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        11,
+        10,
+        177,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r2c4": {
+      "row": 2,
+      "column": 4,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 182,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 182,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        8,
+        179,
+        183
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r2c5": {
+      "row": 2,
+      "column": 5,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 14,
+        "y": 183,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 14,
+        "y": 183,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        15,
+        9,
+        181,
+        184
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r2c6": {
+      "row": 2,
+      "column": 6,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 16,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 16,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        17,
+        10,
+        183,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r2c7": {
+      "row": 2,
+      "column": 7,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 14,
+        "y": 183,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 14,
+        "y": 183,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        15,
+        9,
+        181,
+        184
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r3c0": {
+      "row": 3,
+      "column": 0,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        10,
+        179,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r3c1": {
+      "row": 3,
+      "column": 1,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        10,
+        179,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r3c2": {
+      "row": 3,
+      "column": 2,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        10,
+        179,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r3c3": {
+      "row": 3,
+      "column": 3,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        10,
+        179,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r4c0": {
+      "row": 4,
+      "column": 0,
+      "phase": "thick-yellow-deck takeoff",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 185,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        9,
+        179,
+        184
+      ],
+      "requested_gap_pixels": 0,
+      "actual_gap_pixels": 0,
+      "dog_translation_y": -2,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r4c1": {
+      "row": 4,
+      "column": 1,
+      "phase": "tail-pop edge-on",
+      "angle_degrees": 90,
+      "old_board": {
+        "x": 13,
+        "y": 181,
+        "width": 168,
+        "height": 7
+      },
+      "new_board": {
+        "x": 12,
+        "y": 186,
+        "width": 170,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        7,
+        179,
+        182
+      ],
+      "requested_gap_pixels": 4,
+      "actual_gap_pixels": 4,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 473,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r4c2": {
+      "row": 4,
+      "column": 2,
+      "phase": "golden-underside forward float",
+      "angle_degrees": 180,
+      "old_board": {
+        "x": 16,
+        "y": 176,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 16,
+        "y": 185,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        2,
+        179,
+        177
+      ],
+      "requested_gap_pixels": 8,
+      "actual_gap_pixels": 8,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15765,
+      "opaque_dog_mismatches": 0
+    },
+    "r4c3": {
+      "row": 4,
+      "column": 3,
+      "phase": "nose-down edge-on catch",
+      "angle_degrees": 270,
+      "old_board": {
+        "x": 14,
+        "y": 181,
+        "width": 168,
+        "height": 7
+      },
+      "new_board": {
+        "x": 13,
+        "y": 184,
+        "width": 170,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        7,
+        179,
+        182
+      ],
+      "requested_gap_pixels": 4,
+      "actual_gap_pixels": 4,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 486,
+      "preserved_contact_pixels": 2,
+      "opaque_dog_pixels": 15764,
+      "opaque_dog_mismatches": 0
+    },
+    "r4c4": {
+      "row": 4,
+      "column": 4,
+      "phase": "thick-yellow-deck landing",
+      "angle_degrees": 360,
+      "old_board": {
+        "x": 12,
+        "y": 185,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        9,
+        179,
+        184
+      ],
+      "requested_gap_pixels": 0,
+      "actual_gap_pixels": 0,
+      "dog_translation_y": -2,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r5c0": {
+      "row": 5,
+      "column": 0,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        10,
+        179,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r5c1": {
+      "row": 5,
+      "column": 1,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 185,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 185,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        11,
+        179,
+        186
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r5c2": {
+      "row": 5,
+      "column": 2,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 186,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 186,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        12,
+        179,
+        187
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r5c3": {
+      "row": 5,
+      "column": 3,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 185,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 185,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        11,
+        179,
+        186
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r5c4": {
+      "row": 5,
+      "column": 4,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 186,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 186,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        12,
+        179,
+        187
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r5c5": {
+      "row": 5,
+      "column": 5,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 185,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 185,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        11,
+        179,
+        186
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r5c6": {
+      "row": 5,
+      "column": 6,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        10,
+        179,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r5c7": {
+      "row": 5,
+      "column": 7,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        10,
+        179,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r6c0": {
+      "row": 6,
+      "column": 0,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        10,
+        179,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r6c1": {
+      "row": 6,
+      "column": 1,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        10,
+        179,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r6c2": {
+      "row": 6,
+      "column": 2,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        10,
+        179,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r6c3": {
+      "row": 6,
+      "column": 3,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        10,
+        179,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r6c4": {
+      "row": 6,
+      "column": 4,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        10,
+        179,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r6c5": {
+      "row": 6,
+      "column": 5,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        10,
+        179,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r7c0": {
+      "row": 7,
+      "column": 0,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        10,
+        179,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r7c1": {
+      "row": 7,
+      "column": 1,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        10,
+        179,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r7c2": {
+      "row": 7,
+      "column": 2,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        10,
+        179,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r7c3": {
+      "row": 7,
+      "column": 3,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        10,
+        179,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r7c4": {
+      "row": 7,
+      "column": 4,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        10,
+        179,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r7c5": {
+      "row": 7,
+      "column": 5,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        10,
+        179,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r8c0": {
+      "row": 8,
+      "column": 0,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        10,
+        179,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r8c1": {
+      "row": 8,
+      "column": 1,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        10,
+        179,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r8c2": {
+      "row": 8,
+      "column": 2,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        10,
+        179,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r8c3": {
+      "row": 8,
+      "column": 3,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        10,
+        179,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r8c4": {
+      "row": 8,
+      "column": 4,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        10,
+        179,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r8c5": {
+      "row": 8,
+      "column": 5,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 184,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        10,
+        179,
+        185
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15786,
+      "opaque_dog_mismatches": 0
+    },
+    "r9c0": {
+      "row": 9,
+      "column": 0,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        6,
+        179,
+        181
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15729,
+      "opaque_dog_mismatches": 0
+    },
+    "r9c1": {
+      "row": 9,
+      "column": 1,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        6,
+        179,
+        181
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15729,
+      "opaque_dog_mismatches": 0
+    },
+    "r9c2": {
+      "row": 9,
+      "column": 2,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        6,
+        179,
+        181
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15729,
+      "opaque_dog_mismatches": 0
+    },
+    "r9c3": {
+      "row": 9,
+      "column": 3,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        6,
+        179,
+        181
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15729,
+      "opaque_dog_mismatches": 0
+    },
+    "r9c4": {
+      "row": 9,
+      "column": 4,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        6,
+        179,
+        181
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15729,
+      "opaque_dog_mismatches": 0
+    },
+    "r9c5": {
+      "row": 9,
+      "column": 5,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        6,
+        179,
+        181
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15729,
+      "opaque_dog_mismatches": 0
+    },
+    "r9c6": {
+      "row": 9,
+      "column": 6,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        6,
+        179,
+        181
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15729,
+      "opaque_dog_mismatches": 0
+    },
+    "r9c7": {
+      "row": 9,
+      "column": 7,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        6,
+        179,
+        181
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15729,
+      "opaque_dog_mismatches": 0
+    },
+    "r10c0": {
+      "row": 10,
+      "column": 0,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        6,
+        179,
+        181
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15729,
+      "opaque_dog_mismatches": 0
+    },
+    "r10c1": {
+      "row": 10,
+      "column": 1,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        6,
+        179,
+        181
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15729,
+      "opaque_dog_mismatches": 0
+    },
+    "r10c2": {
+      "row": 10,
+      "column": 2,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        6,
+        179,
+        181
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15729,
+      "opaque_dog_mismatches": 0
+    },
+    "r10c3": {
+      "row": 10,
+      "column": 3,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        6,
+        179,
+        181
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15729,
+      "opaque_dog_mismatches": 0
+    },
+    "r10c4": {
+      "row": 10,
+      "column": 4,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        6,
+        179,
+        181
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15729,
+      "opaque_dog_mismatches": 0
+    },
+    "r10c5": {
+      "row": 10,
+      "column": 5,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        6,
+        179,
+        181
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15729,
+      "opaque_dog_mismatches": 0
+    },
+    "r10c6": {
+      "row": 10,
+      "column": 6,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        6,
+        179,
+        181
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15729,
+      "opaque_dog_mismatches": 0
+    },
+    "r10c7": {
+      "row": 10,
+      "column": 7,
+      "phase": "persistent thick yellow skateboard",
+      "angle_degrees": 0,
+      "old_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "new_board": {
+        "x": 12,
+        "y": 180,
+        "width": 168,
+        "height": 22
+      },
+      "dog_bbox": [
+        13,
+        6,
+        179,
+        181
+      ],
+      "requested_gap_pixels": null,
+      "actual_gap_pixels": null,
+      "dog_translation_y": 0,
+      "cleared_old_board_pixels": 1713,
+      "preserved_contact_pixels": 1,
+      "opaque_dog_pixels": 15729,
+      "opaque_dog_mismatches": 0
+    }
+  }
+}
